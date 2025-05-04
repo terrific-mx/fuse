@@ -25,7 +25,7 @@ class SiteFactory extends Factory
             'repository' => 'example/valid-repository',
             'branch' => 'valid-branch',
             'status' => 'installed',
-            'tls_setting' => 'auto',
+            'tls' => 'auto',
         ];
     }
 }
