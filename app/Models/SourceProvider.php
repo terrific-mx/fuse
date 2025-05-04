@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\FakeSourceProvider;
+use App\Github;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use InvalidArgumentException;
 
 class SourceProvider extends Model
 {
@@ -25,6 +27,10 @@ class SourceProvider extends Model
 
     public function client()
     {
-        return new FakeSourceProvider($this);
+        return match ($this->type) {
+            'GitHub' => new GitHub($this),
+            'FakeSourceProvider' => new FakeSourceProvider($this),
+            default => throw new InvalidArgumentException('Invalid source provider type.'),
+        };
     }
 }
