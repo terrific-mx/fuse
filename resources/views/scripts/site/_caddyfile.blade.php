@@ -1,10 +1,10 @@
 @if($domainStartsWithWww)
-    {!! substr($site->address, 4) !!}:{!! $site->port !!} {
+    {!! substr($address, 4) !!}:{!! $port !!} {
         redir {scheme}://www.{host}{uri}
     }
 @else
-    www.{!! $site->address !!}:{!! $site->port !!} {
-        redir {scheme}://{!! $site->address !!}{uri}
+    www.{!! $address !!}:{!! $port !!} {
+    redir {scheme}://{!! $address !!}{uri}
     }
 @endif
 
@@ -32,7 +32,7 @@
         }
     @endif
 
-    @if($site->type === 'wordpress')
+    @if($siteType === 'wordpress')
         @disallowed {
             path /xmlrpc.php
             path *.sql

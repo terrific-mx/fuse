@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\InstallSite;
 use App\Models\Server;
 use App\Scripts\InstallCaddyfile;
 use App\Scripts\UpdateCaddyImports;
@@ -65,11 +66,7 @@ new class extends Component {
             'status' => 'creating',
         ]);
 
-        $this->server->run(new InstallCaddyfile($site));
-
-        $site->update(['status' => 'installed']);
-
-        $this->server->run(new UpdateCaddyImports($this->server));
+        InstallSite::dispatch($site);
     }
 }; ?>
 
