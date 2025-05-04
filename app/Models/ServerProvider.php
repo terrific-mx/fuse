@@ -28,13 +28,10 @@ class ServerProvider extends Model
 
     public function client()
     {
-        switch ($this->type) {
-            case 'DigitalOcean':
-                return new DigitalOcean($this);
-            case 'FakeServerProvider':
-                return new FakeServerProvider($this);
-            default:
-                return new InvalidArgumentException('Invalid server provider type.');
+        return match ($this->type) {
+            'DigitalOcean' => new DigitalOcean($this),
+            'FakeServerProvider' => new FakeServerProvider($this),
+            default => throw new InvalidArgumentException('Invalid server provider type.'),
         };
     }
 
