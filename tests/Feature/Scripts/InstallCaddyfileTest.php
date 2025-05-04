@@ -14,24 +14,36 @@ it('can render the script to be run', function () {
 });
 
 it('can render the script for a site domain that starts with www', function () {
-    //
-})->todo();
+    $site = Site::factory()->create(['domain' => 'www.example.com']);
+    $script = new InstallCaddyfile($site);
+
+    expect((string) $script)->toContain('www.example.com:443');
+});
 
 it('can render the script for a site domain that does not starts with www', function () {
-    //
-})->todo();
+    $site = Site::factory()->create(['domain' => 'example.com']);
+    $script = new InstallCaddyfile($site);
+
+    expect((string) $script)->toContain('example.com:443');
+});
 
 it('can render the script for a site with tls auto', function () {
-    //
-})->todo();
+    $site = Site::factory()->create(['tls_setting' => 'auto']);
+    $script = new InstallCaddyfile($site);
+
+    expect((string) $script)->toContain('Do not remove this tls-* snippet');
+});
 
 it('can render the script for a site with tls custom', function () {
     //
 })->todo();
 
 it('can render the script for a site with tls internal', function () {
-    //
-})->todo();
+    $site = Site::factory()->create(['tls_setting' => 'internal']);
+    $script = new InstallCaddyfile($site);
+
+    expect((string) $script)->toContain('tls internal');
+});
 
 it('can render the script for a static site', function () {
     //

@@ -30,7 +30,7 @@ class InstallCaddyfile extends Script
         $caddyfile = view('scripts.site._caddyfile', [
             'site' => $this->site,
             'domainStartsWithWww' => Str::of($this->site->domain)->startsWith('www.'),
-            'tlsSetting' => 'auto',
+            'tlsSetting' => $this->site->tls_setting,
             'address' => $this->site->domain,
             'port' => 443,
             'path' => $path,

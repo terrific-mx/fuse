@@ -63,6 +63,7 @@ new class extends Component {
             'domain' => $this->domain,
             'repository' => $this->repository,
             'branch' => $this->branch,
+            'tls_setting' => 'auto',
             'status' => 'creating',
         ]);
 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('repository');
             $table->string('branch');
             $table->string('status', 25);
+            $table->string('tls_setting');
             $table->timestamps();
 
             $table->unique(['server_id', 'domain']);
