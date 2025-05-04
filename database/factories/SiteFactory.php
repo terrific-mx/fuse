@@ -26,6 +26,7 @@ class SiteFactory extends Factory
             'branch' => 'valid-branch',
             'status' => 'installed',
             'tls' => 'auto',
+            'type' => 'laravel',
         ];
     }
 }

@@ -35,7 +35,7 @@ class InstallCaddyfile extends Script
             'port' => 443,
             'path' => $path,
             'webDirectory' => "{$path}/current/public",
-            'siteType' => 'laravel',
+            'siteType' => $this->site->type,
             'phpSocket' => '/run/php/php8.3-fpm.sock',
         ])->render();
 

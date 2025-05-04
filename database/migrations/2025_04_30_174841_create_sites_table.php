@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('branch');
             $table->string('status', 25);
             $table->string('tls');
+            $table->string('type');
             $table->timestamps();
 
             $table->unique(['server_id', 'domain']);

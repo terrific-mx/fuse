@@ -65,6 +65,7 @@ new class extends Component {
             'branch' => $this->branch,
             'tls' => 'auto',
             'status' => 'creating',
+            'type' => 'laravel',
         ]);
 
         InstallSite::dispatch($site);

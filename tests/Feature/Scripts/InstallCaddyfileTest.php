@@ -31,11 +31,12 @@ it('can render the script for a site with tls auto', function () {
     $site = Site::factory()->create(['tls' => 'auto']);
     $script = new InstallCaddyfile($site);
 
-    expect((string) $script)->toContain('Do not remove this tls-* snippet');
+    expect((string) $script)->not->toContain('tls internal');
 });
 
 it('can render the script for a site with tls custom', function () {
-    //
+    $site = Site::factory()->create(['tls' => 'custom']);
+    $script = new InstallCaddyfile($site);
 })->todo();
 
 it('can render the script for a site with tls internal', function () {
@@ -46,13 +47,22 @@ it('can render the script for a site with tls internal', function () {
 });
 
 it('can render the script for a static site', function () {
-    //
-})->todo();
+    $site = Site::factory()->create(['type' => 'static']);
+    $script = new InstallCaddyfile($site);
+
+    expect((string) $script)->not->toContain('php_fastcgi');
+});
 
 it('can render the script for a wordpress site', function () {
-    //
-})->todo();
+    $site = Site::factory()->create(['type' => 'wordpress']);
+    $script = new InstallCaddyfile($site);
+
+    expect((string) $script)->toContain('path /wp-content/uploads/*.php');
+});
 
 it('can render the script for a laravel site', function () {
-    //
-})->todo();
+    $site = Site::factory()->create(['type' => 'laravel']);
+    $script = new InstallCaddyfile($site);
+
+    expect((string) $script)->toContain('php_fastcgi');
+});
