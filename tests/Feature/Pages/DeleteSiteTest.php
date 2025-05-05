@@ -8,7 +8,7 @@ uses(RefreshDatabase::class);
 
 it('can delete a site', function () {
     $site = Site::factory()->create();
-    $user = $site->server->user;
+    $user = $site->user();
 
     Volt::actingAs($user)->test('pages.sites.delete', ['site' => $site])
         ->call('delete');

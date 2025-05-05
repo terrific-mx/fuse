@@ -42,6 +42,11 @@ class User extends Authenticatable
         return $this->hasMany(Server::class);
     }
 
+    public function sites()
+    {
+        return $this->hasManyThrough(Site::class, Server::class);
+    }
+
     public function serverProviders()
     {
         return $this->hasMany(ServerProvider::class);

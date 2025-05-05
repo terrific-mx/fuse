@@ -15,6 +15,11 @@ class Site extends Model
         return $this->belongsTo(Server::class);
     }
 
+    public function user()
+    {
+        return $this->server->user;
+    }
+
     public function sourceProvider()
     {
         return $this->belongsTo(SourceProvider::class);
