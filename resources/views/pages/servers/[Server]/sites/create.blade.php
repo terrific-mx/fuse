@@ -4,12 +4,14 @@ use App\Jobs\InstallSite;
 use App\Models\Server;
 use App\Scripts\InstallCaddyfile;
 use App\Scripts\UpdateCaddyImports;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 new class extends Component {
     public Server $server;
+    public ?Collection $sourceProviders;
 
     #[Validate('required|max:255')]
     public string $domain = '';
@@ -54,6 +56,13 @@ new class extends Component {
         ];
     }
 
+    public function mount()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $this->sourceProviders = $user->sourceProviders;
+    }
+
     public function create()
     {
         $this->validate();
@@ -74,8 +83,27 @@ new class extends Component {
 
 <x-layouts.app>
     @volt('pages.servers.sites.create')
-        <section>
-
+        <section class="space-y-5">
+            <div>
+                <flux:link href="/servers/{{ $server->id }}" class="text-sm">
+                    {{ __('Back') }}
+                </flux:link>
+            </div>
+            <flux:heading>
+                {{ __('Add site') }}
+            </flux:heading>
+            <form wire:submit="create" class="space-y-5">
+                <flux:input wire:model="domain" label="{{ __('Domain') }}" required />
+                <flux:select wire:model="source_provider_id" name="source_provider_id" label="{{ __('Source Provider') }}" required>
+                    <flux:select.option value=""></flux:select.option>
+                    @foreach ($sourceProviders as $provider)
+                        <flux:select.option value="{{ $provider->id }}">{{ $provider->name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+                <flux:input wire:model="repository" name="repository" label="{{ __('Repository') }}" required />
+                <flux:input wire:model="branch" name="branch" label="{{ __('Branch') }}" required />
+                <flux:button type="submit">{{ __('Add') }}</flux:button>
+            </form>
         </section>
     @endvolt
 </x-layouts.app>

@@ -10,7 +10,7 @@ class SecureShellKey
 {
     public static function forNewUser()
     {
-        return app()->environment(/*'local',*/ 'testing')
+        return app()->environment('local', 'testing')
             ? static::forTesting()
             : static::make();
     }

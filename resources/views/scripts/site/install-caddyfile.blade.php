@@ -1,5 +1,8 @@
 @include('partials.scripts.shell-defaults')
 
+# Create the necessary directories
+mkdir -p {!! $site->path() !!}
+
 # Create a temporary file with the new Caddyfile
 cat > {!! $tmpCaddyFilePath !!} << EOF
 {!! $caddyfile !!}
