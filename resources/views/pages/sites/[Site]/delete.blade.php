@@ -14,10 +14,11 @@ new class extends Component {
 
         $server = $this->site->server;
         $path = $this->site->path();
-        $this->site->delete();
 
         $server->run(new UpdateCaddyImports($server));
         $server->run(new DeleteFolder($path));
+
+        $this->site->delete();
     }
 }; ?>
 
