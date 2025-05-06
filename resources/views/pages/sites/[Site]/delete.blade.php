@@ -26,7 +26,15 @@ new class extends Component {
 
 <x-layouts.app>
     @volt('pages.sites.delete')
-        <section>
+    <section class="space-y-6">
+            <div>
+                <flux:link href="/servers/{{ $site->server->id }}" class="text-sm">
+                    {{ __('Back') }}
+                </flux:link>
+            </div>
+
+            <flux:heading>{{ __('Deleting Site') }}: {{ $site->domain }}</flux:heading>
+
             <form wire:submit="delete">
                 <flux:button type="submit">Delete</flux:button>
             </form>

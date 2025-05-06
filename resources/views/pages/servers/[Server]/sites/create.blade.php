@@ -83,14 +83,14 @@ new class extends Component {
 
 <x-layouts.app>
     @volt('pages.servers.sites.create')
-        <section class="space-y-5">
+        <section class="space-y-6">
             <div>
                 <flux:link href="/servers/{{ $server->id }}" class="text-sm">
                     {{ __('Back') }}
                 </flux:link>
             </div>
             <flux:heading>
-                {{ __('Add site') }}
+                {{ __('Install site') }}
             </flux:heading>
             <form wire:submit="create" class="space-y-5">
                 <flux:input wire:model="domain" label="{{ __('Domain') }}" required />

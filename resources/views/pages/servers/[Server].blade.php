@@ -17,10 +17,16 @@ new class extends Component {
 <x-layouts.app>
     @volt('pages.servers.show')
         <section class="space-y-6">
-            <flux:heading>{{ $server->name }}</flux:heading>
+            <div>
+                <flux:link href="/servers" class="text-sm">
+                    {{ __('Back') }}
+                </flux:link>
+            </div>
+
+            <flux:heading>{{ __('Server Name') }}: {{ $server->name }}</flux:heading>
 
             <flux:button href="/servers/{{ $server->id }}/sites/create">
-                {{ __('Add site') }}
+                {{ __('Install site') }}
             </flux:button>
 
             <flux:table>
