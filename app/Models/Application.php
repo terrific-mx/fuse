@@ -10,6 +10,15 @@ class Application extends Model
     /** @use HasFactory<\Database\Factories\ApplicationFactory> */
     use HasFactory;
 
+    protected function casts(): array
+    {
+        return [
+            'shared_directories' => 'array',
+            'writeable_directories' => 'array',
+            'shared_files' => 'array',
+        ];
+    }
+
     public function server()
     {
         return $this->belongsTo(Server::class);

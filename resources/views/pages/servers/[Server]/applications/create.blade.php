@@ -75,6 +75,33 @@ new class extends Component {
             'tls' => 'auto',
             'status' => 'creating',
             'type' => 'laravel',
+
+            'shared_directories' => ['storage'],
+            'shared_files' => ['.env'],
+
+            'writeable_directories' => [
+                'bootstrap/cache',
+                'storage',
+                'storage/app',
+                'storage/app/public',
+                'storage/framework',
+                'storage/framework/cache',
+                'storage/framework/sessions',
+                'storage/framework/views',
+                'storage/logs',
+            ],
+
+            'hook_after_making_current' => trim('
+composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+npm install --prefer-offline --no-audit
+npm run build
+$PHP_BINARY artisan storage:link
+$PHP_BINARY artisan config:cache
+$PHP_BINARY artisan route:cache
+$PHP_BINARY artisan view:cache
+$PHP_BINARY artisan event:cache
+# $PHP_BINARY artisan migrate --force
+'),
         ]);
 
         InstallApplication::dispatch($application);
