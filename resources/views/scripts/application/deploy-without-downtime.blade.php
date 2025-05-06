@@ -17,6 +17,10 @@ mkdir -p {!! $logsDirectory !!}
     {!! $hookBeforeUpdatingRepository !!}
 @endif
 
+@unless($latestFinishedDeployment)
+    rm -rf {{ $currentDirectory }}
+@endunless
+
 @if($application->repository)
     @include('scripts.application._update-repository')
 
