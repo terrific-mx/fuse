@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\DeleteSite;
 use App\Models\Site;
 use App\Scripts\DeleteFolder;
 use App\Scripts\UpdateCaddyImports;
@@ -13,10 +14,8 @@ new class extends Component {
         $this->authorize($this->site, 'delete');
 
         $server = $this->site->server;
-        $path = $this->site->path();
 
-        $server->run(new UpdateCaddyImports($server));
-        $server->run(new DeleteFolder($path));
+        DeleteSite::dispatch($server, $this->site->path());
 
         $this->site->delete();
 

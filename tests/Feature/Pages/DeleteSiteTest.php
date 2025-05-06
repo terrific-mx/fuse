@@ -1,9 +1,11 @@
 <?php
 
+use App\Jobs\DeleteSite;
 use App\Models\Site;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
@@ -51,4 +53,15 @@ it('checks only authorized users can delete sites', function () {
     Volt::actingAs($anotherUser)->test('pages.sites.delete', ['site' => $site])
         ->call('delete')
         ->assertForbidden();
+});
+
+it('dispatches a job to delete the site from the server', function () {
+    Queue::fake();
+    $site = Site::factory()->create();
+    $user = $site->user();
+
+    Volt::actingAs($user)->test('pages.sites.delete', ['site' => $site])
+        ->call('delete');
+
+    Queue::assertPushed(DeleteSite::class);
 });
