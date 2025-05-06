@@ -108,7 +108,7 @@ it('creates a task to update Caddy imports on the server after site creation', f
         ->set('branch', 'valid-branch')
         ->call('create');
 
-    expect($server->tasks->last())
+    expect($server->tasks->get(1))
         ->name->toBe('Updating Caddy Imports')
         ->script->toContain('import /home/fuse/example.com/Caddyfile');
 });
@@ -166,5 +166,19 @@ it('stores a new deployment after successful site installation', function () {
 });
 
 it('creates a task to run script to deploy the site without downtime', function () {
+    Process::fake();
+    $user = User::factory()->create();
+    $server = Server::factory()->for($user)->create();
+    $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-})->todo();
+    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+        ->set('domain', 'example.com')
+        ->set('source_provider_id', $sourceProvider->id)
+        ->set('repository', 'example/valid-repository')
+        ->set('branch', 'valid-branch')
+        ->call('create');
+
+    expect($server->tasks->last())
+        ->name->toBe('Deploying site without downtime')
+        ->user->toBe('fuse');
+});

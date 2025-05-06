@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Server;
 use App\Models\Site;
+use App\Scripts\DeploySiteWithoutDowntime;
 use App\Scripts\InstallCaddyfile;
 use App\Scripts\UpdateCaddyImports;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,5 +36,7 @@ class InstallSite implements ShouldQueue
         $this->server->run(new UpdateCaddyImports($this->server));
 
         $this->site->deployments()->create(['status' => 'pending']);
+
+        $this->server->runInBackground(new DeploySiteWithoutDowntime($this->site));
     }
 }
