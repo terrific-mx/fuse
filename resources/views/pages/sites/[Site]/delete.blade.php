@@ -19,13 +19,17 @@ new class extends Component {
         $server->run(new DeleteFolder($path));
 
         $this->site->delete();
+
+        return $this->redirect("/servers/{$server->id}");
     }
 }; ?>
 
 <x-layouts.app>
     @volt('pages.sites.delete')
         <section>
-            <flux:button wire:click="delete">Delete</flux:button>
+            <form wire:submit="delete">
+                <flux:button type="submit">Delete</flux:button>
+            </form>
         </section>
     @endvolt
 </x-layouts.app>

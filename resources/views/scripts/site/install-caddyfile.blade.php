@@ -29,3 +29,10 @@ mv {!! $tmpCaddyFilePath !!} {!! $caddyfilePath !!}
 
 # Reload Caddy
 sudo /usr/sbin/service caddy reload
+
+# Add default Caddy page
+mkdir -p {{ $webDirectory }}
+cat <<EOF >> {{ $webDirectory }}/index.html
+This server is managed by <a href="{{ config('app.url') }}">{{ config('app.name') }}</a>.
+
+EOF

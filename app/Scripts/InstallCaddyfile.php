@@ -34,7 +34,7 @@ class InstallCaddyfile extends Script
             'address' => $this->site->domain,
             'port' => 443,
             'path' => $path,
-            'webDirectory' => "{$path}/current/public",
+            'webDirectory' => "{$path}/repository/public",
             'siteType' => $this->site->type,
             'phpSocket' => '/run/php/php8.3-fpm.sock',
         ])->render();
@@ -43,7 +43,8 @@ class InstallCaddyfile extends Script
             'site' => $this->site,
             'caddyfile' => $caddyfile,
             'caddyfilePath' => "{$path}/Caddyfile",
-            'tmpCaddyFilePath' => "{$path}/Caddyfile.".Str::random()
+            'tmpCaddyFilePath' => "{$path}/Caddyfile.".Str::random(),
+            'webDirectory' => "{$path}/repository/public",
         ])->render();
     }
 }
