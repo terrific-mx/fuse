@@ -55,18 +55,22 @@ new class extends Component {
 
 <x-layouts.app>
     @volt('pages.settings.server-providers.create')
-        <section class="space-y-6">
-            <flux:heading>{{ __('Add Server Provider') }}</flux:heading>
+        <form wire:submit="add" class="space-y-8 mx-auto max-w-lg">
+            <flux:heading size="xl" level="1">{{ __('Add a Server Provider') }}</flux:heading>
 
-            <form wire:submit="add" class="space-y-6 max-w-sm">
-                <flux:input wire:model="name" :label="__('Name')" />
-                <flux:select wire:model="type" :label="__('Type')">
-                    <flux:select.option value=""></flux:select.option>
-                    <flux:select.option value="DigitalOcean">DigitalOcean</flux:select.option>
-                </flux:select>
-                <flux:input wire:model="token" :label="__('Token')" />
-                <flux:button type="submit">{{ __('Add') }}</flux:button>
-            </form>
-        </section>
+            <flux:separator />
+
+            <flux:input wire:model="name" :label="__('Name')" />
+
+            <flux:select wire:model="type" :label="__('Type')">
+                <flux:select.option value=""></flux:select.option>
+                <flux:select.option value="DigitalOcean">DigitalOcean</flux:select.option>
+            </flux:select>
+
+            <div class="flex justify-end gap-4">
+                <flux:button variant="ghost" href="/settings/server-providers">{{ __('Cancel') }}</flux:button>
+                <flux:button variant="primary" type="submit">{{ __('Add Provider') }}</flux:button>
+            </div>
+        </form>
     @endvolt
 </x-layouts.app>
