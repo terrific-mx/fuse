@@ -22,13 +22,17 @@ new class extends Component {
 <x-layouts.app>
     @volt('pages.servers')
         <section class="space-y-6">
-            <flux:heading>{{ __('Servers') }}</flux:heading>
+            <div class="flex items-end justify-between gap-4">
+                <flux:heading size="xl" level="1">{{ __('Servers') }}</flux:heading>
 
-            <flux:button href="/servers/provision">
-                {{ __('Provision') }}
-            </flux:button>
+                <flux:button href="/servers/provision" class="-my-1">
+                    {{ __('Provision') }}
+                </flux:button>
+            </div>
 
-            <flux:table>
+            <flux:separator />
+
+            <flux:table class="max-w-lg">
                 <flux:table.columns>
                     <flux:table.column>{{ __('Name') }}</flux:table.column>
                     <flux:table.column>{{ __('IP Address') }}</flux:table.column>

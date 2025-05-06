@@ -18,8 +18,16 @@ new class extends Component {
 <x-layouts.app>
     @volt('pages.settings.server-providers')
         <section class="space-y-6">
-            <flux:heading>{{ __('Server Providers') }}</flux:heading>
-            <flux:button href="/settings/server-providers/create">{{ __('Add provider') }}</flux:button>
+            <div class="flex items-end justify-between gap-4">
+                <flux:heading size="xl" level="1">{{ __('Server Providers') }}</flux:heading>
+
+                <flux:button href="/settings/server-providers/create" class="-my-1">
+                    {{ __('Add provider') }}
+                </flux:button>
+            </div>
+
+            <flux:separator />
+
             <flux:table>
                 <flux:table.columns>
                     <flux:table.column>{{ __('Name') }}</flux:table.column>

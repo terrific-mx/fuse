@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark antialiased">
     <head>
         @include('partials.head')
     </head>
@@ -7,13 +7,19 @@
         <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
-                <x-app-logo />
-            </a>
+            <flux:brand href="/dashboard" logo="/logo.png" :name="config('app.name')" class="px-2 dark:hidden" />
+            <flux:brand href="/dashboard" logo="/dark-mode-logo.png" :name="config('app.name')" class="px-2 hidden dark:flex" />
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    <flux:navlist.item href="/servers" wire:navigate>{{ __('Servers') }}</flux:navlist.item>
+                </flux:navlist.group>
+            </flux:navlist>
+
+            <flux:navlist variant="outline">
+                <flux:navlist.group :heading="__('Providers')" class="grid">
+                    <flux:navlist.item href="/settings/server-providers" wire:navigate>{{ __('Server') }}</flux:navlist.item>
+                    <flux:navlist.item href="/settings/source-control" wire:navigate>{{ __('Source Control') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

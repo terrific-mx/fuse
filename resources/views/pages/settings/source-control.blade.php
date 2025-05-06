@@ -18,8 +18,16 @@ new class extends Component {
 <x-layouts.app>
     @volt('pages.settings.source-control')
         <section class="space-y-6">
-            <flux:heading>{{ __('Source Control') }}</flux:heading>
-            <flux:button href="/settings/source-control/create">{{ __('Add provider') }}</flux:button>
+            <div class="flex items-end justify-between gap-4">
+                <flux:heading size="xl" level="1">{{ __('Source Control') }}</flux:heading>
+
+                <flux:button href="/settings/source-control/create" class="-my-1">
+                    {{ __('Add provider') }}
+                </flux:button>
+            </div>
+
+            <flux:separator />
+
             <flux:table>
                 <flux:table.columns>
                     <flux:table.column>{{ __('Name') }}</flux:table.column>

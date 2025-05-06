@@ -92,22 +92,30 @@ new class extends Component {
 
 <x-layouts.app>
     @volt('pages.servers.provision')
-        <section class="space-y-6">
-            <flux:heading>{{ __('Provision Server') }}</flux:heading>
+        <form wire:submit="provision" class="space-y-8 mx-auto max-w-lg">
+            <flux:heading size="xl" level="1">{{ __('Provision a New Server') }}</flux:heading>
 
-            <form wire:submit="provision" class="space-y-6 max-w-sm">
-                <flux:input wire:model="name" :label="__('Name')" />
-                <flux:select wire:model="server_provider_id" :label="__('Server Provider')">
-                    <flux:select.option value=""></flux:select.option>
-                    @foreach ($serverProviders as $provider)
-                        <flux:select.option value="{{ $provider->id }}">{{ $provider->name }}</flux:select.option>
-                    @endforeach
-                </flux:select>
-                <flux:input wire:model="size" :label="__('Size')" />
-                <flux:input wire:model="region" :label="__('Region')" />
+            <flux:separator />
 
-                <flux:button type="submit">{{ __('Provision') }}</flux:button>
-            </form>
-        </section>
+            <flux:input wire:model="name" :label="__('Name')" />
+
+            <flux:select wire:model="server_provider_id" :label="__('Server Provider')">
+                <flux:select.option value=""></flux:select.option>
+                @foreach ($serverProviders as $provider)
+                    <flux:select.option value="{{ $provider->id }}">{{ $provider->name }}</flux:select.option>
+                @endforeach
+            </flux:select>
+
+            <flux:input wire:model="size" :label="__('Size')" />
+
+            <flux:input wire:model="region" :label="__('Region')" />
+
+            <flux:separator variant="subtle" />
+
+            <div class="flex justify-end gap-4">
+                <flux:button variant="ghost" href="/servers">{{ __('Cancel') }}</flux:button>
+                <flux:button variant="primary" type="submit">{{ __('Provision') }}</flux:button>
+            </div>
+        </form>
     @endvolt
 </x-layouts.app>
