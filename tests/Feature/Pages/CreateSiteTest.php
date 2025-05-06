@@ -147,3 +147,24 @@ it('dispatches a job to install the site on the server', function () {
     Queue::assertPushed(InstallSite::class);
     expect($server->sites()->first())->status->toBe('creating');
 });
+
+it('stores a new deploymnet after site installation', function () {
+    Process::fake();
+    $user = User::factory()->create();
+    $server = Server::factory()->for($user)->create();
+    $sourceProvider = SourceProvider::factory()->for($user)->create();
+
+    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+        ->set('domain', 'example.com')
+        ->set('source_provider_id', $sourceProvider->id)
+        ->set('repository', 'example/valid-repository')
+        ->set('branch', 'valid-branch')
+        ->call('create');
+
+    expect($server->sites()->first()->deployments)->toHaveCount(1);
+    expect($server->sites()->first()->deployments()->first())->status->toBe('pending');
+});
+
+it('runs a script to deploy the site without downtime', function () {
+
+})->todo();

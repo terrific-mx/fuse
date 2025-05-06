@@ -33,5 +33,7 @@ class InstallSite implements ShouldQueue
         $this->site->update(['status' => 'installed']);
 
         $this->server->run(new UpdateCaddyImports($this->server));
+
+        $this->site->deployments()->create(['status' => 'pending']);
     }
 }

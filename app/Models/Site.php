@@ -20,6 +20,11 @@ class Site extends Model
         return $this->server->user;
     }
 
+    public function deployments()
+    {
+        return $this->hasMany(Deployment::class);
+    }
+
     public function sourceProvider()
     {
         return $this->belongsTo(SourceProvider::class);
