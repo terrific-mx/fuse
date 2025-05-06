@@ -94,6 +94,7 @@ new class extends Component {
 
             <flux:select wire:model="source_provider_id" name="source_provider_id" label="{{ __('Source Provider') }}" required>
                 <flux:select.option value=""></flux:select.option>
+
                 @foreach ($sourceProviders as $provider)
                     <flux:select.option value="{{ $provider->id }}">{{ $provider->name }}</flux:select.option>
                 @endforeach

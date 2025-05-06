@@ -35,8 +35,11 @@ class InstallApplication implements ShouldQueue
 
         $this->server->run(new UpdateCaddyImports($this->server));
 
-        $this->application->deployments()->create(['status' => 'pending']);
+        $deployment = $this->application->deployments()->create(['status' => 'pending']);
 
-        $this->server->runInBackground(new DeployApplicationWithoutDowntime($this->application));
+        $this->server->runInBackground(new DeployApplicationWithoutDowntime(
+            $this->application,
+            $deployment,
+        ));
     }
 }
