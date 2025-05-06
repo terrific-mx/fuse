@@ -94,7 +94,7 @@ new class extends Component {
             <flux:heading>
                 {{ __('Install application') }}
             </flux:heading>
-            <form wire:submit="create" class="space-y-5">
+            <form wire:submit="create" class="space-y-6">
                 <flux:input wire:model="domain" label="{{ __('Domain') }}" required />
                 <flux:select wire:model="source_provider_id" name="source_provider_id" label="{{ __('Source Provider') }}" required>
                     <flux:select.option value=""></flux:select.option>
