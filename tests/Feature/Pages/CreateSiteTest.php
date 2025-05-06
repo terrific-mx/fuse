@@ -11,7 +11,7 @@ use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
-it('can create a site', function () {
+it('can create a site with valid domain, source provider, repository, and branch', function () {
     Process::fake();
 
     $user = User::factory()->create();
@@ -28,7 +28,7 @@ it('can create a site', function () {
     expect($server->sites)->toHaveCount(1);
 });
 
-it('requires domain, repository, source provider, and branch fields to be filled out', function () {
+it('requires all required fields to be filled out', function () {
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
 
@@ -41,7 +41,7 @@ it('requires domain, repository, source provider, and branch fields to be filled
         ->assertHasErrors(['domain', 'repository', 'branch', 'source_provider_id']);
 });
 
-it('prevents the use of another user source provider', function () {
+it('prevents the use of a source provider owned by another user', function () {
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $anotherUserSourceProvider = SourceProvider::factory()->create();
@@ -52,7 +52,7 @@ it('prevents the use of another user source provider', function () {
         ->assertHasErrors(['source_provider_id']);
 });
 
-it('rejects invalid repositories', function () {
+it('rejects invalid repositories and ensures proper error handling', function () {
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
@@ -64,7 +64,7 @@ it('rejects invalid repositories', function () {
         ->assertHasErrors(['repository']);
 });
 
-it('rejects invalid branches', function () {
+it('rejects invalid branches and ensures proper error handling', function () {
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
@@ -77,7 +77,7 @@ it('rejects invalid branches', function () {
         ->assertHasErrors(['branch']);
 });
 
-it('creates a task to install caddyfile on the server', function () {
+it('creates a task to install the Caddyfile on the server after site creation', function () {
     Process::fake();
 
     $user = User::factory()->create();
@@ -94,7 +94,7 @@ it('creates a task to install caddyfile on the server', function () {
     expect($server->tasks->first())->name->toBe('Installing Caddyfile');
 });
 
-it('creates a task to update caddy imports on the server', function () {
+it('creates a task to update Caddy imports on the server after site creation', function () {
     Process::fake();
 
     $user = User::factory()->create();
@@ -113,7 +113,7 @@ it('creates a task to update caddy imports on the server', function () {
         ->script->toContain('import /home/fuse/example.com/Caddyfile');
 });
 
-it('marks the site as installed after creation', function () {
+it('marks the site as installed after successful creation', function () {
     Process::fake();
 
     $user = User::factory()->create();
@@ -131,7 +131,7 @@ it('marks the site as installed after creation', function () {
     expect($site->status)->toBe('installed');
 });
 
-it('dispatches a job to install the site on the server', function () {
+it('dispatches a job to install the site on the server after successful creation', function () {
     Queue::fake();
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
@@ -148,7 +148,7 @@ it('dispatches a job to install the site on the server', function () {
     expect($server->sites()->first())->status->toBe('creating');
 });
 
-it('stores a new deploymnet after site installation', function () {
+it('stores a new deployment after successful site installation', function () {
     Process::fake();
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
@@ -165,6 +165,6 @@ it('stores a new deploymnet after site installation', function () {
     expect($server->sites()->first()->deployments()->first())->status->toBe('pending');
 });
 
-it('runs a script to deploy the site without downtime', function () {
+it('creates a task to run script to deploy the site without downtime', function () {
 
 })->todo();
