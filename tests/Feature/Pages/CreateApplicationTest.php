@@ -165,7 +165,7 @@ it('stores a new deployment after successful application installation', function
     expect($server->applications()->first()->deployments()->first())->status->toBe('pending');
 });
 
-it('creates a task to run script to deploy the application without downtime', function () {
+it('creates a task to run script to deploy the laravel application without downtime', function () {
     Process::fake();
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
