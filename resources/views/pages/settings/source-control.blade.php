@@ -21,7 +21,7 @@ new class extends Component {
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="xl" level="1">{{ __('Source Control') }}</flux:heading>
 
-                <flux:button href="/settings/source-control/create" class="-my-1">
+                <flux:button href="/settings/source-control/create" variant="primary" class="-my-1">
                     {{ __('Add provider') }}
                 </flux:button>
             </div>

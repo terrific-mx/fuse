@@ -20,8 +20,8 @@ new class extends Component {
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="xl" level="1">{{ __('Server Name') }}: {{ $server->name }}</flux:heading>
 
-                <flux:button href="/servers/{{ $server->id }}/applications/create" class="-my-1">
-                    {{ __('Install application') }}
+                <flux:button href="/servers/{{ $server->id }}/applications/create" variant="primary" class="-my-1">
+                    {{ __('Add Application') }}
                 </flux:button>
             </div>
 

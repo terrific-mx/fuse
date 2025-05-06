@@ -85,27 +85,28 @@ new class extends Component {
 
 <x-layouts.app>
     @volt('pages.servers.applications.create')
-        <section class="space-y-6">
-            <div>
-                <flux:link href="/servers/{{ $server->id }}" class="text-sm">
-                    {{ __('Back') }}
-                </flux:link>
+        <form wire:submit="create" class="space-y-8 mx-auto max-w-lg">
+            <flux:heading size="xl" level="1">{{ __('Add a New Application') }}</flux:heading>
+
+            <flux:separator />
+
+            <flux:input wire:model="domain" label="{{ __('Domain') }}" required />
+
+            <flux:select wire:model="source_provider_id" name="source_provider_id" label="{{ __('Source Provider') }}" required>
+                <flux:select.option value=""></flux:select.option>
+                @foreach ($sourceProviders as $provider)
+                    <flux:select.option value="{{ $provider->id }}">{{ $provider->name }}</flux:select.option>
+                @endforeach
+            </flux:select>
+
+            <flux:input wire:model="repository" name="repository" label="{{ __('Repository') }}" required />
+
+            <flux:input wire:model="branch" name="branch" label="{{ __('Branch') }}" required />
+
+            <div class="flex justify-end gap-4">
+                <flux:button variant="ghost" href="/servers/{{ $server->id }}">{{ __('Cancel') }}</flux:button>
+                <flux:button variant="primary" type="submit">{{ __('Add Application') }}</flux:button>
             </div>
-            <flux:heading>
-                {{ __('Install application') }}
-            </flux:heading>
-            <form wire:submit="create" class="space-y-6">
-                <flux:input wire:model="domain" label="{{ __('Domain') }}" required />
-                <flux:select wire:model="source_provider_id" name="source_provider_id" label="{{ __('Source Provider') }}" required>
-                    <flux:select.option value=""></flux:select.option>
-                    @foreach ($sourceProviders as $provider)
-                        <flux:select.option value="{{ $provider->id }}">{{ $provider->name }}</flux:select.option>
-                    @endforeach
-                </flux:select>
-                <flux:input wire:model="repository" name="repository" label="{{ __('Repository') }}" required />
-                <flux:input wire:model="branch" name="branch" label="{{ __('Branch') }}" required />
-                <flux:button type="submit">{{ __('Add') }}</flux:button>
-            </form>
-        </section>
+        </form>
     @endvolt
 </x-layouts.app>
