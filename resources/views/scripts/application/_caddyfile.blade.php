@@ -25,14 +25,14 @@
         X-XSS-Protection 1; mode=block
     }
 
-    @if($applicationType !== 'static')
+    @if($application->type !== 'static')
         php_fastcgi unix/{!! $phpSocket !!} {
             resolve_root_symlink
             try_files {path} {path}/index.html {path}/index.htm index.php
         }
     @endif
 
-    @if($applicationType === 'wordpress')
+    @if($application->type === 'wordpress')
         @disallowed {
             path /xmlrpc.php
             path *.sql

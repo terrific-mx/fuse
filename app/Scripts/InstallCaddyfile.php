@@ -33,7 +33,6 @@ class InstallCaddyfile extends Script
             'port' => 443,
             'path' => $path,
             'webDirectory' => "{$path}/repository/public",
-            'applicationType' => $this->application->type,
             'phpSocket' => '/run/php/php8.3-fpm.sock',
         ])->render();
 

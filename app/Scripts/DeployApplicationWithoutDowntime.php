@@ -33,16 +33,14 @@ class DeployApplicationWithoutDowntime extends Script
             ->latest()
             ->first();
 
-        $applicationType = 'laravel';
-
         $environmentVariables = [];
 
-        if ($applicationType === 'laravel') {
+        if ($this->application->type === 'laravel') {
             $environmentVariables['APP_KEY'] = 'base64:'.base64_encode(Encrypter::generateKey('AES-256-CBC'));
             $environmentVariables['APP_URL'] = $this->application->tls === 'off' ? "http://{$this->application->domain}" : "https://{$this->application->domain}";
         }
 
-        if ($applicationType === 'wordpress') {
+        if ($this->application->type === 'wordpress') {
             $vars = [
                 'AUTH_KEY',
                 'AUTH_SALT',
@@ -74,7 +72,6 @@ class DeployApplicationWithoutDowntime extends Script
             'zeroDowntimeDeployment' => true,
             'deployKeyPrivate' => null,
             'hookAfterUpdatingRepository' => null,
-            'applicationType' => $applicationType,
             'environmentVariables' => $environmentVariables,
             'sharedDirectories' => [],
             'sharedFiles' => [],
