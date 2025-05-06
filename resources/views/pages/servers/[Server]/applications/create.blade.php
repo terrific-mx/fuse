@@ -77,7 +77,7 @@ new class extends Component {
             'type' => 'laravel',
 
             'shared_directories' => ['storage'],
-            'shared_files' => ['.env'],
+            'shared_files' => ['.env', 'database/database.sqlite'],
 
             'writeable_directories' => [
                 'bootstrap/cache',
@@ -100,7 +100,7 @@ $PHP_BINARY artisan config:cache
 $PHP_BINARY artisan route:cache
 $PHP_BINARY artisan view:cache
 $PHP_BINARY artisan event:cache
-# $PHP_BINARY artisan migrate --force
+$PHP_BINARY artisan migrate --force
 '),
         ]);
 
