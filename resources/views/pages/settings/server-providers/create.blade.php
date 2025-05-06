@@ -67,6 +67,8 @@ new class extends Component {
                 <flux:select.option value="DigitalOcean">DigitalOcean</flux:select.option>
             </flux:select>
 
+            <flux:separator variant="subtle" />
+
             <div class="flex justify-end gap-4">
                 <flux:button variant="ghost" href="/settings/server-providers">{{ __('Cancel') }}</flux:button>
                 <flux:button variant="primary" type="submit">{{ __('Add Provider') }}</flux:button>

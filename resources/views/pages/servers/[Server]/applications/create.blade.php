@@ -90,7 +90,7 @@ new class extends Component {
 
             <flux:separator />
 
-            <flux:input wire:model="domain" label="{{ __('Domain') }}" required />
+            <flux:input wire:model="domain" label="{{ __('Domain') }}" placeholder="example.com" required />
 
             <flux:select wire:model="source_provider_id" name="source_provider_id" label="{{ __('Source Provider') }}" required>
                 <flux:select.option value=""></flux:select.option>
@@ -99,9 +99,11 @@ new class extends Component {
                 @endforeach
             </flux:select>
 
-            <flux:input wire:model="repository" name="repository" label="{{ __('Repository') }}" required />
+            <flux:input wire:model="repository" name="repository" label="{{ __('Repository') }}" placeholder="terrific-mx/fuse" required />
 
-            <flux:input wire:model="branch" name="branch" label="{{ __('Branch') }}" required />
+            <flux:input wire:model="branch" name="branch" label="{{ __('Branch') }}" placeholder="main" required />
+
+            <flux:separator variant="subtle" />
 
             <div class="flex justify-end gap-4">
                 <flux:button variant="ghost" href="/servers/{{ $server->id }}">{{ __('Cancel') }}</flux:button>

@@ -18,7 +18,7 @@ new class extends Component {
     @volt('pages.servers.show')
         <section class="space-y-6">
             <div class="flex items-end justify-between gap-4">
-                <flux:heading size="xl" level="1">{{ __('Server Name') }}: {{ $server->name }}</flux:heading>
+                <flux:heading size="xl" level="1">{{ __('Server') }} {{ $server->name }}</flux:heading>
 
                 <flux:button href="/servers/{{ $server->id }}/applications/create" variant="primary" class="-my-1">
                     {{ __('Add Application') }}

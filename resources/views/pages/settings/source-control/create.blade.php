@@ -65,6 +65,8 @@ new class extends Component {
 
             <flux:input wire:model="token" :label="__('Token')" />
 
+            <flux:separator variant="subtle" />
+
             <div class="flex justify-end gap-4">
                 <flux:button variant="ghost" href="/settings/source-control">{{ __('Cancel') }}</flux:button>
                 <flux:button variant="primary" type="submit">{{ __('Add Provider') }}</flux:button>
