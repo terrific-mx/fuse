@@ -112,31 +112,33 @@ $PHP_BINARY artisan migrate --force
 
 <x-layouts.app>
     @volt('pages.servers.applications.create')
-        <form wire:submit="create" class="space-y-8 mx-auto max-w-lg">
-            <flux:heading size="xl" level="1">{{ __('Add a New Application') }}</flux:heading>
+        <x-servers.layout :server="$server">
+            <form wire:submit="create" class="space-y-8 max-w-lg">
+                <flux:heading size="lg" level="1">{{ __('Add a New Application') }}</flux:heading>
 
-            <flux:separator />
+                <flux:separator />
 
-            <flux:input wire:model="domain" label="{{ __('Domain') }}" placeholder="example.com" required />
+                <flux:input wire:model="domain" label="{{ __('Domain') }}" placeholder="example.com" required />
 
-            <flux:select wire:model="source_provider_id" name="source_provider_id" label="{{ __('Source Provider') }}" required>
-                <flux:select.option value=""></flux:select.option>
+                <flux:select wire:model="source_provider_id" name="source_provider_id" label="{{ __('Source Provider') }}" required>
+                    <flux:select.option value=""></flux:select.option>
 
-                @foreach ($sourceProviders as $provider)
-                    <flux:select.option value="{{ $provider->id }}">{{ $provider->name }}</flux:select.option>
-                @endforeach
-            </flux:select>
+                    @foreach ($sourceProviders as $provider)
+                        <flux:select.option value="{{ $provider->id }}">{{ $provider->name }}</flux:select.option>
+                    @endforeach
+                </flux:select>
 
-            <flux:input wire:model="repository" name="repository" label="{{ __('Repository') }}" placeholder="terrific-mx/fuse" required />
+                <flux:input wire:model="repository" name="repository" label="{{ __('Repository') }}" placeholder="terrific-mx/fuse" required />
 
-            <flux:input wire:model="branch" name="branch" label="{{ __('Branch') }}" placeholder="main" required />
+                <flux:input wire:model="branch" name="branch" label="{{ __('Branch') }}" placeholder="main" required />
 
-            <flux:separator variant="subtle" />
+                <flux:separator variant="subtle" />
 
-            <div class="flex justify-end gap-4">
-                <flux:button variant="ghost" href="/servers/{{ $server->id }}">{{ __('Cancel') }}</flux:button>
-                <flux:button variant="primary" type="submit">{{ __('Add Application') }}</flux:button>
-            </div>
-        </form>
+                <div class="flex justify-end gap-4">
+                    <flux:button variant="ghost" href="/servers/{{ $server->id }}/applications">{{ __('Cancel') }}</flux:button>
+                    <flux:button variant="primary" type="submit">{{ __('Add Application') }}</flux:button>
+                </div>
+            </form>
+        </x-servers.layout>
     @endvolt
 </x-layouts.app>
