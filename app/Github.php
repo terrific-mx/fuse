@@ -31,7 +31,7 @@ class Github extends FakeSourceProvider
 
     protected function request(string $method, string $path, $parameters = [])
     {
-        /** @var \Illuminate\Http\Client\Response $response **/
+        /** @var \Illuminate\Http\Client\Response $response */
         $response = Http::withHeaders([
             'Accept' => 'application/vnd.github.v3+json',
             'Authorization' => 'token '.$this->sourceProvider->token,

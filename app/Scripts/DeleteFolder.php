@@ -4,10 +4,7 @@ namespace App\Scripts;
 
 class DeleteFolder extends Script
 {
-    public function __construct(public string $path)
-    {
-
-    }
+    public function __construct(public string $path) {}
 
     public function timeout()
     {

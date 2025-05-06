@@ -78,6 +78,8 @@ new class extends Component {
         ]);
 
         InstallSite::dispatch($site);
+
+        return $this->redirect("/servers/{$this->server->id}");
     }
 }; ?>
 

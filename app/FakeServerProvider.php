@@ -8,9 +8,7 @@ use Illuminate\Support\Str;
 
 class FakeServerProvider implements ServerProviderClient
 {
-    public function __construct(public ServerProvider $serverProvider)
-    {
-    }
+    public function __construct(public ServerProvider $serverProvider) {}
 
     public function valid(): bool
     {
@@ -52,7 +50,7 @@ class FakeServerProvider implements ServerProviderClient
         ];
     }
 
-    public function getPublicIpAddress(Server $server): string|null
+    public function getPublicIpAddress(Server $server): ?string
     {
         if ($server->name === 'server-that-does-not-return-an-ip-address') {
             return null;

@@ -6,9 +6,7 @@ use App\Models\SourceProvider;
 
 class FakeSourceProvider
 {
-    public function __construct(public SourceProvider $sourceProvider)
-    {
-    }
+    public function __construct(public SourceProvider $sourceProvider) {}
 
     public function valid()
     {

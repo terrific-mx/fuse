@@ -14,5 +14,5 @@ interface ServerProviderClient
 
     public function regions(): array;
 
-    public function getPublicIpAddress(Server $server): string|null;
+    public function getPublicIpAddress(Server $server): ?string;
 }

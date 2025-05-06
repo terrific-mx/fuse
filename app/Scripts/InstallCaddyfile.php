@@ -9,9 +9,7 @@ class InstallCaddyfile extends Script
 {
     public $sshAs = 'fuse';
 
-    public function __construct(public Site $site)
-    {
-    }
+    public function __construct(public Site $site) {}
 
     public function name()
     {

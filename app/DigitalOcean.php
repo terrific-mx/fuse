@@ -4,14 +4,11 @@ namespace App;
 
 use App\Models\Server;
 use App\Models\ServerProvider;
-use Exception;
 use Illuminate\Support\Facades\Http;
 
 class DigitalOcean extends FakeServerProvider implements ServerProviderClient
 {
-    public function __construct(public ServerProvider $serverProvider)
-    {
-    }
+    public function __construct(public ServerProvider $serverProvider) {}
 
     public function valid(): bool
     {
@@ -36,7 +33,7 @@ class DigitalOcean extends FakeServerProvider implements ServerProviderClient
         ])['droplet']['id'];
     }
 
-    public function getPublicIpAddress(Server $server): string|null
+    public function getPublicIpAddress(Server $server): ?string
     {
         return $this->getIpAddress($server);
     }
@@ -69,7 +66,7 @@ class DigitalOcean extends FakeServerProvider implements ServerProviderClient
         ])['ssh_key']['id'];
     }
 
-    protected function getIpAddress(Server $server, $type = 'public'): string|null
+    protected function getIpAddress(Server $server, $type = 'public'): ?string
     {
         $networks = $this->request(
             'get', "/droplets/{$server->provider_server_id}"
@@ -82,7 +79,7 @@ class DigitalOcean extends FakeServerProvider implements ServerProviderClient
 
     protected function request(string $method, string $path, $parameters = [])
     {
-        /** @var \Illuminate\Http\Client\Response $response **/
+        /** @var \Illuminate\Http\Client\Response */
         $response = Http::withToken($this->serverProvider->token)
             ->{$method}('https://api.digitalocean.com/v2/'.ltrim($path, '/'), $parameters);
 

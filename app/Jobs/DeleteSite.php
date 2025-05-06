@@ -8,7 +8,6 @@ use App\Scripts\UpdateCaddyImports;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-/** @package App\Jobs */
 class DeleteSite implements ShouldQueue
 {
     use Queueable;
@@ -16,9 +15,7 @@ class DeleteSite implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public Server $server, public string $path)
-    {
-    }
+    public function __construct(public Server $server, public string $path) {}
 
     /**
      * Execute the job.

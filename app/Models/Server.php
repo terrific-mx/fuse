@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Callbacks\MarkAsProvisioned;
 use App\FakeServerProvider;
 use App\Jobs\ProvisionServer;
-use App\Scripts\GetAptLockStatus;
 use App\Scripts\GetCurrentDirectory;
 use App\Scripts\ProvisionServer as ScriptsProvisionServer;
 use App\Scripts\Script;
