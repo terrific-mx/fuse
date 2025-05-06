@@ -6,11 +6,11 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public Server $server;
-    public ?Collection $sites;
+    public ?Collection $applications;
 
     public function mount()
     {
-        $this->sites = $this->server->sites;
+        $this->applications = $this->server->applications;
     }
 }; ?>
 
@@ -25,8 +25,8 @@ new class extends Component {
 
             <flux:heading>{{ __('Server Name') }}: {{ $server->name }}</flux:heading>
 
-            <flux:button href="/servers/{{ $server->id }}/sites/create">
-                {{ __('Install site') }}
+            <flux:button href="/servers/{{ $server->id }}/applications/create">
+                {{ __('Install application') }}
             </flux:button>
 
             <flux:table>
@@ -37,14 +37,14 @@ new class extends Component {
                 </flux:table.columns>
 
                 <flux:table.rows>
-                    @foreach ($sites as $site)
+                    @foreach ($applications as $application)
                         <flux:table.row>
                             <flux:table.cell variant="strong">
-                                <flux:link href="/sites/{{ $site->id }}">{{ $site->domain }}</flux:link>
+                                <flux:link href="/applications/{{ $application->id }}">{{ $application->domain }}</flux:link>
                             </flux:table.cell>
-                            <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">{{ $site->status }}</flux:badge></flux:table.cell>
+                            <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">{{ $application->status }}</flux:badge></flux:table.cell>
                             <flux:table.cell>
-                                <flux:link href="/sites/{{ $site->id }}/delete">{{ __('Delete') }}</flux:link>
+                                <flux:link href="/applications/{{ $application->id }}/delete">{{ __('Delete') }}</flux:link>
                             </flux:table.cell>
                         </flux:table.row>
                     @endforeach

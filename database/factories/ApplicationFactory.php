@@ -7,9 +7,9 @@ use App\Models\SourceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Site>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Application>
  */
-class SiteFactory extends Factory
+class ApplicationFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Site;
+use App\Models\Application;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,7 +18,7 @@ class DeploymentFactory extends Factory
     public function definition(): array
     {
         return [
-            'site_id' => Site::factory(),
+            'application_id' => Application::factory(),
             'status' => 'completed',
         ];
     }

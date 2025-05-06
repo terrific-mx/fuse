@@ -1,17 +1,17 @@
 <?php
 
 use App\Models\Server;
-use App\Models\Site;
+use App\Models\Application;
 use App\Scripts\UpdateCaddyImports;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('can render the script with all installed sites', function () {
+it('can render the script with all installed applications', function () {
     $server = Server::factory()->create();
-    $siteA = Site::factory()->for($server)->create(['domain' => 'foo.com', 'status' => 'installed']);
-    $siteB = Site::factory()->for($server)->create(['domain' => 'bar.com', 'status' => 'installed']);
-    $siteC = Site::factory()->for($server)->create(['domain' => 'baz.com', 'status' => 'creating']);
+    $applicationA = Application::factory()->for($server)->create(['domain' => 'foo.com', 'status' => 'installed']);
+    $applicationB = Application::factory()->for($server)->create(['domain' => 'bar.com', 'status' => 'installed']);
+    $applicationC = Application::factory()->for($server)->create(['domain' => 'baz.com', 'status' => 'creating']);
     $script = new UpdateCaddyImports($server);
 
     expect((string) $script)

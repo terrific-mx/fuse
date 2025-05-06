@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('deployments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('site_id')->index();
+            $table->foreignId('application_id')->index();
             $table->string('status');
             $table->timestamps();
         });

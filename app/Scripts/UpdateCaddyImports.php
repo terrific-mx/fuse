@@ -19,7 +19,7 @@ class UpdateCaddyImports extends Script
     public function script()
     {
         return view('scripts.server.update-caddy-imports', [
-            'sites' => $this->server->sites()
+            'applications' => $this->server->applications()
                 ->with('server')
                 ->where('status', 'installed')
                 ->lazy(chunkSize: 100),

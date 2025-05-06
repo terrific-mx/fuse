@@ -8,7 +8,7 @@ use App\Scripts\UpdateCaddyImports;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class DeleteSite implements ShouldQueue
+class DeleteApplication implements ShouldQueue
 {
     use Queueable;
 

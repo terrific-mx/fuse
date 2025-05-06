@@ -10,8 +10,8 @@ class Deployment extends Model
     /** @use HasFactory<\Database\Factories\DeploymentFactory> */
     use HasFactory;
 
-    public function site()
+    public function application()
     {
-        return $this->belongsTo(Site::class);
+        return $this->belongsTo(Application::class);
     }
 }

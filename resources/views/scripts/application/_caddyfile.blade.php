@@ -9,13 +9,13 @@
 @endif
 
 # Do not remove this tls-* snippet
-@include('scripts.site._tls-snippet', ['tlsSetting' => $tlsSetting])
+@include('scripts.application._tls-snippet', ['tlsSetting' => $tlsSetting])
 
 {!! $address !!}:{!! $port !!} {
     root * {!! $webDirectory !!}
     encode zstd gzip
 
-    import tls-{!! $site->id !!}
+    import tls-{!! $application->id !!}
 
     header {
         -Server
@@ -25,14 +25,14 @@
         X-XSS-Protection 1; mode=block
     }
 
-    @if($siteType !== 'static')
+    @if($applicationType !== 'static')
         php_fastcgi unix/{!! $phpSocket !!} {
             resolve_root_symlink
             try_files {path} {path}/index.html {path}/index.htm index.php
         }
     @endif
 
-    @if($siteType === 'wordpress')
+    @if($applicationType === 'wordpress')
         @disallowed {
             path /xmlrpc.php
             path *.sql

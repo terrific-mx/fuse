@@ -1,4 +1,4 @@
-(tls-{!! $site->id !!}) {
+(tls-{!! $application->id !!}) {
     @if($tlsSetting === 'custom' && $certificate)
         tls {!! $certificate->certificatePath() !!} {!! $certificate->privateKeyPath() !!}
     @elseif($tlsSetting === 'internal')

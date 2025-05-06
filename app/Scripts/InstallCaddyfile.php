@@ -2,14 +2,14 @@
 
 namespace App\Scripts;
 
-use App\Models\Site;
+use App\Models\Application;
 use Illuminate\Support\Str;
 
 class InstallCaddyfile extends Script
 {
     public $sshAs = 'fuse';
 
-    public function __construct(public Site $site) {}
+    public function __construct(public Application $application) {}
 
     public function name()
     {
@@ -23,22 +23,22 @@ class InstallCaddyfile extends Script
 
     public function script()
     {
-        $path = $this->site->path();
+        $path = $this->application->path();
 
-        $caddyfile = view('scripts.site._caddyfile', [
-            'site' => $this->site,
-            'domainStartsWithWww' => Str::of($this->site->domain)->startsWith('www.'),
-            'tlsSetting' => $this->site->tls,
-            'address' => $this->site->domain,
+        $caddyfile = view('scripts.application._caddyfile', [
+            'application' => $this->application,
+            'domainStartsWithWww' => Str::of($this->application->domain)->startsWith('www.'),
+            'tlsSetting' => $this->application->tls,
+            'address' => $this->application->domain,
             'port' => 443,
             'path' => $path,
             'webDirectory' => "{$path}/repository/public",
-            'siteType' => $this->site->type,
+            'applicationType' => $this->application->type,
             'phpSocket' => '/run/php/php8.3-fpm.sock',
         ])->render();
 
-        return view('scripts.site.install-caddyfile', [
-            'site' => $this->site,
+        return view('scripts.application.install-caddyfile', [
+            'application' => $this->application,
             'caddyfile' => $caddyfile,
             'caddyfilePath' => "{$path}/Caddyfile",
             'tmpCaddyFilePath' => "{$path}/Caddyfile.".Str::random(),

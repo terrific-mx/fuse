@@ -1,6 +1,6 @@
 <?php
 
-use App\Jobs\InstallSite;
+use App\Jobs\InstallApplication;
 use App\Models\Server;
 use App\Models\SourceProvider;
 use App\Models\User;
@@ -11,28 +11,28 @@ use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
-it('can create a site with valid domain, source provider, repository, and branch', function () {
+it('can create an application with valid domain, source provider, repository, and branch', function () {
     Process::fake();
 
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('domain', 'example.com')
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
         ->call('create');
 
-    expect($server->sites)->toHaveCount(1);
+    expect($server->applications)->toHaveCount(1);
 });
 
 it('requires all required fields to be filled out', function () {
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('domain', '')
         ->set('source_provider_id', '')
         ->set('repository', '')
@@ -46,7 +46,7 @@ it('prevents the use of a source provider owned by another user', function () {
     $server = Server::factory()->for($user)->create();
     $anotherUserSourceProvider = SourceProvider::factory()->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('source_provider_id', $anotherUserSourceProvider->id)
         ->call('create')
         ->assertHasErrors(['source_provider_id']);
@@ -57,7 +57,7 @@ it('rejects invalid repositories and ensures proper error handling', function ()
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/invalid-repository')
         ->call('create')
@@ -69,7 +69,7 @@ it('rejects invalid branches and ensures proper error handling', function () {
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'invalid-branch')
@@ -77,14 +77,14 @@ it('rejects invalid branches and ensures proper error handling', function () {
         ->assertHasErrors(['branch']);
 });
 
-it('creates a task to install the Caddyfile on the server after site creation', function () {
+it('creates a task to install the Caddyfile on the server after application creation', function () {
     Process::fake();
 
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('domain', 'example.com')
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
@@ -94,14 +94,14 @@ it('creates a task to install the Caddyfile on the server after site creation', 
     expect($server->tasks->first())->name->toBe('Installing Caddyfile');
 });
 
-it('creates a task to update Caddy imports on the server after site creation', function () {
+it('creates a task to update Caddy imports on the server after application creation', function () {
     Process::fake();
 
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('domain', 'example.com')
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
@@ -113,65 +113,65 @@ it('creates a task to update Caddy imports on the server after site creation', f
         ->script->toContain('import /home/fuse/example.com/Caddyfile');
 });
 
-it('marks the site as installed after successful creation', function () {
+it('marks the application as installed after successful creation', function () {
     Process::fake();
 
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('domain', 'example.com')
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
         ->call('create');
 
-    $site = $server->sites->first();
-    expect($site->status)->toBe('installed');
+    $application = $server->applications->first();
+    expect($application->status)->toBe('installed');
 });
 
-it('dispatches a job to install the site on the server after successful creation', function () {
+it('dispatches a job to install the application on the server after successful creation', function () {
     Queue::fake();
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('domain', 'example.com')
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
         ->call('create');
 
-    Queue::assertPushed(InstallSite::class);
-    expect($server->sites()->first())->status->toBe('creating');
+    Queue::assertPushed(InstallApplication::class);
+    expect($server->applications()->first())->status->toBe('creating');
 });
 
-it('stores a new deployment after successful site installation', function () {
+it('stores a new deployment after successful application installation', function () {
     Process::fake();
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('domain', 'example.com')
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
         ->call('create');
 
-    expect($server->sites()->first()->deployments)->toHaveCount(1);
-    expect($server->sites()->first()->deployments()->first())->status->toBe('pending');
+    expect($server->applications()->first()->deployments)->toHaveCount(1);
+    expect($server->applications()->first()->deployments()->first())->status->toBe('pending');
 });
 
-it('creates a task to run script to deploy the site without downtime', function () {
+it('creates a task to run script to deploy the application without downtime', function () {
     Process::fake();
     $user = User::factory()->create();
     $server = Server::factory()->for($user)->create();
     $sourceProvider = SourceProvider::factory()->for($user)->create();
 
-    Volt::actingAs($user)->test('pages.servers.sites.create', ['server' => $server])
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
         ->set('domain', 'example.com')
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
@@ -179,6 +179,6 @@ it('creates a task to run script to deploy the site without downtime', function 
         ->call('create');
 
     expect($server->tasks->last())
-        ->name->toBe('Deploying site without downtime')
+        ->name->toBe('Deploying application without downtime')
         ->user->toBe('fuse');
 });

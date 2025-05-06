@@ -32,9 +32,9 @@ class Server extends Model
         return $this->hasMany(Task::class);
     }
 
-    public function sites()
+    public function applications()
     {
-        return $this->hasMany(Site::class);
+        return $this->hasMany(Application::class);
     }
 
     public function isProvisioned()

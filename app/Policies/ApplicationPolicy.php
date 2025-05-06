@@ -2,10 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Site;
+use App\Models\Application;
 use App\Models\User;
 
-class SitePolicy
+class ApplicationPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -18,7 +18,7 @@ class SitePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Site $site): bool
+    public function view(User $user, Application $application): bool
     {
         return false;
     }
@@ -34,7 +34,7 @@ class SitePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Site $site): bool
+    public function update(User $user, Application $application): bool
     {
         return false;
     }
@@ -42,15 +42,15 @@ class SitePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Site $site): bool
+    public function delete(User $user, Application $application): bool
     {
-        return $site->server->user->is($user);
+        return $application->server->user->is($user);
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Site $site): bool
+    public function restore(User $user, Application $application): bool
     {
         return false;
     }
@@ -58,7 +58,7 @@ class SitePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Site $site): bool
+    public function forceDelete(User $user, Application $application): bool
     {
         return false;
     }

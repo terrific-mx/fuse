@@ -1,6 +1,6 @@
 <?php
 
-use App\Jobs\InstallSite;
+use App\Jobs\InstallApplication;
 use App\Models\Server;
 use App\Scripts\InstallCaddyfile;
 use App\Scripts\UpdateCaddyImports;
@@ -67,7 +67,7 @@ new class extends Component {
     {
         $this->validate();
 
-        $site = $this->server->sites()->create([
+        $application = $this->server->applications()->create([
             'source_provider_id' => $this->source_provider_id,
             'domain' => $this->domain,
             'repository' => $this->repository,
@@ -77,14 +77,14 @@ new class extends Component {
             'type' => 'laravel',
         ]);
 
-        InstallSite::dispatch($site);
+        InstallApplication::dispatch($application);
 
         return $this->redirect("/servers/{$this->server->id}");
     }
 }; ?>
 
 <x-layouts.app>
-    @volt('pages.servers.sites.create')
+    @volt('pages.servers.applications.create')
         <section class="space-y-6">
             <div>
                 <flux:link href="/servers/{{ $server->id }}" class="text-sm">
@@ -92,7 +92,7 @@ new class extends Component {
                 </flux:link>
             </div>
             <flux:heading>
-                {{ __('Install site') }}
+                {{ __('Install application') }}
             </flux:heading>
             <form wire:submit="create" class="space-y-5">
                 <flux:input wire:model="domain" label="{{ __('Domain') }}" required />
