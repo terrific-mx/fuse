@@ -25,15 +25,17 @@ new class extends Component {
 
 <x-layouts.app>
     @volt('pages.applications.delete')
-        <form wire:submit="delete" class="space-y-8 mx-auto max-w-lg">
-            <flux:heading size="xl" level="1">{{ __('Deleting application') }}: {{ $application->domain }}</flux:heading>
+        <x-applications.layout :application="$application">
+            <form wire:submit="delete" class="space-y-8 max-w-lg">
+                <flux:heading size="lg" level="2">{{ __('Delete application confirmation') }}</flux:heading>
 
-            <flux:separator />
+                <flux:separator />
 
-            <div class="flex justify-end gap-4">
-                <flux:button variant="ghost" href="/servers/{{ $application->server->id }}">{{ __('Cancel') }}</flux:button>
-                <flux:button variant="primary" type="submit">{{ __('Delete') }}</flux:button>
-            </div>
-        </form>
+                <div class="flex justify-end gap-4">
+                    <flux:button variant="ghost" href="/servers/{{ $application->server->id }}">{{ __('Cancel') }}</flux:button>
+                    <flux:button variant="primary" type="submit">{{ __('Delete') }}</flux:button>
+                </div>
+            </form>
+        </x-applications.layout>
     @endvolt
 </x-layouts.app>

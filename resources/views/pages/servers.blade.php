@@ -43,7 +43,7 @@ new class extends Component {
                     @foreach ($servers as $server)
                         <flux:table.row>
                             <flux:table.cell variant="strong">
-                                <flux:link href="/servers/{{ $server->id }}/applications">{{ $server->name }}</flux:link>
+                                <flux:link href="/servers/{{ $server->id }}">{{ $server->name }}</flux:link>
                             </flux:table.cell>
                             <flux:table.cell>{{ $server->public_address }}</flux:table.cell>
                             <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">{{ $server->status }}</flux:badge></flux:table.cell>
