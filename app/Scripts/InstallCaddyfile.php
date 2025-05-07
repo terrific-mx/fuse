@@ -29,6 +29,7 @@ class InstallCaddyfile extends Script
             'tlsSetting' => $this->application->tls,
             'address' => $this->application->domain,
             'port' => 443,
+            'webDirectory' => "{$this->application->path()}/current/public",
             'phpSocket' => $this->application->php_socket_path,
         ])->render();
 
@@ -37,6 +38,7 @@ class InstallCaddyfile extends Script
             'caddyfile' => $caddyfile,
             'caddyfilePath' => "{$this->application->path()}/Caddyfile",
             'tmpCaddyFilePath' => "{$this->application->path()}/Caddyfile.".Str::random(),
+            'webDirectory' => "{$this->application->path()}/current/public",
         ])->render();
     }
 }

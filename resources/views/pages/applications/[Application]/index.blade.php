@@ -1,16 +1,9 @@
 <?php
 
 use App\Models\Application;
-use Livewire\Volt\Component;
 
-new class extends Component {
-    public Application $application;
-}; ?>
+use function Laravel\Folio\render;
 
-<x-layouts.app>
-    @volt('pages.applications.index')
-        <x-applications.layout :application="$application">
-            <!-- // -->
-        </x-applications.layout>
-    @endvolt
-</x-layouts.app>
+render(function (Application $application) {
+    return redirect("/applications/{$application->id}/deployments");
+});

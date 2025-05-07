@@ -12,7 +12,7 @@
 @include('scripts.application._tls-snippet', ['tlsSetting' => $tlsSetting])
 
 {!! $address !!}:{!! $port !!} {
-    root * {!! $application->web_directory !!}
+    root * {!! $webDirectory !!}
     encode zstd gzip
 
     import tls-{!! $application->id !!}
