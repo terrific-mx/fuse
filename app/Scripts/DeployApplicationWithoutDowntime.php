@@ -59,7 +59,6 @@ class DeployApplicationWithoutDowntime extends Script
 
         return view('scripts.application.deploy-without-downtime', [
             'application' => $this->application,
-            'phpPath' => '/usr/bin/php8.3',
             'repositoryDirectory' => "{$this->application->path()}/repository",
             'sharedDirectory' => "{$this->application->path()}/shared",
             'releasesDirectory' => "{$this->application->path()}/releases",

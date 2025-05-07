@@ -57,4 +57,16 @@ class Application extends Model
             },
         );
     }
+
+    protected function phpBinaryPath(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => match ($this->php_version) {
+                'PHP 8.3' => '/usr/bin/php8.3',
+                'PHP 8.2' => '/usr/bin/php8.2',
+                'PHP 8.1' => '/usr/bin/php8.1',
+                default => throw new InvalidArgumentException('Unsupported PHP version: ' . $this->php_version),
+            },
+        );
+    }
 }
