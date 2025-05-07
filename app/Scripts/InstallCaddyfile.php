@@ -23,8 +23,6 @@ class InstallCaddyfile extends Script
 
     public function script()
     {
-        $path = $this->application->path();
-
         $caddyfile = view('scripts.application._caddyfile', [
             'application' => $this->application,
             'domainStartsWithWww' => Str::of($this->application->domain)->startsWith('www.'),
@@ -37,8 +35,8 @@ class InstallCaddyfile extends Script
         return view('scripts.application.install-caddyfile', [
             'application' => $this->application,
             'caddyfile' => $caddyfile,
-            'caddyfilePath' => "{$path}/Caddyfile",
-            'tmpCaddyFilePath' => "{$path}/Caddyfile.".Str::random(),
+            'caddyfilePath' => "{$this->application->path()}/Caddyfile",
+            'tmpCaddyFilePath' => "{$this->application->path()}/Caddyfile.".Str::random(),
         ])->render();
     }
 }
