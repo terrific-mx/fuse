@@ -26,7 +26,7 @@ class Application extends Model
         return $this->belongsTo(Server::class);
     }
 
-    public function user()
+    public function user(): User
     {
         return $this->server->user;
     }

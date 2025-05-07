@@ -9,6 +9,7 @@
         <div class="me-10 w-full pb-4 md:w-[220px] md:-my-1">
             <flux:navlist>
                 <flux:navlist.item href="/applications/{{ $application->id }}/deployments" wire:navigate>{{ __('Deployments') }}</flux:navlist.item>
+                <flux:navlist.item href="/applications/{{ $application->id }}/settings" wire:navigate>{{ __('Settings') }}</flux:navlist.item>
                 <flux:navlist.item href="/applications/{{ $application->id }}/delete" wire:navigate>{{ __('Delete') }}</flux:navlist.item>
             </flux:navlist>
         </div>
