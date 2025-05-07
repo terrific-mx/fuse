@@ -32,7 +32,6 @@ class InstallCaddyfile extends Script
             'address' => $this->application->domain,
             'port' => 443,
             'path' => $path,
-            'webDirectory' => $this->application->web_directory,
             'phpSocket' => '/run/php/php8.3-fpm.sock',
         ])->render();
 
@@ -41,7 +40,6 @@ class InstallCaddyfile extends Script
             'caddyfile' => $caddyfile,
             'caddyfilePath' => "{$path}/Caddyfile",
             'tmpCaddyFilePath' => "{$path}/Caddyfile.".Str::random(),
-            'webDirectory' => $this->application->web_directory,
         ])->render();
     }
 }
