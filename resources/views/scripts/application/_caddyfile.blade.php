@@ -45,7 +45,7 @@
 	file_server
 
     log {
-        output file {!! $path !!}/logs/caddy.log {
+        output file {!! $application->path() !!}/logs/caddy.log {
             roll_size 100mb
             roll_keep 30
             roll_keep_for 720h

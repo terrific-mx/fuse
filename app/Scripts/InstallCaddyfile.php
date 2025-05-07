@@ -31,7 +31,6 @@ class InstallCaddyfile extends Script
             'tlsSetting' => $this->application->tls,
             'address' => $this->application->domain,
             'port' => 443,
-            'path' => $path,
             'phpSocket' => '/run/php/php8.3-fpm.sock',
         ])->render();
 
