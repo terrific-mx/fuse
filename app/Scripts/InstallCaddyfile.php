@@ -29,7 +29,7 @@ class InstallCaddyfile extends Script
             'tlsSetting' => $this->application->tls,
             'address' => $this->application->domain,
             'port' => 443,
-            'phpSocket' => $this->application->php_socket,
+            'phpSocket' => $this->application->php_socket_path,
         ])->render();
 
         return view('scripts.application.install-caddyfile', [

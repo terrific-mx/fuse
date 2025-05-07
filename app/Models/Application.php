@@ -46,7 +46,7 @@ class Application extends Model
         return "/home/{$this->server->username}/{$this->domain}";
     }
 
-    protected function phpSocket(): Attribute
+    protected function phpSocketPath(): Attribute
     {
         return Attribute::make(
             get: fn () => match ($this->php_version) {
