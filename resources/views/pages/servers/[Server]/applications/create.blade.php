@@ -28,6 +28,9 @@ new class extends Component {
     #[Validate('required|max:255')]
     public string $web_directory = '/public';
 
+    #[Validate('required|in:PHP 8.3,PHP 8.2,PHP 8.1')]
+    public string $php_version = 'PHP 8.3';
+
     protected function rules()
     {
         /** @var \App\Models\User $user */
@@ -79,6 +82,7 @@ new class extends Component {
             'status' => 'creating',
             'type' => 'laravel',
             'web_directory' => $this->web_directory,
+            'php_version' => $this->php_version,
 
             'shared_directories' => ['storage'],
             'shared_files' => ['.env', 'database/database.sqlite'],
@@ -137,6 +141,13 @@ $PHP_BINARY artisan migrate --force
                 <flux:input wire:model="branch" name="branch" label="{{ __('Branch') }}" placeholder="main" required />
 
                 <flux:input wire:model="web_directory" name="web_directory" label="{{ __('Web Directory') }}" placeholder="/public" required />
+
+                <flux:select wire:model="php_version" name="php_version" label="{{ __('PHP Version') }}" required>
+                    <flux:select.option value=""></flux:select.option>
+                    <flux:select.option value="PHP 8.3">PHP 8.3</flux:select.option>
+                    <flux:select.option value="PHP 8.2">PHP 8.2</flux:select.option>
+                    <flux:select.option value="PHP 8.1">PHP 8.1</flux:select.option>
+                </flux:select>
 
                 <flux:separator variant="subtle" />
 

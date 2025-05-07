@@ -25,6 +25,7 @@ class ApplicationFactory extends Factory
             'repository' => 'example/valid-repository',
             'branch' => 'valid-branch',
             'web_directory' => 'public',
+            'php_version' => 'PHP 8.3',
             'status' => 'installed',
             'tls' => 'auto',
             'type' => 'laravel',

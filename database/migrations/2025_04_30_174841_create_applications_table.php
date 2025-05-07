@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('tls');
             $table->string('type');
             $table->string('web_directory');
+            $table->string('php_version');
             $table->json('shared_directories');
             $table->json('writeable_directories');
             $table->json('shared_files');
