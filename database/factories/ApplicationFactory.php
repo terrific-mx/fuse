@@ -24,6 +24,7 @@ class ApplicationFactory extends Factory
             'domain' => 'example.com',
             'repository' => 'example/valid-repository',
             'branch' => 'valid-branch',
+            'web_directory' => 'public',
             'status' => 'installed',
             'tls' => 'auto',
             'type' => 'laravel',

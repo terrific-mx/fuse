@@ -25,6 +25,9 @@ new class extends Component {
     #[Validate]
     public string $branch = '';
 
+    #[Validate('required|max:255')]
+    public string $web_directory = '/public';
+
     protected function rules()
     {
         /** @var \App\Models\User $user */
@@ -75,6 +78,7 @@ new class extends Component {
             'tls' => 'auto',
             'status' => 'creating',
             'type' => 'laravel',
+            'web_directory' => $this->web_directory,
 
             'shared_directories' => ['storage'],
             'shared_files' => ['.env', 'database/database.sqlite'],
@@ -131,6 +135,8 @@ $PHP_BINARY artisan migrate --force
                 <flux:input wire:model="repository" name="repository" label="{{ __('Repository') }}" placeholder="terrific-mx/fuse" required />
 
                 <flux:input wire:model="branch" name="branch" label="{{ __('Branch') }}" placeholder="main" required />
+
+                <flux:input wire:model="web_directory" name="web_directory" label="{{ __('Web Directory') }}" placeholder="/public" required />
 
                 <flux:separator variant="subtle" />
 

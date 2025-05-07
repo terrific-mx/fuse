@@ -11,7 +11,7 @@ use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
-it('can create an application with valid domain, source provider, repository, and branch', function () {
+it('can create an application with valid fields', function () {
     Process::fake();
 
     $user = User::factory()->create();
@@ -23,6 +23,7 @@ it('can create an application with valid domain, source provider, repository, an
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
+        ->set('web_directory', '/public')
         ->call('create');
 
     expect($server->applications)->toHaveCount(1);
@@ -37,6 +38,7 @@ it('requires all required fields to be filled out', function () {
         ->set('source_provider_id', '')
         ->set('repository', '')
         ->set('branch', '')
+        ->set('web_directory', '')
         ->call('create')
         ->assertHasErrors(['domain', 'repository', 'branch', 'source_provider_id']);
 });
@@ -89,6 +91,7 @@ it('creates a task to install the Caddyfile on the server after application crea
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
+        ->set('web_directory', '/public')
         ->call('create');
 
     expect($server->tasks->first())->name->toBe('Installing Caddyfile');
@@ -106,6 +109,7 @@ it('creates a task to update Caddy imports on the server after application creat
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
+        ->set('web_directory', '/public')
         ->call('create');
 
     expect($server->tasks->get(1))
@@ -125,6 +129,7 @@ it('marks the application as installed after successful creation', function () {
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
+        ->set('web_directory', '/public')
         ->call('create');
 
     $application = $server->applications->first();
@@ -142,6 +147,7 @@ it('dispatches a job to install the application on the server after successful c
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
+        ->set('web_directory', '/public')
         ->call('create');
 
     Queue::assertPushed(InstallApplication::class);
@@ -159,6 +165,7 @@ it('stores a new deployment after successful application installation', function
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
+        ->set('web_directory', '/public')
         ->call('create');
 
     expect($server->applications()->first()->deployments)->toHaveCount(1);
@@ -176,6 +183,7 @@ it('creates a task to run script to deploy the laravel application without downt
         ->set('source_provider_id', $sourceProvider->id)
         ->set('repository', 'example/valid-repository')
         ->set('branch', 'valid-branch')
+        ->set('web_directory', '/public')
         ->call('create');
 
     expect($server->tasks->last())

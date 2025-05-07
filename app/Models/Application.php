@@ -31,7 +31,7 @@ class Application extends Model
 
     public function deployments()
     {
-        return $this->hasMany(Deployment::class);
+        return $this->hasMany(Deployment::class)->latest();
     }
 
     public function sourceProvider()
