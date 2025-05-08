@@ -12,7 +12,7 @@ new class extends Component {
 
     public function mount()
     {
-        $this->deployments = $this->application->deployments()->get();
+        $this->fetchDeployments();
     }
 
     public function deploy()
@@ -26,10 +26,14 @@ new class extends Component {
             'then' => [new CheckDeployment($deployment->id)],
         ]);
 
-        $this->deployments = $this->application->deployments()->get();
+        $this->fetchDeployments();
+    }
+
+    protected function fetchDeployments()
+    {
+        $this->deployments = $this->application->deployments()->latest()->get();
     }
 }; ?>
-
 <x-layouts.app>
     @volt('pages.applications.deployments')
         <x-applications.layout :application="$application">
