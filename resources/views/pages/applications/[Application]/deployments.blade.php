@@ -1,6 +1,8 @@
 <?php
 
+use App\Callbacks\CheckDeployment;
 use App\Models\Application;
+use App\Scripts\DeployApplicationWithoutDowntime;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Volt\Component;
 
@@ -12,18 +14,34 @@ new class extends Component {
     {
         $this->deployments = $this->application->deployments()->get();
     }
+
+    public function deploy()
+    {
+        $deployment = $this->application->deployments()->create(['status' => 'pending']);
+
+        $this->application->server->runInBackground(new DeployApplicationWithoutDowntime(
+            $this->application,
+            $deployment,
+        ), [
+            'then' => [new CheckDeployment($deployment->id)],
+        ]);
+
+        $this->deployments = $this->application->deployments()->get();
+    }
 }; ?>
 
 <x-layouts.app>
-    @volt('pages.applications.index')
+    @volt('pages.applications.deployments')
         <x-applications.layout :application="$application">
             <section class="space-y-8">
                 <div class="flex items-end justify-between gap-4">
                     <flux:heading size="lg" level="2">{{ __('Deployments') }}</flux:heading>
 
-                    <flux:button variant="primary" class="-my-2">
-                        {{ __('Deploy') }}
-                    </flux:button>
+                    <form wire:submit="deploy">
+                        <flux:button type="submit" variant="primary" class="-my-2">
+                            {{ __('Deploy') }}
+                        </flux:button>
+                    </form>
                 </div>
 
                 <flux:separator />
