@@ -5,15 +5,17 @@ namespace App\Scripts;
 use App\Models\Application;
 use Illuminate\Support\Str;
 
-class InstallCaddyfile extends Script
+class UpdateCaddyfile extends Script
 {
     public $sshAs = 'fuse';
 
-    public function __construct(public Application $application) {}
+    public function __construct(public Application $application)
+    {
+    }
 
     public function name()
     {
-        return 'Installing Caddyfile';
+        return 'Updating Caddyfile';
     }
 
     public function timeout()
@@ -33,12 +35,12 @@ class InstallCaddyfile extends Script
             'phpSocket' => $this->application->php_socket_path,
         ])->render();
 
-        return view('scripts.application.install-caddyfile', [
+
+        return view('scripts.application.update-caddyfile', [
             'application' => $this->application,
             'caddyfile' => $caddyfile,
             'caddyfilePath' => "{$this->application->path()}/Caddyfile",
             'tmpCaddyFilePath' => "{$this->application->path()}/Caddyfile.".Str::random(),
-            'webDirectory' => "{$this->application->path()}/current/{$this->application->web_directory}",
         ])->render();
     }
 }

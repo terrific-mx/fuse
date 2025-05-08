@@ -2,11 +2,13 @@
 
 use App\Models\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Process;
 use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
 it('can update the application settings', function () {
+    Process::fake();
     $application = Application::factory()->create([
         'repository' => 'example/another-valid-repository',
         'branch' => 'another-valid-branch',
@@ -28,3 +30,22 @@ it('can update the application settings', function () {
         ->web_directory->toBe('public')
         ->php_version->toBe('PHP 8.3');
 });
+
+it('runs the script to update caddyfile with new settings', function () {
+    Process::fake();
+    $application = Application::factory()->create();
+    $user = $application->user();
+
+    Volt::actingAs($user)->test('pages.applications.settings', ['application' => $application])
+        ->call('save');
+
+    expect($application->server->tasks->last())->name->toBe('Updating Caddyfile');
+});
+
+it('creates a new application deployument', function () {
+
+})->todo();
+
+it('runs the script to deploy the application', function () {
+
+})->todo();

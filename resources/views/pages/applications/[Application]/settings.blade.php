@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Application;
+use App\Scripts\UpdateCaddyfile;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
@@ -59,6 +60,8 @@ new class extends Component {
             'web_directory' => $this->web_directory,
             'php_version' => $this->php_version,
         ]);
+
+        $this->application->server->run(new UpdateCaddyfile($this->application));
     }
 }; ?>
 
