@@ -1,4 +1,4 @@
-@foreach($sharedDirectories as $directory)
+@foreach($application->shared_directories as $directory)
     if [ ! -d "{!! $sharedDirectory !!}/{!! $directory !!}" ]; then
         # Create shared directory if it does not exist.
         mkdir -p {!! $sharedDirectory !!}/{!! $directory !!}

@@ -11,10 +11,10 @@ mkdir -p {!! $logsDirectory !!}
 # Cleanup old releases
 @include('scripts.application._cleanup-old-releases')
 
-@if($hookBeforeUpdatingRepository)
+@if($application->before_update_hook)
     echo "Running hook before updating repository"
     cd {!! $releaseDirectory !!}
-    {!! $hookBeforeUpdatingRepository !!}
+    {!! $application->before_update_hook !!}
 @endif
 
 @unless($latestFinishedDeployment)
@@ -24,10 +24,10 @@ mkdir -p {!! $logsDirectory !!}
 @if($application->repository)
     @include('scripts.application._update-repository')
 
-    @if($hookAfterUpdatingRepository)
+    @if($application->after_update_hook)
         echo "Running hook after updating repository"
         cd {!! $releaseDirectory !!}
-        {!! $hookAfterUpdatingRepository !!}
+        {!! $application->after_update_hook !!}
     @endif
 @endif
 
@@ -41,18 +41,18 @@ mkdir -p {!! $logsDirectory !!}
 
 @include('scripts.application._make-directories-writable')
 
-@if($hookBeforeMakingCurrent)
+@if($application->before_activate_hook)
     echo "Running hook before putting the site live"
     cd {!! $releaseDirectory !!}
-    {!! $hookBeforeMakingCurrent !!}
+    {!! $application->before_activate_hook !!}
 @endif
 
 @include('scripts.application._make-deployment-current')
 
-@if($hookAfterMakingCurrent)
+@if($application->after_activate_hook)
     echo "Running hook after putting the site live"
     cd {!! $releaseDirectory !!}
-    {!! $hookAfterMakingCurrent !!}
+    {!! $application->after_activate_hook !!}
 @endif
 
 @if($application->repository)

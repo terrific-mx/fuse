@@ -1,4 +1,4 @@
-@foreach($sharedFiles as $file)
+@foreach($application->shared_files as $file)
     # Create directories in shared and release directories if they don't exist
     mkdir -p {!! $releaseDirectory !!}/{!! dirname($file) !!}
     mkdir -p {!! $sharedDirectory !!}/{!! dirname($file) !!}

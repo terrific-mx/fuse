@@ -63,17 +63,10 @@ class DeployApplicationWithoutDowntime extends Script
             'releaseDirectory' => "{$this->application->path()}/releases/{$this->deployment->created_at->timestamp}",
             'logsDirectory' => "{$this->application->path()}/logs",
             'latestFinishedDeployment' => $latestFinishedDeployment,
-            'hookBeforeUpdatingRepository' => $this->application->before_update_hook,
             'repositoryUrl' => "git@github.com:{$this->application->repository}.git",
             'zeroDowntimeDeployment' => true,
             'deployKeyPrivate' => null,
-            'hookAfterUpdatingRepository' => $this->application->after_update_hook,
             'environmentVariables' => $environmentVariables,
-            'sharedDirectories' => $this->application->shared_directories,
-            'sharedFiles' => $this->application->shared_files,
-            'writeableDirectories' => $this->application->writeable_directories,
-            'hookBeforeMakingCurrent' => $this->application->before_activate_hook,
-            'hookAfterMakingCurrent' => $this->application->after_activate_hook,
             'currentDirectory' => "{$this->application->path()}/current",
         ])->render();
     }
