@@ -141,6 +141,8 @@ class Task extends Model
 
     protected function toSecureShellCommand(string $script)
     {
+        $this->loadMissing('server');
+
         return SecureShellCommand::forScript(
             $this->server->public_address,
             $this->server->port,
@@ -159,6 +161,8 @@ class Task extends Model
 
     protected function upload()
     {
+        $this->loadMissing('server');
+
         $secureShellCommand = SecureShellCommand::forUpload(
             $this->server->public_address,
             $this->server->port,

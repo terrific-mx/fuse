@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Server;
 use App\Models\Application;
+use App\Models\Server;
 use App\Scripts\UpdateCaddyImports;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

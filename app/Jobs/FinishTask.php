@@ -10,10 +10,7 @@ class FinishTask implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public Task $task, public int $exitCode)
-    {
-        //
-    }
+    public function __construct(public Task $task, public int $exitCode) {}
 
     public function handle(): void
     {

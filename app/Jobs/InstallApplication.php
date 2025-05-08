@@ -2,8 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Models\Server;
+use App\Callbacks\CheckDeployment;
 use App\Models\Application;
+use App\Models\Server;
 use App\Scripts\DeployApplicationWithoutDowntime;
 use App\Scripts\InstallCaddyfile;
 use App\Scripts\UpdateCaddyImports;
@@ -40,6 +41,8 @@ class InstallApplication implements ShouldQueue
         $this->server->runInBackground(new DeployApplicationWithoutDowntime(
             $this->application,
             $deployment,
-        ));
+        ), [
+            'then' => [new CheckDeployment($deployment->id)],
+        ]);
     }
 }

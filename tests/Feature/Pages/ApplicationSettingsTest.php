@@ -11,7 +11,7 @@ it('can update the settings', function () {
         'repository' => 'example/another-valid-repository',
         'branch' => 'another-valid-branch',
         'web_directory' => 'public_html',
-        'php_version' => 'PHP 8.2'
+        'php_version' => 'PHP 8.2',
     ]);
     $user = $application->user();
 

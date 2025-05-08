@@ -11,9 +11,7 @@ class DeployApplicationWithoutDowntime extends Script
 {
     public $sshAs = 'fuse';
 
-    public function __construct(public Application $application, public Deployment $deployment)
-    {
-    }
+    public function __construct(public Application $application, public Deployment $deployment) {}
 
     public function name()
     {

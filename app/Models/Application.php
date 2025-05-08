@@ -53,7 +53,7 @@ class Application extends Model
                 'PHP 8.3' => '/run/php/php8.3-fpm.sock',
                 'PHP 8.2' => '/run/php/php8.2-fpm.sock',
                 'PHP 8.1' => '/run/php/php8.1-fpm.sock',
-                default => throw new InvalidArgumentException('Unsupported PHP version: ' . $this->php_version),
+                default => throw new InvalidArgumentException('Unsupported PHP version: '.$this->php_version),
             },
         );
     }
@@ -65,7 +65,7 @@ class Application extends Model
                 'PHP 8.3' => '/usr/bin/php8.3',
                 'PHP 8.2' => '/usr/bin/php8.2',
                 'PHP 8.1' => '/usr/bin/php8.1',
-                default => throw new InvalidArgumentException('Unsupported PHP version: ' . $this->php_version),
+                default => throw new InvalidArgumentException('Unsupported PHP version: '.$this->php_version),
             },
         );
     }

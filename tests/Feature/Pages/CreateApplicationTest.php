@@ -3,6 +3,7 @@
 use App\Jobs\InstallApplication;
 use App\Models\Server;
 use App\Models\SourceProvider;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Process;
@@ -189,4 +190,52 @@ it('creates a task to run script to deploy the laravel application without downt
     expect($server->tasks->last())
         ->name->toBe('Deploying application without downtime')
         ->user->toBe('fuse');
+});
+
+it('marks the deployment as finished after successful task deployment', function () {
+    Process::fake();
+    $user = User::factory()->create();
+    $server = Server::factory()->for($user)->create();
+    $sourceProvider = SourceProvider::factory()->for($user)->create();
+
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
+        ->set('domain', 'example.com')
+        ->set('source_provider_id', $sourceProvider->id)
+        ->set('repository', 'example/valid-repository')
+        ->set('branch', 'valid-branch')
+        ->set('web_directory', '/public')
+        ->call('create');
+
+    tap($server->tasks->last(), function (Task $task) {
+        expect($task)->name->toBe('Deploying application without downtime');
+
+        $task->finish(exitCode: 0);
+    });
+
+    expect($server->applications()->first()->deployments->last())
+        ->status->toBe('finished');
+});
+
+it('marks the deployment as failed on failed task deployment', function () {
+    Process::fake();
+    $user = User::factory()->create();
+    $server = Server::factory()->for($user)->create();
+    $sourceProvider = SourceProvider::factory()->for($user)->create();
+
+    Volt::actingAs($user)->test('pages.servers.applications.create', ['server' => $server])
+        ->set('domain', 'example.com')
+        ->set('source_provider_id', $sourceProvider->id)
+        ->set('repository', 'example/valid-repository')
+        ->set('branch', 'valid-branch')
+        ->set('web_directory', '/public')
+        ->call('create');
+
+    tap($server->tasks->last(), function (Task $task) {
+        expect($task)->name->toBe('Deploying application without downtime');
+
+        $task->finish(exitCode: 999);
+    });
+
+    expect($server->applications()->first()->deployments->last())
+        ->status->toBe('failed');
 });
