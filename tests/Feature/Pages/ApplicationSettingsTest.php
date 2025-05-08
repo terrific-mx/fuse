@@ -3,6 +3,7 @@
 use App\Models\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
@@ -41,6 +42,18 @@ it('runs the script to update caddyfile with new settings', function () {
 
     expect($application->server->tasks->last())->name->toBe('Updating Caddyfile');
 });
+
+it('dispatches a job to update the application caddyfile', function () {
+    Queue::fake();
+
+    $application = Application::factory()->create();
+    $user = $application->user();
+
+    Volt::actingAs($user)->test('pages.applications.settings', ['application' => $application])
+        ->call('save');
+
+    Queue::assertPushed(UpdateApplicationCaddyFile::class);
+})->todo();
 
 it('creates a new application deployument', function () {
 
