@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\UpdateApplicationCaddyFile;
 use App\Models\Application;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Process;
@@ -43,7 +44,7 @@ it('runs the script to update caddyfile with new settings', function () {
     expect($application->server->tasks->last())->name->toBe('Updating Caddyfile');
 });
 
-it('dispatches a job to update the application caddyfile', function () {
+it('dispatches a job to update the application caddyfile when the application settings are saved', function () {
     Queue::fake();
 
     $application = Application::factory()->create();
@@ -53,7 +54,7 @@ it('dispatches a job to update the application caddyfile', function () {
         ->call('save');
 
     Queue::assertPushed(UpdateApplicationCaddyFile::class);
-})->todo();
+});
 
 it('creates a new application deployument', function () {
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\UpdateApplicationCaddyFile;
 use App\Models\Application;
 use App\Scripts\UpdateCaddyfile;
 use Illuminate\Support\Facades\Auth;
@@ -61,7 +62,7 @@ new class extends Component {
             'php_version' => $this->php_version,
         ]);
 
-        $this->application->server->run(new UpdateCaddyfile($this->application));
+        UpdateApplicationCaddyFile::dispatch($this->application->server, $this->application);
     }
 }; ?>
 

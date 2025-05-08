@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Deployment extends Model
 {
@@ -13,5 +15,16 @@ class Deployment extends Model
     public function application()
     {
         return $this->belongsTo(Application::class);
+    }
+
+    public function markAsFinished()
+    {
+        $this->update(['status' => 'finished']);
+    }
+
+    #[Scope]
+    protected function pending(Builder $query): void
+    {
+        $query->where('status', 'pending');
     }
 }

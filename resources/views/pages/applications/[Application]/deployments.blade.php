@@ -17,6 +17,10 @@ new class extends Component {
 
     public function deploy()
     {
+        if ($this->application->deployments()->pending()->exists()) {
+            return;
+        }
+
         $deployment = $this->application->deployments()->create(['status' => 'pending']);
 
         $this->application->server->runInBackground(new DeployApplicationWithoutDowntime(

@@ -2,8 +2,6 @@
 
 use App\Jobs\InstallApplication;
 use App\Models\Server;
-use App\Scripts\InstallCaddyfile;
-use App\Scripts\UpdateCaddyImports;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;

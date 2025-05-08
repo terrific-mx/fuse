@@ -63,3 +63,13 @@ it('marks the deployment as failed on failed task deployment', function () {
     expect($application->deployments()->first())
         ->status->toBe('failed');
 });
+
+it('cannot create a new deployment if the application has a pending deployment', function() {
+    $application = Application::factory()->create();
+    $application->deployments()->create(['status' => 'pending']);
+
+    Volt::test('pages.applications.deployments', ['application' => $application])
+        ->call('deploy');
+
+    expect($application->deployments()->pending()->count())->toBe(1);
+});
