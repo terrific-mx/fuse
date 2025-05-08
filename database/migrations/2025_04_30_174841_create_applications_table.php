@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('web_directory');
             $table->string('php_version');
+            $table->integer('releases_retention')->default(10);
             $table->json('shared_directories');
             $table->json('writeable_directories');
             $table->json('shared_files');
@@ -31,6 +32,7 @@ return new class extends Migration
             $table->longText('hook_before_making_current')->nullable();
             $table->longText('hook_after_making_current')->nullable();
             $table->timestamps();
+
             $table->unique(['server_id', 'domain']);
         });
     }

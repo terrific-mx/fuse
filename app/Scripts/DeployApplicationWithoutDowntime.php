@@ -63,7 +63,6 @@ class DeployApplicationWithoutDowntime extends Script
             'releaseDirectory' => "{$this->application->path()}/releases/{$this->deployment->created_at->timestamp}",
             'logsDirectory' => "{$this->application->path()}/logs",
             'latestFinishedDeployment' => $latestFinishedDeployment,
-            'releasesRetention' => 10,
             'hookBeforeUpdatingRepository' => $this->application->hook_before_updating_repository,
             'repositoryUrl' => "git@github.com:{$this->application->repository}.git",
             'zeroDowntimeDeployment' => true,

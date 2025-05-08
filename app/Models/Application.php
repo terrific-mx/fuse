@@ -18,6 +18,7 @@ class Application extends Model
             'shared_directories' => 'array',
             'writeable_directories' => 'array',
             'shared_files' => 'array',
+            'releases_retention' => 'integer',
         ];
     }
 

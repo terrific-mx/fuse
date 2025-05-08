@@ -29,6 +29,7 @@ class ApplicationFactory extends Factory
             'status' => 'installed',
             'tls' => 'auto',
             'type' => 'laravel',
+            'releases_retention' => 10,
             'shared_directories' => [],
             'writeable_directories' => [],
             'shared_files' => [],
