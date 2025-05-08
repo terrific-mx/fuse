@@ -97,7 +97,7 @@ new class extends Component {
                 'storage/logs',
             ],
 
-            'hook_after_making_current' => trim('
+            'before_activate_hook' => trim('
 composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 npm install --prefer-offline --no-audit
 npm run build

@@ -27,10 +27,10 @@ return new class extends Migration
             $table->json('shared_directories');
             $table->json('writeable_directories');
             $table->json('shared_files');
-            $table->longText('hook_before_updating_repository')->nullable();
-            $table->longText('hook_after_updating_repository')->nullable();
-            $table->longText('hook_before_making_current')->nullable();
-            $table->longText('hook_after_making_current')->nullable();
+            $table->longText('before_update_hook')->nullable();
+            $table->longText('after_update_hook')->nullable();
+            $table->longText('before_activate_hook')->nullable();
+            $table->longText('after_activate_hook')->nullable();
             $table->timestamps();
 
             $table->unique(['server_id', 'domain']);
