@@ -4,7 +4,7 @@ DEPLOYMENT_KEEP="{{ $latestFinishedDeployment ? $latestFinishedDeployment->creat
 DEPLOYMENT_LIST=($(ls -1 {!! $releasesDirectory !!} | sort -n))
 
 # Determine how many deployments to delete
-NUM_TO_DELETE=$((${#DEPLOYMENT_LIST[@]} - {{ $application->releases_retention }}))
+NUM_TO_DELETE=$((${#DEPLOYMENT_LIST[@]} - {{ $application->releases_to_retain }}))
 
 # Loop through the deployments to delete
 for ((i=0; i<$NUM_TO_DELETE; i++)); do

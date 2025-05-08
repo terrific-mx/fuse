@@ -16,9 +16,9 @@ class Application extends Model
     {
         return [
             'shared_directories' => 'array',
-            'writeable_directories' => 'array',
+            'writable_directories' => 'array',
             'shared_files' => 'array',
-            'releases_retention' => 'integer',
+            'releases_to_retain' => 'integer',
         ];
     }
 

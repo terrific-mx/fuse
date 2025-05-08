@@ -1,4 +1,4 @@
-@foreach($application->writeable_directories as $directory)
+@foreach($application->writable_directories as $directory)
     DIRECTORY_IS_WRITEABLE=$(getfacl -p {!! $releaseDirectory !!}/{!! $directory !!} | grep "^user:{!! $application->server->username !!}:.*w" | wc -l)
 
     if [ $DIRECTORY_IS_WRITEABLE -eq 0 ]; then

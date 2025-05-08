@@ -85,7 +85,7 @@ new class extends Component {
             'shared_directories' => ['storage'],
             'shared_files' => ['.env', 'database/database.sqlite'],
 
-            'writeable_directories' => [
+            'writable_directories' => [
                 'bootstrap/cache',
                 'storage',
                 'storage/app',
