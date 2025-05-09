@@ -5,6 +5,41 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public Application $application;
+
+    public $releases_to_retain = 10;
+    public $shared_directories = '';
+    public $shared_files = '';
+    public $writable_directories = '';
+    public $before_update_hook = '';
+    public $after_update_hook = '';
+    public $before_activate_hook = '';
+    public $after_activate_hook = '';
+
+    public function mount()
+    {
+        $this->releases_to_retain = $this->application->releases_to_retain;
+        $this->shared_directories = collect($this->application->shared_directories)->implode(PHP_EOL);
+        $this->shared_files = collect($this->application->shared_files)->implode(PHP_EOL);
+        $this->writable_directories = collect($this->application->writable_directories)->implode(PHP_EOL);
+        $this->before_update_hook = $this->application->before_update_hook;
+        $this->after_update_hook = $this->application->after_update_hook;
+        $this->before_activate_hook = $this->application->before_activate_hook;
+        $this->after_activate_hook = $this->application->after_activate_hook;
+    }
+
+    public function save()
+    {
+        $this->application->update([
+            'releases_to_retain' => $this->releases_to_retain,
+            'shared_directories' => explode(PHP_EOL, $this->shared_directories),
+            'shared_files' => explode(PHP_EOL, $this->shared_files),
+            'writable_directories' => explode(PHP_EOL, $this->writable_directories),
+            'before_update_hook' => $this->before_update_hook,
+            'after_update_hook' => $this->after_update_hook,
+            'before_activate_hook' => $this->before_activate_hook,
+            'after_activate_hook' => $this->after_activate_hook,
+        ]);
+    }
 }; ?>
 
 <x-layouts.app>
