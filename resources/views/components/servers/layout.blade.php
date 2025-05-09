@@ -1,7 +1,10 @@
 @props(['server'])
 
 <section class="space-y-8">
-    <flux:heading size="xl" level="1">{{ __('Server') }} {{ $server->name }}</flux:heading>
+    <div>
+        <flux:heading size="xl" level="1">{{ __('Server') }} {{ $server->name }}</flux:heading>
+        <flux:text class="mt-2">{{ $server->public_address }}</flux:text>
+    </div>
 
     <flux:separator />
 

@@ -6,5 +6,6 @@ All notable changes to Fuse will be documented in this file.
 
 ### Added
 
-- Added `/applications` page
-- Added Changelog.md
+- `/applications` page
+- `Changelog.md`
+- Public IP address on server details page
