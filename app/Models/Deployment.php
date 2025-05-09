@@ -17,11 +17,6 @@ class Deployment extends Model
         return $this->belongsTo(Application::class);
     }
 
-    public function markAsFinished()
-    {
-        $this->update(['status' => 'finished']);
-    }
-
     #[Scope]
     protected function pending(Builder $query): void
     {
