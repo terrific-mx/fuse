@@ -31,3 +31,43 @@ it('can update the deployment settings', function () {
         ->before_activate_hook->toBe('echo "before activate hook"')
         ->after_activate_hook->toBe('echo "after activate hook"');
 });
+
+it('validates releases_to_retain is required', function () {
+    $application = Application::factory()->create();
+    $user = $application->user();
+
+    Volt::actingAs($user)->test('pages.applications.deployment-settings', ['application' => $application])
+        ->set('releases_to_retain', '')
+        ->call('save')
+        ->assertHasErrors(['releases_to_retain' => 'required']);
+});
+
+it('validates releases_to_retain is an integer', function () {
+    $application = Application::factory()->create();
+    $user = $application->user();
+
+    Volt::actingAs($user)->test('pages.applications.deployment-settings', ['application' => $application])
+        ->set('releases_to_retain', 'not an integer')
+        ->call('save')
+        ->assertHasErrors(['releases_to_retain' => 'integer']);
+});
+
+it('validates releases_to_retain is at least 1', function () {
+    $application = Application::factory()->create();
+    $user = $application->user();
+
+    Volt::actingAs($user)->test('pages.applications.deployment-settings', ['application' => $application])
+        ->set('releases_to_retain', 0)
+        ->call('save')
+        ->assertHasErrors(['releases_to_retain' => 'min']);
+});
+
+it('validates releases_to_retain is at most 50', function () {
+    $application = Application::factory()->create();
+    $user = $application->user();
+
+    Volt::actingAs($user)->test('pages.applications.deployment-settings', ['application' => $application])
+        ->set('releases_to_retain', 51)
+        ->call('save')
+        ->assertHasErrors(['releases_to_retain' => 'max']);
+});
