@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to Fuse will be documented in this file.
 
 ## 2025-05-08
 
