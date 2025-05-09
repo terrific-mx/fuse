@@ -15,9 +15,7 @@ class UpdateApplicationCaddyFile implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public Server $server, public Application $application)
-    {
-    }
+    public function __construct(public Server $server, public Application $application) {}
 
     /**
      * Execute the job.

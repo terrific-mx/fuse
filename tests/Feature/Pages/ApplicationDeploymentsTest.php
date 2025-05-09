@@ -64,7 +64,7 @@ it('marks the deployment as failed on failed task deployment', function () {
         ->status->toBe('failed');
 });
 
-it('cannot create a new deployment if the application has a pending deployment', function() {
+it('cannot create a new deployment if the application has a pending deployment', function () {
     $application = Application::factory()->create();
     $application->deployments()->create(['status' => 'pending']);
 

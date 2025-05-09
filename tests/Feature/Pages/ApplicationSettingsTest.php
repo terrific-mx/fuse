@@ -56,10 +56,6 @@ it('dispatches a job to update the application caddyfile when the application se
     Queue::assertPushed(UpdateApplicationCaddyFile::class);
 });
 
-it('creates a new application deployument', function () {
+it('creates a new application deployument', function () {})->todo();
 
-})->todo();
-
-it('runs the script to deploy the application', function () {
-
-})->todo();
+it('runs the script to deploy the application', function () {})->todo();

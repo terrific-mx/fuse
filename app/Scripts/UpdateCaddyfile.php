@@ -9,9 +9,7 @@ class UpdateCaddyfile extends Script
 {
     public $sshAs = 'fuse';
 
-    public function __construct(public Application $application)
-    {
-    }
+    public function __construct(public Application $application) {}
 
     public function name()
     {
@@ -34,7 +32,6 @@ class UpdateCaddyfile extends Script
             'webDirectory' => "{$this->application->path()}/current/{$this->application->web_directory}",
             'phpSocket' => $this->application->php_socket_path,
         ])->render();
-
 
         return view('scripts.application.update-caddyfile', [
             'application' => $this->application,
