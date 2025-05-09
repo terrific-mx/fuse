@@ -13,6 +13,7 @@
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
                     <flux:navlist.item href="/servers" wire:navigate>{{ __('Servers') }}</flux:navlist.item>
+                    <flux:navlist.item href="/applications" wire:navigate>{{ __('Applications') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
