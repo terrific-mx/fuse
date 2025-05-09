@@ -1,18 +1,34 @@
 <?php
 
 use App\Models\Application;
+use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 new class extends Component {
     public Application $application;
 
+    #[Validate('required|integer|min:1|max:50')]
     public $releases_to_retain = 10;
+
+    #[Validate('nullable|string')]
     public $shared_directories = '';
+
+    #[Validate('nullable|string')]
     public $shared_files = '';
+
+    #[Validate('nullable|string')]
     public $writable_directories = '';
+
+    #[Validate('nullable|string')]
     public $before_update_hook = '';
+
+    #[Validate('nullable|string')]
     public $after_update_hook = '';
+
+    #[Validate('nullable|string')]
     public $before_activate_hook = '';
+
+    #[Validate('nullable|string')]
     public $after_activate_hook = '';
 
     public function mount()
@@ -29,6 +45,8 @@ new class extends Component {
 
     public function save()
     {
+        $this->validate();
+
         $this->application->update([
             'releases_to_retain' => $this->releases_to_retain,
             'shared_directories' => explode(PHP_EOL, $this->shared_directories),
