@@ -64,7 +64,7 @@ new class extends Component {
                         @foreach ($deployments as $deployment)
                             <flux:table.row>
                                 <flux:table.cell variant="strong">
-                                    <flux:link href="#">{{ $deployment->created_at }}</flux:link>
+                                    {{ $deployment->created_at }}
                                 </flux:table.cell>
                                 <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">{{ $deployment->status }}</flux:badge></flux:table.cell>
                             </flux:table.row>
