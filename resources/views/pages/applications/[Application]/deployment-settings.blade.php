@@ -78,7 +78,7 @@ new class extends Component {
                 <flux:textarea type="text" wire:model="after_activate_hook" :label="__('Hook for After Activating New Release')" rows="auto" />
 
                 <div class="flex justify-end gap-4">
-                    <flux:button variant="primary" type="submit">{{ __('Save settings') }}</flux:button>
+                    <flux:button variant="primary" type="submit">{{ __('Save changes') }}</flux:button>
                 </div>
             </form>
         </x-applications.layout>

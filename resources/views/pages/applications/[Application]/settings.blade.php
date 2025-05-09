@@ -90,7 +90,7 @@ new class extends Component {
                 <flux:separator variant="subtle" />
 
                 <div class="flex justify-end gap-4">
-                    <flux:button variant="primary" type="submit">{{ __('Save settings') }}</flux:button>
+                    <flux:button variant="primary" type="submit">{{ __('Save changes') }}</flux:button>
                 </div>
             </form>
         </x-applications.layout>
