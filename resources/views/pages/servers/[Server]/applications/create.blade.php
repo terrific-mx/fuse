@@ -83,7 +83,7 @@ new class extends Component {
             'php_version' => $this->php_version,
 
             'shared_directories' => ['storage'],
-            'shared_files' => ['.env', 'database/database.sqlite'],
+            'shared_files' => ['.env'],
 
             'writable_directories' => [
                 'bootstrap/cache',
@@ -106,7 +106,7 @@ $PHP_BINARY artisan config:cache
 $PHP_BINARY artisan route:cache
 $PHP_BINARY artisan view:cache
 $PHP_BINARY artisan event:cache
-$PHP_BINARY artisan migrate --force
+# $PHP_BINARY artisan migrate --force
 '),
         ]);
 
