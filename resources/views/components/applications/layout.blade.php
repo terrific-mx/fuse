@@ -2,6 +2,10 @@
 
 <section class="space-y-8">
     <flux:heading size="xl" level="1">{{ __('Application') }} {{ $application->domain }}</flux:heading>
+    <flux:subheading>
+        {{ __('Server') }}:
+        <flux:link href="/servers/{{ $application->server->id }}" wire:navigate>{{ $application->server->name }}</flux:link>
+    </flux:subheading>
 
     <flux:separator />
 

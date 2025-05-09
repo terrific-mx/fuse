@@ -1,6 +1,7 @@
 <?php
 
 use App\Callbacks\CheckDeployment;
+use App\Jobs\DeployApplication;
 use App\Models\Application;
 use App\Scripts\DeployApplicationWithoutDowntime;
 use Illuminate\Database\Eloquent\Collection;
@@ -23,12 +24,7 @@ new class extends Component {
 
         $deployment = $this->application->deployments()->create(['status' => 'pending']);
 
-        $this->application->server->runInBackground(new DeployApplicationWithoutDowntime(
-            $this->application,
-            $deployment,
-        ), [
-            'then' => [new CheckDeployment($deployment->id)],
-        ]);
+        DeployApplication::dispatch($this->application->server, $this->application, $deployment);
 
         $this->fetchDeployments();
     }

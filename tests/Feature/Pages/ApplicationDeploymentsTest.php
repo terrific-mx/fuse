@@ -1,9 +1,11 @@
 <?php
 
+use App\Jobs\DeployApplication;
 use App\Models\Application;
 use App\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
@@ -72,4 +74,14 @@ it('cannot create a new deployment if the application has a pending deployment',
         ->call('deploy');
 
     expect($application->deployments()->pending()->count())->toBe(1);
+});
+
+it('dispatches a deployment event', function () {
+    Queue::fake();
+    $application = Application::factory()->create();
+
+    Volt::test('pages.applications.deployments', ['application' => $application])
+        ->call('deploy');
+
+    Queue::assertPushed(DeployApplication::class);
 });
