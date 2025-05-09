@@ -1,9 +1,7 @@
 <?php
 
-use App\Callbacks\CheckDeployment;
 use App\Jobs\DeployApplication;
 use App\Models\Application;
-use App\Scripts\DeployApplicationWithoutDowntime;
 use Illuminate\Database\Eloquent\Collection;
 use Livewire\Volt\Component;
 
@@ -50,7 +48,7 @@ new class extends Component {
 
                 <flux:separator />
 
-                <flux:table class="max-w-lg">
+                <flux:table class="max-w-lg" wire:poll>
                     <flux:table.columns>
                         <flux:table.column>{{ __('Domain') }}</flux:table.column>
                         <flux:table.column>{{ __('Status') }}</flux:table.column>
@@ -62,7 +60,14 @@ new class extends Component {
                                 <flux:table.cell variant="strong">
                                     {{ $deployment->created_at }}
                                 </flux:table.cell>
-                                <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">{{ $deployment->status }}</flux:badge></flux:table.cell>
+                                <flux:table.cell>
+                                    <flux:badge
+                                        :icon="$deployment->status === 'pending' ? 'loading' : ''"
+                                        :color="$deployment->status === 'finished' ? 'green' : 'amber'"
+                                        size="sm"
+                                        inset="top bottom"
+                                    >{{ $deployment->status }}</flux:badge>
+                                </flux:table.cell>
                             </flux:table.row>
                         @endforeach
                     </flux:table.rows>
