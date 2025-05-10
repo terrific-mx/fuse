@@ -7,7 +7,7 @@ use App\Models\Deployment;
 use Illuminate\Encryption\Encrypter;
 use Illuminate\Support\Str;
 
-class DeployApplicationWithoutDowntime extends Script
+class DeployApplication extends Script
 {
     public $sshAs = 'fuse';
 
@@ -15,7 +15,7 @@ class DeployApplicationWithoutDowntime extends Script
 
     public function name()
     {
-        return 'Deploying application without downtime';
+        return 'Deploying application';
     }
 
     public function timeout()

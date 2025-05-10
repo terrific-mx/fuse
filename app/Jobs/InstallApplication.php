@@ -5,7 +5,7 @@ namespace App\Jobs;
 use App\Callbacks\CheckDeployment;
 use App\Models\Application;
 use App\Models\Server;
-use App\Scripts\DeployApplicationWithoutDowntime;
+use App\Scripts\DeployApplication;
 use App\Scripts\InstallCaddyfile;
 use App\Scripts\UpdateCaddyImports;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -38,7 +38,7 @@ class InstallApplication implements ShouldQueue
 
         $deployment = $this->application->deployments()->create(['status' => 'pending']);
 
-        $this->server->runInBackground(new DeployApplicationWithoutDowntime(
+        $this->server->runInBackground(new DeployApplication(
             $this->application,
             $deployment,
         ), [

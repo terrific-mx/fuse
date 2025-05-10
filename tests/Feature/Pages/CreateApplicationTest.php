@@ -188,7 +188,7 @@ it('creates a task to run script to deploy the laravel application without downt
         ->call('create');
 
     expect($server->tasks->last())
-        ->name->toBe('Deploying application without downtime')
+        ->name->toBe('Deploying application')
         ->user->toBe('fuse');
 });
 
@@ -207,7 +207,7 @@ it('marks the deployment as finished after successful task deployment', function
         ->call('create');
 
     tap($server->tasks->last(), function (Task $task) {
-        expect($task)->name->toBe('Deploying application without downtime');
+        expect($task)->name->toBe('Deploying application');
 
         $task->finish(exitCode: 0);
     });
@@ -231,7 +231,7 @@ it('marks the deployment as failed on failed task deployment', function () {
         ->call('create');
 
     tap($server->tasks->last(), function (Task $task) {
-        expect($task)->name->toBe('Deploying application without downtime');
+        expect($task)->name->toBe('Deploying application');
 
         $task->finish(exitCode: 999);
     });

@@ -28,7 +28,7 @@ it('runs the deployment script', function () {
         ->call('deploy');
 
     expect($application->server->tasks()->first())
-        ->name->toBe('Deploying application without downtime')
+        ->name->toBe('Deploying application')
         ->user->toBe('fuse');
 });
 
@@ -40,7 +40,7 @@ it('marks the deployment as finished on succesful task deployment', function () 
         ->call('deploy');
 
     tap($application->server->tasks->last(), function (Task $task) {
-        expect($task)->name->toBe('Deploying application without downtime');
+        expect($task)->name->toBe('Deploying application');
 
         $task->finish(exitCode: 0);
     });
@@ -57,7 +57,7 @@ it('marks the deployment as failed on failed task deployment', function () {
         ->call('deploy');
 
     tap($application->server->tasks->last(), function (Task $task) {
-        expect($task)->name->toBe('Deploying application without downtime');
+        expect($task)->name->toBe('Deploying application');
 
         $task->finish(exitCode: 999);
     });

@@ -6,7 +6,7 @@ use App\Callbacks\CheckDeployment;
 use App\Models\Application;
 use App\Models\Deployment;
 use App\Models\Server;
-use App\Scripts\DeployApplicationWithoutDowntime;
+use App\Scripts\DeployApplication as DeployApplicationScript;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -26,7 +26,7 @@ class DeployApplication implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->server->runInBackground(new DeployApplicationWithoutDowntime(
+        $this->server->runInBackground(new DeployApplicationScript(
             $this->application,
             $this->deployment,
         ), [
