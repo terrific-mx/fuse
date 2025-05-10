@@ -2,14 +2,16 @@
 
 use App\Models\Application;
 use App\Scripts\FetchEnvFile;
+use Livewire\Attributes\Lazy;
 use Livewire\Volt\Component;
 
 new class extends Component {
     public Application $application;
 
-    public $environmentFile = 'Loading...';
+    public $environmentFile = '';
+    public $environmentFileLoaded = false;
 
-    public function mount()
+    public function getEnvironmentFile()
     {
         /** @var \App\Models\Server */
         $server = $this->application->server;
@@ -18,6 +20,8 @@ new class extends Component {
         $task = $server->run(new FetchEnvFile($this->application));
 
         $this->environmentFile = $task->output;
+
+        $this->environmentFileLoaded = true;
     }
 }; ?>
 
@@ -29,7 +33,11 @@ new class extends Component {
 
                 <flux:separator />
 
-                <flux:textarea wire:model="environmentFile" :label="__('Environment File')" rows="auto" class="min-h-[424px]" />
+                @if ($environmentFileLoaded)
+                    <flux:textarea wire:model="environmentFile" :label="__('Environment File')" rows="auto" class="font-mono min-h-[424px]" />
+                @else
+                    <flux:input x-init="$wire.getEnvironmentFile()" :label="__('Environment File')" icon:trailing="loading" />
+                @endif
 
                 <div class="flex justify-end gap-4">
                     <flux:button type="submit" variant="primary">{{ __('Save file') }}</flux:button>
