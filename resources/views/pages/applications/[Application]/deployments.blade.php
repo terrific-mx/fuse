@@ -50,14 +50,14 @@ new class extends Component {
 
                 <flux:table class="max-w-lg" wire:poll>
                     <flux:table.columns>
-                        <flux:table.column>{{ __('Domain') }}</flux:table.column>
+                        <flux:table.column>{{ __('Deployment') }}</flux:table.column>
                         <flux:table.column>{{ __('Status') }}</flux:table.column>
                     </flux:table.columns>
 
                     <flux:table.rows>
                         @foreach ($deployments as $deployment)
                             <flux:table.row>
-                                <flux:table.cell variant="strong">
+                                <flux:table.cell variant="strong" class="tabular-nums">
                                     {{ $deployment->created_at }}
                                 </flux:table.cell>
                                 <flux:table.cell>
