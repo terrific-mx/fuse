@@ -1,12 +1,24 @@
 <?php
 
 use App\Models\Application;
+use App\Scripts\FetchEnvFile;
 use Livewire\Volt\Component;
 
 new class extends Component {
     public Application $application;
 
     public $environmentFile = 'Loading...';
+
+    public function mount()
+    {
+        /** @var \App\Models\Server */
+        $server = $this->application->server;
+
+        /** @var \App\Models\Task */
+        $task = $server->run(new FetchEnvFile($this->application));
+
+        $this->environmentFile = $task->output;
+    }
 }; ?>
 
 <x-layouts.app>
