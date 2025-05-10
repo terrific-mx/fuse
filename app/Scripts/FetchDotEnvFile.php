@@ -4,13 +4,10 @@ namespace App\Scripts;
 
 use App\Models\Application;
 
-class FetchEnvFile extends Script
+class FetchDotEnvFile extends Script
 {
     public $sshAs = 'fuse';
 
-    /**
-     * Create a new class instance.
-     */
     public function __construct(public Application $application)
     {
     }
@@ -18,6 +15,11 @@ class FetchEnvFile extends Script
     public function name()
     {
         return 'Fetching .env File';
+    }
+
+    public function timeout()
+    {
+        return 30;
     }
 
     public function script()
