@@ -17,9 +17,7 @@ class DeployApplication implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public Server $server, public Application $application, public Deployment $deployment)
-    {
-    }
+    public function __construct(public Server $server, public Application $application, public Deployment $deployment) {}
 
     /**
      * Execute the job.

@@ -11,9 +11,7 @@ class SaveDotEnvFile extends Script
     /**
      * Create a new class instance.
      */
-    public function __construct(public Application $application, public string $content)
-    {
-    }
+    public function __construct(public Application $application, public string $content) {}
 
     public function name()
     {

@@ -8,9 +8,7 @@ class FetchDotEnvFile extends Script
 {
     public $sshAs = 'fuse';
 
-    public function __construct(public Application $application)
-    {
-    }
+    public function __construct(public Application $application) {}
 
     public function name()
     {
