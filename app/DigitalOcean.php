@@ -38,6 +38,44 @@ class DigitalOcean extends FakeServerProvider implements ServerProviderClient
         return $this->getIpAddress($server);
     }
 
+    public function regions(): array
+    {
+        $response = $this->request('get', '/regions');
+
+        if (!$response) {
+            return [];
+        }
+
+        $regions = $response['regions'] ?? [];
+
+        return collect($regions)
+            ->filter(function ($region) {
+                return $region['available'];
+            })
+            ->mapWithKeys(function ($region) {
+                return [$region['slug'] => $region['name']];
+            })->all();
+    }
+
+    public function sizes(string $region): array
+    {
+        $response = $this->request('get', '/sizes');
+
+        if (!$response) {
+            return [];
+        }
+
+        $sizes = $response['sizes'] ?? [];
+
+        return collect($sizes)
+            ->filter(function ($size) use ($region) {
+                return in_array($region, $size['regions']) && $size['available'];
+            })
+            ->mapWithKeys(function ($size) {
+                return [$size['slug'] => $size['slug']];
+            })->all();
+    }
+
     protected function keyId()
     {
         return tap($this->findKey()['id'] ?? $this->addKey(), function ($id) {

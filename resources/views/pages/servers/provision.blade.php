@@ -1,9 +1,7 @@
 <?php
 
-use App\Jobs\ProvisionServer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
@@ -81,6 +79,9 @@ new class extends Component {
 
     public function updatedServerProviderId($value)
     {
+        $this->reset('region', 'size');
+        $this->resetErrorBag();
+
         $provider = Auth::user()->serverProviders()->find($value);
 
         if ($provider) {
@@ -90,6 +91,9 @@ new class extends Component {
 
     public function updatedRegion($value)
     {
+        $this->reset('size');
+        $this->resetErrorBag();
+
         $provider = Auth::user()->serverProviders()->find($this->server_provider_id);
 
         if ($provider) {
