@@ -4,8 +4,13 @@ use App\Jobs\InstallApplication;
 use App\Models\Server;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
+
+use function Laravel\Folio\middleware;
+
+middleware(['auth', 'can:view,server', ValidateSessionWithWorkOS::class]);
 
 new class extends Component {
     public Server $server;
