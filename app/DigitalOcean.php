@@ -41,7 +41,7 @@ class DigitalOcean extends FakeServerProvider implements ServerProviderClient
     protected function keyId()
     {
         return tap($this->findKey()['id'] ?? $this->addKey(), function ($id) {
-            $this->serverProvider->user->update([
+            $this->serverProvider->update([
                 'provider_key_id' => $id,
             ]);
         });
@@ -49,7 +49,7 @@ class DigitalOcean extends FakeServerProvider implements ServerProviderClient
 
     protected function findKey()
     {
-        if ($id = $this->serverProvider->user->provider_key_id) {
+        if ($id = $this->serverProvider->provider_key_id) {
             return $this->request('get', '/account/keys/'.$id)['ssh_key'];
         }
 

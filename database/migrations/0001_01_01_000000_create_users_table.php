@@ -21,7 +21,6 @@ return new class extends Migration
             $table->text('avatar');
             $table->text('public_key');
             $table->text('private_key');
-            $table->string('provider_key_id')->nullable();
             $table->timestamps();
         });
 

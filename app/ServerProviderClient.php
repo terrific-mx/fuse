@@ -10,7 +10,7 @@ interface ServerProviderClient
 
     public function createServer(string $name, string $size, string $region): string;
 
-    public function sizes(): array;
+    public function sizes(string $region): array;
 
     public function regions(): array;
 

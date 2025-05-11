@@ -12,7 +12,7 @@ new class extends Component {
     #[Validate]
     public string $name = '';
 
-    #[Validate('required|in:DigitalOcean,FakeServerProvider')]
+    #[Validate('required|in:DigitalOcean,Hetzner Cloud,FakeServerProvider')]
     public string $type = '';
 
     #[Validate('required|string')]
@@ -65,7 +65,10 @@ new class extends Component {
             <flux:select wire:model="type" :label="__('Type')">
                 <flux:select.option value=""></flux:select.option>
                 <flux:select.option value="DigitalOcean">DigitalOcean</flux:select.option>
+                <flux:select.option value="Hetzner Cloud">Hetzner Cloud</flux:select.option>
             </flux:select>
+
+            <flux:input wire:model="token" :label="__('Token')" />
 
             <flux:separator variant="subtle" />
 

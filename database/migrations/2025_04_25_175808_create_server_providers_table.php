@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('type', 25);
             $table->text('token');
+            $table->string('provider_key_id')->nullable();
 
             $table->timestamps();
         });

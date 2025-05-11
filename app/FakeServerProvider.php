@@ -29,13 +29,13 @@ class FakeServerProvider implements ServerProviderClient
     protected function keyId()
     {
         return tap(Str::random(10), function ($id) {
-            $this->serverProvider->user->update([
+            $this->serverProvider->update([
                 'provider_key_id' => $id,
             ]);
         });
     }
 
-    public function sizes(): array
+    public function sizes(string $region): array
     {
         return [
             's-1vcpu-512mb-10gb' => ['cpu' => '1 Core', 'ram' => '512MB', 'ssd' => '10GB', 'price' => 4],

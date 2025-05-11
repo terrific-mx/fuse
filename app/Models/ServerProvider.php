@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\DigitalOcean;
 use App\FakeServerProvider;
+use App\HetznerCloud;
+use App\ServerProviderClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use InvalidArgumentException;
@@ -30,6 +32,7 @@ class ServerProvider extends Model
         return match ($this->type) {
             'DigitalOcean' => new DigitalOcean($this),
             'FakeServerProvider' => new FakeServerProvider($this),
+            'Hetzner Cloud' => new HetznerCloud($this),
             default => throw new InvalidArgumentException('Invalid server provider type.'),
         };
     }
