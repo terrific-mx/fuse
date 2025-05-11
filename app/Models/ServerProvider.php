@@ -47,13 +47,13 @@ class ServerProvider extends Model
         return $this->client()->regions();
     }
 
-    public function validSize($size)
+    public function validSize(string $size, string $region)
     {
-        return array_key_exists($size, $this->sizes());
+        return array_key_exists($size, $this->sizes($region));
     }
 
-    public function sizes()
+    public function sizes(string $region)
     {
-        return $this->client()->sizes();
+        return $this->client()->sizes($region);
     }
 }

@@ -3,6 +3,7 @@
 use App\Jobs\ProvisionServer;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
@@ -16,10 +17,10 @@ new class extends Component {
     public string $name = '';
 
     #[Validate]
-    public string $size = 's-1vcpu-512mb-10gb';
+    public string $size = '';
 
     #[Validate]
-    public string $region = 'sfo3';
+    public string $region = '';
 
     #[Validate]
     public string $server_provider_id = '';
@@ -57,9 +58,13 @@ new class extends Component {
                         return;
                     }
 
+                    if (!$this->region) {
+                        return;
+                    }
+
                     $provider = $user->serverProviders()->find($this->server_provider_id);
 
-                    if ($provider && !$provider->validSize($this->size)) {
+                    if ($provider && !$provider->validSize($this->size, $this->region)) {
                         $fail('The provided size is invalid.');
                     }
                 }
@@ -76,31 +81,19 @@ new class extends Component {
 
     public function updatedServerProviderId($value)
     {
-        if (empty($value)) {
-            $this->availableRegions = [];
-            return;
-        }
-
         $provider = Auth::user()->serverProviders()->find($value);
 
         if ($provider) {
-            $this->availableRegions = $provider->client()->regions();
-            $this->region = $this->availableRegions[0] ?? '';
+            $this->availableRegions = $provider->regions();
         }
     }
 
     public function updatedRegion($value)
     {
-        if (empty($value)) {
-            $this->availableSizes = [];
-            return;
-        }
-
         $provider = Auth::user()->serverProviders()->find($this->server_provider_id);
 
         if ($provider) {
-            $this->availableSizes = $provider->client()->sizes($value);
-            $this->size = $this->availableSizes[0] ?? '';
+            $this->availableSizes = $provider->sizes($value);
         }
     }
 
@@ -131,33 +124,33 @@ new class extends Component {
 
             <flux:input wire:model="name" :label="__('Name')" />
 
-            <flux:select wire:model.live="server_provider_id" :label="__('Server Provider')">
-                <flux:select.option value=""></flux:select.option>
-
+            <flux:select
+                wire:model.live="server_provider_id"
+                :label="__('Server Provider')"
+                :placeholder="__('Choose an option...')"
+            >
                 @foreach ($serverProviders as $provider)
                     <flux:select.option value="{{ $provider->id }}">{{ "{$provider->name} ({$provider->type})" }}</flux:select.option>
                 @endforeach
             </flux:select>
 
-            <div class="hidden" wire:loading.class="!block" wire:target="server_provider_id">
-                <flux:input :label="__('Region')" icon:trailing="loading" />
-            </div>
+            <flux:select
+                wire:model.live="region"
+                wire:key="{{ $server_provider_id }}"
+                :label="__('Region')"
+                :placeholder="__('Choose an option...')"
+            >
+                @foreach ($availableRegions as $name => $description)
+                    <flux:select.option value="{{ $name }}">{{ $description }}</flux:select.option>
+                @endforeach
+            </flux:select>
 
-            @if($server_provider_id)
-                <div wire:loading.class="hidden" wire:target="server_provider_id">
-                    <flux:select wire:model.live="region" :label="__('Region')">
-                        <flux:select.option value=""></flux:select.option>
-
-                        @foreach ($availableRegions as $name => $description)
-                            <flux:select.option value="{{ $name }}">{{ $description }}</flux:select.option>
-                        @endforeach
-                    </flux:select>
-                </div>
-            @endif
-
-            <flux:select wire:model="size" :label="__('Size')">
-                <flux:select.option value=""></flux:select.option>
-
+            <flux:select
+                wire:model="size"
+                wire:key="{{ $region }}"
+                :label="__('Size')"
+                :placeholder="__('Choose an option...')"
+            >
                 @foreach ($availableSizes as $name => $description)
                     <flux:select.option value="{{ $name }}">{{ $description }}</flux:select.option>
                 @endforeach
