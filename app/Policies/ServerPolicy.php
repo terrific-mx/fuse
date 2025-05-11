@@ -20,7 +20,7 @@ class ServerPolicy
      */
     public function view(User $user, Server $server): bool
     {
-        return false;
+        return $server->user->is($user);
     }
 
     /**

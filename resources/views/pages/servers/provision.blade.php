@@ -3,8 +3,13 @@
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
+
+use function Laravel\Folio\middleware;
+
+middleware(['auth', ValidateSessionWithWorkOS::class]);
 
 new class extends Component {
     public ?Collection $serverProviders;
