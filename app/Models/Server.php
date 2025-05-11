@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Callbacks\MarkAsProvisioned;
+use App\Callbacks\CheckProvisioning;
 use App\FakeServerProvider;
 use App\Jobs\ProvisionServer;
 use App\Scripts\GetCurrentDirectory;
-use App\Scripts\ProvisionServer as ScriptsProvisionServer;
+use App\Scripts\ProvisionServer as ProvisionServerScript;
 use App\Scripts\Script;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -85,8 +85,8 @@ class Server extends Model
 
         $this->markAsProvisioning();
 
-        return $this->runInBackground(new ScriptsProvisionServer($this), [
-            'then' => [MarkAsProvisioned::class],
+        return $this->runInBackground(new ProvisionServerScript($this), [
+            'then' => [CheckProvisioning::class],
         ]);
     }
 

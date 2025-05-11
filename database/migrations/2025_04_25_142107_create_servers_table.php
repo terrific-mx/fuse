@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('username');
             $table->string('sudo_password');
             $table->string('database_password');
+            $table->text('public_ssh_key')->nullable();
             $table->timestamps();
         });
     }
