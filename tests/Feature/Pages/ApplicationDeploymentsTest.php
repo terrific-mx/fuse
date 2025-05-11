@@ -3,10 +3,14 @@
 use App\Jobs\DeployApplication;
 use App\Models\Application;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
@@ -84,4 +88,19 @@ it('dispatches a deployment event', function () {
         ->call('deploy');
 
     Queue::assertPushed(DeployApplication::class);
+});
+
+it('checks that only authorized users can view the application deployments page', function () {
+    $application = Application::factory()->create();
+    $user = $application->user();
+    /** @var User */
+    $anotherUser = User::factory()->create();
+
+    actingAs($anotherUser)->get("applications/{$application->id}/deployments")->assertForbidden();
+});
+
+it('redirects unauthenticated users to the login page', function () {
+    $application = Application::factory()->create();
+
+    get("applications/{$application->id}/deployments")->assertRedirect('/login');
 });

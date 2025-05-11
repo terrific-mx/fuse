@@ -3,7 +3,12 @@
 use App\Jobs\DeployApplication;
 use App\Models\Application;
 use Illuminate\Database\Eloquent\Collection;
+use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Livewire\Volt\Component;
+
+use function Laravel\Folio\middleware;
+
+middleware(['auth', 'can:view,application', ValidateSessionWithWorkOS::class]);
 
 new class extends Component {
     public Application $application;
