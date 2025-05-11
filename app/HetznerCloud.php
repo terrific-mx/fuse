@@ -47,7 +47,7 @@ class HetznerCloud extends FakeServerProvider implements ServerProviderClient
     {
         $response = $this->request('get', '/locations');
 
-        if (!$response->successful()) {
+        if (! $response->successful()) {
             return [];
         }
 
@@ -63,7 +63,7 @@ class HetznerCloud extends FakeServerProvider implements ServerProviderClient
     {
         $response = $this->request('get', '/server_types');
 
-        if (!$response->successful()) {
+        if (! $response->successful()) {
             return [];
         }
 
@@ -71,10 +71,11 @@ class HetznerCloud extends FakeServerProvider implements ServerProviderClient
 
         return collect($serverTypes)
             ->filter(function ($type) use ($region) {
-                if (!empty($type->deprecation)) {
+                if (! empty($type->deprecation)) {
                     return false;
                 }
                 $availableLocations = array_column($type->prices ?? [], 'location');
+
                 return in_array($region, $availableLocations);
             })->mapWithKeys(function ($type) {
                 return [$type->name => $type->description];

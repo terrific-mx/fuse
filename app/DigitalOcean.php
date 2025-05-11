@@ -42,7 +42,7 @@ class DigitalOcean extends FakeServerProvider implements ServerProviderClient
     {
         $response = $this->request('get', '/regions');
 
-        if (!$response) {
+        if (! $response) {
             return [];
         }
 
@@ -61,7 +61,7 @@ class DigitalOcean extends FakeServerProvider implements ServerProviderClient
     {
         $response = $this->request('get', '/sizes');
 
-        if (!$response) {
+        if (! $response) {
             return [];
         }
 
