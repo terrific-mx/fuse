@@ -2,9 +2,12 @@
 
 use App\Jobs\DeleteApplication;
 use App\Models\Application;
-use App\Scripts\DeleteFolder;
-use App\Scripts\UpdateCaddyImports;
+use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Livewire\Volt\Component;
+
+use function Laravel\Folio\middleware;
+
+middleware(['auth', 'can:delete,application', ValidateSessionWithWorkOS::class]);
 
 new class extends Component {
     public Application $application;

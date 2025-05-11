@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 use function Laravel\Folio\middleware;
 
-middleware('auth');
+middleware(['auth', ValidateSessionWithWorkOS::class]);
 
 new class extends Component {
     #[Validate]

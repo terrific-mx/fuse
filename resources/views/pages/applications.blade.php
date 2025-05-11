@@ -7,7 +7,7 @@ use Livewire\Volt\Component;
 
 use function Laravel\Folio\middleware;
 
-middleware('auth', ValidateSessionWithWorkOS::class);
+middleware(['auth', ValidateSessionWithWorkOS::class]);
 
 new class extends Component {
     public ?Collection $applications;
