@@ -2,19 +2,20 @@
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
+use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Livewire\Volt\Component;
 
 use function Laravel\Folio\middleware;
 
-middleware('auth');
+middleware('auth', ValidateSessionWithWorkOS::class);
 
 new class extends Component {
     public ?Collection $servers;
 
     public function mount()
     {
-        /** @var \App\Models\User $user */
         $user = Auth::user();
+
         $this->servers = $user->servers;
     }
 }; ?>
