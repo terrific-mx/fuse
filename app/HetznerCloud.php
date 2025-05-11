@@ -21,7 +21,7 @@ class HetznerCloud extends FakeServerProvider implements ServerProviderClient
         $response = $this->request('post', '/servers', [
             'name' => $name,
             'server_type' => $size,
-            'datacenter' => $region,
+            'location' => $region,
             'image' => 'ubuntu-24.04',
             'ssh_keys' => [$this->keyId()],
             'start_after_create' => true,
