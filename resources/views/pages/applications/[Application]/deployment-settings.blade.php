@@ -1,8 +1,13 @@
 <?php
 
 use App\Models\Application;
+use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
+
+use function Laravel\Folio\middleware;
+
+middleware(['auth', 'can:update,application', ValidateSessionWithWorkOS::class]);
 
 new class extends Component {
     public Application $application;

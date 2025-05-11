@@ -1,8 +1,12 @@
 <?php
 
 use App\Models\Application;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
+
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
@@ -70,4 +74,19 @@ it('validates releases_to_retain is at most 50', function () {
         ->set('releases_to_retain', 51)
         ->call('save')
         ->assertHasErrors(['releases_to_retain' => 'max']);
+});
+
+it('checks only authorized users can view the deployment settings page', function () {
+    $application = Application::factory()->create();
+    $user = $application->user();
+    /** @var User */
+    $anotherUser = User::factory()->create();
+
+    actingAs($anotherUser)->get("applications/{$application->id}/deployment-settings")->assertForbidden();
+});
+
+it('checks unauthenticated users are redirected to login page', function () {
+    $application = Application::factory()->create();
+
+    get("applications/{$application->id}/deployment-settings")->assertRedirect('/login');
 });

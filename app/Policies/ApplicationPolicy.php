@@ -20,7 +20,7 @@ class ApplicationPolicy
      */
     public function view(User $user, Application $application): bool
     {
-        return false;
+        return $application->server->user->is($user);
     }
 
     /**
@@ -36,7 +36,7 @@ class ApplicationPolicy
      */
     public function update(User $user, Application $application): bool
     {
-        return false;
+        return $application->server->user->is($user);
     }
 
     /**
