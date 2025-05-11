@@ -2,6 +2,12 @@
 
 All notable changes to Fuse will be documented in this file.
 
+## 2025-05-11
+
+### Added
+
+- New Server Provider: Hetzner
+
 ## 2025-05-10
 
 ### Added
