@@ -7,6 +7,7 @@ All notable changes to Fuse will be documented in this file.
 ### Added
 
 - New Server Provider: Hetzner
+- Authorization for all relevant pages
 
 ## 2025-05-10
 
