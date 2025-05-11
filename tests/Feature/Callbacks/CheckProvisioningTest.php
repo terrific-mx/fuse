@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('marks the server as provisioned when task is succesful', function () {
+it('updates the server status to provisioned when the task exits successfully', function () {
     $task = Task::factory()->for(Server::factory()->provisioning())->create([
         'exit_code' => 0,
     ]);
@@ -19,7 +19,7 @@ it('marks the server as provisioned when task is succesful', function () {
     expect($task->server->isProvisioned())->toBeTrue();
 });
 
-it('marks the server as failed when task is not succesful', function () {
+it('updates the server status to failed when the task exits with a non-zero exit code', function () {
     $task = Task::factory()->for(Server::factory()->provisioning())->create([
         'exit_code' => 999,
     ]);
