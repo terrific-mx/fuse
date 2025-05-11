@@ -38,7 +38,7 @@ class FakeServerProvider implements ServerProviderClient
     public function sizes(string $region): array
     {
         return [
-            's-1vcpu-512mb-10gb' => ['cpu' => '1 Core', 'ram' => '512MB', 'ssd' => '10GB', 'price' => 4],
+            's-1vcpu-512mb-10gb' => 's-1vcpu-512mb-10gb',
         ];
     }
 

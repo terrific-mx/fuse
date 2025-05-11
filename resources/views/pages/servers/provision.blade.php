@@ -79,7 +79,7 @@ new class extends Component {
 
     public function updatedServerProviderId($value)
     {
-        $this->reset('region', 'size');
+        // $this->reset('region', 'size');
         $this->resetErrorBag();
 
         $provider = Auth::user()->serverProviders()->find($value);
@@ -91,7 +91,7 @@ new class extends Component {
 
     public function updatedRegion($value)
     {
-        $this->reset('size');
+        // $this->reset('size');
         $this->resetErrorBag();
 
         $provider = Auth::user()->serverProviders()->find($this->server_provider_id);

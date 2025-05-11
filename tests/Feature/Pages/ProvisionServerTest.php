@@ -21,8 +21,8 @@ it('can create the server to provision', function () {
     $component = Volt::actingAs($user)->test('pages.servers.provision')
         ->set('name', 'my-server')
         ->set('server_provider_id', $serverProvider->id)
-        ->set('size', 's-1vcpu-512mb-10gb')
         ->set('region', 'nyc1')
+        ->set('size', 's-1vcpu-512mb-10gb')
         ->call('provision');
 
     expect($user->servers)->toHaveCount(1);
@@ -49,8 +49,8 @@ it('creates the server on the server provider', function () {
     Volt::actingAs($user)->test('pages.servers.provision')
         ->set('name', 'my-server')
         ->set('server_provider_id', $serverProvider->id)
-        ->set('size', 's-1vcpu-512mb-10gb')
         ->set('region', 'nyc1')
+        ->set('size', 's-1vcpu-512mb-10gb')
         ->call('provision');
 
     expect($user->servers->first())
@@ -127,6 +127,7 @@ it('validates size to be valid', function () {
 
     Volt::actingAs($user)->test('pages.servers.provision')
         ->set('server_provider_id', $serverProvider->id)
+        ->set('region', 'nyc1')
         ->set('size', 'invalid-size')
         ->call('provision')
         ->assertHasErrors(['size']);
