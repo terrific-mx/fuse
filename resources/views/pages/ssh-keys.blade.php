@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
@@ -11,7 +12,12 @@ use function Laravel\Folio\middleware;
 middleware(['auth', ValidateSessionWithWorkOS::class]);
 
 new class extends Component {
-    //
+    public ?Collection $sshKeys;
+
+    public function mount()
+    {
+        $this->sshKeys = Auth::user()->sshKeys;
+    }
 }; ?>
 
 <x-layouts.app>
@@ -26,6 +32,26 @@ new class extends Component {
             </div>
 
             <flux:separator />
+
+            <flux:table>
+                <flux:table.columns>
+                    <flux:table.column>{{ __('Name') }}</flux:table.column>
+                    <flux:table.column>{{ __('Added') }}</flux:table.column>
+                </flux:table.columns>
+
+                <flux:table.rows>
+                    @foreach ($sshKeys as $key)
+                        <flux:table.row>
+                            <flux:table.cell variant="strong">
+                                {{ $key->name }}
+                            </flux:table.cell>
+                            <flux:table.cell>
+                                {{ $key->created_at->diffForHumans() }}
+                            </flux:table.cell>
+                        </flux:table.row>
+                    @endforeach
+                </flux:table.rows>
+            </flux:table>
         </section>
     @endvolt
 </x-layouts.app>

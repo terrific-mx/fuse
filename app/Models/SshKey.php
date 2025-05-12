@@ -9,4 +9,9 @@ class SshKey extends Model
 {
     /** @use HasFactory<\Database\Factories\SshKeyFactory> */
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

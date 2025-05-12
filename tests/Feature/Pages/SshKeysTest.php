@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\SshKey;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
@@ -129,4 +130,21 @@ it('allows authenticated users to access create page', function () {
     $user = User::factory()->create();
 
     actingAs($user)->get('/ssh-keys/create')->assertOk();
+});
+
+it('only displays ssh keys for authenticated user', function () {
+    $user1 = User::factory()->create();
+    $user2 = User::factory()->create();
+
+    SshKey::factory()->for($user1)->create(['name' => 'User1 Key']);
+    SshKey::factory()->for($user2)->create();
+
+    Volt::actingAs($user1)
+        ->test('pages.ssh-keys')
+        ->assertSet('sshKeys', function ($keys) {
+            expect($keys)->toHaveCount(1);
+            expect($keys->first())->name->toBe('User1 Key');
+
+            return true;
+        });
 });
