@@ -46,4 +46,13 @@ class TaskFactory extends Factory
             ];
         });
     }
+
+    public function successful(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'exit_code' => 0,
+            ];
+        });
+    }
 }
