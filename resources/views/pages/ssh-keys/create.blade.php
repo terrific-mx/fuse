@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
+use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
 
 use function Laravel\Folio\middleware;
