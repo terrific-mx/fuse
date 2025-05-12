@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->hasMany(SourceProvider::class);
     }
 
+    public function sshKeys()
+    {
+        return $this->hasMany(SshKey::class);
+    }
+
     public function provisionServer(ServerProvider $provider, string $name, string $size, string $region)
     {
         $id = $provider->client()->createServer($name, $size, $region);
