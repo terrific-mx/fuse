@@ -64,3 +64,34 @@ it('limits public_key to 4096 characters', function () {
         ->call('save')
         ->assertHasErrors(['public_key' => 'max']);
 });
+
+it('requires unique name per user', function () {
+    $user = User::factory()->create();
+    $user->sshKeys()->create([
+        'name' => 'Duplicate Name',
+        'public_key' => 'ssh-rsa ::key1::'
+    ]);
+
+    Volt::actingAs($user)->test('pages.ssh-keys')
+        ->set('name', 'Duplicate Name')
+        ->set('public_key', 'ssh-rsa ::key2::')
+        ->call('save')
+        ->assertHasErrors(['name' => 'unique']);
+});
+
+it('allows same name for different users', function () {
+    $user1 = User::factory()->create();
+    $user2 = User::factory()->create();
+
+    $user1->sshKeys()->create([
+        'name' => 'Shared Name',
+        'public_key' => 'ssh-rsa ::key1::'
+    ]);
+
+    Volt::actingAs($user2)->test('pages.ssh-keys')
+        ->set('name', 'Shared Name')
+        ->set('public_key', 'ssh-rsa ::key2::')
+        ->call('save');
+
+    expect($user2->sshKeys)->toHaveCount(1);
+});

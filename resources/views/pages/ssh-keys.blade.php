@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
 use Livewire\Attributes\Validate;
 use Livewire\Volt\Component;
@@ -10,7 +11,7 @@ use function Laravel\Folio\middleware;
 middleware(['auth', ValidateSessionWithWorkOS::class]);
 
 new class extends Component {
-    #[Validate(['required', 'string', 'max:255'])]
+    #[Validate]
     public $name = '';
 
     #[Validate]
@@ -19,6 +20,12 @@ new class extends Component {
     protected function rules()
     {
         return [
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('ssh_keys')->where('user_id', Auth::id())
+            ],
             'public_key' => [
                 'required',
                 'string',
