@@ -77,14 +77,11 @@ new class extends Component {
 
     public function mount()
     {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-        $this->serverProviders = $user->serverProviders;
+        $this->serverProviders = Auth::user()->serverProviders;
     }
 
     public function updatedServerProviderId($value)
     {
-        // $this->reset('region', 'size');
         $this->resetErrorBag();
 
         $provider = Auth::user()->serverProviders()->find($value);
@@ -96,7 +93,6 @@ new class extends Component {
 
     public function updatedRegion($value)
     {
-        // $this->reset('size');
         $this->resetErrorBag();
 
         $provider = Auth::user()->serverProviders()->find($this->server_provider_id);

@@ -16,7 +16,7 @@ class ProvisionServer extends Script
             'script' => $this,
             'server' => $this->server,
             'user' => $this->server->user,
-            'sshKeys' => collect([]),
+            'sshKeys' => $this->server->user->sshKeys,
             'swapInMegabytes' => 1024,
             'swappiness' => 1024,
             'mysqlMaxConnections' => 100,
