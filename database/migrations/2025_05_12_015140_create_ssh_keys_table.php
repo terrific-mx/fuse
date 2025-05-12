@@ -15,8 +15,9 @@ return new class extends Migration
         Schema::create('ssh_keys', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->index();
-            $table->longText('public_key');
             $table->string('name');
+            $table->longText('public_key');
+            $table->string('fingerprint')->nullable();
             $table->timestamps();
         });
     }

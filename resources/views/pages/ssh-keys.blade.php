@@ -36,6 +36,7 @@ new class extends Component {
             <flux:table>
                 <flux:table.columns>
                     <flux:table.column>{{ __('Name') }}</flux:table.column>
+                    <flux:table.column>{{ __('Fingerprint') }}</flux:table.column>
                     <flux:table.column>{{ __('Added') }}</flux:table.column>
                 </flux:table.columns>
 
@@ -44,6 +45,9 @@ new class extends Component {
                         <flux:table.row>
                             <flux:table.cell variant="strong">
                                 {{ $key->name }}
+                            </flux:table.cell>
+                            <flux:table.cell>
+                                <code class="text-sm">{{ $key->fingerprint }}</code>
                             </flux:table.cell>
                             <flux:table.cell>
                                 {{ $key->created_at->diffForHumans() }}

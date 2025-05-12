@@ -15,13 +15,14 @@ it('stores a valid ssh key for authenticated user', function () {
 
     Volt::actingAs($user)->test('pages.ssh-keys.create')
         ->set('name', 'Test SSH Key')
-        ->set('public_key', 'ssh-rsa ::public-key::')
+        ->set('public_key', 'ssh-rsa test-public-key')
         ->call('save');
 
     expect($user->sshKeys)->toHaveCount(1);
     expect($user->sshKeys->first())
         ->name->toBe('Test SSH Key')
-        ->public_key->toBe('ssh-rsa ::public-key::');
+        ->public_key->toBe('ssh-rsa test-public-key')
+        ->fingerprint->toBeString();
 });
 
 it('redirects to ssh-keys after successful creation', function () {
@@ -29,7 +30,7 @@ it('redirects to ssh-keys after successful creation', function () {
 
     Volt::actingAs($user)->test('pages.ssh-keys.create')
         ->set('name', 'Test Key')
-        ->set('public_key', 'ssh-rsa ::public-key::')
+        ->set('public_key', 'ssh-rsa test-public-key')
         ->call('save')
         ->assertRedirect('/ssh-keys');
 });

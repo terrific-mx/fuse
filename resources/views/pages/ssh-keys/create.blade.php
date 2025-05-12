@@ -44,9 +44,24 @@ new class extends Component {
     {
         $validated = $this->validate();
 
+        $validated['fingerprint'] = $this->generateFingerprint($validated['public_key']);
+
         Auth::user()->sshKeys()->create($validated);
 
         return $this->redirect('/ssh-keys', navigate: true);
+    }
+
+    protected function generateFingerprint(string $publicKey): string
+    {
+        $keyParts = explode(' ', $publicKey, 3);
+        $key = base64_decode($keyParts[1] ?? '');
+
+        if ($key === false) {
+            return 'invalid-key';
+        }
+
+        $hash = md5($key);
+        return implode(':', str_split($hash, 2));
     }
 }; ?>
 
@@ -63,6 +78,7 @@ new class extends Component {
                 wire:model="public_key"
                 :label="__('Public Key')"
                 :placeholder="__('Paste your public key here (e.g., ssh-rsa AAAAB3NzaC1yc2E...)')"
+                class="font-mono"
             />
 
             <div class="flex justify-end gap-4">
