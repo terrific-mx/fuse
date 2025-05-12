@@ -2,7 +2,6 @@
 
 use App\Models\Server;
 use App\Models\SshKey;
-use App\Models\User;
 use App\Scripts\ProvisionServer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

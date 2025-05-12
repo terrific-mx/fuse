@@ -11,7 +11,7 @@ class CheckProvisioning
     {
         optional($task->server, function ($server) use ($task) {
             $server->update([
-                'status' => $task->successful() ? 'provisioned' : 'failed'
+                'status' => $task->successful() ? 'provisioned' : 'failed',
             ]);
 
             if ($task->successful()) {

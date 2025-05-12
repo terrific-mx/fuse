@@ -84,7 +84,7 @@ it('requires unique name per user', function () {
     $user = User::factory()->create();
     $user->sshKeys()->create([
         'name' => 'Duplicate Name',
-        'public_key' => 'ssh-rsa ::key1::'
+        'public_key' => 'ssh-rsa ::key1::',
     ]);
 
     Volt::actingAs($user)->test('pages.ssh-keys.create')
@@ -100,7 +100,7 @@ it('allows same name for different users', function () {
 
     $user1->sshKeys()->create([
         'name' => 'Shared Name',
-        'public_key' => 'ssh-rsa ::key1::'
+        'public_key' => 'ssh-rsa ::key1::',
     ]);
 
     Volt::actingAs($user2)->test('pages.ssh-keys.create')
