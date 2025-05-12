@@ -4,6 +4,9 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
 
+use function Pest\Laravel\actingAs;
+use function Pest\Laravel\get;
+
 uses(RefreshDatabase::class);
 
 it('can store the users ssh key', function () {
@@ -94,4 +97,15 @@ it('allows same name for different users', function () {
         ->call('save');
 
     expect($user2->sshKeys)->toHaveCount(1);
+});
+
+it('requires authentication', function () {
+    get('/ssh-keys')->assertRedirect('/login');
+});
+
+it('allows access for authenticated users', function () {
+    /** @var User */
+    $user = User::factory()->create();
+
+    actingAs($user)->get('/ssh-keys')->assertOk();
 });
