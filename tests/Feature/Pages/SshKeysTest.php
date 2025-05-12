@@ -9,7 +9,7 @@ use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
 
-it('can store the users ssh key', function () {
+it('stores a valid ssh key for authenticated user', function () {
     $user = User::factory()->create();
 
     Volt::actingAs($user)->test('pages.ssh-keys.create')
@@ -21,6 +21,16 @@ it('can store the users ssh key', function () {
     expect($user->sshKeys->first())
         ->name->toBe('Test SSH Key')
         ->public_key->toBe('ssh-rsa ::public-key::');
+});
+
+it('redirects to ssh-keys after successful creation', function () {
+    $user = User::factory()->create();
+
+    Volt::actingAs($user)->test('pages.ssh-keys.create')
+        ->set('name', 'Test Key')
+        ->set('public_key', 'ssh-rsa ::public-key::')
+        ->call('save')
+        ->assertRedirect('/ssh-keys');
 });
 
 it('requires name field', function () {

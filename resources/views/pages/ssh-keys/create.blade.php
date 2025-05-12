@@ -45,6 +45,8 @@ new class extends Component {
         $validated = $this->validate();
 
         Auth::user()->sshKeys()->create($validated);
+
+        return $this->redirect('/ssh-keys', navigate: true);
     }
 }; ?>
 
