@@ -18,9 +18,10 @@
             </flux:navlist>
 
             <flux:navlist variant="outline">
-                <flux:navlist.group :heading="__('Providers')" class="grid">
-                    <flux:navlist.item href="/settings/server-providers" wire:navigate>{{ __('Server') }}</flux:navlist.item>
+                <flux:navlist.group :heading="__('Settings')" class="grid">
+                    <flux:navlist.item href="/settings/server-providers" wire:navigate>{{ __('Server Providers') }}</flux:navlist.item>
                     <flux:navlist.item href="/settings/source-control" wire:navigate>{{ __('Source Control') }}</flux:navlist.item>
+                    <flux:navlist.item href="/ssh-keys" wire:navigate>{{ __('SSH Keys') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
