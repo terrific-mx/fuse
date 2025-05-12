@@ -9,16 +9,14 @@ class CheckProvisioning
 {
     public function handle(Task $task)
     {
-        if (! $task->server) {
-            return;
-        }
+        optional($task->server, function ($server) use ($task) {
+            $server->update([
+                'status' => $task->successful() ? 'provisioned' : 'failed'
+            ]);
 
-        $task->successful()
-            ? $task->server->update(['status' => 'provisioned'])
-            : $task->server->update(['status' => 'failed']);
-
-        if ($task->successful()) {
-            UpdateServerPublicKey::dispatch($task->server);
-        }
+            if ($task->successful()) {
+                UpdateServerPublicKey::dispatch($server);
+            }
+        });
     }
 }
