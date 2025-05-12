@@ -9,9 +9,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 it('it can render the script view with user ssh keys', function () {
-    $user = User::factory()->create();
-    $sshKey = SshKey::factory()->for($user)->create(['public_key' => 'ssh-rsa test-public-key']);
-    $server = Server::factory()->for($user)->create();
+    $server = Server::factory()->create();
+    SshKey::factory()->for($server->user)->create(['public_key' => 'ssh-rsa test-public-key']);
 
     $script = new ProvisionServer($server);
 
