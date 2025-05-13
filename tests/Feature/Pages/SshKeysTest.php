@@ -166,3 +166,25 @@ it('dispatches a job to add SSH key to user servers', function () {
 
     Queue::assertPushed(AddSshKeyToServers::class);
 });
+
+it('only dispatches job for provisioned servers', function () {
+    Queue::fake();
+    $user = User::factory()->create();
+
+    $provisionedServer = Server::factory()->for($user)->provisioned()->create();
+    $creatingServer = Server::factory()->for($user)->creating()->create();
+
+    Volt::actingAs($user)->test('pages.ssh-keys.create')
+        ->set('name', 'Test Key')
+        ->set('public_key', 'ssh-rsa test-public-key')
+        ->call('save');
+
+    Queue::assertPushed(AddSshKeyToServers::class, function ($job) use ($provisionedServer) {
+        expect($job->server->is($provisionedServer))->toBeTrue();
+        return true;
+    });
+
+    Queue::assertNotPushed(AddSshKeyToServers::class, function ($job) use ($creatingServer) {
+        return $job->server->is($creatingServer);
+    });
+});

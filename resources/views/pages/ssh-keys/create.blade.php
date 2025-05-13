@@ -54,9 +54,11 @@ new class extends Component {
 
         $sshKey = $user->sshKeys()->create($validated);
 
-        foreach ($user->servers as $server) {
-            AddSshKeyToServers::dispatch($sshKey, $server);
-        }
+        $user->servers()
+            ->where('status', 'provisioned')
+            ->each(function ($server) use ($sshKey) {
+                AddSshKeyToServers::dispatch($sshKey, $server);
+            });
 
         return $this->redirect('/ssh-keys', navigate: true);
     }
