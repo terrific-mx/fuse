@@ -42,6 +42,11 @@ class User extends Authenticatable
         return $this->hasMany(Server::class);
     }
 
+    public function provisionedServers()
+    {
+        return $this->servers()->where('status', 'provisioned');
+    }
+
     public function applications()
     {
         return $this->hasManyThrough(Application::class, Server::class);

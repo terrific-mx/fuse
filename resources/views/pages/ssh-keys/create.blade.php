@@ -54,8 +54,7 @@ new class extends Component {
 
         $sshKey = $user->sshKeys()->create($validated);
 
-        $user->servers()
-            ->where('status', 'provisioned')
+        $user->provisionedServers()
             ->each(function ($server) use ($sshKey) {
                 AddSshKeyToServers::dispatch($sshKey, $server);
             });
