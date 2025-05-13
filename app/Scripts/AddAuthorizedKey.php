@@ -24,6 +24,6 @@ class AddAuthorizedKey extends Script
         return view('scripts.server.add-authorized-key', [
             'username' => 'fuse',
             'publicKey' => $this->sshKey->public_key,
-        ]);
+        ])->render();
     }
 }
