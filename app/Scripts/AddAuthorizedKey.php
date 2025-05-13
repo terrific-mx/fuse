@@ -10,9 +10,7 @@ class AddAuthorizedKey extends Script
 
     public $name = 'Adding authorized key';
 
-    public function __construct(public SshKey $sshKey)
-    {
-    }
+    public function __construct(public SshKey $sshKey) {}
 
     public function timeout()
     {

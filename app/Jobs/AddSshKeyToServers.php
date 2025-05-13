@@ -12,9 +12,7 @@ class AddSshKeyToServers implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public SshKey $sshKey, public Server $server)
-    {
-    }
+    public function __construct(public SshKey $sshKey, public Server $server) {}
 
     public function handle(): void
     {

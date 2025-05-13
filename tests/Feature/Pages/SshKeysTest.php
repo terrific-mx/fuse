@@ -5,7 +5,6 @@ use App\Models\Server;
 use App\Models\SshKey;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
@@ -181,6 +180,7 @@ it('only dispatches job for provisioned servers', function () {
 
     Queue::assertPushed(AddSshKeyToServers::class, function ($job) use ($provisionedServer) {
         expect($job->server->is($provisionedServer))->toBeTrue();
+
         return true;
     });
 

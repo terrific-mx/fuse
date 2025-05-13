@@ -1,7 +1,6 @@
 <?php
 
 use App\Jobs\AddSshKeyToServers;
-use App\Scripts\AddAuthorizedKey;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
