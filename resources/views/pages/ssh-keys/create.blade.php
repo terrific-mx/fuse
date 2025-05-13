@@ -47,6 +47,7 @@ new class extends Component {
     {
         $validated = $this->validate();
 
+        $validated['public_key'] = trim($validated['public_key']);
         $validated['fingerprint'] = $this->generateFingerprint($validated['public_key']);
 
         $user = Auth::user();
