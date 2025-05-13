@@ -1,5 +1,7 @@
 <?php
 
+use App\Jobs\AddSshKeyToServers;
+use App\Scripts\AddAuthorizedKey;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Laravel\WorkOS\Http\Middleware\ValidateSessionWithWorkOS;
@@ -47,7 +49,13 @@ new class extends Component {
 
         $validated['fingerprint'] = $this->generateFingerprint($validated['public_key']);
 
-        Auth::user()->sshKeys()->create($validated);
+        $user = Auth::user();
+
+        $sshKey = $user->sshKeys()->create($validated);
+
+        foreach ($user->servers as $server) {
+            AddSshKeyToServers::dispatch($sshKey, $server);
+        }
 
         return $this->redirect('/ssh-keys', navigate: true);
     }

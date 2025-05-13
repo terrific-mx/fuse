@@ -1,8 +1,12 @@
 <?php
 
+use App\Jobs\AddSshKeyToServers;
+use App\Models\Server;
 use App\Models\SshKey;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 use function Pest\Laravel\actingAs;
@@ -148,4 +152,17 @@ it('only displays ssh keys for authenticated user', function () {
 
             return true;
         });
+});
+
+it('dispatches a job to add SSH key to user servers', function () {
+    Queue::fake();
+    $user = User::factory()->create();
+    Server::factory()->for($user)->create();
+
+    Volt::actingAs($user)->test('pages.ssh-keys.create')
+        ->set('name', 'Test SSH Key')
+        ->set('public_key', 'ssh-rsa test-public-key')
+        ->call('save');
+
+    Queue::assertPushed(AddSshKeyToServers::class);
 });
