@@ -54,8 +54,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'callback_url' => env('APP_CALLBACK_URL', 'http://localhost'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

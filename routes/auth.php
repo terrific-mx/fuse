@@ -1,32 +1,35 @@
 <?php
 
-use App\Models\User;
-use App\SecureShellKey;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
-use Laravel\WorkOS\Http\Requests\AuthKitAuthenticationRequest;
-use Laravel\WorkOS\Http\Requests\AuthKitLoginRequest;
-use Laravel\WorkOS\Http\Requests\AuthKitLogoutRequest;
-use Laravel\WorkOS\User as WorkOSUser;
+use Livewire\Volt\Volt;
 
-Route::get('login', function (AuthKitLoginRequest $request) {
-    return $request->redirect();
-})->middleware(['guest'])->name('login');
+Route::middleware('guest')->group(function () {
+    Volt::route('login', 'auth.login')
+        ->name('login');
 
-Route::get('authenticate', function (AuthKitAuthenticationRequest $request) {
-    return tap(to_route('dashboard'), fn () => $request->authenticate(
-        createUsing: function (WorkOSUser $user) {
-            return User::create([
-                'name' => $user->firstName.' '.$user->lastName,
-                'email' => $user->email,
-                'email_verified_at' => now(),
-                'workos_id' => $user->id,
-                'avatar' => $user->avatar ?? '',
-                'keypair' => SecureShellKey::forNewUser(),
-            ]);
-        },
-    ));
-})->middleware(['guest']);
+    Volt::route('register', 'auth.register')
+        ->name('register');
 
-Route::post('logout', function (AuthKitLogoutRequest $request) {
-    return $request->logout();
-})->middleware(['auth'])->name('logout');
+    Volt::route('forgot-password', 'auth.forgot-password')
+        ->name('password.request');
+
+    Volt::route('reset-password/{token}', 'auth.reset-password')
+        ->name('password.reset');
+
+});
+
+Route::middleware('auth')->group(function () {
+    Volt::route('verify-email', 'auth.verify-email')
+        ->name('verification.notice');
+
+    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
+        ->middleware(['signed', 'throttle:6,1'])
+        ->name('verification.verify');
+
+    Volt::route('confirm-password', 'auth.confirm-password')
+        ->name('password.confirm');
+});
+
+Route::post('logout', App\Livewire\Actions\Logout::class)
+    ->name('logout');

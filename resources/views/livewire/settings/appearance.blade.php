@@ -6,10 +6,14 @@ new class extends Component {
     //
 }; ?>
 
+<x-slot:breadcrumbs>
+    @include('partials.settings-breadcrumbs', ['current' => __('Appearance')])
+</x-slot:breadcrumbs>
+
 <section class="w-full">
     @include('partials.settings-heading')
 
-    <x-settings.layout :heading="__('Appearance')" :subheading="__('Update your account\'s appearance settings')">
+    <x-settings.layout :heading="__('Appearance')" :subheading=" __('Update the appearance settings for your account')">
         <flux:radio.group x-data variant="segmented" x-model="$flux.appearance">
             <flux:radio value="light" icon="sun">{{ __('Light') }}</flux:radio>
             <flux:radio value="dark" icon="moon">{{ __('Dark') }}</flux:radio>

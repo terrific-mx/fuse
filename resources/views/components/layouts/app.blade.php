@@ -1,7 +1,7 @@
-<x-layouts.app.sidebar :title="$title ?? null">
+<x-layouts.app.sidebar :title="$title ?? null" :breadcrumbs="$breadcrumbs ?? null">
     <flux:main>
-        <div class="mx-auto max-w-6xl">
-            {{ $slot }}
-        </div>
+        {{ $slot }}
     </flux:main>
+    <livewire:organizations.create />
+    <flux:toast />
 </x-layouts.app.sidebar>

@@ -3,17 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\SecureShellKey;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
+use Laravel\Cashier\Billable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use Billable, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,8 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'workos_id',
-        'avatar',
+        'password',
     ];
 
     /**
@@ -33,67 +31,9 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'workos_id',
+        'password',
         'remember_token',
     ];
-
-    public function servers()
-    {
-        return $this->hasMany(Server::class);
-    }
-
-    public function provisionedServers()
-    {
-        return $this->servers()->where('status', 'provisioned');
-    }
-
-    public function applications()
-    {
-        return $this->hasManyThrough(Application::class, Server::class);
-    }
-
-    public function serverProviders()
-    {
-        return $this->hasMany(ServerProvider::class);
-    }
-
-    public function sourceProviders()
-    {
-        return $this->hasMany(SourceProvider::class);
-    }
-
-    public function sshKeys()
-    {
-        return $this->hasMany(SshKey::class);
-    }
-
-    public function provisionServer(ServerProvider $provider, string $name, string $size, string $region)
-    {
-        $id = $provider->client()->createServer($name, $size, $region);
-
-        return tap($this->servers()->create([
-            'name' => $name,
-            'server_provider_id' => $provider->id,
-            'provider_server_id' => $id,
-            'size' => $size,
-            'region' => $region,
-            'status' => 'creating',
-            'username' => 'fuse',
-            'sudo_password' => Str::random(40),
-            'database_password' => Str::random(40),
-        ]))->provision();
-    }
-
-    /**
-     * Get the user's initials.
-     */
-    public function initials(): string
-    {
-        return Str::of($this->name)
-            ->explode(' ')
-            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
-            ->implode('');
-    }
 
     /**
      * Get the attributes that should be cast.
@@ -108,20 +48,76 @@ class User extends Authenticatable
         ];
     }
 
-    protected function keypair(): Attribute
+    /**
+     * Get the user's initials
+     */
+    public function initials(): string
     {
-        return Attribute::make(
-            set: function (object $value) {
-                return [
-                    'public_key' => $value->publicKey,
-                    'private_key' => $value->privateKey,
-                ];
-            },
-        );
+        return Str::of($this->name)
+            ->explode(' ')
+            ->take(2)
+            ->map(fn ($word) => Str::substr($word, 0, 1))
+            ->implode('');
     }
 
-    public function keyPath()
+    public function organizations()
     {
-        return SecureShellKey::storeFor($this);
+        return $this->hasMany(Organization::class);
+    }
+
+    /**
+     * Organizations where the user is a member (not owner).
+     */
+    public function memberOrganizations()
+    {
+        return $this->belongsToMany(Organization::class, 'organization_user');
+    }
+
+    /**
+     * All organizations the user owns or is a member of (unique).
+     */
+    public function allOrganizations()
+    {
+        return $this->organizations
+            ->merge($this->memberOrganizations)
+            ->unique('id')
+            ->values();
+    }
+
+    /**
+     * Get the user's current organization.
+     */
+    public function currentOrganization()
+    {
+        if (is_null($this->current_organization_id)) {
+            $this->assignPersonalOrganizationAsCurrent();
+
+            $this->fresh();
+        }
+
+        return $this->belongsTo(Organization::class, 'current_organization_id');
+    }
+
+    /**
+     * Assign the user's personal organization as their current organization.
+     */
+    private function assignPersonalOrganizationAsCurrent(): void
+    {
+        tap($this->organizations()->where('personal', true)->first(), function ($personalOrg) {
+            if ($personalOrg) {
+                $this->current_organization_id = $personalOrg->id;
+                $this->save();
+            }
+        });
+    }
+
+    /**
+     * Switch the user's current organization.
+     */
+    public function switchOrganization(Organization $organization): void
+    {
+        $this->current_organization_id = $organization->id;
+
+        $this->save();
     }
 }
