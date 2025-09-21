@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
+
 class ServerCredential extends Model
 {
     /** @use HasFactory<\Database\Factories\ServerCredentialFactory> */
@@ -28,4 +31,17 @@ class ServerCredential extends Model
     {
         return $this->belongsTo(Organization::class);
     }
+
+    /**
+     * Get the masked API key.
+     */
+    protected function maskedApiKey(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => isset($this->credentials['api_key'])
+                ? Str::mask($this->credentials['api_key'], '*', 4, max(0, strlen($this->credentials['api_key']) - 8))
+                : __('(none)')
+        );
+    }
 }
+

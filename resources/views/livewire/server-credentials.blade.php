@@ -144,7 +144,7 @@ new class extends Component {
                 <flux:table.row :key="$credential->id">
                     <flux:table.cell>{{ $credential->provider }}</flux:table.cell>
                     <flux:table.cell>{{ $credential->name }}</flux:table.cell>
-                    <flux:table.cell>{{ $credential->credentials['api_key'] ?? __('(none)') }}</flux:table.cell>
+                    <flux:table.cell>{{ $credential->masked_api_key }}</flux:table.cell>
                     <flux:table.cell align="end">
                         <flux:dropdown position="bottom" align="end">
                             <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
