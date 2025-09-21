@@ -10,7 +10,7 @@ describe('Organization Credentials', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->organizations()->first();
 
-        Volt::actingAs($user)->test('credentials.index')
+        Volt::actingAs($user)->test('server-credentials')
             ->set('provider', 'hetzner')
             ->set('name', 'My Hetzner')
             ->set('credentials', ['api_key' => 'test-key'])
@@ -26,7 +26,7 @@ describe('Organization Credentials', function () {
     it('validates required fields when adding credentials', function () {
         $user = User::factory()->withPersonalOrganization()->create();
 
-        Volt::actingAs($user)->test('credentials.index')
+        Volt::actingAs($user)->test('server-credentials')
             ->set('provider', '')
             ->set('name', '')
             ->set('credentials', [])
@@ -43,7 +43,7 @@ describe('Organization Credentials', function () {
             'credentials' => ['api_key' => 'test-key'],
         ]);
 
-        Volt::actingAs($user)->test('credentials.index')
+        Volt::actingAs($user)->test('server-credentials')
             ->set('provider', 'hetzner')
             ->set('name', 'Another Hetzner')
             ->set('credentials', ['api_key' => 'another-key'])
