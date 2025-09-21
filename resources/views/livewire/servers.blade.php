@@ -1,21 +1,28 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component {
     public string $name = '';
 
+    #[Computed]
+    public function organization()
+    {
+        return Auth::user()->currentOrganization;
+    }
+
     protected function rules(): array
     {
-        $organizationId = auth()->user()->currentOrganization->id;
-
         return [
             'name' => [
                 'required',
                 'string',
                 'max:253',
                 'regex:/^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.?([A-Za-z0-9-]{1,63}\.?)*[A-Za-z0-9]$/',
-                \Illuminate\Validation\Rule::unique('servers', 'name')->where(fn ($q) => $q->where('organization_id', $organizationId)),
+                Rule::unique('servers', 'name')->where(fn ($q) => $q->where('organization_id', $this->organization->id)),
             ],
         ];
     }
@@ -29,12 +36,9 @@ new class extends Component {
 
     public function createServer(): void
     {
-        $user = auth()->user();
-        $organization = $user->currentOrganization;
-
         $this->validate();
 
-        $organization->servers()->create([
+        $this->organization->servers()->create([
             'name' => $this->name,
         ]);
 
