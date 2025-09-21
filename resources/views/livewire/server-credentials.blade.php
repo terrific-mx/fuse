@@ -138,7 +138,16 @@ new class extends Component {
                     <flux:table.cell>{{ $credential->name }}</flux:table.cell>
                     <flux:table.cell>{{ $credential->credentials['api_key'] ?? __('(none)') }}</flux:table.cell>
                     <flux:table.cell align="end">
-                        <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
+                        <flux:dropdown position="bottom" align="end">
+    <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
+    <flux:menu>
+        <flux:menu.item 
+            variant="danger" 
+            icon="trash" 
+            wire:click="deleteCredential({{ $credential->id }})"
+        >{{ __('Delete') }}</flux:menu.item>
+    </flux:menu>
+</flux:dropdown>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach
