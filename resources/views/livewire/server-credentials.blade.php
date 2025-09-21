@@ -4,8 +4,9 @@ use App\Models\ServerCredential;
 use Flux\Flux;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
-use Laravel\Mcp\Server;
+
 use Livewire\Attributes\Computed;
 
 new class extends Component {
@@ -42,6 +43,17 @@ new class extends Component {
     public function addCredential()
     {
         $validated = $this->validate();
+
+        // Minimal Hetzner API key validation
+        if ($validated['provider'] === 'hetzner') {
+            $response = Http::withToken($validated['credentials']['api_key'])
+                ->timeout(5)
+                ->get('https://api.hetzner.cloud/v1/locations');
+
+            if (!$response->successful() || empty($response->json('locations'))) {
+                return $this->addError('credentials.api_key', __('The Hetzner API key is invalid.'));
+            }
+        }
 
         $this->organization->serverCredentials()->create($validated);
 
