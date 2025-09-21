@@ -1,5 +1,6 @@
 <?php
 
+use Flux\Flux;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -40,6 +41,18 @@ new class extends Component {
         $validated = $this->validate();
 
         $this->organization->serverCredentials()->create($validated);
+
+        Flux::toast(
+            heading: __('Credential added'),
+            text: __('The server credential was added successfully.'),
+            variant: 'success'
+        );
+
+        Flux::modal('add-credential')->close();
+
+        $this->provider = '';
+        $this->name = '';
+        $this->credentials = [];
     }
 }; ?>
 
