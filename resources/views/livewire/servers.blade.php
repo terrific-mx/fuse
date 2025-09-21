@@ -5,22 +5,34 @@ use Livewire\Volt\Component;
 new class extends Component {
     public string $name = '';
 
-    public function createServer(): void
+    protected function rules(): array
     {
-        $user = auth()->user();
-        $organization = $user->currentOrganization;
+        $organizationId = auth()->user()->currentOrganization->id;
 
-        $this->validate([
+        return [
             'name' => [
                 'required',
                 'string',
                 'max:253',
                 'regex:/^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.?([A-Za-z0-9-]{1,63}\.?)*[A-Za-z0-9]$/',
-                'unique:servers,name,NULL,id,organization_id,' . $organization->id,
+                \Illuminate\Validation\Rule::unique('servers', 'name')->where(fn ($q) => $q->where('organization_id', $organizationId)),
             ],
-        ], [
+        ];
+    }
+
+    protected function messages(): array
+    {
+        return [
             'name.regex' => __('The server name must be a valid hostname.'),
-        ]);
+        ];
+    }
+
+    public function createServer(): void
+    {
+        $user = auth()->user();
+        $organization = $user->currentOrganization;
+
+        $this->validate();
 
         $organization->servers()->create([
             'name' => $this->name,
