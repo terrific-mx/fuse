@@ -64,19 +64,19 @@ new class extends Component {
             <flux:input
                 label="{{ __('Provider') }}"
                 placeholder="{{ __('Provider name') }}"
-                wire:model.defer="provider"
+                wire:model="provider"
                 required
             />
             <flux:input
                 label="{{ __('Name') }}"
                 placeholder="{{ __('Credential name') }}"
-                wire:model.defer="name"
+                wire:model="name"
                 required
             />
             <flux:input
                 label="{{ __('API Key') }}"
                 placeholder="{{ __('API key') }}"
-                wire:model.defer="credentials.api_key"
+                wire:model="credentials.api_key"
                 required
             />
             <div class="flex gap-2">
