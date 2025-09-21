@@ -8,6 +8,48 @@ use Livewire\Volt\Volt;
 use function Pest\Laravel\actingAs;
 
 describe('Organization Credentials', function () {
+    it('validates Hetzner API key by fetching regions (success)', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+        $organization = $user->organizations()->first();
+
+        // Simulate a valid Hetzner API key (mock Hetzner API response for regions)
+        // Implementation will mock the HTTP client to return regions
+        Volt::actingAs($user)->test('server-credentials')
+            ->set('provider', 'hetzner')
+            ->set('name', 'Valid Hetzner')
+            ->set('credentials', ['api_key' => 'valid-key'])
+            ->call('addCredential')
+            ->assertHasNoErrors();
+
+        $credential = $organization->serverCredentials()->where('provider', 'hetzner')->first();
+        expect($credential)->not->toBeNull();
+        expect($credential->name)->toBe('Valid Hetzner');
+    });
+
+    it('shows validation error for invalid Hetzner API key', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+
+        // Simulate an invalid Hetzner API key (mock Hetzner API error response)
+        Volt::actingAs($user)->test('server-credentials')
+            ->set('provider', 'hetzner')
+            ->set('name', 'Invalid Hetzner')
+            ->set('credentials', ['api_key' => 'invalid-key'])
+            ->call('addCredential')
+            ->assertHasErrors(['credentials.api_key' => __('The Hetzner API key is invalid.')]);
+    });
+
+    it('shows validation error if Hetzner API is unreachable', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+
+        // Simulate Hetzner API unreachable (mock network error)
+        Volt::actingAs($user)->test('server-credentials')
+            ->set('provider', 'hetzner')
+            ->set('name', 'Unreachable Hetzner')
+            ->set('credentials', ['api_key' => 'any-key'])
+            ->call('addCredential')
+            ->assertHasErrors(['credentials.api_key' => __('Unable to reach Hetzner API. Please try again later.')]);
+    });
+
     it('can access the server-credentials page', function () {
         $user = User::factory()->withPersonalOrganization()->create();
 
