@@ -46,4 +46,46 @@ new class extends Component {
             {{ __('Manage your organization\'s server credentials, including provider details and API keys.') }}
         </flux:text>
     </div>
+
+    <flux:modal.trigger name="add-credential">
+        <flux:button icon="plus" variant="primary" class="mb-4">
+            {{ __('Add Server Credential') }}
+        </flux:button>
+    </flux:modal.trigger>
+
+    <flux:modal name="add-credential" variant="flyout" class="min-w-[22rem]">
+        <form wire:submit="addCredential" class="space-y-6">
+            <div>
+                <flux:heading size="lg">{{ __('Add Server Credential') }}</flux:heading>
+                <flux:text class="mt-2">
+                    {{ __('Enter provider details and API key.') }}
+                </flux:text>
+            </div>
+            <flux:input
+                label="{{ __('Provider') }}"
+                placeholder="{{ __('Provider name') }}"
+                wire:model.defer="provider"
+                required
+            />
+            <flux:input
+                label="{{ __('Name') }}"
+                placeholder="{{ __('Credential name') }}"
+                wire:model.defer="name"
+                required
+            />
+            <flux:input
+                label="{{ __('API Key') }}"
+                placeholder="{{ __('API key') }}"
+                wire:model.defer="credentials.api_key"
+                required
+            />
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
+                </flux:modal.close>
+                <flux:button type="submit" variant="primary">{{ __('Add') }}</flux:button>
+            </div>
+        </form>
+    </flux:modal>
 </div>
