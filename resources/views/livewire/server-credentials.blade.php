@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\ServerCredential;
 use Flux\Flux;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Laravel\Mcp\Server;
 use Livewire\Attributes\Computed;
 
 new class extends Component {
@@ -54,6 +56,19 @@ new class extends Component {
         $this->provider = 'hetzner';
         $this->name = '';
         $this->credentials = [];
+    }
+
+    public function deleteCredential(ServerCredential $credential)
+    {
+        $this->authorize('delete', $credential);
+
+        $credential->delete();
+
+        Flux::toast(
+            heading: __('Credential deleted'),
+            text: __('The server credential was deleted.'),
+            variant: 'success'
+        );
     }
 }; ?>
 
