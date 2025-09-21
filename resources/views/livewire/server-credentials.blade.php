@@ -11,6 +11,12 @@ new class extends Component {
     public array $credentials = [];
 
     #[Computed]
+    public function credentials()
+    {
+        return $this->organization->serverCredentials()->paginate(10);
+    }
+
+    #[Computed]
     public function organization()
     {
         return Auth::user()->currentOrganization;
@@ -88,4 +94,26 @@ new class extends Component {
             </div>
         </form>
     </flux:modal>
+
+    <flux:table :paginate="$this->credentials()">
+        <flux:table.columns>
+            <flux:table.column>{{ __('Provider') }}</flux:table.column>
+            <flux:table.column>{{ __('Name') }}</flux:table.column>
+            <flux:table.column>{{ __('API Key') }}</flux:table.column>
+            <flux:table.column>{{ __('Actions') }}</flux:table.column>
+        </flux:table.columns>
+        <flux:table.rows>
+            @foreach ($this->credentials() as $credential)
+                <flux:table.row :key="$credential->id">
+                    <flux:table.cell>{{ $credential->provider }}</flux:table.cell>
+                    <flux:table.cell>{{ $credential->name }}</flux:table.cell>
+                    <flux:table.cell>{{ $credential->credentials['api_key'] ?? __('(none)') }}</flux:table.cell>
+                    <flux:table.cell>
+                        <flux:button size="sm" variant="ghost" icon="pencil" />
+                        <flux:button size="sm" variant="danger" icon="trash" />
+                    </flux:table.cell>
+                </flux:table.row>
+            @endforeach
+        </flux:table.rows>
+    </flux:table>
 </div>
