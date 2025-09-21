@@ -38,5 +38,12 @@ new class extends Component {
 }; ?>
 
 <div>
-    //
+    <div class="mb-8">
+        <flux:heading size="lg">
+            {{ __('Server Credentials') }}
+        </flux:heading>
+        <flux:text class="mt-2">
+            {{ __('Manage your organization\'s server credentials, including provider details and API keys.') }}
+        </flux:text>
+    </div>
 </div>
