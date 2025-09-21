@@ -69,4 +69,9 @@ class Organization extends Model
     {
         return $this->hasMany(ServerCredential::class);
     }
+
+    public function servers()
+    {
+        return $this->hasMany(Server::class);
+    }
 }
