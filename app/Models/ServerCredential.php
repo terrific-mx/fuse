@@ -20,7 +20,7 @@ class ServerCredential extends Model
     protected function casts(): array
     {
         return [
-            'credentials' => 'array',
+            'credentials' => 'encrypted:array',
         ];
     }
 
