@@ -5,16 +5,12 @@ use App\Models\Organization;
 use App\Models\ServerCredential;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Volt\Volt;
-use Illuminate\Support\Facades\Http;
+use Facades\App\Services\HetznerService;
 use function Pest\Laravel\actingAs;
 
 describe('Organization Credentials', function () {
     it('validates Hetzner API key by fetching regions (success)', function () {
-        Http::fake([
-            'api.hetzner.cloud/v1/locations' => Http::response([
-                'locations' => [['name' => 'fsn1']]
-            ], 200),
-        ]);
+        HetznerService::shouldReceive('validateApiKey')->with('valid-key')->andReturn(true);
 
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->organizations()->first();
@@ -32,9 +28,7 @@ describe('Organization Credentials', function () {
     });
 
     it('shows validation error for invalid Hetzner API key', function () {
-        Http::fake([
-            'api.hetzner.cloud/v1/locations' => Http::response([], 401),
-        ]);
+        HetznerService::shouldReceive('validateApiKey')->with('invalid-key')->andReturn(false);
 
         $user = User::factory()->withPersonalOrganization()->create();
 
@@ -55,11 +49,7 @@ describe('Organization Credentials', function () {
     });
 
     it('allows organization members to add Hetzner credentials', function () {
-        Http::fake([
-            'api.hetzner.cloud/v1/locations' => Http::response([
-                'locations' => [['name' => 'fsn1']]
-            ], 200),
-        ]);
+        HetznerService::shouldReceive('validateApiKey')->with('test-key')->andReturn(true);
 
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->organizations()->first();
