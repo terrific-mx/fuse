@@ -11,11 +11,11 @@ describe('Organization Servers', function () {
         $organization = $user->currentOrganization;
 
         Volt::actingAs($user)->test('servers')
-            ->set('name', 'valid-hostname.example.com')
+            ->set('name', 'valid-hostname')
             ->call('createServer')
             ->assertHasNoErrors();
 
-        $server = $organization->servers()->where('name', 'valid-hostname.example.com')->first();
+        $server = $organization->servers()->where('name', 'valid-hostname')->first();
         expect($server)->not->toBeNull();
     });
 

@@ -21,16 +21,9 @@ new class extends Component {
                 'required',
                 'string',
                 'max:253',
-                'regex:/^(?=.{1,253}$)(?!-)[A-Za-z0-9-]{1,63}(?<!-)\.?([A-Za-z0-9-]{1,63}\.?)*[A-Za-z0-9]$/',
+                'alpha_dash',
                 Rule::unique('servers', 'name')->where(fn ($q) => $q->where('organization_id', $this->organization->id)),
             ],
-        ];
-    }
-
-    protected function messages(): array
-    {
-        return [
-            'name.regex' => __('The server name must be a valid hostname.'),
         ];
     }
 
@@ -46,6 +39,11 @@ new class extends Component {
     }
 }; ?>
 
-<div>
-    //
-</div>
+<form wire:submit="createServer">
+    <label for="name">{{ __('Server Name') }}</label>
+    <input id="name" type="text" wire:model="name" :placeholder="__('Enter server name')">
+    <button type="submit">{{ __('Create Server') }}</button>
+    @error('name')
+        <div class="error">{{ $message }}</div>
+    @enderror
+</form>
