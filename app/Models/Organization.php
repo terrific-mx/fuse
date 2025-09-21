@@ -64,4 +64,9 @@ class Organization extends Model
             'personal' => 'boolean',
         ];
     }
+
+    public function serverCredentials()
+    {
+        return $this->hasMany(ServerCredential::class);
+    }
 }
