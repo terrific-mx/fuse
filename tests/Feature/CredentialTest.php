@@ -4,8 +4,17 @@ use App\Models\User;
 use App\Models\Organization;
 use App\Models\ServerCredential;
 use Livewire\Volt\Volt;
+use function Pest\Laravel\actingAs;
 
 describe('Organization Credentials', function () {
+    it('can access the server-credentials page', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+
+        actingAs($user)
+            ->get('/server-credentials')
+            ->assertStatus(200);
+    });
+
     it('allows organization members to add Hetzner credentials', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->organizations()->first();
