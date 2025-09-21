@@ -3,6 +3,7 @@
 use App\Models\User;
 use App\Models\Organization;
 use App\Models\ServerCredential;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Volt\Volt;
 use function Pest\Laravel\actingAs;
 
@@ -97,12 +98,10 @@ describe('Organization Credentials', function () {
         expect($otherOrg->serverCredentials()->find($credential->id))->not->toBeNull();
     });
 
-    it('fails gracefully when deleting a non-existent credential', function () {
+    it('throws ModelNotFoundException when attempting to delete a non-existent credential', function () {
         $user = User::factory()->withPersonalOrganization()->create();
-        $nonExistentId = 999999;
 
         Volt::actingAs($user)->test('server-credentials')
-            ->call('deleteCredential', $nonExistentId)
-            ->assertNotFound();
-    });
+            ->call('deleteCredential', 999999);
+    })->throws(ModelNotFoundException::class);
 });
