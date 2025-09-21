@@ -69,4 +69,40 @@ describe('Organization Credentials', function () {
             ->call('addCredential')
             ->assertHasErrors(['provider']);
     });
+
+    it('allows organization members to delete a server credential', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+        $organization = $user->organizations()->first();
+        $credential = ServerCredential::factory()->for($organization)->create();
+
+        Volt::actingAs($user)->test('server-credentials')
+            ->call('deleteCredential', $credential->id);
+
+        expect($organization->serverCredentials()->find($credential->id))->toBeNull();
+    });
+
+    it('prevents users from deleting credentials in organizations they do not belong to', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+        $otherOrg = Organization::factory()->create();
+        $credential = ServerCredential::factory()->for($otherOrg)->create([
+            'provider' => 'hetzner',
+            'name' => 'Other Hetzner',
+            'credentials' => ['api_key' => 'other-key'],
+        ]);
+
+        Volt::actingAs($user)->test('server-credentials')
+            ->call('deleteCredential', $credential->id)
+            ->assertForbidden();
+
+        expect($otherOrg->serverCredentials()->find($credential->id))->not->toBeNull();
+    });
+
+    it('fails gracefully when deleting a non-existent credential', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+        $nonExistentId = 999999;
+
+        Volt::actingAs($user)->test('server-credentials')
+            ->call('deleteCredential', $nonExistentId)
+            ->assertNotFound();
+    });
 });
