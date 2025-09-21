@@ -29,6 +29,7 @@ new class extends Component {
             'provider' => [
                 'required',
                 'string',
+                Rule::in(['hetzner']),
                 Rule::unique('server_credentials')->where(fn ($query) => $query->where('organization_id', $this->organization->id)),
             ],
             'name' => ['required', 'string'],
@@ -113,7 +114,6 @@ new class extends Component {
             <flux:table.column>{{ __('Provider') }}</flux:table.column>
             <flux:table.column>{{ __('Name') }}</flux:table.column>
             <flux:table.column>{{ __('API Key') }}</flux:table.column>
-            <flux:table.column>{{ __('Actions') }}</flux:table.column>
         </flux:table.columns>
         <flux:table.rows>
             @foreach ($this->credentials() as $credential)
@@ -121,9 +121,8 @@ new class extends Component {
                     <flux:table.cell>{{ $credential->provider }}</flux:table.cell>
                     <flux:table.cell>{{ $credential->name }}</flux:table.cell>
                     <flux:table.cell>{{ $credential->credentials['api_key'] ?? __('(none)') }}</flux:table.cell>
-                    <flux:table.cell>
-                        <flux:button size="sm" variant="ghost" icon="pencil" />
-                        <flux:button size="sm" variant="danger" icon="trash" />
+                    <flux:table.cell align="end">
+                        <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach
