@@ -59,4 +59,14 @@ describe('Organization Credentials', function () {
             ->call('addCredential')
             ->assertHasErrors(['provider']);
     });
+
+    it('rejects non-Hetzner providers when adding credentials', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+        Volt::actingAs($user)->test('server-credentials')
+            ->set('provider', 'invalid-provider')
+            ->set('name', 'Test Credential')
+            ->set('credentials', ['api_key' => 'test-key'])
+            ->call('addCredential')
+            ->assertHasErrors(['provider']);
+    });
 });
