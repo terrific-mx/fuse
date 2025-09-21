@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 
 new class extends Component {
-    public string $provider = '';
+    public string $provider = 'hetzner';
     public string $name = '';
     public array $credentials = [];
 
@@ -51,7 +51,7 @@ new class extends Component {
 
         Flux::modal('add-credential')->close();
 
-        $this->provider = '';
+        $this->provider = 'hetzner';
         $this->name = '';
         $this->credentials = [];
     }
@@ -86,6 +86,7 @@ new class extends Component {
                 placeholder="{{ __('Provider name') }}"
                 wire:model="provider"
                 required
+                disabled
             />
             <flux:input
                 label="{{ __('Name') }}"
