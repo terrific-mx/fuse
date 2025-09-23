@@ -109,5 +109,17 @@
     "You have been invited to join the organization \":organization\".": "Has sido invitado a unirte a la organización \":organization\".",
     "You haven't sent any invitations yet.": "Aún no has enviado ninguna invitación.",
     "You need to subscribe to our service to continue.": "Necesitas suscribirte a nuestro servicio para continuar.",
-    "Your email address is unverified.": "Tu dirección de correo no está verificada."
+    "Your email address is unverified.": "Tu dirección de correo no está verificada.",
+    "Servers": "Servidores",
+    "Add Server": "Agregar servidor",
+    "Server created": "Servidor creado",
+    "The server was created successfully.": "El servidor fue creado exitosamente.",
+    "Server deleted": "Servidor eliminado",
+    "The server was deleted.": "El servidor fue eliminado.",
+    "Manage your organization's servers.": "Administra los servidores de tu organización.",
+    "Add Server": "Agregar servidor",
+    "Enter a name for your server.": "Ingresa un nombre para tu servidor.",
+    "Server name": "Nombre del servidor",
+    "Created At": "Creado el"
 }
+

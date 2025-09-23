@@ -47,4 +47,15 @@ describe('Organization Servers', function () {
             ->call('createServer')
             ->assertHasErrors(['name']);
     });
+
+    it('allows organization members to delete a server', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+        $organization = $user->currentOrganization;
+        $server = Server::factory()->for($organization)->create(['name' => 'delete-me.example.com']);
+
+        Volt::actingAs($user)->test('servers')
+            ->call('deleteServer', $server);
+
+        expect($organization->servers()->where('id', $server->id)->exists())->toBeFalse();
+    });
 });

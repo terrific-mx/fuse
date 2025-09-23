@@ -1,9 +1,11 @@
 <?php
 
+use App\Models\Server;
+use Flux\Flux;
+use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
-use Livewire\Volt\Component;
 
 new class extends Component {
     public string $name = '';
@@ -12,6 +14,12 @@ new class extends Component {
     public function organization()
     {
         return Auth::user()->currentOrganization;
+    }
+
+    #[Computed]
+    public function servers()
+    {
+        return $this->organization->servers()->paginate(10);
     }
 
     protected function rules(): array
@@ -31,19 +39,99 @@ new class extends Component {
     {
         $this->validate();
 
-        $this->organization->servers()->create([
+        $server = $this->organization->servers()->create([
             'name' => $this->name,
         ]);
 
+        Flux::toast(
+            heading: __('Server created'),
+            text: __('The server was created successfully.'),
+            variant: 'success'
+        );
+
+        Flux::modal('add-server')->close();
+
         $this->name = '';
+    }
+
+    public function deleteServer(Server $server): void
+    {
+        $this->authorize('delete', $server);
+        $server->delete();
+
+        Flux::toast(
+            heading: __('Server deleted'),
+            text: __('The server was deleted.'),
+            variant: 'success'
+        );
     }
 }; ?>
 
-<form wire:submit="createServer">
-    <label for="name">{{ __('Server Name') }}</label>
-    <input id="name" type="text" wire:model="name" :placeholder="__('Enter server name')">
-    <button type="submit">{{ __('Create Server') }}</button>
-    @error('name')
-        <div class="error">{{ $message }}</div>
-    @enderror
-</form>
+<div>
+    <div class="mb-8">
+        <flux:heading size="lg">
+            {{ __('Servers') }}
+        </flux:heading>
+        <flux:text class="mt-2">
+            {{ __('Manage your organization\'s servers.') }}
+        </flux:text>
+    </div>
+
+    <flux:modal.trigger name="add-server">
+        <flux:button icon="plus" variant="primary" class="mb-4">
+            {{ __('Add Server') }}
+        </flux:button>
+    </flux:modal.trigger>
+
+    <flux:modal name="add-server" variant="flyout" class="min-w-[22rem]">
+        <form wire:submit="createServer" class="space-y-6">
+            <div>
+                <flux:heading size="lg">{{ __('Add Server') }}</flux:heading>
+                <flux:text class="mt-2">
+                    {{ __('Enter a name for your server.') }}
+                </flux:text>
+            </div>
+            <flux:input
+                label="{{ __('Name') }}"
+                placeholder="{{ __('Server name') }}"
+                wire:model="name"
+                required
+            />
+            <div class="flex gap-2">
+                <flux:spacer />
+                <flux:modal.close>
+                    <flux:button variant="ghost">{{ __('Cancel') }}</flux:button>
+                </flux:modal.close>
+                <flux:button type="submit" variant="primary">{{ __('Create') }}</flux:button>
+            </div>
+        </form>
+    </flux:modal>
+
+    <flux:table :paginate="$this->servers()">
+        <flux:table.columns>
+            <flux:table.column>{{ __('Name') }}</flux:table.column>
+            <flux:table.column>{{ __('Created At') }}</flux:table.column>
+        </flux:table.columns>
+        <flux:table.rows>
+            @foreach ($this->servers() as $server)
+                <flux:table.row :key="$server->id">
+                    <flux:table.cell>{{ $server->name }}</flux:table.cell>
+                    <flux:table.cell>{{ $server->created_at->format('Y-m-d H:i') }}</flux:table.cell>
+                    <flux:table.cell align="end">
+                        <flux:dropdown position="bottom" align="end">
+                            <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
+                            <flux:menu>
+                                <flux:menu.item
+                                    variant="danger"
+                                    icon="trash"
+                                    wire:click="deleteServer({{ $server->id }})"
+                                >{{ __('Delete') }}</flux:menu.item>
+                            </flux:menu>
+                        </flux:dropdown>
+                    </flux:table.cell>
+                </flux:table.row>
+            @endforeach
+        </flux:table.rows>
+    </flux:table>
+</div>
+
