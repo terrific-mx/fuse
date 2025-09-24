@@ -20,7 +20,7 @@ class Server extends Model
     protected function casts(): array
     {
         return [
-            'hetzner_id' => 'string',
+            'provider_id' => 'string',
             'ip_address' => 'string',
             'status' => 'string',
         ];

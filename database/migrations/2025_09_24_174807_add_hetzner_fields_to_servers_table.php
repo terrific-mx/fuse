@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->string('hetzner_id');
+            $table->string('provider_id');
             $table->string('ip_address');
             $table->string('status');
         });
@@ -24,7 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->dropColumn(['hetzner_id', 'ip_address', 'status']);
+            $table->dropColumn(['provider_server_id', 'ip_address', 'status']);
         });
     }
 };

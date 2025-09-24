@@ -102,7 +102,7 @@ new class extends Component {
 
         $server = $this->organization->servers()->create([
             'name' => $this->name,
-            'hetzner_id' => $hetzner['hetzner_id'],
+            'provider_id' => $hetzner['provider_id'],
             'ip_address' => $hetzner['ip_address'],
             'status' => $hetzner['status'],
         ]);

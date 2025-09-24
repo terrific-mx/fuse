@@ -20,7 +20,7 @@ class ServerFactory extends Factory
         return [
             'organization_id' => Organization::factory(),
             'name' => $this->faker->domainName,
-            'hetzner_id' => $this->faker->uuid,
+            'provider_id' => $this->faker->uuid,
             'ip_address' => $this->faker->ipv4,
             'status' => 'running',
         ];

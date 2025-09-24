@@ -34,7 +34,7 @@ describe('Organization Servers', function () {
         ]);
         HetznerService::shouldReceive('createServer')
             ->andReturn([
-                'hetzner_id' => '12345',
+                'provider_id' => '12345',
                 'ip_address' => '192.0.2.1',
                 'status' => 'running',
             ]);
@@ -49,7 +49,7 @@ describe('Organization Servers', function () {
         $server = $organization->servers()->where('name', 'valid-hostname')->first();
 
         expect($server)->not->toBeNull();
-        expect($server->hetzner_id)->not->toBeNull();
+        expect($server->provider_id)->not->toBeNull();
         expect($server->ip_address)->not->toBeNull();
         expect($server->status)->not->toBeNull();
     });

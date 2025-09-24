@@ -262,7 +262,7 @@ class HetznerService
         $server = $response->json('server');
 
         return [
-            'hetzner_id' => $server['id'] ?? null,
+            'provider_id' => $server['id'] ?? null,
             'ip_address' => $server['public_net']['ipv4']['ip'] ?? null,
             'status' => $server['status'] ?? null,
         ];
