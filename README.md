@@ -1,23 +1,17 @@
-# Terrific SaaS Starter Kit
+# Terrific Fuse: Laravel Server Provisioner & Deployer
 
-A personal, opinionated Laravel starter kit for building SaaS applications quickly and securely. This kit includes:
+Terrific Fuse is a work-in-progress (WIP) project for provisioning servers and deploying Laravel applications. The goal is to provide automated server setup, secure credential management, and zero-downtime deployment workflows for Laravel projects.
 
 - **Laravel 12.x**
+- **Automated server provisioning** for Laravel applications
+- **Zero-downtime deployment** to provisioned servers
 - **Stripe billing** via [Laravel Cashier](https://laravel.com/docs/billing) (one plan, subscription required for dashboard access)
 - **Stripe Checkout** for new subscriptions
 - **Billing portal** for subscribers
 - **Flux UI Pro** components (paid license required)
 - **Honeybadger** for error tracking
 
-## Features
 
-- User authentication and registration
-- Enforced active subscription for dashboard access
-- Simple billing system (single plan, easy to extend)
-- Stripe Checkout integration for seamless payments
-- Access to Stripe's billing portal for managing subscriptions
-- Modern, beautiful UI with Flux UI Pro components
-- Error monitoring with Honeybadger
 
 ## Requirements
 
@@ -27,13 +21,14 @@ A personal, opinionated Laravel starter kit for building SaaS applications quick
 - [Flux UI Pro license](https://www.fluxui.com/pricing) (required for UI components)
 - [Stripe account](https://dashboard.stripe.com/register)
 - [Honeybadger account](https://www.honeybadger.io/)
+- [Hetzner account](https://www.hetzner.com/cloud) (for server provisioning)
 
 ## Getting Started
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/terrific-starter-kit.git
-   cd terrific-starter-kit
+   git clone https://github.com/your-username/terrific-fuse.git
+   cd terrific-fuse
    ```
 
 2. **Install dependencies:**
@@ -45,7 +40,7 @@ A personal, opinionated Laravel starter kit for building SaaS applications quick
 3. **Copy and configure environment:**
    ```bash
    cp .env.example .env
-   # Set your database, Stripe, Flux UI Pro, and Honeybadger credentials in .env
+   # Set your database, Stripe, Flux UI Pro, Honeybadger, and Hetzner credentials in .env
    ```
 
 4. **Generate application key:**
@@ -87,19 +82,17 @@ A personal, opinionated Laravel starter kit for building SaaS applications quick
 - Set your `HONEYBADGER_API_KEY` in `.env`.
 - See the [Honeybadger Laravel docs](https://docs.honeybadger.io/lib/php/integration/laravel.html) for advanced configuration.
 
-## Opinionated Structure
+## Status
 
-This starter kit is intentionally opinionated:
-- Enforces subscription for all app access (except auth/billing)
-- Uses Stripe exclusively for billing
-- UI is built with Flux UI Pro (no fallback)
-- Honeybadger is the only error tracking provider
+**This project is a work in progress.**
 
-Feel free to fork and adapt to your needs!
+Terrific Fuse aims to be an opinionated platform for provisioning servers and deploying Laravel applications. Many features are still under development.
+
+Feel free to fork and adapt to your needs, or follow along as Terrific Fuse evolves into a robust server provisioning and deployment platform for Laravel apps.
 
 ## License
 
-This project is open source, but you must purchase your own Flux UI Pro and Honeybadger licenses to use those services.
+This project is open source, but you must purchase your own Flux UI Pro, Honeybadger, and Hetzner licenses/accounts to use those services.
 
 ---
 
@@ -107,4 +100,4 @@ This project is open source, but you must purchase your own Flux UI Pro and Hone
 
 ---
 
-> _Built by Oliver as a personal SaaS starter kit. PRs and suggestions welcome._
+> _Built by Oliver as a Laravel server provisioner and deployer. PRs and suggestions welcome._
