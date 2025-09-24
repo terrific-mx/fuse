@@ -139,10 +139,11 @@ new class extends Component {
                 required
             />
             <flux:select label="{{ __('Location') }}" wire:model.live="location" variant="listbox">
-                @foreach ($this->locations as $loc)
-                    <flux:select.option value="{{ $loc['name'] }}" :selected="$loop->first">{{ $loc['city'] }} ({{ $loc['name'] }})</flux:select.option>
-                @endforeach
-            </flux:select>
+    <flux:select.option value="" disabled selected>{{ __('Select a location...') }}</flux:select.option>
+    @foreach ($this->locations as $loc)
+        <flux:select.option value="{{ $loc['name'] }}">{{ $loc['city'] }} ({{ $loc['name'] }})</flux:select.option>
+    @endforeach
+</flux:select>
             <flux:select label="{{ __('Server Type') }}" wire:model="serverType" wire:key="{{ $location }}" variant="listbox" :disabled="empty($this->serverTypes)" :placeholder="empty($this->serverTypes) ? __('Select a location first') : __('Select a server type')">
                 @foreach ($this->serverTypes as $type)
                     <flux:select.option value="{{ $type['name'] }}" :selected="$loop->first">
