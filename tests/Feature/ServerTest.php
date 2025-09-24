@@ -7,14 +7,7 @@ use Facades\App\Services\HetznerService;
 use Livewire\Volt\Volt;
 
 describe('Organization Servers', function () {
-    it('allows organization members to create a server with a valid hostname', function () {
-        $user = User::factory()->withPersonalOrganization()->create();
-        $organization = $user->currentOrganization;
-        ServerCredential::factory()->for($organization)->create([
-            'provider' => 'hetzner',
-            'credentials' => ['api_key' => 'test-key'],
-        ]);
-
+    beforeEach(function () {
         HetznerService::shouldReceive('getLocations')
             ->andReturn([['name' => 'fsn1', 'city' => 'Falkenstein']]);
         HetznerService::shouldReceive('getServerTypes')
@@ -30,7 +23,15 @@ describe('Organization Servers', function () {
                     'locations' => ['fsn1'],
                 ],
             ]);
+    });
 
+    it('allows organization members to create a server with a valid hostname', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+        $organization = $user->currentOrganization;
+        ServerCredential::factory()->for($organization)->create([
+            'provider' => 'hetzner',
+            'credentials' => ['api_key' => 'test-key'],
+        ]);
         HetznerService::shouldReceive('createServer')
             ->andReturn([
                 'hetzner_id' => '12345',
@@ -82,6 +83,43 @@ describe('Organization Servers', function () {
             ->assertHasErrors(['name']);
     });
 
+    it('shows validation error if location is missing', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+
+        Volt::actingAs($user)->test('servers')
+            ->set('location', '')
+            ->call('createServer')
+            ->assertHasErrors(['location' => 'required']);
+    });
+
+    it('shows validation error if location is not in allowed list', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+
+        $component = Volt::actingAs($user)->test('servers')
+            ->set('location', 'invalid-location')
+            ->call('createServer')
+            ->assertHasErrors(['location' => 'in']);
+    });
+
+    it('shows validation error if serverType is missing', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+
+        Volt::actingAs($user)->test('servers')
+            ->set('serverType', '')
+            ->call('createServer')
+            ->assertHasErrors(['serverType' => 'required']);
+    });
+
+    it('shows validation error if serverType is not in allowed list', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+
+        Volt::actingAs($user)->test('servers')
+            ->set('location', 'fsn1')
+            ->set('serverType', 'invalid-type')
+            ->call('createServer')
+            ->assertHasErrors(['serverType' => 'in']);
+    });
+
     it('allows organization members to delete a server', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->currentOrganization;
@@ -101,22 +139,6 @@ describe('Organization Servers', function () {
             'provider' => 'hetzner',
             'credentials' => ['api_key' => 'test-key'],
         ]);
-
-        HetznerService::shouldReceive('getLocations')
-            ->andReturn([['name' => 'fsn1', 'city' => 'Falkenstein']]);
-        HetznerService::shouldReceive('getServerTypes')
-            ->andReturn([
-                [
-                    'name' => 'cpx11',
-                    'architecture' => 'x86',
-                    'cores' => 2,
-                    'cpu_type' => 'shared',
-                    'description' => 'CPX 11',
-                    'disk' => 40,
-                    'memory' => 2,
-                    'locations' => ['fsn1'],
-                ],
-            ]);
 
         HetznerService::shouldReceive('createServer')
             ->andReturn(['error' => 'API key invalid']);
