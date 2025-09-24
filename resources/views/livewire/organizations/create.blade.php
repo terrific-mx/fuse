@@ -3,6 +3,7 @@
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Organization;
+use Facades\App\Services\SshKeyGenerator;
 
 new class extends Component {
     public string $name = '';
@@ -15,8 +16,12 @@ new class extends Component {
             'name' => ['required', 'string', 'max:255'],
         ]);
 
+        $keys = SshKeyGenerator::generate();
+
         $organization = Auth::user()->organizations()->create([
             'name' => $this->name,
+            'ssh_public_key' => $keys['public'],
+            'ssh_private_key' => $keys['private'],
         ]);
 
         Auth::user()->switchOrganization($organization);

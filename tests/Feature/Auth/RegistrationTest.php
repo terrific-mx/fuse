@@ -2,7 +2,7 @@
 
 use App\Models\Organization;
 use App\Models\User;
-use Illuminate\Support\Facades\Process;
+use Facades\App\Services\SshKeyGenerator;
 use Livewire\Volt\Volt;
 
 it('renders the registration screen', function () {
@@ -27,13 +27,12 @@ it('registers a new user with valid data', function () {
 });
 
 it('creates a personal organization for the new user on registration', function () {
-    Process::fake([
-        'ssh-keygen*' => Process::result(
-            output: '',
-            errorOutput: '',
-            exitCode: 0,
-        ),
-    ]);
+    SshKeyGenerator::shouldReceive('generate')
+        ->once()
+        ->andReturn([
+            'public' => 'FAKE_PUBLIC_KEY',
+            'private' => 'FAKE_PRIVATE_KEY',
+        ]);
 
     $userName = 'Test User';
     $userEmail = 'test2@example.com';
@@ -56,12 +55,6 @@ it('creates a personal organization for the new user on registration', function 
     expect($organization->personal)->toBeTrue();
     expect($user->currentOrganization->is($organization))->toBeTrue();
 
-    // Assert SSH keys are set
-    expect($organization->ssh_public_key)->not->toBeEmpty();
-    expect($organization->ssh_private_key)->not->toBeEmpty();
-
-    // Assert process was run
-    Process::assertRan(function ($process) {
-        return str_starts_with($process->command, 'ssh-keygen -t rsa -b 4096 -f ' . storage_path('app/private/laravel_orgkey_')) && str_ends_with($process->command, " -N ''");
-    });
+    expect($organization->ssh_public_key)->toBe('FAKE_PUBLIC_KEY');
+    expect($organization->ssh_private_key)->toBe('FAKE_PRIVATE_KEY');
 });

@@ -8,28 +8,25 @@ use Illuminate\Support\Str;
 class SshKeyGenerator
 {
     /**
-     * Generate a new SSH keypair and return as ['public' => ..., 'private' => ...]
+     * Generate a new SSH keypair for use with organizations.
+     *
+     * @return array{public: string, private: string}
      */
-    public static function generate(): array
+    public function generate(): array
     {
         $privateDir = storage_path('app/private');
-        if (!is_dir($privateDir)) {
-            mkdir($privateDir, 0777, true);
-        }
+
         $random = Str::random(32);
+
         $keyPath = $privateDir . "/laravel_orgkey_{$random}";
+
         Process::run("ssh-keygen -t rsa -b 4096 -f {$keyPath} -N ''");
 
-        if (file_exists($keyPath) && file_exists("{$keyPath}.pub")) {
-            $privateKey = file_get_contents($keyPath);
-            $publicKey = file_get_contents("{$keyPath}.pub");
-            unlink($keyPath);
-            unlink("{$keyPath}.pub");
-        } else {
-            // Fallback for tests when Process is faked
-            $privateKey = 'FAKE_PRIVATE_KEY';
-            $publicKey = 'FAKE_PUBLIC_KEY';
-        }
+        $privateKey = file_get_contents($keyPath);
+        $publicKey = file_get_contents("{$keyPath}.pub");
+
+        unlink($keyPath);
+        unlink("{$keyPath}.pub");
 
         return [
             'public' => $publicKey,

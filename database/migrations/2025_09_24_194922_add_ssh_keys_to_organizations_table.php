@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('organizations', function (Blueprint $table) {
-            $table->text('ssh_public_key')->nullable();
-            $table->text('ssh_private_key')->nullable();
+            $table->text('ssh_public_key');
+            $table->text('ssh_private_key');
         });
     }
 
