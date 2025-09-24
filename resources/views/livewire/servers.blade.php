@@ -129,7 +129,7 @@ new class extends Component {
             <div>
                 <flux:heading size="lg">{{ __('Add Server') }}</flux:heading>
                 <flux:text class="mt-2">
-                    {{ __('Enter a name for your server.') }}
+                    {{ __('Choose a location and server type. Server types show architecture, CPU, cores, and memory. Enter a name for your new server.') }}
                 </flux:text>
             </div>
             <flux:input
@@ -146,7 +146,7 @@ new class extends Component {
             <flux:select label="{{ __('Server Type') }}" wire:model="serverType" wire:key="{{ $location }}" variant="listbox" :disabled="empty($this->serverTypes)" :placeholder="empty($this->serverTypes) ? __('Select a location first') : __('Select a server type')">
                 @foreach ($this->serverTypes as $type)
                     <flux:select.option value="{{ $type['name'] }}" :selected="$loop->first">
-    {{ $type['name'] }} ({{ $type['architecture'] }}, {{ $type['cores'] }} {{ __('cores') }}, {{ $type['cpu_type'] }} CPU, {{ $type['memory'] }}GB RAM)
+    {{ strtoupper($type['name']) }} ({{ $type['architecture'] }}, {{ $type['cores'] }} {{ __('cores') }}, {{ $type['cpu_type'] }} CPU, {{ $type['memory'] }}GB RAM)
 </flux:select.option>
                 @endforeach
             </flux:select>
