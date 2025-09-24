@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use App\Models\Organization;
-use App\Models\ServerCredential;
+use App\Models\ServerProvider;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Volt\Volt;
 use Facades\App\Services\HetznerService;
@@ -22,9 +22,9 @@ describe('Organization Credentials', function () {
             ->call('addCredential')
             ->assertHasNoErrors();
 
-        $credential = $organization->serverCredentials()->where('provider', 'hetzner')->first();
-        expect($credential)->not->toBeNull();
-        expect($credential->name)->toBe('Valid Hetzner');
+        $provider = $organization->serverProviders()->where('provider', 'hetzner')->first();
+        expect($provider)->not->toBeNull();
+        expect($provider->name)->toBe('Valid Hetzner');
     });
 
     it('shows validation error for invalid Hetzner API key', function () {
@@ -60,11 +60,11 @@ describe('Organization Credentials', function () {
             ->set('credentials', ['api_key' => 'test-key'])
             ->call('addCredential');
 
-        $credential = $organization->serverCredentials()->first();
+        $provider = $organization->serverProviders()->first();
 
-        expect($credential)->not->toBeNull();
-        expect($credential->provider)->toBe('hetzner');
-        expect($credential->name)->toBe('My Hetzner');
+        expect($provider)->not->toBeNull();
+        expect($provider->provider)->toBe('hetzner');
+        expect($provider->name)->toBe('My Hetzner');
     });
 
     it('validates required fields when adding credentials', function () {
@@ -81,7 +81,7 @@ describe('Organization Credentials', function () {
     it('enforces unique provider credentials per organization', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->organizations()->first();
-        ServerCredential::factory()->for($organization)->create([
+        ServerProvider::factory()->for($organization)->create([
             'provider' => 'hetzner',
             'name' => 'My Hetzner',
             'credentials' => ['api_key' => 'test-key'],
@@ -108,28 +108,28 @@ describe('Organization Credentials', function () {
     it('allows organization members to delete a server credential', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->organizations()->first();
-        $credential = ServerCredential::factory()->for($organization)->create();
+        $provider = ServerProvider::factory()->for($organization)->create();
 
         Volt::actingAs($user)->test('server-credentials')
-            ->call('deleteCredential', $credential->id);
+            ->call('deleteCredential', $provider->id);
 
-        expect($organization->serverCredentials()->find($credential->id))->toBeNull();
+        expect($organization->serverProviders()->find($provider->id))->toBeNull();
     });
 
     it('prevents users from deleting credentials in organizations they do not belong to', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $otherOrg = Organization::factory()->create();
-        $credential = ServerCredential::factory()->for($otherOrg)->create([
+        $provider = ServerProvider::factory()->for($otherOrg)->create([
             'provider' => 'hetzner',
             'name' => 'Other Hetzner',
             'credentials' => ['api_key' => 'other-key'],
         ]);
 
         Volt::actingAs($user)->test('server-credentials')
-            ->call('deleteCredential', $credential->id)
+            ->call('deleteCredential', $provider->id)
             ->assertForbidden();
 
-        expect($otherOrg->serverCredentials()->find($credential->id))->not->toBeNull();
+        expect($otherOrg->serverProviders()->find($provider->id))->not->toBeNull();
     });
 
     it('throws ModelNotFoundException when attempting to delete a non-existent credential', function () {

@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Str;
 
-class ServerCredential extends Model
+class ServerProvider extends Model
 {
-    /** @use HasFactory<\Database\Factories\ServerCredentialFactory> */
+    /** @use HasFactory<\Database\Factories\ServerProviderFactory> */
     use HasFactory;
 
     protected $guarded = [];

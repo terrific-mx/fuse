@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Server;
-use App\Models\ServerCredential;
+use App\Models\ServerProvider;
 use App\Models\User;
 use Facades\App\Services\HetznerService;
 use Livewire\Volt\Volt;
@@ -27,7 +27,7 @@ beforeEach(function () {
 it('creates a server with valid hostname and credential for organization member', function () {
     $user = User::factory()->withPersonalOrganization()->create();
     $organization = $user->currentOrganization;
-    $credential = ServerCredential::factory()->for($organization)->create([
+    $provider = ServerProvider::factory()->for($organization)->create([
         'provider' => 'hetzner',
         'credentials' => ['api_key' => 'test-key'],
     ]);
@@ -43,7 +43,7 @@ it('creates a server with valid hostname and credential for organization member'
         ->set('name', 'valid-hostname')
         ->set('location', 'fsn1')
         ->set('serverType', 'cpx11')
-        ->set('credential', $credential->id)
+        ->set('credential', $provider->id)
         ->call('createServer')
         ->assertHasNoErrors();
 
@@ -52,7 +52,7 @@ it('creates a server with valid hostname and credential for organization member'
     expect($server->provider_id)->not->toBeNull();
     expect($server->ip_address)->not->toBeNull();
     expect($server->status)->not->toBeNull();
-    expect($server->server_credential_id)->toBe($credential->id);
+    expect($server->server_provider_id)->toBe($provider->id);
 });
 
 it('fails with validation error when credential is missing', function () {
@@ -66,13 +66,13 @@ it('fails with validation error when credential is missing', function () {
 
 it('fails with validation error when credential does not belong to organization', function () {
     $user = User::factory()->withPersonalOrganization()->create();
-    $otherCredential = ServerCredential::factory()->create([
+    $otherProvider = ServerProvider::factory()->create([
         'provider' => 'hetzner',
         'credentials' => ['api_key' => 'other-key'],
     ]);
 
     Volt::actingAs($user)->test('servers')
-        ->set('credential', $otherCredential->id)
+        ->set('credential', $otherProvider->id)
         ->call('createServer')
         ->assertHasErrors(['credential' => 'exists']);
 });
@@ -80,13 +80,13 @@ it('fails with validation error when credential does not belong to organization'
 it('fails with validation error when credential provider is incorrect', function () {
     $user = User::factory()->withPersonalOrganization()->create();
     $organization = $user->currentOrganization;
-    $wrongProviderCredential = ServerCredential::factory()->for($organization)->create([
+    $wrongProvider = ServerProvider::factory()->for($organization)->create([
         'provider' => 'aws',
         'credentials' => ['api_key' => 'aws-key'],
     ]);
 
     Volt::actingAs($user)->test('servers')
-        ->set('credential', $wrongProviderCredential->id)
+        ->set('credential', $wrongProvider->id)
         ->set('serverType', 'cpx11')
         ->set('location', 'fsn1')
         ->set('name', 'valid-hostname')

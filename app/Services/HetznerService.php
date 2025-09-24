@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\ServerCredential;
+use App\Models\ServerProvider;
 use Illuminate\Support\Facades\Http;
 
 class HetznerService
@@ -245,13 +245,13 @@ class HetznerService
      * @param string $location
      * @return array|null
      */
-    public function createServer(ServerCredential $credential, string $name, string $serverType, string $location): ?array
+    public function createServer(ServerProvider $provider, string $name, string $serverType, string $location): ?array
     {
-        if ($credential->provider !== 'hetzner') {
+        if ($provider->provider !== 'hetzner') {
             return ['error' => 'Unsupported provider'];
         }
 
-        $apiKey = $credential->credentials['api_key'] ?? null;
+        $apiKey = $provider->credentials['api_key'] ?? null;
 
         if (! $apiKey) {
             return ['error' => 'Missing API key'];

@@ -49,7 +49,7 @@ new class extends Component {
     #[Computed]
     public function credentials(): ?Collection
     {
-        return $this->organization->serverCredentials()
+        return $this->organization->serverProviders()
             ->where('provider', 'hetzner')
             ->get();
     }
@@ -76,7 +76,7 @@ new class extends Component {
             ],
             'credential' => [
                 'required',
-                Rule::exists('server_credentials', 'id')->where(fn ($q) => $q->where('organization_id', $this->organization->id)->where('provider', 'hetzner')),
+                Rule::exists('server_providers', 'id')->where(fn ($q) => $q->where('organization_id', $this->organization->id)->where('provider', 'hetzner')),
             ],
         ];
     }
@@ -85,7 +85,7 @@ new class extends Component {
     {
         $this->validate();
 
-        $credential = $this->organization->serverCredentials()
+        $credential = $this->organization->serverProviders()
             ->where('id', $this->credential)
             ->where('provider', 'hetzner')
             ->first();
@@ -111,7 +111,7 @@ new class extends Component {
             'provider_id' => $hetzner['provider_id'],
             'ip_address' => $hetzner['ip_address'],
             'status' => $hetzner['status'],
-            'server_credential_id' => $credential->id,
+            'server_provider_id' => $credential->id,
         ]);
 
         Flux::toast(

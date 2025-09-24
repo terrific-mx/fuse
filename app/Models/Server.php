@@ -36,10 +36,10 @@ class Server extends Model
     }
 
     /**
-     * Get the server credential associated with the server.
+     * Get the server provider associated with the server.
      */
-    public function serverCredential(): BelongsTo
+    public function serverProvider(): BelongsTo
     {
-        return $this->belongsTo(ServerCredential::class);
+        return $this->belongsTo(ServerProvider::class);
     }
 }

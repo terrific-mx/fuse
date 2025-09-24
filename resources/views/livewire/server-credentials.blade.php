@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\ServerCredential;
+use App\Models\ServerProvider;
 use Flux\Flux;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +17,7 @@ new class extends Component {
     #[Computed]
     public function credentials()
     {
-        return $this->organization->serverCredentials()->paginate(10);
+        return $this->organization->serverProviders()->paginate(10);
     }
 
     #[Computed]
@@ -33,7 +33,7 @@ new class extends Component {
                 'required',
                 'string',
                 Rule::in(['hetzner']),
-                Rule::unique('server_credentials')->where(fn ($query) => $query->where('organization_id', $this->organization->id)),
+                Rule::unique('server_providers')->where(fn ($query) => $query->where('organization_id', $this->organization->id)),
             ],
             'name' => ['required', 'string'],
             'credentials' => ['required', 'array'],
@@ -51,7 +51,7 @@ new class extends Component {
             }
         }
 
-        $this->organization->serverCredentials()->create($validated);
+        $this->organization->serverProviders()->create($validated);
 
         Flux::toast(
             heading: __('Credential added'),
@@ -66,11 +66,11 @@ new class extends Component {
         $this->credentials = [];
     }
 
-    public function deleteCredential(ServerCredential $credential)
+    public function deleteCredential(ServerProvider $provider)
     {
-        $this->authorize('delete', $credential);
+        $this->authorize('delete', $provider);
 
-        $credential->delete();
+        $provider->delete();
 
         Flux::toast(
             heading: __('Credential deleted'),
@@ -140,25 +140,25 @@ new class extends Component {
             <flux:table.column>{{ __('API Key') }}</flux:table.column>
         </flux:table.columns>
         <flux:table.rows>
-            @foreach ($this->credentials() as $credential)
-                <flux:table.row :key="$credential->id">
-                    <flux:table.cell>{{ $credential->provider }}</flux:table.cell>
-                    <flux:table.cell>{{ $credential->name }}</flux:table.cell>
-                    <flux:table.cell>{{ $credential->masked_api_key }}</flux:table.cell>
-                    <flux:table.cell align="end">
-                        <flux:dropdown position="bottom" align="end">
-                            <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
-                            <flux:menu>
-                                <flux:menu.item
-                                    variant="danger"
-                                    icon="trash"
-                                    wire:click="deleteCredential({{ $credential->id }})"
-                                >{{ __('Delete') }}</flux:menu.item>
-                            </flux:menu>
-                        </flux:dropdown>
-                    </flux:table.cell>
-                </flux:table.row>
-            @endforeach
+@foreach ($this->credentials() as $provider)
+    <flux:table.row :key="$provider->id">
+        <flux:table.cell>{{ $provider->provider }}</flux:table.cell>
+        <flux:table.cell>{{ $provider->name }}</flux:table.cell>
+        <flux:table.cell>{{ $provider->masked_api_key }}</flux:table.cell>
+        <flux:table.cell align="end">
+            <flux:dropdown position="bottom" align="end">
+                <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
+                <flux:menu>
+                    <flux:menu.item
+                        variant="danger"
+                        icon="trash"
+                        wire:click="deleteCredential({{ $provider->id }})"
+                    >{{ __('Delete') }}</flux:menu.item>
+                </flux:menu>
+            </flux:dropdown>
+        </flux:table.cell>
+    </flux:table.row>
+@endforeach
         </flux:table.rows>
     </flux:table>
 </div>

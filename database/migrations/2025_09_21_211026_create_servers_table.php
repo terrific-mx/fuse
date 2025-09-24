@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('servers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('server_credential_id')->constrained('server_credentials')->cascadeOnDelete();
+            $table->foreignId('server_provider_id')->constrained('server_providers')->cascadeOnDelete();
             $table->string('name');
             $table->string('provider_id');
             $table->string('ip_address');

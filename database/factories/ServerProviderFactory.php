@@ -6,9 +6,9 @@ use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ServerCredential>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ServerProvider>
  */
-class ServerCredentialFactory extends Factory
+class ServerProviderFactory extends Factory
 {
     /**
      * Define the model's default state.

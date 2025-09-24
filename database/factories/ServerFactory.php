@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Organization;
-use App\Models\ServerCredential;
+use App\Models\ServerProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +20,7 @@ class ServerFactory extends Factory
     {
         return [
             'organization_id' => Organization::factory(),
-            'server_credential_id' => ServerCredential::factory(),
+            'server_provider_id' => ServerProvider::factory(),
             'name' => $this->faker->domainName,
             'provider_id' => $this->faker->uuid,
             'ip_address' => $this->faker->ipv4,

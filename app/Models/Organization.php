@@ -71,9 +71,9 @@ class Organization extends Model
         ];
     }
 
-    public function serverCredentials()
+    public function serverProviders()
     {
-        return $this->hasMany(ServerCredential::class);
+        return $this->hasMany(ServerProvider::class);
     }
 
     public function servers()
