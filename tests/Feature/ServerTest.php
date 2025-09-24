@@ -25,13 +25,14 @@ describe('Organization Servers', function () {
             ]);
     });
 
-    it('allows organization members to create a server with a valid hostname', function () {
+    it('allows organization members to create a server with a valid hostname, selected credential, and associates the server with that credential', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->currentOrganization;
-        ServerCredential::factory()->for($organization)->create([
+        $credential = ServerCredential::factory()->for($organization)->create([
             'provider' => 'hetzner',
             'credentials' => ['api_key' => 'test-key'],
         ]);
+
         HetznerService::shouldReceive('createServer')
             ->andReturn([
                 'provider_id' => '12345',
@@ -43,15 +44,55 @@ describe('Organization Servers', function () {
             ->set('name', 'valid-hostname')
             ->set('location', 'fsn1')
             ->set('serverType', 'cpx11')
+            ->set('credential', $credential->id)
             ->call('createServer')
             ->assertHasNoErrors();
 
         $server = $organization->servers()->where('name', 'valid-hostname')->first();
-
         expect($server)->not->toBeNull();
         expect($server->provider_id)->not->toBeNull();
         expect($server->ip_address)->not->toBeNull();
         expect($server->status)->not->toBeNull();
+        expect($server->server_credential_id)->toBe($credential->id);
+    });
+
+    it('shows validation error if credential is missing', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+
+        Volt::actingAs($user)->test('servers')
+            ->set('credential', '')
+            ->call('createServer')
+            ->assertHasErrors(['credential' => 'required']);
+    });
+
+    it('shows validation error if credential does not belong to organization', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+        $otherCredential = ServerCredential::factory()->create([
+            'provider' => 'hetzner',
+            'credentials' => ['api_key' => 'other-key'],
+        ]);
+
+        Volt::actingAs($user)->test('servers')
+            ->set('credential', $otherCredential->id)
+            ->call('createServer')
+            ->assertHasErrors(['credential' => 'exists']);
+    });
+
+    it('shows validation error if credential is not for the correct provider', function () {
+        $user = User::factory()->withPersonalOrganization()->create();
+        $organization = $user->currentOrganization;
+        $wrongProviderCredential = ServerCredential::factory()->for($organization)->create([
+            'provider' => 'aws',
+            'credentials' => ['api_key' => 'aws-key'],
+        ]);
+
+        Volt::actingAs($user)->test('servers')
+            ->set('credential', $wrongProviderCredential->id)
+            ->set('serverType', 'cpx11')
+            ->set('location', 'fsn1')
+            ->set('name', 'valid-hostname')
+            ->call('createServer')
+            ->assertHasErrors(['credential' => 'exists']);
     });
 
     it('shows validation error if server name is missing', function () {
@@ -60,7 +101,7 @@ describe('Organization Servers', function () {
         Volt::actingAs($user)->test('servers')
             ->set('name', '')
             ->call('createServer')
-            ->assertHasErrors(['name']);
+            ->assertHasErrors(['name' => 'required']);
     });
 
     it('shows validation error if server name is not a valid hostname', function () {
@@ -69,13 +110,15 @@ describe('Organization Servers', function () {
         Volt::actingAs($user)->test('servers')
             ->set('name', 'invalid_hostname!')
             ->call('createServer')
-            ->assertHasErrors(['name']);
+            ->assertHasErrors(['name' => 'alpha_dash']);
     });
 
     it('shows validation error if server name is not unique within organization', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->currentOrganization;
-        Server::factory()->for($organization)->create(['name' => 'duplicate.example.com']);
+        Server::factory()->for($organization)->create([
+            'name' => 'duplicate.example.com',
+        ]);
 
         Volt::actingAs($user)->test('servers')
             ->set('name', 'duplicate.example.com')
@@ -123,7 +166,9 @@ describe('Organization Servers', function () {
     it('allows organization members to delete a server', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->currentOrganization;
-        $server = Server::factory()->for($organization)->create(['name' => 'delete-me.example.com']);
+        $server = Server::factory()->for($organization)->create([
+            'name' => 'delete-me.example.com',
+        ]);
 
         Volt::actingAs($user)->test('servers')
             ->call('deleteServer', $server);
@@ -134,11 +179,6 @@ describe('Organization Servers', function () {
     it('shows an error toast if Hetzner returns an error', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->currentOrganization;
-
-        ServerCredential::factory()->for($organization)->create([
-            'provider' => 'hetzner',
-            'credentials' => ['api_key' => 'test-key'],
-        ]);
 
         HetznerService::shouldReceive('createServer')
             ->andReturn(['error' => 'API key invalid']);

@@ -12,6 +12,7 @@ new class extends Component {
     public string $name = '';
     public string $serverType = '';
     public string $location = '';
+    public string $credential = '';
     public array $locations = [];
 
     public function mount(): void
@@ -54,15 +55,19 @@ new class extends Component {
                 'alpha_dash',
                 Rule::unique('servers', 'name')->where(fn ($q) => $q->where('organization_id', $this->organization->id)),
             ],
-             'serverType' => [
+            'serverType' => [
                 'required',
                 'string',
                 Rule::in(array_column($this->serverTypes, 'name')),
-             ],
+            ],
             'location' => [
                 'required',
                 'string',
                 Rule::in(array_column($this->locations, 'name')),
+            ],
+            'credential' => [
+                'required',
+                Rule::exists('server_credentials', 'id')->where(fn ($q) => $q->where('organization_id', $this->organization->id)->where('provider', 'hetzner')),
             ],
         ];
     }
@@ -71,11 +76,12 @@ new class extends Component {
     {
         $this->validate();
 
-        $apiKey = $this->organization->serverCredentials()
+        $credential = $this->organization->serverCredentials()
+            ->where('id', $this->credential)
             ->where('provider', 'hetzner')
-            ->latest()
-            ->first()
-            ->credentials['api_key'];
+            ->first();
+
+        $apiKey = $credential->credentials['api_key'];
 
         $hetzner = HetznerService::createServer(
             $apiKey,
@@ -98,6 +104,7 @@ new class extends Component {
             'provider_id' => $hetzner['provider_id'],
             'ip_address' => $hetzner['ip_address'],
             'status' => $hetzner['status'],
+            'server_credential_id' => $credential->id,
         ]);
 
         Flux::toast(
