@@ -64,7 +64,7 @@ new class extends Component {
              'serverType' => [
                  'required',
                  'string',
-                 Rule::in(array_column($this->serverTypes(), 'name')),
+                 Rule::in(array_column($this->serverTypes, 'name')),
              ],
             'location' => [
                 'required',
@@ -78,10 +78,24 @@ new class extends Component {
     {
         $this->validate();
 
+        $apiKey = $this->organization->serverCredentials()
+            ->where('provider', 'hetzner')
+            ->latest()
+            ->first()
+            ->credentials['api_key'];
+
+        $hetzner = HetznerService::createServer(
+            $apiKey,
+            $this->name,
+            $this->serverType,
+            $this->location
+        );
+
         $server = $this->organization->servers()->create([
             'name' => $this->name,
-            'server_type' => $this->serverType,
-            'location' => $this->location,
+            'hetzner_id' => $hetzner['hetzner_id'] ?? null,
+            'ip_address' => $hetzner['ip_address'] ?? null,
+            'status' => $hetzner['status'] ?? null,
         ]);
 
         Flux::toast(

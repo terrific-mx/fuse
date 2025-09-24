@@ -19,7 +19,11 @@ class Server extends Model
      */
     protected function casts(): array
     {
-        return [];
+        return [
+            'hetzner_id' => 'string',
+            'ip_address' => 'string',
+            'status' => 'string',
+        ];
     }
 
     public function organization()

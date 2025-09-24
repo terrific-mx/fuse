@@ -234,4 +234,36 @@ class HetznerService
             ["name" => "sin",  "city" => "Singapore"],
         ];
     }
+
+    /**
+     * Create a server on Hetzner Cloud.
+     *
+     * @param string $apiKey
+     * @param string $name
+     * @param string $serverType
+     * @param string $location
+     * @return array|null
+     */
+    public function createServer(string $apiKey, string $name, string $serverType, string $location): ?array
+    {
+        $response = Http::withToken($apiKey)
+            ->post('https://api.hetzner.cloud/v1/servers', [
+                'name' => $name,
+                'server_type' => $serverType,
+                'location' => $location,
+                'image' => 'ubuntu-22.04',
+            ]);
+
+        if (! $response->successful()) {
+            return null;
+        }
+
+        $server = $response->json('server');
+
+        return [
+            'hetzner_id' => $server['id'] ?? null,
+            'ip_address' => $server['public_net']['ipv4']['ip'] ?? null,
+            'status' => $server['status'] ?? null,
+        ];
+    }
 }
