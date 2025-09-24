@@ -9,12 +9,37 @@ describe('Organization Servers', function () {
     it('allows organization members to create a server with a valid hostname', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->currentOrganization;
-        ServerCredential::factory()->for($organization)->create([
-            'provider' => 'hetzner',
-            'credentials' => ['api_key' => 'test-key'],
-        ]);
+         ServerCredential::factory()->for($organization)->create([
+             'provider' => 'hetzner',
+             'credentials' => ['api_key' => 'test-key'],
+         ]);
 
-         Volt::actingAs($user)->test('servers')
+        \Facades\App\Services\HetznerService::shouldReceive('getLocations')
+            ->andReturn([
+                ['name' => 'fsn1', 'city' => 'Falkenstein'],
+                ['name' => 'nbg1', 'city' => 'Nuremberg'],
+            ]);
+        \Facades\App\Services\HetznerService::shouldReceive('getServerTypes')
+            ->andReturn([
+                [
+                    'name' => 'cpx11',
+                    'architecture' => 'x86',
+                    'cores' => 2,
+                    'cpu_type' => 'shared',
+                    'description' => 'CPX 11',
+                    'disk' => 40,
+                    'memory' => 2,
+                    'locations' => ['fsn1', 'nbg1'],
+                ],
+            ]);
+        \Facades\App\Services\HetznerService::shouldReceive('createServer')
+            ->andReturn([
+                'hetzner_id' => '12345',
+                'ip_address' => '192.0.2.1',
+                'status' => 'running',
+            ]);
+
+        Volt::actingAs($user)->test('servers')
             ->set('name', 'valid-hostname')
             ->set('serverType', 'cpx11')
             ->set('location', 'fsn1')
