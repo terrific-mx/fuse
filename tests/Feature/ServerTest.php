@@ -3,23 +3,21 @@
 use App\Models\User;
 use App\Models\Server;
 use App\Models\ServerCredential;
+use Facades\App\Services\HetznerService;
 use Livewire\Volt\Volt;
 
 describe('Organization Servers', function () {
     it('allows organization members to create a server with a valid hostname', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->currentOrganization;
-         ServerCredential::factory()->for($organization)->create([
-             'provider' => 'hetzner',
-             'credentials' => ['api_key' => 'test-key'],
-         ]);
+        ServerCredential::factory()->for($organization)->create([
+            'provider' => 'hetzner',
+            'credentials' => ['api_key' => 'test-key'],
+        ]);
 
-        \Facades\App\Services\HetznerService::shouldReceive('getLocations')
-            ->andReturn([
-                ['name' => 'fsn1', 'city' => 'Falkenstein'],
-                ['name' => 'nbg1', 'city' => 'Nuremberg'],
-            ]);
-        \Facades\App\Services\HetznerService::shouldReceive('getServerTypes')
+        HetznerService::shouldReceive('getLocations')
+            ->andReturn([['name' => 'fsn1', 'city' => 'Falkenstein']]);
+        HetznerService::shouldReceive('getServerTypes')
             ->andReturn([
                 [
                     'name' => 'cpx11',
@@ -29,10 +27,11 @@ describe('Organization Servers', function () {
                     'description' => 'CPX 11',
                     'disk' => 40,
                     'memory' => 2,
-                    'locations' => ['fsn1', 'nbg1'],
+                    'locations' => ['fsn1'],
                 ],
             ]);
-        \Facades\App\Services\HetznerService::shouldReceive('createServer')
+
+        HetznerService::shouldReceive('createServer')
             ->andReturn([
                 'hetzner_id' => '12345',
                 'ip_address' => '192.0.2.1',
@@ -41,14 +40,17 @@ describe('Organization Servers', function () {
 
         Volt::actingAs($user)->test('servers')
             ->set('name', 'valid-hostname')
-            ->set('serverType', 'cpx11')
             ->set('location', 'fsn1')
+            ->set('serverType', 'cpx11')
             ->call('createServer')
             ->assertHasNoErrors();
 
         $server = $organization->servers()->where('name', 'valid-hostname')->first();
 
         expect($server)->not->toBeNull();
+        expect($server->hetzner_id)->not->toBeNull();
+        expect($server->ip_address)->not->toBeNull();
+        expect($server->status)->not->toBeNull();
     });
 
     it('shows validation error if server name is missing', function () {

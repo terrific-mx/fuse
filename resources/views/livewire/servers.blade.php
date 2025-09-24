@@ -62,9 +62,9 @@ new class extends Component {
                 Rule::unique('servers', 'name')->where(fn ($q) => $q->where('organization_id', $this->organization->id)),
             ],
              'serverType' => [
-                 'required',
-                 'string',
-                 Rule::in(array_column($this->serverTypes, 'name')),
+                'required',
+                'string',
+                Rule::in(array_column($this->serverTypes, 'name')),
              ],
             'location' => [
                 'required',
@@ -91,11 +91,20 @@ new class extends Component {
             $this->location
         );
 
+        if (empty($hetzner['hetzner_id']) || empty($hetzner['ip_address']) || empty($hetzner['status'])) {
+            Flux::toast(
+                heading: __('Server creation failed'),
+                text: __('Hetzner did not return all required server details.'),
+                variant: 'danger'
+            );
+            return;
+        }
+
         $server = $this->organization->servers()->create([
             'name' => $this->name,
-            'hetzner_id' => $hetzner['hetzner_id'] ?? null,
-            'ip_address' => $hetzner['ip_address'] ?? null,
-            'status' => $hetzner['status'] ?? null,
+            'hetzner_id' => $hetzner['hetzner_id'],
+            'ip_address' => $hetzner['ip_address'],
+            'status' => $hetzner['status'],
         ]);
 
         Flux::toast(
