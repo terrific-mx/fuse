@@ -128,7 +128,7 @@ new class extends Component {
         <form wire:submit="createServer" class="space-y-6">
             <div>
                 <flux:heading size="lg">{{ __('Add Server') }}</flux:heading>
-                <flux:text class="mt-2">
+                <flux:text class="mt-2 prose max-lg">
                     {{ __('Choose a location and server type. Server types show architecture, CPU, cores, and memory. Enter a name for your new server.') }}
                 </flux:text>
             </div>
