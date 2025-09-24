@@ -2,20 +2,27 @@
 
 use App\Models\User;
 use App\Models\Server;
-
+use App\Models\ServerCredential;
 use Livewire\Volt\Volt;
 
 describe('Organization Servers', function () {
     it('allows organization members to create a server with a valid hostname', function () {
         $user = User::factory()->withPersonalOrganization()->create();
         $organization = $user->currentOrganization;
+        ServerCredential::factory()->for($organization)->create([
+            'provider' => 'hetzner',
+            'credentials' => ['api_key' => 'test-key'],
+        ]);
 
-        Volt::actingAs($user)->test('servers')
+         Volt::actingAs($user)->test('servers')
             ->set('name', 'valid-hostname')
+            ->set('serverType', 'cpx11')
+            ->set('location', 'fsn1')
             ->call('createServer')
             ->assertHasNoErrors();
 
         $server = $organization->servers()->where('name', 'valid-hostname')->first();
+
         expect($server)->not->toBeNull();
     });
 
