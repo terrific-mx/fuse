@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Server;
+use Facades\App\Services\HetznerService;
 use Flux\Flux;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,34 @@ use Livewire\Attributes\Computed;
 
 new class extends Component {
     public string $name = '';
+    public string $serverType = '';
+    public string $location = '';
+    public array $locations = [];
+
+    public function mount(): void
+    {
+        $apiKey = optional(
+            $this->organization->serverCredentials()
+                ->where('provider', 'hetzner')
+                ->latest()
+                ->first()
+        )->credentials['api_key'] ?? null;
+
+        $this->locations = HetznerService::getLocations();
+    }
+
+    #[Computed]
+    public function serverTypes(): array
+    {
+        if (! $this->location) {
+            return [];
+        }
+
+        return array_values(array_filter(
+            HetznerService::getServerTypes(),
+            fn ($type) => in_array($this->location, $type['locations'])
+        ));
+    }
 
     #[Computed]
     public function organization()
@@ -32,6 +61,16 @@ new class extends Component {
                 'alpha_dash',
                 Rule::unique('servers', 'name')->where(fn ($q) => $q->where('organization_id', $this->organization->id)),
             ],
+             'serverType' => [
+                 'required',
+                 'string',
+                 Rule::in(array_column($this->serverTypes(), 'name')),
+             ],
+            'location' => [
+                'required',
+                'string',
+                Rule::in(array_column($this->locations, 'name')),
+            ],
         ];
     }
 
@@ -41,6 +80,8 @@ new class extends Component {
 
         $server = $this->organization->servers()->create([
             'name' => $this->name,
+            'server_type' => $this->serverType,
+            'location' => $this->location,
         ]);
 
         Flux::toast(
@@ -97,6 +138,16 @@ new class extends Component {
                 wire:model="name"
                 required
             />
+            <flux:select label="{{ __('Location') }}" wire:model.live="location" variant="listbox">
+                @foreach ($this->locations as $loc)
+                    <flux:select.option value="{{ $loc['name'] }}" :selected="$loop->first">{{ $loc['city'] }} ({{ $loc['name'] }})</flux:select.option>
+                @endforeach
+            </flux:select>
+            <flux:select label="{{ __('Server Type') }}" wire:model="serverType" wire:key="{{ $location }}" variant="listbox" :disabled="empty($this->serverTypes)" :placeholder="empty($this->serverTypes) ? __('Select a location first') : __('Select a server type')">
+                @foreach ($this->serverTypes as $type)
+                    <flux:select.option value="{{ $type['name'] }}" :selected="$loop->first">{{ $type['name'] }}</flux:select.option>
+                @endforeach
+            </flux:select>
             <div class="flex gap-2">
                 <flux:spacer />
                 <flux:modal.close>
@@ -134,4 +185,3 @@ new class extends Component {
         </flux:table.rows>
     </flux:table>
 </div>
-

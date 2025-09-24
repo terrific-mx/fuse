@@ -120,6 +120,16 @@
     "Add Server": "Agregar servidor",
     "Enter a name for your server.": "Ingresa un nombre para tu servidor.",
     "Server name": "Nombre del servidor",
-    "Created At": "Creado el"
+    "Created At": "Creado el",
+    "Server Type": "Tipo de servidor",
+    "Location": "Ubicación",
+    "Falkenstein (fsn1)": "Falkenstein (fsn1)",
+    "Nuremberg (nbg1)": "Núremberg (nbg1)",
+    "Helsinki (hel1)": "Helsinki (hel1)",
+    "Ashburn (ash)": "Ashburn (ash)",
+    "Image (OS)": "Imagen (SO)",
+    "Ubuntu 22.04": "Ubuntu 22.04",
+    "Debian 12": "Debian 12",
+    "CentOS 8": "CentOS 8"
 }
 
