@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Server extends Model
 {
@@ -26,8 +27,19 @@ class Server extends Model
         ];
     }
 
-    public function organization()
+    /**
+     * Get the organization that owns the server.
+     */
+    public function organization(): BelongsTo
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    /**
+     * Get the server credential associated with the server.
+     */
+    public function serverCredential(): BelongsTo
+    {
+        return $this->belongsTo(ServerCredential::class);
     }
 }
