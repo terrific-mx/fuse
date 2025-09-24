@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->string('hetzner_id')->nullable();
-            $table->string('ip_address')->nullable();
-            $table->string('status')->nullable();
+            $table->string('hetzner_id');
+            $table->string('ip_address');
+            $table->string('status');
         });
     }
 

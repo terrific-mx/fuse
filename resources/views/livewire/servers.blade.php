@@ -100,15 +100,6 @@ new class extends Component {
             return;
         }
 
-        if (empty($hetzner['hetzner_id']) || empty($hetzner['ip_address']) || empty($hetzner['status'])) {
-            Flux::toast(
-                heading: __('Server creation failed'),
-                text: __('Hetzner did not return all required server details.'),
-                variant: 'danger'
-            );
-            return;
-        }
-
         $server = $this->organization->servers()->create([
             'name' => $this->name,
             'hetzner_id' => $hetzner['hetzner_id'],
