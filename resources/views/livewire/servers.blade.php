@@ -16,13 +16,6 @@ new class extends Component {
 
     public function mount(): void
     {
-        $apiKey = optional(
-            $this->organization->serverCredentials()
-                ->where('provider', 'hetzner')
-                ->latest()
-                ->first()
-        )->credentials['api_key'] ?? null;
-
         $this->locations = HetznerService::getLocations();
     }
 
