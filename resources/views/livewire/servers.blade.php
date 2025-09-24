@@ -3,6 +3,7 @@
 use App\Models\Server;
 use Facades\App\Services\HetznerService;
 use Flux\Flux;
+use Illuminate\Database\Eloquent\Collection;
 use Livewire\Volt\Component;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -43,6 +44,14 @@ new class extends Component {
     public function servers()
     {
         return $this->organization->servers()->paginate(10);
+    }
+
+    #[Computed]
+    public function credentials(): ?Collection
+    {
+        return $this->organization->serverCredentials()
+            ->where('provider', 'hetzner')
+            ->get();
     }
 
     protected function rules(): array
@@ -161,6 +170,13 @@ new class extends Component {
                 wire:model="name"
                 required
             />
+            <flux:select label="{{ __('Credential') }}" wire:model="credential" variant="listbox" :placeholder="__('Select a credential')">
+                @foreach ($this->credentials as $credential)
+                    <flux:select.option value="{{ $credential->id }}">
+                        {{ $credential->name ?? __('Credential') }} ({{ $credential->provider }})
+                    </flux:select.option>
+                @endforeach
+            </flux:select>
             <flux:select label="{{ __('Location') }}" wire:model.live="location" variant="listbox" :placeholder="__('Select a location')">
                 @foreach ($this->locations as $loc)
                     <flux:select.option value="{{ $loc['name'] }}">{{ $loc['city'] }} ({{ $loc['name'] }})</flux:select.option>
@@ -173,6 +189,9 @@ new class extends Component {
                     </flux:select.option>
                 @endforeach
             </flux:select>
+            @error('credential')
+                <div class="text-sm text-red-600 mt-1">{{ $message }}</div>
+            @enderror
             <div class="flex gap-2">
                 <flux:spacer />
                 <flux:modal.close>
