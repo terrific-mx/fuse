@@ -91,6 +91,15 @@ new class extends Component {
             $this->location
         );
 
+        if (!empty($hetzner['error'])) {
+            Flux::toast(
+                heading: __('Server creation failed'),
+                text: $hetzner['error'],
+                variant: 'danger'
+            );
+            return;
+        }
+
         if (empty($hetzner['hetzner_id']) || empty($hetzner['ip_address']) || empty($hetzner['status'])) {
             Flux::toast(
                 heading: __('Server creation failed'),

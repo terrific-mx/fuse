@@ -255,7 +255,8 @@ class HetznerService
             ]);
 
         if (! $response->successful()) {
-            return null;
+            $error = $response->json('error.message') ?? $response->body();
+            return ['error' => $error];
         }
 
         $server = $response->json('server');
