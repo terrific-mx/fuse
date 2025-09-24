@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\ServerCredential;
 use Illuminate\Support\Facades\Http;
 
 class HetznerService
@@ -244,8 +245,18 @@ class HetznerService
      * @param string $location
      * @return array|null
      */
-    public function createServer(string $apiKey, string $name, string $serverType, string $location): ?array
+    public function createServer(ServerCredential $credential, string $name, string $serverType, string $location): ?array
     {
+        if ($credential->provider !== 'hetzner') {
+            return ['error' => 'Unsupported provider'];
+        }
+
+        $apiKey = $credential->credentials['api_key'] ?? null;
+
+        if (! $apiKey) {
+            return ['error' => 'Missing API key'];
+        }
+
         $response = Http::withToken($apiKey)
             ->post('https://api.hetzner.cloud/v1/servers', [
                 'name' => $name,

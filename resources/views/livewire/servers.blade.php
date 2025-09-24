@@ -90,10 +90,8 @@ new class extends Component {
             ->where('provider', 'hetzner')
             ->first();
 
-        $apiKey = $credential->credentials['api_key'];
-
         $hetzner = HetznerService::createServer(
-            $apiKey,
+            $credential,
             $this->name,
             $this->serverType,
             $this->location
