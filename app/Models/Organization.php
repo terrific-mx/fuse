@@ -58,10 +58,16 @@ class Organization extends Model
         ]);
     }
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
     protected function casts(): array
     {
         return [
             'personal' => 'boolean',
+            'ssh_private_key' => 'encrypted',
         ];
     }
 

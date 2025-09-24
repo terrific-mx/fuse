@@ -5,6 +5,7 @@ use App\Models\Organization;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
@@ -30,11 +31,17 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         event(new Registered(($user = User::create($validated))));
 
-        Organization::create([
+        $organization = Organization::create([
             'name' => $user->name,
             'user_id' => $user->id,
             'personal' => true,
         ]);
+
+        // Generate SSH keypair for organization
+        $keys = \App\Services\SshKeyGenerator::generate();
+        $organization->ssh_public_key = $keys['public'];
+        $organization->ssh_private_key = $keys['private'];
+        $organization->save();
 
         Auth::login($user);
 
