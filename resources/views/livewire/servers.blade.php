@@ -145,7 +145,9 @@ new class extends Component {
             </flux:select>
             <flux:select label="{{ __('Server Type') }}" wire:model="serverType" wire:key="{{ $location }}" variant="listbox" :disabled="empty($this->serverTypes)" :placeholder="empty($this->serverTypes) ? __('Select a location first') : __('Select a server type')">
                 @foreach ($this->serverTypes as $type)
-                    <flux:select.option value="{{ $type['name'] }}" :selected="$loop->first">{{ $type['name'] }}</flux:select.option>
+                    <flux:select.option value="{{ $type['name'] }}" :selected="$loop->first">
+    {{ $type['name'] }} ({{ $type['architecture'] }}, {{ $type['cores'] }} {{ __('cores') }}, {{ $type['cpu_type'] }} CPU, {{ $type['memory'] }}GB RAM)
+</flux:select.option>
                 @endforeach
             </flux:select>
             <div class="flex gap-2">
