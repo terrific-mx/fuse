@@ -31,17 +31,15 @@ new #[Layout('components.layouts.auth')] class extends Component {
 
         event(new Registered(($user = User::create($validated))));
 
+        $keys = SshKeyGenerator::generate();
+
         $organization = Organization::create([
             'name' => $user->name,
             'user_id' => $user->id,
             'personal' => true,
+            'ssh_public_key' => $keys['public'],
+            'ssh_private_key' => $keys['private'],
         ]);
-
-        // Generate SSH keypair for organization
-        $keys = \App\Services\SshKeyGenerator::generate();
-        $organization->ssh_public_key = $keys['public'];
-        $organization->ssh_private_key = $keys['private'];
-        $organization->save();
 
         Auth::login($user);
 
