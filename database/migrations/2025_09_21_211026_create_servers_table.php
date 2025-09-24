@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
             $table->string('name');
+            $table->string('provider_id');
+            $table->string('ip_address');
+            $table->string('status');
             $table->timestamps();
         });
     }
