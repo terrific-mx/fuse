@@ -13,9 +13,10 @@ new class extends Component {
     public string $provider = 'hetzner';
     public string $name = '';
     public array $credentials = [];
+    // Consider renaming $credentials to $apiKey or $details for clarity, but keeping for now to avoid breaking changes.
 
     #[Computed]
-    public function credentials()
+    public function providers()
     {
         return $this->organization->serverProviders()->paginate(10);
     }
@@ -36,11 +37,11 @@ new class extends Component {
                 Rule::unique('server_providers')->where(fn ($query) => $query->where('organization_id', $this->organization->id)),
             ],
             'name' => ['required', 'string'],
-            'credentials' => ['required', 'array'],
+            'credentials' => ['required', 'array'], // Consider renaming to 'details' or 'api_key' for clarity
         ];
     }
 
-    public function addCredential()
+    public function addProvider()
     {
         $validated = $this->validate();
 
@@ -50,12 +51,13 @@ new class extends Component {
                 return $this->addError('credentials.api_key', __('The Hetzner API key is invalid.'));
             }
         }
+        // In future, support other providers and their credential validation here.
 
         $this->organization->serverProviders()->create($validated);
 
         Flux::toast(
-            heading: __('Credential added'),
-            text: __('The server credential was added successfully.'),
+            heading: __('Provider added'),
+            text: __('The server provider was added successfully.'),
             variant: 'success'
         );
 
@@ -66,15 +68,15 @@ new class extends Component {
         $this->credentials = [];
     }
 
-    public function deleteCredential(ServerProvider $provider)
+    public function deleteProvider(ServerProvider $provider)
     {
         $this->authorize('delete', $provider);
 
         $provider->delete();
 
         Flux::toast(
-            heading: __('Credential deleted'),
-            text: __('The server credential was deleted.'),
+            heading: __('Provider deleted'),
+            text: __('The server provider was deleted.'),
             variant: 'success'
         );
     }
@@ -83,7 +85,7 @@ new class extends Component {
 <div>
     <div class="mb-8">
         <flux:heading size="lg">
-            {{ __('Server Credentials') }}
+            {{ __('Server Providers') }}
         </flux:heading>
         <flux:text class="mt-2">
             {{ __('Manage your organization\'s server credentials, including provider details and API keys.') }}
@@ -92,16 +94,16 @@ new class extends Component {
 
     <flux:modal.trigger name="add-credential">
         <flux:button icon="plus" variant="primary" class="mb-4">
-            {{ __('Add Server Credential') }}
+            {{ __('Add Server Provider') }}
         </flux:button>
     </flux:modal.trigger>
 
     <flux:modal name="add-credential" variant="flyout" class="min-w-[22rem]">
-        <form wire:submit="addCredential" class="space-y-6">
+        <form wire:submit="addProvider" class="space-y-6">
             <div>
-                <flux:heading size="lg">{{ __('Add Server Credential') }}</flux:heading>
+                <flux:heading size="lg">{{ __('Add Server Provider') }}</flux:heading>
                 <flux:text class="mt-2">
-                    {{ __('Enter provider details and API key.') }}
+                    {{ __('Enter server provider details and API key.') }}
                 </flux:text>
             </div>
             <flux:input
@@ -113,7 +115,7 @@ new class extends Component {
             />
             <flux:input
                 label="{{ __('Name') }}"
-                placeholder="{{ __('Credential name') }}"
+                placeholder="{{ __('Provider name') }}"
                 wire:model="name"
                 required
             />
@@ -133,18 +135,18 @@ new class extends Component {
         </form>
     </flux:modal>
 
-    <flux:table :paginate="$this->credentials()">
+    <flux:table :paginate="$this->providers()">
         <flux:table.columns>
             <flux:table.column>{{ __('Provider') }}</flux:table.column>
             <flux:table.column>{{ __('Name') }}</flux:table.column>
             <flux:table.column>{{ __('API Key') }}</flux:table.column>
         </flux:table.columns>
         <flux:table.rows>
-@foreach ($this->credentials() as $provider)
-    <flux:table.row :key="$provider->id">
-        <flux:table.cell>{{ $provider->provider }}</flux:table.cell>
-        <flux:table.cell>{{ $provider->name }}</flux:table.cell>
-        <flux:table.cell>{{ $provider->masked_api_key }}</flux:table.cell>
+@foreach ($this->providers() as $serverProvider)
+    <flux:table.row :key="$serverProvider->id">
+        <flux:table.cell>{{ $serverProvider->provider }}</flux:table.cell>
+        <flux:table.cell>{{ $serverProvider->name }}</flux:table.cell>
+        <flux:table.cell>{{ $serverProvider->masked_api_key }}</flux:table.cell>
         <flux:table.cell align="end">
             <flux:dropdown position="bottom" align="end">
                 <flux:button variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
@@ -152,7 +154,7 @@ new class extends Component {
                     <flux:menu.item
                         variant="danger"
                         icon="trash"
-                        wire:click="deleteCredential({{ $provider->id }})"
+                        wire:click="deleteProvider({{ $serverProvider->id }})"
                     >{{ __('Delete') }}</flux:menu.item>
                 </flux:menu>
             </flux:dropdown>

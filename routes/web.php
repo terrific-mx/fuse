@@ -15,7 +15,7 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
 
 Route::middleware(['auth'])->group(function () {
     Volt::route('servers', 'servers')->name('servers');
-    Volt::route('server-credentials', 'server-credentials')->name('server-credentials');
+    Volt::route('server-providers', 'server-providers')->name('server-providers');
 
     Route::redirect('settings', 'settings/profile');
 
