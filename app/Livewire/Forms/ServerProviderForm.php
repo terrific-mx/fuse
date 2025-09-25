@@ -6,11 +6,27 @@ use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 use App\Models\ServerProvider;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ServerProviderForm extends Form
 {
+    #[Validate]
     public $name = '';
 
+    protected function rules()
+    {
+        return [
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('server_providers')->where(fn ($query) => $query->where('organization_id', Auth::user()->currentOrganization->id)),
+            ],
+            'type' => 'required|in:Hetzner Cloud',
+            'meta' => 'required|array',
+        ];
+    }
 
     #[Validate('required|in:Hetzner Cloud')]
     public $type = '';
@@ -20,20 +36,7 @@ class ServerProviderForm extends Form
 
     public function store($organization)
     {
-        \Validator::make([
-            'name' => $this->name,
-            'type' => $this->type,
-            'meta' => $this->meta,
-        ], [
-            'name' => [
-                'required',
-                'string',
-                'max:255',
-                'unique:server_providers,name,NULL,id,organization_id,' . \Auth::user()->currentOrganization->id,
-            ],
-            'type' => 'required|in:Hetzner Cloud',
-            'meta' => 'required|array',
-        ])->validate();
+        $this->validate();
 
         ServerProvider::create([
             'organization_id' => $organization->id,
