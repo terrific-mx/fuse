@@ -25,4 +25,10 @@ class Server extends Model
     {
         return $this->belongsTo(ServerProvider::class, 'provider_id');
     }
+
+    public function provision(): void
+    {
+        // TODO: Implement actual provisioning logic
+        // For now, just stub
+    }
 }

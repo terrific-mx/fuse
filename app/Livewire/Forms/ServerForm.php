@@ -34,7 +34,7 @@ class ServerForm extends Form
     {
         $this->validate();
 
-        Auth::user()->currentOrganization->servers()->create([
+        $server = Auth::user()->currentOrganization->servers()->create([
             'name' => $this->name,
             'provider_id' => $this->provider_id,
             'region' => $this->region,
@@ -42,5 +42,7 @@ class ServerForm extends Form
         ]);
 
         $this->reset();
+
+        return $server;
     }
 }

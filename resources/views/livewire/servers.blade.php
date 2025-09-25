@@ -28,7 +28,9 @@ new class extends Component {
 
     public function save()
     {
-        $this->form->store();
+        $server = $this->form->store();
+
+        $server->provision();
     }
 }; ?>
 
@@ -55,7 +57,7 @@ new class extends Component {
             required
         >
             <flux:select.option value="">{{ __('Select Region') }}</flux:select.option>
-            <flux:select.option value="eu-central">eu-central</flux:select.option>
+            <flux:select.option value="fsn1">fsn1</flux:select.option>
         </flux:select>
         <flux:select
             label="{{ __('Type') }}"
