@@ -16,10 +16,10 @@ test('users can create a server for their current organization', function () {
 
     $component = Volt::actingAs($user)
         ->test('servers')
-        ->set('name', 'Test Server')
-        ->set('provider_id', $provider->id)
-        ->set('region', 'eu-central')
-        ->set('type', 'cx21')
+        ->set('form.name', 'Test Server')
+        ->set('form.provider_id', $provider->id)
+        ->set('form.region', 'eu-central')
+        ->set('form.type', 'cx21')
         ->call('save');
 
     $component->assertHasNoErrors();
