@@ -11,6 +11,8 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
+
+    Volt::route('server-providers', 'server-providers.index')->name('server-providers.index')->methods(['GET', 'POST']);
 });
 
 Route::middleware(['auth'])->group(function () {
