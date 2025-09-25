@@ -16,6 +16,13 @@ class Organization extends Model
 
     protected $guarded = [];
 
+    protected function casts(): array
+    {
+        return [
+            'personal' => 'boolean',
+        ];
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -24,6 +31,11 @@ class Organization extends Model
     public function invitations()
     {
         return $this->hasMany(OrganizationInvitation::class);
+    }
+
+    public function serverProviders()
+    {
+        return $this->hasMany(ServerProvider::class);
     }
 
     public function members()
@@ -56,12 +68,5 @@ class Organization extends Model
         return $this->invitations()->create([
             'email' => $email,
         ]);
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'personal' => 'boolean',
-        ];
     }
 }
