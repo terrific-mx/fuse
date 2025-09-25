@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Organization;
 use App\Models\SourceProvider;
 use App\Models\User;
 use Livewire\Volt\Volt;
@@ -46,4 +47,16 @@ it('can delete a source provider for the current user organization', function ()
         ->call('delete', $provider->id);
 
     expect($user->currentOrganization->sourceProviders()->find($provider->id))->toBeNull();
+});
+
+it('cannot delete a source provider outside the current user organization', function () {
+    $user = User::factory()->withPersonalOrganization()->create();
+    $otherOrg = Organization::factory()->create();
+    $provider = SourceProvider::factory()->for($otherOrg)->create();
+
+    $component = Volt::actingAs($user)->test('source-providers.index')
+        ->call('delete', $provider->id);
+
+    $component->assertForbidden();
+    expect($otherOrg->sourceProviders()->find($provider->id))->not->toBeNull();
 });

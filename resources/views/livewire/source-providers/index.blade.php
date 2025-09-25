@@ -34,6 +34,8 @@ new class extends Component {
 
     public function delete(SourceProvider $provider)
     {
+        $this->authorize('delete', $provider);
+
         $provider->delete();
     }
 }; ?>
