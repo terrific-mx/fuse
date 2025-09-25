@@ -12,7 +12,7 @@ class ServerProviderForm extends Form
     #[Validate('required|string|max:255')]
     public $name = '';
 
-    #[Validate('required|string|max:255')]
+    #[Validate('required|in:Hetzner Cloud')]
     public $type = '';
 
     #[Validate('required|array')]
