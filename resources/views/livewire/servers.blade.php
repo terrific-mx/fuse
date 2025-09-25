@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\ServerReadinessJob;
 use App\Models\Server;
 use Facades\App\Services\HetznerService;
 use Flux\Flux;
@@ -113,6 +114,8 @@ new class extends Component {
             'status' => $hetzner['status'],
             'server_provider_id' => $credential->id,
         ]);
+
+        ServerReadinessJob::dispatch($server);
 
         Flux::toast(
             heading: __('Server created'),
