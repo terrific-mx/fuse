@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use App\Services\HetznerCloudClient;
 use Livewire\Volt\Volt;
 
 it('can store a server provider for the current user organization', function () {
@@ -20,4 +21,5 @@ it('can store a server provider for the current user organization', function () 
     expect($provider->name)->toBe('Test Provider');
     expect($provider->type)->toBe('Hetzner Cloud');
     expect($provider->meta)->toBe(['token' => 'test-key']);
+    expect($provider->client())->toBeInstanceOf(HetznerCloudClient::class);
 });

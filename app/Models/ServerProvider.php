@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\HetznerCloudClient;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,5 +23,15 @@ class ServerProvider extends Model
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    /**
+     * Get the actual server provider client instance.
+     *
+     * @return mixed
+     */
+    public function client()
+    {
+        return new HetznerCloudClient($this);
     }
 }
