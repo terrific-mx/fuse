@@ -2,12 +2,11 @@
 
 namespace App\Livewire\Forms;
 
-use Livewire\Attributes\Validate;
-use Livewire\Form;
-
 use App\Models\ServerProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Validate;
+use Livewire\Form;
 
 class ServerProviderForm extends Form
 {
@@ -38,12 +37,18 @@ class ServerProviderForm extends Form
     {
         $this->validate();
 
-        ServerProvider::create([
+        $provider = ServerProvider::create([
             'organization_id' => $organization->id,
             'name' => $this->name,
             'type' => $this->type,
             'meta' => $this->meta,
         ]);
+
+        if (! $provider->client()->isTokenValid()) {
+            $provider->delete();
+
+            $this->addError('meta', __('The credentials provided were not valid.'));
+        }
 
         $this->reset();
     }
