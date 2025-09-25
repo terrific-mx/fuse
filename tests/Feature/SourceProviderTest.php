@@ -60,3 +60,6 @@ it('cannot delete a source provider outside the current user organization', func
     $component->assertForbidden();
     expect($otherOrg->sourceProviders()->find($provider->id))->not->toBeNull();
 });
+
+it('cannot delete a source provider if it is used by an existing site')
+    ->todo('Implement: Prevent deletion if a site uses the source provider');
