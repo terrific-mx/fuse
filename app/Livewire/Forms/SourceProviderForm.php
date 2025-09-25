@@ -44,6 +44,14 @@ class SourceProviderForm extends Form
             'meta' => $this->meta,
         ]);
 
+        if (! $provider->client()->isTokenValid()) {
+            $provider->delete();
+
+            $this->addError('meta.token', __('The credentials provided were not valid.'));
+
+            return;
+        }
+
         $this->reset();
     }
 }

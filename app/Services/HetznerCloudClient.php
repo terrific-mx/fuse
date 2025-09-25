@@ -13,6 +13,6 @@ class HetznerCloudClient
 
     public function isTokenValid(): bool
     {
-        return $this->provider->meta['token'] === 'test-key';
+        return ($this->provider->meta['token'] ?? null) === 'test-key';
     }
 }
