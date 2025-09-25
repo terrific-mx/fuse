@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\SourceProvider;
 use App\Models\User;
 use Livewire\Volt\Volt;
 use App\Services\GitHubClient;
+use PHPUnit\TextUI\Configuration\Source;
 
 it('can store a GitHub source provider for the current user organization', function () {
     $user = User::factory()->withPersonalOrganization()->create();
@@ -34,4 +36,14 @@ it('validates the GitHub token is valid when storing a source provider', functio
 
     $component->assertHasErrors();
     expect($user->currentOrganization->sourceProviders)->toHaveCount(0);
+});
+
+it('can delete a source provider for the current user organization', function () {
+    $user = User::factory()->withPersonalOrganization()->create();
+    $provider = SourceProvider::factory()->for($user->currentOrganization)->create();
+
+    $component = Volt::actingAs($user)->test('source-providers.index')
+        ->call('delete', $provider->id);
+
+    expect($user->currentOrganization->sourceProviders()->find($provider->id))->toBeNull();
 });

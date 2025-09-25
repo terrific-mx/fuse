@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
+use PHPUnit\TextUI\Configuration\Source;
 
 new class extends Component {
     use WithPagination;
@@ -29,6 +30,11 @@ new class extends Component {
     public function save()
     {
         $this->form->store($this->organization);
+    }
+
+    public function delete(SourceProvider $provider)
+    {
+        $provider->delete();
     }
 }; ?>
 
