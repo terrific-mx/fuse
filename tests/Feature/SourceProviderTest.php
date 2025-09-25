@@ -14,7 +14,6 @@ it('can store a GitHub source provider for the current user organization', funct
         ->call('save');
 
     $component->assertHasNoErrors();
-
     expect($user->currentOrganization->sourceProviders)->toHaveCount(1);
 
     $provider = $user->currentOrganization->sourceProviders()->first();

@@ -38,6 +38,12 @@ class Organization extends Model
         return $this->hasMany(ServerProvider::class);
     }
 
+    public function sourceProviders()
+    {
+        return $this->hasMany(SourceProvider::class);
+    }
+
+
     public function members()
     {
         return $this->belongsToMany(User::class, 'organization_user');
