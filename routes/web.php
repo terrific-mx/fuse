@@ -14,6 +14,7 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
 
     Volt::route('server-providers', 'server-providers.index')->name('server-providers.index')->methods(['GET', 'POST']);
     Volt::route('source-providers', 'source-providers.index')->name('source-providers.index')->methods(['GET', 'POST']);
+    Volt::route('servers', 'servers')->name('servers')->methods(['GET', 'POST']);
 });
 
 Route::middleware(['auth'])->group(function () {
