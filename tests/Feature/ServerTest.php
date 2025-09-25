@@ -1,12 +1,15 @@
 <?php
 
+use App\Jobs\ServerReadinessJob;
 use App\Models\Server;
 use App\Models\ServerProvider;
 use App\Models\User;
 use Facades\App\Services\HetznerService;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 beforeEach(function () {
+    Queue::fake();
     HetznerService::shouldReceive('getLocations')
         ->andReturn([['name' => 'fsn1', 'city' => 'Falkenstein']]);
     HetznerService::shouldReceive('getServerTypes')
@@ -53,6 +56,10 @@ it('creates a server with valid hostname and credential for organization member'
     expect($server->ip_address)->not->toBeNull();
     expect($server->status)->not->toBeNull();
     expect($server->server_provider_id)->toBe($provider->id);
+
+    Queue::assertPushed(ServerReadinessJob::class, function ($job) use ($server) {
+        return $job->server->id === $server->id;
+    });
 });
 
 it('fails with validation error when credential is missing', function () {

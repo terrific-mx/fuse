@@ -12,8 +12,8 @@ class ServerReadinessJob implements ShouldQueue
 {
     use Queueable;
 
-    public $tries = 3;
-    public $backoff = 5;
+    public $tries = 40;
+    public $backoff = 15;
 
     /**
      * Create a new job instance.
