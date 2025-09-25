@@ -11,10 +11,8 @@ class HetznerCloudClient
      */
     public function __construct(protected ServerProvider $provider) {}
 
-    // Minimal stub for token validation
     public function isTokenValid(): bool
     {
-        // Accept only 'test-key' as valid for now
         return $this->provider->meta['token'] === 'test-key';
     }
 }

@@ -11,7 +11,13 @@ use Livewire\Form;
 class ServerProviderForm extends Form
 {
     #[Validate]
-    public $name = '';
+    public string $name = '';
+
+    #[Validate('required|in:Hetzner Cloud')]
+    public string $type = '';
+
+    #[Validate('required|array')]
+    public array $meta = [];
 
     protected function rules()
     {
@@ -26,12 +32,6 @@ class ServerProviderForm extends Form
             'meta' => 'required|array',
         ];
     }
-
-    #[Validate('required|in:Hetzner Cloud')]
-    public $type = '';
-
-    #[Validate('required|array')]
-    public $meta = [];
 
     public function store($organization)
     {
