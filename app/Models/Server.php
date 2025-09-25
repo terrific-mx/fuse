@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\ProvisionServer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -35,7 +36,6 @@ class Server extends Model
 
         $this->update(['provider_server_id' => $providerId]);
 
-        // Dispatch job to actually provision the server
-        \App\Jobs\ProvisionServer::dispatch($this);
+        ProvisionServer::dispatch($this);
     }
 }
