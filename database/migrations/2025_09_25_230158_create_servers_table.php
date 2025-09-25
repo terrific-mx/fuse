@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('region');
             $table->string('type');
+            $table->string('provider_server_id')->nullable();
             $table->timestamps();
         });
     }

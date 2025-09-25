@@ -27,21 +27,14 @@ class Server extends Model
     }
 
     /**
-     * Get the provider client for this server.
-     */
-    public function providerClient()
-    {
-        return $this->provider->client();
-    }
-
-    /**
      * Provision the server using the provider client.
      */
     public function provision(): void
     {
-        $providerId = $this->providerClient()->createServer($this->name, $this->type, $this->region);
-        // Simulate saving the provider server id
-        $this->provider_server_id = $providerId;
-        // In real code, you would $this->save();
+        $providerId = $this->provider->client()->createServer($this->name, $this->type, $this->region);
+
+        $this->update([
+            'provider_server_id' => $providerId,
+        ]);
     }
 }

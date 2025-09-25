@@ -15,4 +15,13 @@ class HetznerCloudClient
     {
         return ($this->provider->meta['token'] ?? null) === 'test-key';
     }
+
+    /**
+     * Stub: Create a server on Hetzner and return the provider server id.
+     */
+    public function createServer(string $name, string $type, string $region): string
+    {
+        // Simulate API call and return a fake provider id
+        return 'hetzner-' . uniqid();
+    }
 }
