@@ -23,3 +23,20 @@ it('can store a server provider for the current user organization', function () 
     expect($provider->meta)->toBe(['token' => 'test-key']);
     expect($provider->client())->toBeInstanceOf(HetznerCloudClient::class);
 });
+
+it('validates the Hetzner Cloud token is valid when storing a server provider', function () {
+    $user = User::factory()->withPersonalOrganization()->create();
+
+    // Simulate an invalid token
+    $component = Volt::actingAs($user)->test('server-providers.index')
+        ->set('form.name', 'Invalid Token Provider')
+        ->set('form.type', 'Hetzner Cloud')
+        ->set('form.meta', ['token' => 'invalid-token'])
+        ->call('save');
+
+    // Assert validation error for the token
+    $component->assertHasErrors(['form.meta.token' => 'hetzner_token_valid']);
+
+    // Assert no provider was created
+    expect($user->currentOrganization->serverProviders)->toHaveCount(0);
+});
