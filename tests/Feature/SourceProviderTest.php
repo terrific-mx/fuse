@@ -22,3 +22,16 @@ it('can store a GitHub source provider for the current user organization', funct
     expect($provider->meta)->toBe(['token' => 'ghp_testtoken']);
     expect($provider->client())->toBeInstanceOf(GitHubClient::class);
 });
+
+it('validates the GitHub token is valid when storing a source provider', function () {
+    $user = User::factory()->withPersonalOrganization()->create();
+
+    $component = Volt::actingAs($user)->test('source-providers.index')
+        ->set('form.name', 'Invalid Token Provider')
+        ->set('form.type', 'GitHub')
+        ->set('form.meta', ['token' => 'invalid-token'])
+        ->call('save');
+
+    $component->assertHasErrors();
+    expect($user->currentOrganization->sourceProviders)->toHaveCount(0);
+});
