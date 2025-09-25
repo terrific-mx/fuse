@@ -49,16 +49,22 @@ new class extends Component {
                 <flux:select.option :value="$provider->id">{{ $provider->name }}</flux:select.option>
             @endforeach
         </flux:select>
-        <flux:input
+        <flux:select
             label="{{ __('Region') }}"
             wire:model="form.region"
             required
-        />
-        <flux:input
+        >
+            <flux:select.option value="">{{ __('Select Region') }}</flux:select.option>
+            <flux:select.option value="eu-central">eu-central</flux:select.option>
+        </flux:select>
+        <flux:select
             label="{{ __('Type') }}"
             wire:model="form.type"
             required
-        />
+        >
+            <flux:select.option value="">{{ __('Select Type') }}</flux:select.option>
+            <flux:select.option value="cx21">cx21</flux:select.option>
+        </flux:select>
         <flux:button type="submit" variant="primary">
             {{ __('Save Server') }}
         </flux:button>
