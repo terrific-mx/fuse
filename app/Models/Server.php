@@ -33,8 +33,9 @@ class Server extends Model
     {
         $providerId = $this->provider->client()->createServer($this->name, $this->type, $this->region);
 
-        $this->update([
-            'provider_server_id' => $providerId,
-        ]);
+        $this->update(['provider_server_id' => $providerId]);
+
+        // Dispatch job to actually provision the server
+        \App\Jobs\ProvisionServer::dispatch($this);
     }
 }
