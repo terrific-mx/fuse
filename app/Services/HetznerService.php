@@ -243,11 +243,13 @@ class HetznerService
         }
 
         $apiKey = $provider->credentials['api_key'] ?? null;
+
         if (! $apiKey) {
             return ['error' => 'Missing API key'];
         }
 
         $sshKeyId = $this->getOrCreateSshKeyId($provider);
+
         if (! $sshKeyId) {
             return ['error' => 'Unable to register SSH key'];
         }
@@ -263,6 +265,7 @@ class HetznerService
 
         if (! $response->successful()) {
             $error = $response->json('error.message') ?? $response->body();
+
             return ['error' => $error];
         }
 
@@ -285,24 +288,26 @@ class HetznerService
         }
 
         $apiKey = $provider->credentials['api_key'] ?? null;
+
         if (! $apiKey) {
             return null;
         }
 
         $organization = $provider->organization;
         $publicKey = $organization->ssh_public_key ?? null;
+
         if (! $publicKey) {
             return null;
         }
 
         $keyId = $this->findHetznerSshKeyId($apiKey, $publicKey);
+
         if (! $keyId) {
             $keyId = $this->uploadHetznerSshKey($apiKey, $publicKey, $organization->name);
         }
 
         if ($keyId) {
-            $provider->ssh_key_id = $keyId;
-            $provider->save();
+            $provider->update(['ssh_key_id' => $keyId]);
         }
 
         return $keyId;
@@ -321,6 +326,7 @@ class HetznerService
         }
 
         $keys = $response->json('ssh_keys') ?? [];
+
         foreach ($keys as $key) {
             if (isset($key['public_key']) && trim($key['public_key']) === trim($publicKey)) {
                 return $key['id'];
