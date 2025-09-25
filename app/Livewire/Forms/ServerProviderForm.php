@@ -9,8 +9,8 @@ use App\Models\ServerProvider;
 
 class ServerProviderForm extends Form
 {
-    #[Validate('required|string|max:255')]
     public $name = '';
+
 
     #[Validate('required|in:Hetzner Cloud')]
     public $type = '';
@@ -20,7 +20,20 @@ class ServerProviderForm extends Form
 
     public function store($organization)
     {
-        $this->validate();
+        \Validator::make([
+            'name' => $this->name,
+            'type' => $this->type,
+            'meta' => $this->meta,
+        ], [
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                'unique:server_providers,name,NULL,id,organization_id,' . \Auth::user()->currentOrganization->id,
+            ],
+            'type' => 'required|in:Hetzner Cloud',
+            'meta' => 'required|array',
+        ])->validate();
 
         ServerProvider::create([
             'organization_id' => $organization->id,
