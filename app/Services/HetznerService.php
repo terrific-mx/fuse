@@ -9,9 +9,6 @@ class HetznerService
 {
     /**
      * Validate Hetzner API key by attempting to fetch regions.
-     *
-     * @param string $apiKey
-     * @return bool True if valid, false if invalid
      */
     public function validateApiKey(string $apiKey): bool
     {
@@ -23,7 +20,7 @@ class HetznerService
     }
 
     /**
-     * Fetch available server types from Hetzner Cloud API.
+     * Get available server types from Hetzner Cloud API.
      */
     public function getServerTypes(): array
     {
@@ -222,7 +219,7 @@ class HetznerService
     }
 
     /**
-     * Fetch available Hetzner locations (hardcoded, only name and city).
+     * Get available Hetzner locations (hardcoded, only name and city).
      */
     public function getLocations(): array
     {
@@ -238,12 +235,6 @@ class HetznerService
 
     /**
      * Create a server on Hetzner Cloud.
-     *
-     * @param string $apiKey
-     * @param string $name
-     * @param string $serverType
-     * @param string $location
-     * @return array|null
      */
     public function createServer(ServerProvider $provider, string $name, string $serverType, string $location): ?array
     {
@@ -252,9 +243,13 @@ class HetznerService
         }
 
         $apiKey = $provider->credentials['api_key'] ?? null;
-
         if (! $apiKey) {
             return ['error' => 'Missing API key'];
+        }
+
+        $sshKeyId = $this->getOrCreateSshKeyId($provider);
+        if (! $sshKeyId) {
+            return ['error' => 'Unable to register SSH key'];
         }
 
         $response = Http::withToken($apiKey)
@@ -263,6 +258,7 @@ class HetznerService
                 'server_type' => $serverType,
                 'location' => $location,
                 'image' => 'ubuntu-22.04',
+                'ssh_keys' => [$sshKeyId],
             ]);
 
         if (! $response->successful()) {
@@ -277,5 +273,78 @@ class HetznerService
             'ip_address' => $server['public_net']['ipv4']['ip'] ?? null,
             'status' => $server['status'] ?? null,
         ];
+    }
+
+    /**
+     * Get or create the SSH key ID for the provider in Hetzner.
+     */
+    public function getOrCreateSshKeyId(ServerProvider $provider): ?string
+    {
+        if ($provider->ssh_key_id) {
+            return $provider->ssh_key_id;
+        }
+
+        $apiKey = $provider->credentials['api_key'] ?? null;
+        if (! $apiKey) {
+            return null;
+        }
+
+        $organization = $provider->organization;
+        $publicKey = $organization->ssh_public_key ?? null;
+        if (! $publicKey) {
+            return null;
+        }
+
+        $keyId = $this->findHetznerSshKeyId($apiKey, $publicKey);
+        if (! $keyId) {
+            $keyId = $this->uploadHetznerSshKey($apiKey, $publicKey, $organization->name);
+        }
+
+        if ($keyId) {
+            $provider->ssh_key_id = $keyId;
+            $provider->save();
+        }
+
+        return $keyId;
+    }
+
+    /**
+     * Find an existing SSH key ID in Hetzner by public key.
+     */
+    protected function findHetznerSshKeyId(string $apiKey, string $publicKey): ?string
+    {
+        $response = Http::withToken($apiKey)
+            ->get('https://api.hetzner.cloud/v1/ssh_keys');
+
+        if (! $response->successful()) {
+            return null;
+        }
+
+        $keys = $response->json('ssh_keys') ?? [];
+        foreach ($keys as $key) {
+            if (isset($key['public_key']) && trim($key['public_key']) === trim($publicKey)) {
+                return $key['id'];
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Upload a new SSH key to Hetzner.
+     */
+    protected function uploadHetznerSshKey(string $apiKey, string $publicKey, string $name): ?string
+    {
+        $response = Http::withToken($apiKey)
+            ->post('https://api.hetzner.cloud/v1/ssh_keys', [
+                'name' => $name,
+                'public_key' => $publicKey,
+            ]);
+
+        if (! $response->successful()) {
+            return null;
+        }
+
+        return $response->json('ssh_key.id') ?? null;
     }
 }

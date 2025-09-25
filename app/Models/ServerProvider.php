@@ -22,9 +22,10 @@ class ServerProvider extends Model
      */
     protected function casts(): array
     {
-        return [
+         return [
             'credentials' => 'encrypted:array',
-        ];
+            'ssh_key_id' => 'string',
+         ];
     }
 
     public function organization()

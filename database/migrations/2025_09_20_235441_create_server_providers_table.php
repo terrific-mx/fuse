@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('provider');
             $table->string('name');
             $table->json('credentials');
+            $table->string('ssh_key_id')->nullable();
             $table->timestamps();
         });
     }
