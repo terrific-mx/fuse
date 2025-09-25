@@ -26,9 +26,6 @@ class SourceProvider extends Model
 
     public function client()
     {
-        if ($this->type === 'GitHub') {
-            return new GitHubClient($this->meta['token'] ?? null);
-        }
-        return null;
+        return new GitHubClient($this);
     }
 }
