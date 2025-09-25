@@ -48,6 +48,8 @@ class ServerProviderForm extends Form
             $provider->delete();
 
             $this->addError('meta.token', __('The credentials provided were not valid.'));
+
+            return;
         }
 
         $this->reset();

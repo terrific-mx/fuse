@@ -5,14 +5,25 @@ use App\Models\ServerProvider;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Volt\Component;
 use Livewire\Attributes\Computed;
+use Livewire\WithPagination;
 
 new class extends Component {
+    use WithPagination;
+
     public ServerProviderForm $form;
 
     #[Computed]
     public function organization()
     {
         return Auth::user()->currentOrganization;
+    }
+
+    #[Computed]
+    public function providers()
+    {
+        return $this->organization->serverProviders()
+            ->orderByDesc('created_at')
+            ->paginate(10);
     }
 
     public function save()
@@ -45,4 +56,23 @@ new class extends Component {
             {{ __('Save Provider') }}
         </flux:button>
     </form>
+
+    <div class="mt-10">
+        <flux:table :paginate="$this->providers">
+            <flux:table.columns>
+                <flux:table.column>{{ __('Provider Name') }}</flux:table.column>
+                <flux:table.column>{{ __('Type') }}</flux:table.column>
+                <flux:table.column>{{ __('Created At') }}</flux:table.column>
+            </flux:table.columns>
+            <flux:table.rows>
+                @foreach ($this->providers as $provider)
+                    <flux:table.row :key="$provider->id">
+                        <flux:table.cell>{{ $provider->name }}</flux:table.cell>
+                        <flux:table.cell>{{ $provider->type }}</flux:table.cell>
+                        <flux:table.cell>{{ $provider->created_at->format('Y-m-d H:i') }}</flux:table.cell>
+                    </flux:table.row>
+                @endforeach
+            </flux:table.rows>
+        </flux:table>
+    </div>
 </div>
