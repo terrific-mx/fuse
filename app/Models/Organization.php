@@ -58,26 +58,10 @@ class Organization extends Model
         ]);
     }
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
     protected function casts(): array
     {
         return [
             'personal' => 'boolean',
-            'ssh_private_key' => 'encrypted',
         ];
-    }
-
-    public function serverProviders()
-    {
-        return $this->hasMany(ServerProvider::class);
-    }
-
-    public function servers()
-    {
-        return $this->hasMany(Server::class);
     }
 }

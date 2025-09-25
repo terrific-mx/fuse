@@ -3,7 +3,5 @@
         {{ $slot }}
     </flux:main>
     <livewire:organizations.create />
-    <flux:toast.group>
-        <flux:toast />
-    </flux:toast.group>
+    <flux:toast />
 </x-layouts.app.sidebar>

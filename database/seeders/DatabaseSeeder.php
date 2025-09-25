@@ -15,24 +15,9 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $user = User::factory()->withPersonalOrganizationAndSubscription([
-            'ssh_public_key' => env('TEST_SSH_PUBLIC_KEY'),
-            'ssh_private_key' => env('TEST_SSH_PRIVATE_KEY'),
-        ])->create([
+        User::factory()->withPersonalOrganizationAndSubscription()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]);
-
-        $organization = $user->currentOrganization;
-
-        if ($organization) {
-            $organization->serverProviders()->create([
-                'provider' => 'hetzner',
-                'name' => 'Test Provider',
-                'credentials' => [
-                    'api_key' => env('TEST_SERVER_PROVIDER_API_KEY'),
-                ],
-            ]);
-        }
     }
 }

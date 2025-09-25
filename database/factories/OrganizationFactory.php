@@ -22,8 +22,6 @@ class OrganizationFactory extends Factory
         return [
             'name' => $this->faker->company,
             'user_id' => User::factory(),
-            'ssh_public_key' => 'FAKE_PUBLIC_KEY',
-            'ssh_private_key' => 'FAKE_PRIVATE_KEY',
         ];
     }
 
