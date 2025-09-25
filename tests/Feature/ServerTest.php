@@ -10,7 +10,12 @@ use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
+use Illuminate\Support\Facades\Queue;
+use App\Jobs\ProvisionServer;
+
 test('users can create a server for their current organization', function () {
+    Queue::fake();
+
     $user = User::factory()->withPersonalOrganization()->create();
     $provider = ServerProvider::factory()->for($user->currentOrganization)->create();
 
@@ -33,4 +38,8 @@ test('users can create a server for their current organization', function () {
     expect($server->region)->toBe('fsn1');
     expect($server->type)->toBe('cx21');
     expect($server->provider_server_id)->toStartWith('hetzner-');
+
+    Queue::assertPushed(ProvisionServer::class, function ($job) use ($server) {
+        return $job->server->is($server);
+    });
 });
