@@ -47,7 +47,7 @@ class ServerProviderForm extends Form
         if (! $provider->client()->isTokenValid()) {
             $provider->delete();
 
-            $this->addError('meta', __('The credentials provided were not valid.'));
+            $this->addError('meta.token', __('The credentials provided were not valid.'));
         }
 
         $this->reset();
