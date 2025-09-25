@@ -18,7 +18,7 @@ test('users can create a server for their current organization', function () {
         ->test('servers')
         ->set('form.name', 'Test Server')
         ->set('form.provider_id', $provider->id)
-        ->set('form.region', 'eu-central')
+        ->set('form.region', 'fsn1')
         ->set('form.type', 'cx21')
         ->call('save');
 
@@ -30,6 +30,7 @@ test('users can create a server for their current organization', function () {
 
     expect($server->name)->toBe('Test Server');
     expect($server->provider->is($provider))->toBeTrue();
-    expect($server->region)->toBe('eu-central');
+    expect($server->region)->toBe('fsn1');
     expect($server->type)->toBe('cx21');
+    expect($server->provider_server_id)->toStartWith('hetzner-');
 });
