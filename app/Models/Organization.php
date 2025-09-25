@@ -43,6 +43,11 @@ class Organization extends Model
         return $this->hasMany(SourceProvider::class);
     }
 
+    public function servers()
+    {
+        return $this->hasMany(Server::class);
+    }
+
 
     public function members()
     {
