@@ -7,7 +7,21 @@ new class extends Component {
     public Server $server;
 }; ?>
 
-<div>
+<div class="space-y-12">
+    <flux:navbar scrollable>
+        <flux:navbar.item :href="route('servers.show', $server)">Overview</flux:navbar.item>
+        <flux:navbar.item :href="route('servers.sites.index', $server)">Sites</flux:navbar.item>
+        <flux:navbar.item href="#">Databases</flux:navbar.item>
+        <flux:navbar.item href="#">Cronjobs</flux:navbar.item>
+        <flux:navbar.item href="#">Deamons</flux:navbar.item>
+        <flux:navbar.item href="#">Firewall Rules</flux:navbar.item>
+        <flux:navbar.item href="#">Backups</flux:navbar.item>
+        <flux:navbar.item href="#">Software</flux:navbar.item>
+        <flux:navbar.item href="#">Software</flux:navbar.item>
+        <flux:navbar.item href="#">Files</flux:navbar.item>
+        <flux:navbar.item href="#">Logs</flux:navbar.item>
+    </flux:navbar>
+
     <section class="space-y-6">
         <flux:heading size="lg">{{ __('Server Overview') }}</flux:heading>
 
