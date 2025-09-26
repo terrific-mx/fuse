@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
 
     Volt::route('servers/{server}/sites', 'servers.sites.index')->name('servers.sites.index');
     Volt::route('servers/{server}/databases', 'servers.databases.index')->name('servers.databases.index');
+    Volt::route('servers/{server}/cronjobs', 'servers.cronjobs.index')->name('servers.cronjobs.index');
 });
 
 Route::middleware(['auth'])->group(function () {
