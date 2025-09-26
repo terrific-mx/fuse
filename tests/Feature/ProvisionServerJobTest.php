@@ -16,7 +16,10 @@ it('marks server as provisioning when job runs', function () {
 it('does not update status if already provisioning', function () {
     $server = Server::factory()->create(['status' => 'provisioning']);
 
-    (new ProvisionServer($server))->handle();
+    $job = new ProvisionServer($server);
+    $job->withFakeQueueInteractions();
+    $job->handle();
+    $job->assertReleased(delay: 30);
 
     $server->refresh();
     expect($server->status)->toBe('provisioning');
