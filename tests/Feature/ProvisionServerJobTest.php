@@ -5,7 +5,7 @@ use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 it('marks server as provisioning when job runs', function () {
-    $server = Server::factory()->create(['status' => 'pending']);
+    $server = Server::factory()->create(['status' => 'ready']);
 
     (new ProvisionServer($server))->handle();
 

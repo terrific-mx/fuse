@@ -48,6 +48,15 @@ class Server extends Model
     }
 
     /**
+     * Stub: Check if the server is ready for provisioning.
+     */
+    public function isReadyForProvisioning(): bool
+    {
+        // TODO: Implement actual readiness checks
+        return true;
+    }
+
+    /**
      * Run the provisioning script for this server.
      */
     public function runProvisioningScript(): void

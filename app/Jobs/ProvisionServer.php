@@ -13,16 +13,19 @@ class ProvisionServer implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public Server $server)
-    {
-        //
-    }
+    public function __construct(public Server $server) {}
 
     /**
      * Execute the job.
      */
     public function handle(): void
     {
+        if (! $this->server->isReadyForProvisioning()) {
+            // Release the job for 30 seconds if not ready
+            $this->release(30);
+            return;
+        }
+
         $this->server->runProvisioningScript();
     }
 }
