@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Server;
+use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -21,7 +22,7 @@ class ProvisionServer implements ShouldQueue
     public function handle(): void
     {
         if ($this->server->isOlderThanMinutes(15)) {
-            throw new \Exception('Server too old for provisioning');
+            throw new Exception('Server too old for provisioning');
         }
 
         if (! $this->server->isReadyForProvisioning()) {
@@ -45,11 +46,8 @@ class ProvisionServer implements ShouldQueue
     /**
      * Handle a job failure.
      */
-    public function failed($exception = null): void
+    public function failed(Exception $exception): void
     {
-        // Delete the server if the job fails
-        if ($this->server->exists) {
-            $this->server->delete();
-        }
+        $this->server->delete();
     }
 }

@@ -49,15 +49,11 @@ it('fails the job if server is older than 15 minutes', function () {
 
     $job = new ProvisionServer($server);
     $job->withFakeQueueInteractions();
-    try {
-        $job->handle();
-    } catch (\Exception $e) {
-        // Simulate job failure lifecycle
-        $job->failed($e);
-    }
 
-    expect(Server::find($server->id))->toBeNull(); // Server should be deleted
-});
+    $job->handle();
+
+    expect($server->fresh())->toBeNull(); // Server should be deleted
+})->throws(Exception::class, 'Server too old for provisioning');
 
 it('deletes the job if server is provisioned', function () {
     $server = Server::factory()->create([
