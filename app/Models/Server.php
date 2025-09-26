@@ -38,4 +38,26 @@ class Server extends Model
 
         ProvisionServer::dispatch($this);
     }
+
+    /**
+     * Determine if the server is currently provisioning.
+     */
+    public function isProvisioning(): bool
+    {
+        return $this->status === 'provisioning';
+    }
+
+    /**
+     * Run the provisioning script for this server.
+     */
+    public function runProvisioningScript(): void
+    {
+        if ($this->isProvisioning()) {
+            return;
+        }
+
+        $this->update(['status' => 'provisioning']);
+
+        // TODO: Add actual provisioning script logic here
+    }
 }

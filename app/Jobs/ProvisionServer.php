@@ -23,7 +23,6 @@ class ProvisionServer implements ShouldQueue
      */
     public function handle(): void
     {
-        // Actual provisioning logic goes here
-        // Example: $this->server->provider->client()->provision($this->server);
+        $this->server->runProvisioningScript();
     }
 }
