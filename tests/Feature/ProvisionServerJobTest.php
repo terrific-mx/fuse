@@ -28,7 +28,12 @@ it('does not update status if server is not ready for provisioning', function ()
     $mock = Mockery::mock($server)->makePartial();
     $mock->shouldReceive('isReadyForProvisioning')->andReturn(false);
 
-    (new ProvisionServer($mock))->handle();
+    $job = new ProvisionServer($mock);
+    $job->withFakeQueueInteractions();
+
+    $job->handle();
+
+    $job->assertReleased(delay: 30);
 
     $mock->refresh();
     expect($mock->status)->toBe('pending');
