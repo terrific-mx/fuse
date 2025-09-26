@@ -56,3 +56,17 @@ it('fails the job if server is older than 15 minutes', function () {
     $server->refresh();
     expect($server->status)->toBe('pending');
 });
+
+it('deletes the job if server is provisioned', function () {
+    $server = Server::factory()->create([
+        'status' => 'provisioned',
+    ]);
+
+    $job = new ProvisionServer($server);
+    $job->withFakeQueueInteractions();
+    $job->handle();
+    $job->assertDeleted();
+
+    $server->refresh();
+    expect($server->status)->toBe('provisioned');
+});
