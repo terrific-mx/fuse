@@ -5,7 +5,7 @@ use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 it('marks server as provisioning when job runs', function () {
-    $server = Server::factory()->create(['status' => 'ready']);
+    $server = Server::factory()->create(['status' => 'pending']);
 
     (new ProvisionServer($server))->handle();
 
@@ -20,4 +20,16 @@ it('does not update status if already provisioning', function () {
 
     $server->refresh();
     expect($server->status)->toBe('provisioning');
+});
+
+it('does not update status if server is not ready for provisioning', function () {
+    $server = Server::factory()->create(['status' => 'pending']);
+
+    $mock = Mockery::mock($server)->makePartial();
+    $mock->shouldReceive('isReadyForProvisioning')->andReturn(false);
+
+    (new ProvisionServer($mock))->handle();
+
+    $mock->refresh();
+    expect($mock->status)->toBe('pending');
 });
