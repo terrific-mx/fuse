@@ -20,9 +20,23 @@ class ProvisionServer implements ShouldQueue
      */
     public function handle(): void
     {
+        if ($this->server->isOlderThanMinutes(15)) {
+            $this->fail();
+            return;
+        }
+
         if (! $this->server->isReadyForProvisioning()) {
-            // Release the job for 30 seconds if not ready
             $this->release(30);
+            return;
+        }
+
+        if ($this->server->isProvisioning()) {
+            $this->release(30);
+            return;
+        }
+
+        if ($this->server->isProvisioned()) {
+            $this->delete();
             return;
         }
 

@@ -48,6 +48,22 @@ class Server extends Model
     }
 
     /**
+     * Determine if the server is provisioned.
+     */
+    public function isProvisioned(): bool
+    {
+        return $this->status === 'provisioned';
+    }
+
+    /**
+     * Determine if the server is older than the given minutes.
+     */
+    public function isOlderThanMinutes(int $minutes): bool
+    {
+        return $this->created_at->lt(now()->subMinutes($minutes));
+    }
+
+    /**
      * Stub: Check if the server is ready for provisioning.
      */
     public function isReadyForProvisioning(): bool
