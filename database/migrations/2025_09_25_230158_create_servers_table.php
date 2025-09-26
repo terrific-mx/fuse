@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('status')->default('pending');
             $table->string('provider_server_id')->nullable();
+            $table->string('ip_address')->nullable();
             $table->timestamps();
         });
     }

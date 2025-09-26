@@ -68,8 +68,22 @@ class Server extends Model
      */
     public function isReadyForProvisioning(): bool
     {
+        if (! $this->ip_address) {
+            $this->retrieveIpFromProvider();
+        }
+
         // TODO: Implement actual readiness checks
         return true;
+    }
+
+    /**
+     * Retrieve the IP address from the server provider.
+     */
+    public function retrieveIpFromProvider(): void
+    {
+        if ($ip = $this->provider->client()->getServerIp($this)) {
+            $this->update(['ip_address' => $ip]);
+        }
     }
 
     /**
