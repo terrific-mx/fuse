@@ -20,7 +20,7 @@ test('users can create a server for their current organization', function () {
     $provider = ServerProvider::factory()->for($user->currentOrganization)->create();
 
     $component = Volt::actingAs($user)
-        ->test('servers')
+        ->test('servers.index')
         ->set('form.name', 'Test Server')
         ->set('form.provider_id', $provider->id)
         ->set('form.region', 'fsn1')
