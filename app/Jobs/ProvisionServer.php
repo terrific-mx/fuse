@@ -27,17 +27,21 @@ class ProvisionServer implements ShouldQueue
 
         if (! $this->server->isReadyForProvisioning()) {
             $this->release(30);
+
             return;
         }
 
         if ($this->server->isProvisioning()) {
             $this->release(30);
+
             return;
         }
 
         if ($this->server->isProvisioned()) {
             $this->afterProvisioned();
+
             $this->delete();
+
             return;
         }
 
