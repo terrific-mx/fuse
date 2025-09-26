@@ -84,7 +84,7 @@ new class extends Component {
             <flux:table.rows>
                 @foreach ($this->servers as $server)
                     <flux:table.row :key="$server->id">
-                        <flux:table.cell>{{ $server->name }}</flux:table.cell>
+                        <flux:table.cell><flux:link :href="route('servers.show', $server)" wire:navigate>{{ $server->name }}</flux:link></flux:table.cell>
                         <flux:table.cell>{{ $server->provider->name ?? '-' }}</flux:table.cell>
                         <flux:table.cell>{{ $server->region }}</flux:table.cell>
                         <flux:table.cell>{{ $server->type }}</flux:table.cell>

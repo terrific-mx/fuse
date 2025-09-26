@@ -12,9 +12,11 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');
 
-    Volt::route('server-providers', 'server-providers.index')->name('server-providers.index')->methods(['GET', 'POST']);
-    Volt::route('source-providers', 'source-providers.index')->name('source-providers.index')->methods(['GET', 'POST']);
-    Volt::route('servers', 'servers')->name('servers')->methods(['GET', 'POST']);
+    Volt::route('server-providers', 'server-providers.index')->name('server-providers.index');
+    Volt::route('source-providers', 'source-providers.index')->name('source-providers.index');
+
+    Volt::route('servers', 'servers.index')->name('servers.index');
+    Volt::route('servers/{server}', 'servers.show')->name('servers.show');
 });
 
 Route::middleware(['auth'])->group(function () {

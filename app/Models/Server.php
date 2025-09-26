@@ -72,6 +72,10 @@ class Server extends Model
             $this->retrieveIpFromProvider();
         }
 
+        if (! $this->refresh()->ip_address) {
+            return false;
+        }
+
         // TODO: Implement actual readiness checks
         return true;
     }

@@ -11,7 +11,7 @@
                 <flux:sidebar.item icon="home" :href="route('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:sidebar.item>
                 <flux:sidebar.item  :href="route('server-providers.index')" wire:navigate>{{ __('Server Providers') }}</flux:sidebar.item>
                 <flux:sidebar.item  :href="route('source-providers.index')" wire:navigate>{{ __('Source Providers') }}</flux:sidebar.item>
-                <flux:sidebar.item  :href="route('servers')" wire:navigate>{{ __('Servers') }}</flux:sidebar.item>
+                <flux:sidebar.item  :href="route('servers.index')" wire:navigate>{{ __('Servers') }}</flux:sidebar.item>
             </flux:sidebar.nav>
 
             @can('update', auth()->user()->currentOrganization)

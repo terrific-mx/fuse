@@ -82,6 +82,29 @@ it('retrieves the ip address from the server provider if missing when checking r
     expect($server->ip_address)->toBe('192.0.2.1'); // Should match stub value from HetznerCloudClient
 });
 
+it('returns false for isReadyForProvisioning if ip_address is missing', function () {
+    $server = Server::factory()->make([
+        'ip_address' => null,
+    ]);
+    expect($server->isReadyForProvisioning())->toBeFalse();
+});
+
+it('does not set ip_address if provider returns null', function () {
+    $server = Server::factory()->create([
+        'status' => 'pending',
+        'ip_address' => null,
+    ]);
+
+    $mockClient = Mockery::mock('overload:App\\Services\\HetznerCloudClient');
+    $mockClient->shouldReceive('getServerIp')->andReturn(null);
+
+    (new ProvisionServer($server))->handle();
+
+    $server->refresh();
+    expect($server->ip_address)->toBeNull();
+    expect($server->isReadyForProvisioning())->toBeFalse();
+});
+
 todo('to check we can access the server we must run a get current directory command and verify is the root path');
 
 todo('if we have server access we need to check apt is not locked');
