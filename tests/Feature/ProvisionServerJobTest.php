@@ -41,3 +41,18 @@ it('does not update status if server is not ready for provisioning', function ()
     $mock->refresh();
     expect($mock->status)->toBe('pending');
 });
+
+it('fails the job if server is older than 15 minutes', function () {
+    $server = Server::factory()->create([
+        'status' => 'pending',
+        'created_at' => now()->subMinutes(16),
+    ]);
+
+    $job = new ProvisionServer($server);
+    $job->withFakeQueueInteractions();
+    $job->handle();
+    $job->assertFailed();
+
+    $server->refresh();
+    expect($server->status)->toBe('pending');
+});
