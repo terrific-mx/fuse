@@ -36,6 +36,7 @@ class ProvisionServer implements ShouldQueue
         }
 
         if ($this->server->isProvisioned()) {
+            $this->afterProvisioned();
             $this->delete();
             return;
         }
@@ -49,5 +50,15 @@ class ProvisionServer implements ShouldQueue
     public function failed(Exception $exception): void
     {
         $this->server->delete();
+    }
+
+    /**
+     * Perform any tasks after the server is provisioned.
+     *
+     * @return void
+     */
+    protected function afterProvisioned(): void
+    {
+        // Stub: Add post-provisioning logic here
     }
 }
