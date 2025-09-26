@@ -39,8 +39,7 @@ new class extends Component {
                 <flux:input :label="__('Repository URL')" value="git@github.com:laravel/laravel.git" />
 
                 <flux:input :label="__('Repository Branch')" value="main" />
-        </div>
-
+            </div>
         </flux:fieldset>
 
         <flux:switch label="Use a deploy key" />
