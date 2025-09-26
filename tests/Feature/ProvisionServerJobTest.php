@@ -2,7 +2,6 @@
 
 use App\Jobs\ProvisionServer;
 use App\Models\Server;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 it('marks server as provisioning when job runs', function () {
     $server = Server::factory()->create(['status' => 'pending']);
@@ -50,11 +49,14 @@ it('fails the job if server is older than 15 minutes', function () {
 
     $job = new ProvisionServer($server);
     $job->withFakeQueueInteractions();
-    $job->handle();
-    $job->assertFailed();
+    try {
+        $job->handle();
+    } catch (\Exception $e) {
+        // Simulate job failure lifecycle
+        $job->failed($e);
+    }
 
-    $server->refresh();
-    expect($server->status)->toBe('pending');
+    expect(Server::find($server->id))->toBeNull(); // Server should be deleted
 });
 
 it('deletes the job if server is provisioned', function () {
@@ -65,6 +67,7 @@ it('deletes the job if server is provisioned', function () {
     $job = new ProvisionServer($server);
     $job->withFakeQueueInteractions();
     $job->handle();
+
     $job->assertDeleted();
 
     $server->refresh();

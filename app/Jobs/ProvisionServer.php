@@ -21,8 +21,7 @@ class ProvisionServer implements ShouldQueue
     public function handle(): void
     {
         if ($this->server->isOlderThanMinutes(15)) {
-            $this->fail();
-            return;
+            throw new \Exception('Server too old for provisioning');
         }
 
         if (! $this->server->isReadyForProvisioning()) {
@@ -41,5 +40,16 @@ class ProvisionServer implements ShouldQueue
         }
 
         $this->server->runProvisioningScript();
+    }
+
+    /**
+     * Handle a job failure.
+     */
+    public function failed($exception = null): void
+    {
+        // Delete the server if the job fails
+        if ($this->server->exists) {
+            $this->server->delete();
+        }
     }
 }
