@@ -1,11 +1,13 @@
 <?php
 
+use App\Livewire\Forms\SiteForm;
 use App\Models\Server;
 use Livewire\Volt\Component;
 
 new class extends Component {
     public Server $server;
-    public \App\Livewire\Forms\SiteForm $form;
+
+    public SiteForm $form;
 
     public function save()
     {
@@ -21,7 +23,7 @@ new class extends Component {
 <div class="space-y-12">
     @include('partials.server-navbar', ['server' => $server])
 
-    <section class="space-y-6">
+    <form wire:submit="save" class="space-y-6">
         <flux:heading size="lg">{{ __('Add site') }}</flux:heading>
 
         <flux:input :label="__('Hostname')" wire:model="form.hostname" required />
@@ -56,7 +58,7 @@ new class extends Component {
         <flux:switch :label="__('Use a deploy key')" wire:model="form.use_deploy_key" />
 
         <flux:button type="submit" variant="primary">{{ __('Add Site') }}</flux:button>
-    </section>
+    </form>
 
     <section class="space-y-6">
         <flux:heading size="lg">{{ __('Sites') }}</flux:heading>

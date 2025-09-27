@@ -2,22 +2,29 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\Site;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class SiteForm extends Form
 {
-    public ?int $server_id = null;
     public string $hostname = '';
+
     public string $php_version = '';
+
     public string $type = '';
+
     public string $web_folder = '/public';
+
     public bool $zero_downtime = true;
+
     public string $repository_url = '';
+
     public string $repository_branch = '';
+
     public bool $use_deploy_key = false;
 
-    public function store($server): \App\Models\Site
+    public function store($server): Site
     {
         return $server->sites()->create([
             'hostname' => $this->hostname,
