@@ -21,8 +21,8 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
     Volt::route('servers/{server}/sites', 'servers.sites.index')->name('servers.sites.index');
     Volt::route('servers/{server}/sites/{site}', 'servers.sites.show')->name('servers.sites.show');
     Volt::route('servers/{server}/sites/{site}/deployments', 'servers.sites.deployments')->name('servers.sites.deployments');
-    Volt::route('servers/{server}/sites/{site}/site-settings', 'servers.sites.settings')->name('servers.sites.site-settings');
-    Volt::route('servers/{server}/sites/{site}/deployment-settings', 'servers.sites.settings')->name('servers.sites.deployment-settings');
+    Volt::route('servers/{server}/sites/{site}/site-settings', 'servers.sites.site-settings')->name('servers.sites.site-settings');
+    Volt::route('servers/{server}/sites/{site}/deployment-settings', 'servers.sites.deployment-settings')->name('servers.sites.deployment-settings');
     Volt::route('servers/{server}/sites/{site}/ssl', 'servers.sites.ssl')->name('servers.sites.ssl');
     Volt::route('servers/{server}/sites/{site}/files', 'servers.sites.files')->name('servers.sites.files');
     Volt::route('servers/{server}/sites/{site}/logs', 'servers.sites.logs')->name('servers.sites.logs');

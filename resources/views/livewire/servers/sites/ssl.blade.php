@@ -10,6 +10,10 @@ new class extends Component {
     public Site $site;
 }; ?>
 
-<div>
-    //
+<div class="space-y-12">
+    @include('partials.site-navbar', ['server' => $server, 'site' => $site])
+
+    <section class="space-y-6">
+        <!-- Add SSL details here -->
+    </section>
 </div>
