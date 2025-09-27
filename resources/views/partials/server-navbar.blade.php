@@ -7,7 +7,7 @@
         <flux:navbar.item :href="route('servers.daemons.index', $server)" wire:navigate>{{ __('Daemons') }}</flux:navbar.item>
         <flux:navbar.item :href="route('servers.firewall-rules', $server)" wire:navigate>{{ __('Firewall Rules') }}</flux:navbar.item>
         <flux:navbar.item :href="route('servers.backups', $server)" wire:navigate>{{ __('Backups') }}</flux:navbar.item>
-        <flux:navbar.item href="#">{{ __('Services') }}</flux:navbar.item>
+        <flux:navbar.item :href="route('servers.services', $server)" wire:navigate>{{ __('Services') }}</flux:navbar.item>
         <flux:navbar.item href="#">{{ __('Files') }}</flux:navbar.item>
         <flux:navbar.item href="#">{{ __('Logs') }}</flux:navbar.item>
     </flux:navbar>
