@@ -103,4 +103,9 @@ class Server extends Model
 
         // TODO: Add actual provisioning script logic here
     }
+
+    public function sites()
+    {
+        return $this->hasMany(Site::class);
+    }
 }

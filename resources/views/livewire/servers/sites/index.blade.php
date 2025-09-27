@@ -5,6 +5,17 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public Server $server;
+    public \App\Livewire\Forms\SiteForm $form;
+
+    public function save()
+    {
+        $this->form->store($this->server);
+    }
+
+    public function sites()
+    {
+        return $this->server->sites()->orderByDesc('created_at')->get();
+    }
 }; ?>
 
 <div class="space-y-12">
@@ -13,38 +24,38 @@ new class extends Component {
     <section class="space-y-6">
         <flux:heading size="lg">{{ __('Add site') }}</flux:heading>
 
-        <flux:input :label="__('Hostname')" />
+        <flux:input :label="__('Hostname')" wire:model="form.hostname" required />
 
-        <flux:select :label="__('PHP version')" placeholder="Choose PHP version...">
-            <flux:select.option>8.4</flux:select.option>
-            <flux:select.option>8.3</flux:select.option>
-            <flux:select.option>8.1</flux:select.option>
+        <flux:select :label="__('PHP version')" wire:model="form.php_version" placeholder="Choose PHP version..." required>
+            <flux:select.option value="8.4">8.4</flux:select.option>
+            <flux:select.option value="8.3">8.3</flux:select.option>
+            <flux:select.option value="8.1">8.1</flux:select.option>
         </flux:select>
 
-        <flux:select :label="__('Site type')" placeholder="Choose site type...">
-            <flux:select.option>Generic</flux:select.option>
-            <flux:select.option>Laravel</flux:select.option>
-            <flux:select.option>Static</flux:select.option>
-            <flux:select.option>Wordpress</flux:select.option>
+        <flux:select :label="__('Site type')" wire:model="form.type" placeholder="Choose site type..." required>
+            <flux:select.option value="Generic">Generic</flux:select.option>
+            <flux:select.option value="Laravel">Laravel</flux:select.option>
+            <flux:select.option value="Static">Static</flux:select.option>
+            <flux:select.option value="Wordpress">Wordpress</flux:select.option>
         </flux:select>
 
-        <flux:input :label="__('Web folder')" value="/public" />
+        <flux:input :label="__('Web folder')" wire:model="form.web_folder" required />
 
-        <flux:checkbox label="Enable Zero Downtime Deployment" checked />
+        <flux:checkbox :label="__('Enable Zero Downtime Deployment')" wire:model="form.zero_downtime" />
 
         <flux:fieldset>
             <flux:legend>Repository</flux:legend>
 
             <div class="space-y-6">
-                <flux:input :label="__('Repository URL')" value="git@github.com:laravel/laravel.git" />
+                <flux:input :label="__('Repository URL')" wire:model="form.repository_url" />
 
-                <flux:input :label="__('Repository Branch')" value="main" />
+                <flux:input :label="__('Repository Branch')" wire:model="form.repository_branch" />
             </div>
         </flux:fieldset>
 
-        <flux:switch label="Use a deploy key" />
+        <flux:switch :label="__('Use a deploy key')" wire:model="form.use_deploy_key" />
 
-        <flux:button variant="primary">{{ __('Add Site') }}</flux:button>
+        <flux:button type="submit" variant="primary">{{ __('Add Site') }}</flux:button>
     </section>
 
     <section class="space-y-6">
@@ -52,30 +63,28 @@ new class extends Component {
 
         <flux:table>
             <flux:table.columns>
-                <flux:table.column>{{ __('Name') }}</flux:table.column>
                 <flux:table.column>{{ __('Hostname') }}</flux:table.column>
                 <flux:table.column>{{ __('Type') }}</flux:table.column>
-                <flux:table.column>{{ __('Status') }}</flux:table.column>
+                <flux:table.column>{{ __('PHP version') }}</flux:table.column>
+                <flux:table.column>{{ __('Web folder') }}</flux:table.column>
+                <flux:table.column>{{ __('Zero Downtime') }}</flux:table.column>
+                <flux:table.column>{{ __('Repository URL') }}</flux:table.column>
+                <flux:table.column>{{ __('Repository Branch') }}</flux:table.column>
+                <flux:table.column>{{ __('Deploy Key') }}</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
-                <flux:table.row>
-                    <flux:table.cell>Laravel App</flux:table.cell>
-                    <flux:table.cell>laravel.example.com</flux:table.cell>
-                    <flux:table.cell>Laravel</flux:table.cell>
-                    <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">Active</flux:badge></flux:table.cell>
-                </flux:table.row>
-                <flux:table.row>
-                    <flux:table.cell>Wordpress Blog</flux:table.cell>
-                    <flux:table.cell>blog.example.com</flux:table.cell>
-                    <flux:table.cell>Wordpress</flux:table.cell>
-                    <flux:table.cell><flux:badge color="zinc" size="sm" inset="top bottom">Inactive</flux:badge></flux:table.cell>
-                </flux:table.row>
-                <flux:table.row>
-                    <flux:table.cell>Static Site</flux:table.cell>
-                    <flux:table.cell>static.example.com</flux:table.cell>
-                    <flux:table.cell>Static</flux:table.cell>
-                    <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">Active</flux:badge></flux:table.cell>
-                </flux:table.row>
+                @foreach ($this->sites() as $site)
+                    <flux:table.row :key="$site->id">
+                        <flux:table.cell>{{ $site->hostname }}</flux:table.cell>
+                        <flux:table.cell>{{ $site->type }}</flux:table.cell>
+                        <flux:table.cell>{{ $site->php_version }}</flux:table.cell>
+                        <flux:table.cell>{{ $site->web_folder }}</flux:table.cell>
+                        <flux:table.cell>{{ $site->zero_downtime ? __('Yes') : __('No') }}</flux:table.cell>
+                        <flux:table.cell>{{ $site->repository_url }}</flux:table.cell>
+                        <flux:table.cell>{{ $site->repository_branch }}</flux:table.cell>
+                        <flux:table.cell>{{ $site->use_deploy_key ? __('Yes') : __('No') }}</flux:table.cell>
+                    </flux:table.row>
+                @endforeach
             </flux:table.rows>
         </flux:table>
     </section>
