@@ -16,7 +16,7 @@ new class extends Component {
         </header>
         <flux:table>
             <flux:table.columns>
-                <flux:table.column>{{ __('Log File') }}</flux:table.column>
+                <flux:table.column class="w-full">{{ __('Log File') }}</flux:table.column>
                 <flux:table.column>{{ __('Description') }}</flux:table.column>
                 <flux:table.column></flux:table.column>
             </flux:table.columns>
