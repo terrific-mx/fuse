@@ -19,9 +19,17 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
     Volt::route('servers/{server}', 'servers.show')->name('servers.show');
 
     Volt::route('servers/{server}/sites', 'servers.sites.index')->name('servers.sites.index');
-    Volt::route('servers/{server}/databases', 'servers.databases.index')->name('servers.databases.index');
-    Volt::route('servers/{server}/cronjobs', 'servers.cronjobs.index')->name('servers.cronjobs.index');
-    Volt::route('servers/{server}/daemons', 'servers.daemons.index')->name('servers.daemons.index');
+    Volt::route('servers/{server}/sites/{site}', 'servers.sites.show')->name('servers.sites.show');
+    Volt::route('servers/{server}/sites/{site}/deployments', 'servers.sites.deployments')->name('servers.sites.deployments');
+    Volt::route('servers/{server}/sites/{site}/site-settings', 'servers.sites.settings')->name('servers.sites.site-settings');
+    Volt::route('servers/{server}/sites/{site}/deployment-settings', 'servers.sites.settings')->name('servers.sites.deployment-settings');
+    Volt::route('servers/{server}/sites/{site}/ssl', 'servers.sites.ssl')->name('servers.sites.ssl');
+    Volt::route('servers/{server}/sites/{site}/files', 'servers.sites.files')->name('servers.sites.files');
+    Volt::route('servers/{server}/sites/{site}/logs', 'servers.sites.logs')->name('servers.sites.logs');
+
+    Volt::route('servers/{server}/databases', 'servers.databases')->name('servers.databases');
+    Volt::route('servers/{server}/cronjobs', 'servers.cronjobs')->name('servers.cronjobs');
+    Volt::route('servers/{server}/daemons', 'servers.daemons')->name('servers.daemons');
     Volt::route('servers/{server}/firewall-rules', 'servers.firewall-rules')->name('servers.firewall-rules');
     Volt::route('servers/{server}/backups', 'servers.backups')->name('servers.backups');
     Volt::route('servers/{server}/services', 'servers.services')->name('servers.services');
