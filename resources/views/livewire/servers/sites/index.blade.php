@@ -77,7 +77,7 @@ new class extends Component {
             <flux:table.rows>
                 @foreach ($this->sites() as $site)
                     <flux:table.row :key="$site->id">
-                        <flux:table.cell>{{ $site->hostname }}</flux:table.cell>
+                        <flux:table.cell><flux:link :href="route('servers.sites.show', ['server' => $server, 'site' => $site])">{{ $site->hostname }}</flux:link></flux:table.cell>
                         <flux:table.cell>{{ $site->type }}</flux:table.cell>
                         <flux:table.cell>{{ $site->php_version }}</flux:table.cell>
                         <flux:table.cell>{{ $site->web_folder }}</flux:table.cell>
