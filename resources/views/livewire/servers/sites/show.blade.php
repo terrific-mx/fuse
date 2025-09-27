@@ -1,11 +1,20 @@
 <?php
 
+use App\Models\Server;
+use App\Models\Site;
 use Livewire\Volt\Component;
 
 new class extends Component {
-    //
+    public Server $server;
+
+    public Site $site;
 }; ?>
 
-<div>
-    //
+<div class="space-y-12">
+    @include('partials.site-navbar', ['server' => $server, 'site' => $site])
+
+    <section class="space-y-6">
+        <flux:heading size="lg">{{ __('Site Overview') }}</flux:heading>
+        <!-- Add site details here -->
+    </section>
 </div>

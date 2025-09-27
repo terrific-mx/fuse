@@ -23,8 +23,7 @@
   "Create a new database for your server.": "Crea una nueva base de datos para tu servidor.",
   "List of databases on this server.": "Lista de bases de datos en este servidor.",
   "Create a user and assign database access.": "Crea un usuario y asigna acceso a bases de datos.",
-  "List of users with database access.": "Lista de usuarios con acceso a bases de datos."
-  ,
+  "List of users with database access.": "Lista de usuarios con acceso a bases de datos.",
   "Add backup": "Agregar copia de seguridad",
   "Create a new backup for your server.": "Crea una nueva copia de seguridad para tu servidor.",
   "Backup name": "Nombre de la copia de seguridad",
@@ -52,5 +51,13 @@
   "Name": "Nombre",
   "Directories/Files": "Directorios/Archivos",
   "Retention": "Retención",
-  "Notifications": "Notificaciones"
+  "Notifications": "Notificaciones",
+  "Overview": "Resumen",
+  "Deployments": "Despliegues",
+  "Site Settings": "Configuración del sitio",
+  "Deployment Settings": "Configuración de despliegue",
+  "SSL": "SSL",
+  "Files": "Archivos",
+  "Logs": "Registros",
+  "Site Overview": "Resumen del sitio"
 }
