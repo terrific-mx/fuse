@@ -14,6 +14,7 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
 
     Volt::route('server-providers', 'server-providers.index')->name('server-providers.index');
     Volt::route('source-providers', 'source-providers.index')->name('source-providers.index');
+    Volt::route('ssh-keys', 'ssh-keys')->name('ssh-keys');
 
     Volt::route('servers', 'servers.index')->name('servers.index');
     Volt::route('servers/{server}', 'servers.show')->name('servers.show');
