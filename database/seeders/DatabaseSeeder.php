@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Server;
 use App\Models\ServerProvider;
+use App\Models\Site;
 use App\Models\SourceProvider;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -89,11 +90,25 @@ class DatabaseSeeder extends Seeder
             ],
         ];
 
-        foreach ($servers as $server) {
-            Server::factory()->create($server);
+        foreach ($servers as $serverData) {
+            $server = Server::factory()->create($serverData);
+            $this->seedSitesForServer($server);
         }
     }
 
+    /**
+     * Seed 3 sites for the given server.
+     */
+    private function seedSitesForServer(Server $server): void
+    {
+        foreach (range(1, 3) as $i) {
+            Site::factory()->create([
+                'server_id' => $server->id,
+                'hostname' => $server->name . '-site' . $i . '.example.com',
+                'repository_branch' => $i === 1 ? 'main' : ($i === 2 ? 'develop' : 'feature-x'),
+            ]);
+        }
+    }
 
     /**
      * Get the seed data for server providers.

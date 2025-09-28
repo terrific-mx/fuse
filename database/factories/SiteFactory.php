@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Server;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class SiteFactory extends Factory
     public function definition(): array
     {
         return [
-            'server_id' => \App\Models\Server::factory(),
+            'server_id' => Server::factory(),
             'hostname' => $this->faker->domainName,
             'php_version' => $this->faker->randomElement(['8.4', '8.3', '8.1']),
             'type' => $this->faker->randomElement(['Generic', 'Laravel', 'Static', 'Wordpress']),

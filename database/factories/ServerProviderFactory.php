@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Organization;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class ServerProviderFactory extends Factory
     public function definition(): array
     {
         return [
-            'organization_id' => \App\Models\Organization::factory(),
+            'organization_id' => Organization::factory(),
             'name' => $this->faker->company,
             'type' => $this->faker->randomElement(['aws', 'azure', 'gcp', 'custom']),
             'meta' => [
