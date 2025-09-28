@@ -59,5 +59,12 @@
   "SSL": "SSL",
   "Files": "Archivos",
   "Logs": "Registros",
-  "Site Overview": "Resumen del sitio"
+  "Site Overview": "Resumen del sitio",
+  "Site Logs": "Registros del sitio",
+  "Review important site log files, including all requests made to this site.": "Revisa los archivos de registro importantes del sitio, incluyendo todas las solicitudes hechas a este sitio.",
+  "Log File": "Archivo de registro",
+  "Description": "Descripción",
+  "Access": "Acceder",
+  "All requests made to this site": "Todas las solicitudes hechas a este sitio",
+  "Site-specific web server error log": "Registro de errores del servidor web específico del sitio"
 }
