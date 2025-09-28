@@ -15,6 +15,22 @@ new class extends Component {
 
     <section class="space-y-6">
         <flux:heading size="lg">{{ __('Site Overview') }}</flux:heading>
-        <!-- Add site details here -->
+
+        <flux:input :label="__('Hostname')" value="{{ $site->hostname }}" readonly variant="filled" />
+
+        <flux:input :label="__('PHP version')" value="{{ $site->php_version }}" readonly variant="filled" />
+
+        <flux:input :label="__('Site type')" value="{{ $site->type }}" readonly variant="filled" />
+
+        <flux:input :label="__('Web folder')" value="{{ $site->web_folder }}" readonly variant="filled" />
+
+        <flux:input :label="__('Zero Downtime Deployment')" value="{{ $site->zero_downtime ? __('Yes') : __('No') }}" readonly variant="filled" />
+
+        <flux:input :label="__('Repository URL')" value="{{ $site->repository_url }}" readonly variant="filled" />
+
+        <flux:input :label="__('Repository Branch')" value="{{ $site->repository_branch }}" readonly variant="filled" />
+
+        <flux:input :label="__('Deploy Key')" value="{{ $site->use_deploy_key ? __('Yes') : __('No') }}" readonly variant="filled" />
+
     </section>
 </div>
