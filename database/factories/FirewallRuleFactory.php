@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Server;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class FirewallRuleFactory extends Factory
     public function definition(): array
     {
         return [
-            'server_id' => fn() => \App\Models\Server::factory(),
+            'server_id' => fn () => Server::factory(),
             'name' => $this->faker->word(),
             'action' => $this->faker->randomElement(['allow', 'deny', 'reject']),
             'port' => $this->faker->numberBetween(1, 65535),

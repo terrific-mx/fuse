@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Site;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,9 +19,9 @@ class DeploymentFactory extends Factory
     public function definition(): array
     {
         return [
-            'site_id' => \App\Models\Site::factory(),
+            'site_id' => Site::factory(),
             'status' => 'pending',
-            'triggered_by' => \App\Models\User::factory(),
+            'triggered_by' => User::factory(),
             'commit' => $this->faker->sha1(),
             'deployed_at' => null,
         ];

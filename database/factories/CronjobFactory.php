@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Server;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class CronjobFactory extends Factory
     public function definition(): array
     {
         return [
-            'server_id' => \App\Models\Server::factory(),
+            'server_id' => Server::factory(),
             'command' => $this->faker->sentence,
             'user' => $this->faker->userName,
             'expression' => '* * * * *',
