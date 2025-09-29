@@ -133,4 +133,9 @@ class Server extends Model
     {
         return $this->hasMany(FirewallRule::class);
     }
+
+    public function backups()
+    {
+        return $this->hasMany(Backup::class);
+    }
 }
