@@ -10,6 +10,7 @@ use Livewire\Attributes\Computed;
 
 new class extends Component {
     public Server $server;
+
     public DatabaseForm $form;
 
     public function save()
@@ -21,6 +22,14 @@ new class extends Component {
     public function databases()
     {
         return $this->server->databases()->with('users')->orderByDesc('created_at')->get();
+    }
+
+    #[Computed]
+    public function databaseUsers()
+    {
+        return DatabaseUser::whereHas('databases', function ($query) {
+            $query->where('server_id', $this->server->id);
+        })->with('databases')->orderByDesc('created_at')->get();
     }
 }; ?>
 
@@ -38,15 +47,16 @@ new class extends Component {
 
             <flux:switch :label="__('Create database user')" wire:model="form.create_user" />
 
-            <div class="space-y-6" x-show="form.create_user">
-                <flux:input :label="__('Database user name')" wire:model="form.user_name" required />
+            <div class="space-y-6" x-show="$wire.form.create_user" x-cloak>
+                <flux:input :label="__('Database user name')" wire:model="form.user_name" />
 
                 <flux:field>
                     <flux:label>{{ __('Password') }}</flux:label>
                     <flux:input.group>
-                        <flux:input type="password" wire:model="form.password" required />
+                        <flux:input type="password" wire:model="form.password" />
                         <flux:button icon="sparkles">{{ __('Auto generate') }}</flux:button>
                     </flux:input.group>
+                    <flux:error name="form.password" />
                 </flux:field>
             </div>
 
@@ -124,16 +134,21 @@ new class extends Component {
                 <flux:table.column>{{ __('Status') }}</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
-                <flux:table.row>
-                    <flux:table.cell>app_user</flux:table.cell>
-                    <flux:table.cell>app_db</flux:table.cell>
-                    <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">Active</flux:badge></flux:table.cell>
-                </flux:table.row>
-                <flux:table.row>
-                    <flux:table.cell>blog_user</flux:table.cell>
-                    <flux:table.cell>blog_db</flux:table.cell>
-                    <flux:table.cell><flux:badge color="zinc" size="sm" inset="top bottom">Inactive</flux:badge></flux:table.cell>
-                </flux:table.row>
+                @foreach ($this->databaseUsers as $user)
+                    <flux:table.row :key="$user->id">
+                        <flux:table.cell>{{ $user->name }}</flux:table.cell>
+                        <flux:table.cell>
+                            @if ($user->databases->isNotEmpty())
+                                {{ $user->databases->pluck('name')->join(', ') }}
+                            @else
+                                <span class="text-zinc-400">{{ __('No databases') }}</span>
+                            @endif
+                        </flux:table.cell>
+                        <flux:table.cell>
+                            <flux:badge color="green" size="sm" inset="top bottom">Active</flux:badge>
+                        </flux:table.cell>
+                    </flux:table.row>
+                @endforeach
             </flux:table.rows>
         </flux:table>
     </section>
