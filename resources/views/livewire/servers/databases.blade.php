@@ -6,6 +6,8 @@ use Livewire\Volt\Component;
 use App\Livewire\Forms\DatabaseForm;
 use App\Models\DatabaseUser;
 
+use Livewire\Attributes\Computed;
+
 new class extends Component {
     public Server $server;
     public DatabaseForm $form;
@@ -13,6 +15,12 @@ new class extends Component {
     public function save()
     {
         $this->form->store($this->server);
+    }
+
+    #[Computed]
+    public function databases()
+    {
+        return $this->server->databases()->with('users')->orderByDesc('created_at')->get();
     }
 }; ?>
 
@@ -59,16 +67,21 @@ new class extends Component {
                 <flux:table.column>{{ __('Status') }}</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
-                <flux:table.row>
-                    <flux:table.cell>app_db</flux:table.cell>
-                    <flux:table.cell>app_user</flux:table.cell>
-                    <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">Active</flux:badge></flux:table.cell>
-                </flux:table.row>
-                <flux:table.row>
-                    <flux:table.cell>blog_db</flux:table.cell>
-                    <flux:table.cell>blog_user</flux:table.cell>
-                    <flux:table.cell><flux:badge color="zinc" size="sm" inset="top bottom">Inactive</flux:badge></flux:table.cell>
-                </flux:table.row>
+                @foreach ($this->databases as $database)
+                    <flux:table.row :key="$database->id">
+                        <flux:table.cell>{{ $database->name }}</flux:table.cell>
+                        <flux:table.cell>
+                            @if ($database->users->isNotEmpty())
+                                {{ $database->users->pluck('name')->join(', ') }}
+                            @else
+                                <span class="text-zinc-400">{{ __('No users') }}</span>
+                            @endif
+                        </flux:table.cell>
+                        <flux:table.cell>
+                            <flux:badge color="green" size="sm" inset="top bottom">Active</flux:badge>
+                        </flux:table.cell>
+                    </flux:table.row>
+                @endforeach
             </flux:table.rows>
         </flux:table>
     </section>
