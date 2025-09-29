@@ -21,6 +21,12 @@ new class extends Component {
     {
         return $this->server->backups;
     }
+
+    #[Computed]
+    public function databases()
+    {
+        return $this->server->databases;
+    }
 }; ?>
 
 <div class="space-y-12">
@@ -42,10 +48,9 @@ new class extends Component {
             </flux:select>
 
             <flux:pillbox multiple searchable :label="__('Databases to backup')" placeholder="Choose databases..." wire:model="form.databases">
-                <flux:pillbox.option value="app_db">app_db</flux:pillbox.option>
-                <flux:pillbox.option value="analytics">analytics</flux:pillbox.option>
-                <flux:pillbox.option value="wordpress">wordpress</flux:pillbox.option>
-                <flux:pillbox.option value="shop">shop</flux:pillbox.option>
+                @foreach ($this->databases as $database)
+                    <flux:pillbox.option value="{{ $database->id }}">{{ $database->name }}</flux:pillbox.option>
+                @endforeach
             </flux:pillbox>
 
             <flux:textarea :label="__('Directories and file paths to backup')" :placeholder="__('One path per line')" wire:model="form.directories" />

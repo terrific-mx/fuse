@@ -26,12 +26,12 @@ new class extends Component {
         </header>
 
         <form wire:submit="save" class="space-y-6">
-            <flux:input :label="__('Command to run')" wire:model.defer="form.command" />
-            <flux:input :label="__('Directory')" :badge="__('Optional')" wire:model.defer="form.directory" />
-            <flux:input :label="__('User to run as')" wire:model.defer="form.user" />
-            <flux:input :label="__('Number of processes')" type="number" min="1" wire:model.defer="form.processes" />
-            <flux:input :label="__('Stop wait')" :badge="__('Seconds')" type="number" min="0" wire:model.defer="form.stop_wait" />
-            <flux:input :label="__('Stop signal')" wire:model.defer="form.stop_signal" />
+            <flux:input :label="__('Command to run')" wire:model="form.command" />
+            <flux:input :label="__('Directory')" :badge="__('Optional')" wire:model="form.directory" />
+            <flux:input :label="__('User to run as')" wire:model="form.user" />
+            <flux:input :label="__('Number of processes')" type="number" min="1" wire:model="form.processes" />
+            <flux:input :label="__('Stop wait')" :badge="__('Seconds')" type="number" min="0" wire:model="form.stop_wait" />
+            <flux:input :label="__('Stop signal')" wire:model="form.stop_signal" />
 
             <flux:button variant="primary" type="submit">{{ __('Add Daemon') }}</flux:button>
         </form>
