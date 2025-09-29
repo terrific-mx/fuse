@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Jobs\ProvisionServer;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
@@ -52,6 +53,12 @@ class ServerForm extends Form
         $server->update([
             'provider_server_id' => 'simulated-' . $server->id,
         ]);
+
+        $server->update([
+            'ip_address' => '192.0.2.' . rand(1, 254),
+        ]);
+
+        ProvisionServer::dispatch($server);
 
         $this->reset('name', 'provider_id', 'region', 'type');
     }

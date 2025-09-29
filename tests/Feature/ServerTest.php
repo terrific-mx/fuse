@@ -1,11 +1,14 @@
 <?php
 
+use App\Jobs\ProvisionServer;
 use App\Models\ServerProvider;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 it('creates a server for the user\'s current organization', function () {
+    Queue::fake();
     $user = User::factory()->withPersonalOrganization()->create();
     $provider = ServerProvider::factory()->for($user->currentOrganization)->create();
 
@@ -28,4 +31,11 @@ it('creates a server for the user\'s current organization', function () {
     expect($server->region)->toBe('fsn1');
     expect($server->type)->toBe('cx21');
     expect($server->provider_server_id)->toStartWith('simulated-');
+    expect($server->ip_address)->toStartWith('192.0.2.');
+
+    Queue::assertPushed(ProvisionServer::class, function ($job) use ($server) {
+        expect($job->server->is($server))->toBeTrue();
+
+        return true;
+    });
 });
