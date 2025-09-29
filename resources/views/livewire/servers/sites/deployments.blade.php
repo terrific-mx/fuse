@@ -2,11 +2,18 @@
 
 use App\Models\Server;
 use App\Models\Site;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component {
     public Server $server;
     public Site $site;
+
+    #[Computed]
+    public function deployments()
+    {
+        return $this->site->deployments()->latest()->get();
+    }
 
     public function triggerDeployment(): void
     {
@@ -23,7 +30,7 @@ new class extends Component {
     <section class="space-y-6">
         <flux:heading size="lg">{{ __('Deployments') }}</flux:heading>
 
-        <flux:button variant="primary" class="mb-4">{{ __('Dispatch Deployment') }}</flux:button>
+        <flux:button wire:click="triggerDeployment" variant="primary" class="mb-4">{{ __('Dispatch Deployment') }}</flux:button>
 
         <flux:table>
             <flux:table.columns>
@@ -35,32 +42,23 @@ new class extends Component {
                 <flux:table.column>{{ __('Actions') }}</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
-                <flux:table.row :key="1">
-                    <flux:table.cell>#1</flux:table.cell>
-                    <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">{{ __('Success') }}</flux:badge></flux:table.cell>
-                    <flux:table.cell>c0ffee1</flux:table.cell>
-                    <flux:table.cell>2025-09-27 18:45</flux:table.cell>
-                    <flux:table.cell>oliver</flux:table.cell>
-                    <flux:table.cell><flux:button size="sm">{{ __('View') }}</flux:button></flux:table.cell>
-                </flux:table.row>
-                <flux:table.row :key="2">
-                    <flux:table.cell>#2</flux:table.cell>
-                    <flux:table.cell><flux:badge color="red" size="sm" inset="top bottom">{{ __('Failed') }}</flux:badge></flux:table.cell>
-                    <flux:table.cell>deadbeef</flux:table.cell>
-                    <flux:table.cell>2025-09-26 14:22</flux:table.cell>
-                    <flux:table.cell>oliver</flux:table.cell>
-                    <flux:table.cell><flux:button size="sm">{{ __('View') }}</flux:button></flux:table.cell>
-                </flux:table.row>
-                <flux:table.row :key="3">
-                    <flux:table.cell>#3</flux:table.cell>
-                    <flux:table.cell><flux:badge color="amber" size="sm" inset="top bottom">{{ __('Pending') }}</flux:badge></flux:table.cell>
-                    <flux:table.cell>abc1234</flux:table.cell>
-                    <flux:table.cell>2025-09-27 23:00</flux:table.cell>
-                    <flux:table.cell>oliver</flux:table.cell>
-                    <flux:table.cell><flux:button size="sm">{{ __('View') }}</flux:button></flux:table.cell>
-                </flux:table.row>
+                @foreach($this->deployments as $deployment)
+                    <flux:table.row :key="$deployment->id">
+                        <flux:table.cell>#{{ $deployment->id }}</flux:table.cell>
+                        <flux:table.cell>
+                            <flux:badge
+                                :color="$deployment->status === 'success' ? 'green' : ($deployment->status === 'failed' ? 'red' : 'amber')"
+                                size="sm"
+                                inset="top bottom"
+                            >{{ __(ucfirst($deployment->status)) }}</flux:badge>
+                        </flux:table.cell>
+                        <flux:table.cell>{{ $deployment->commit ?? '-' }}</flux:table.cell>
+                        <flux:table.cell>{{ $deployment->deployed_at ? $deployment->deployed_at->format('Y-m-d H:i') : '-' }}</flux:table.cell>
+                        <flux:table.cell>{{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}</flux:table.cell>
+                        <flux:table.cell><flux:button size="sm">{{ __('View') }}</flux:button></flux:table.cell>
+                    </flux:table.row>
+                @endforeach
             </flux:table.rows>
         </flux:table>
-
     </section>
 </div>
