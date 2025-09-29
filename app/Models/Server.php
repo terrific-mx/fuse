@@ -123,4 +123,9 @@ class Server extends Model
     {
         return $this->hasMany(Cronjob::class);
     }
+
+    public function daemons()
+    {
+        return $this->hasMany(Daemon::class);
+    }
 }

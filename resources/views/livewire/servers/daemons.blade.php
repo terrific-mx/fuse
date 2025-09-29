@@ -3,8 +3,17 @@
 use App\Models\Server;
 use Livewire\Volt\Component;
 
+use App\Livewire\Forms\DaemonForm;
+
 new class extends Component {
     public Server $server;
+
+    public DaemonForm $form;
+
+    public function save()
+    {
+        $this->form->store($this->server);
+    }
 }; ?>
 
 <div class="space-y-12">
@@ -16,14 +25,16 @@ new class extends Component {
             <flux:text class="mt-2">{{ __('Create a new daemon process for your server.') }}</flux:text>
         </header>
 
-        <flux:input :label="__('Command to run')" />
-        <flux:input :label="__('Directory')" :badge="__('Optional')" />
-        <flux:input :label="__('User to run as')" value="fuse" />
-        <flux:input :label="__('Number of processes')" type="number" min="1" value="1" />
-        <flux:input :label="__('Stop wait')" :badge="__('Seconds')" type="number" min="0" value="10" />
-        <flux:input :label="__('Stop signal')" value="TERM" />
+        <form wire:submit="save" class="space-y-6">
+            <flux:input :label="__('Command to run')" wire:model.defer="form.command" />
+            <flux:input :label="__('Directory')" :badge="__('Optional')" wire:model.defer="form.directory" />
+            <flux:input :label="__('User to run as')" wire:model.defer="form.user" />
+            <flux:input :label="__('Number of processes')" type="number" min="1" wire:model.defer="form.processes" />
+            <flux:input :label="__('Stop wait')" :badge="__('Seconds')" type="number" min="0" wire:model.defer="form.stop_wait" />
+            <flux:input :label="__('Stop signal')" wire:model.defer="form.stop_signal" />
 
-        <flux:button variant="primary">{{ __('Add Daemon') }}</flux:button>
+            <flux:button variant="primary" type="submit">{{ __('Add Daemon') }}</flux:button>
+        </form>
     </section>
 
     <section class="space-y-6">
@@ -32,7 +43,7 @@ new class extends Component {
             <flux:text class="mt-2">{{ __('List of daemons on this server.') }}</flux:text>
         </header>
 
-        <flux:table>
+         <flux:table>
             <flux:table.columns>
                 <flux:table.column>{{ __('Command') }}</flux:table.column>
                 <flux:table.column>{{ __('Directory') }}</flux:table.column>
@@ -43,24 +54,19 @@ new class extends Component {
                 <flux:table.column>{{ __('Status') }}</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
-                <flux:table.row>
-                    <flux:table.cell>php artisan queue:work</flux:table.cell>
-                    <flux:table.cell>/var/www</flux:table.cell>
-                    <flux:table.cell>www-data</flux:table.cell>
-                    <flux:table.cell>2</flux:table.cell>
-                    <flux:table.cell>10</flux:table.cell>
-                    <flux:table.cell>SIGTERM</flux:table.cell>
-                    <flux:table.cell><flux:badge color="green" size="sm" inset="top bottom">Active</flux:badge></flux:table.cell>
-                </flux:table.row>
-                <flux:table.row>
-                    <flux:table.cell>node server.js</flux:table.cell>
-                    <flux:table.cell>/home/nodeuser</flux:table.cell>
-                    <flux:table.cell>nodeuser</flux:table.cell>
-                    <flux:table.cell>1</flux:table.cell>
-                    <flux:table.cell>5</flux:table.cell>
-                    <flux:table.cell>SIGINT</flux:table.cell>
-                    <flux:table.cell><flux:badge color="zinc" size="sm" inset="top bottom">Inactive</flux:badge></flux:table.cell>
-                </flux:table.row>
+                @foreach ($server->daemons as $daemon)
+                    <flux:table.row>
+                        <flux:table.cell>{{ $daemon->command }}</flux:table.cell>
+                        <flux:table.cell>{{ $daemon->directory }}</flux:table.cell>
+                        <flux:table.cell>{{ $daemon->user }}</flux:table.cell>
+                        <flux:table.cell>{{ $daemon->processes }}</flux:table.cell>
+                        <flux:table.cell>{{ $daemon->stop_wait }}</flux:table.cell>
+                        <flux:table.cell>{{ $daemon->stop_signal }}</flux:table.cell>
+                        <flux:table.cell>
+                            <flux:badge color="zinc" size="sm" inset="top bottom">Inactive</flux:badge>
+                        </flux:table.cell>
+                    </flux:table.row>
+                @endforeach
             </flux:table.rows>
         </flux:table>
     </section>
