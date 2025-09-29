@@ -42,11 +42,15 @@ class ServerForm extends Form
     {
         $this->validate();
 
-        $this->organization->servers()->create([
+        $server = $this->organization->servers()->create([
             'name' => $this->name,
             'provider_id' => $this->provider_id,
             'region' => $this->region,
             'type' => $this->type,
+        ]);
+
+        $server->update([
+            'provider_server_id' => 'simulated-' . $server->id,
         ]);
 
         $this->reset('name', 'provider_id', 'region', 'type');

@@ -27,6 +27,5 @@ it('creates a server for the user\'s current organization', function () {
     expect($server->provider->is($provider))->toBeTrue();
     expect($server->region)->toBe('fsn1');
     expect($server->type)->toBe('cx21');
-
-    // expect($server->provider_server_id)->toStartWith('hetzner-');
+    expect($server->provider_server_id)->toStartWith('simulated-');
 });
