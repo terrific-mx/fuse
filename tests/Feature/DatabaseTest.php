@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Database;
 use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
@@ -48,4 +49,27 @@ test('users can create a database for a server with a user', function () {
     $user = $database->users()->first();
     expect($user->name)->toBe('app_user');
     expect($user->password)->not->toBeEmpty();
+});
+
+test('users can add a database user to a server and assign database access', function () {
+    $server = Server::factory()->create();
+    $db1 = Database::factory()->for($server)->create(['name' => 'app_db']);
+    $db2 = Database::factory()->for($server)->create(['name' => 'blog_db']);
+
+    $component = Volt::actingAs($server->organization->user)
+        ->test('servers.databases', ['server' => $server])
+        ->set('userForm.name', 'new_user')
+        ->set('userForm.password', 'super-secret')
+        ->set('userForm.databases', [$db1->id, $db2->id])
+        ->call('addUser');
+
+    $component->assertHasNoErrors();
+
+    $server->refresh();
+    $user = $server->databaseUsers()->where('name', 'new_user')->first();
+    expect($user)->not->toBeNull();
+    expect($user->password)->not->toBeEmpty();
+    expect($user->server_id)->toBe($server->id);
+    expect($user->databases)->toHaveCount(2);
+    expect($user->databases->pluck('id')->sort()->values()->toArray())->toEqual([$db1->id, $db2->id]);
 });

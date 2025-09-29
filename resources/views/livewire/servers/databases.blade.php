@@ -4,6 +4,7 @@ use App\Models\Server;
 use Livewire\Volt\Component;
 
 use App\Livewire\Forms\DatabaseForm;
+use App\Livewire\Forms\DatabaseUserForm;
 use App\Models\DatabaseUser;
 
 use Livewire\Attributes\Computed;
@@ -12,11 +13,18 @@ new class extends Component {
     public Server $server;
 
     public DatabaseForm $form;
+    public DatabaseUserForm $userForm;
 
     public function save()
     {
         $this->form->store($this->server);
     }
+
+    public function addUser()
+    {
+        $this->userForm->store($this->server);
+    }
+
 
     #[Computed]
     public function databases()
@@ -27,9 +35,7 @@ new class extends Component {
     #[Computed]
     public function databaseUsers()
     {
-        return DatabaseUser::whereHas('databases', function ($query) {
-            $query->where('server_id', $this->server->id);
-        })->with('databases')->orderByDesc('created_at')->get();
+        return $this->server->databaseUsers()->with('databases')->orderByDesc('created_at')->get();
     }
 }; ?>
 
