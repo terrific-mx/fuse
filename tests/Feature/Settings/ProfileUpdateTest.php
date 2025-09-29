@@ -3,7 +3,7 @@
 use App\Models\User;
 use Livewire\Volt\Volt;
 
-test('profile page is displayed', function () {
+it('displays the profile page', function () {
     $user = User::factory()->withPersonalOrganization()->create();
     $this->actingAs($user);
 
@@ -29,7 +29,7 @@ it('updates the profile information', function () {
     expect($user->email_verified_at)->toBeNull();
 });
 
-test('email verification status is unchanged when email address is unchanged', function () {
+it('does not change email verification status when email is unchanged', function () {
     $user = User::factory()->withPersonalOrganization()->create();
 
     $this->actingAs($user);
@@ -61,7 +61,7 @@ it('deletes the user account with the correct password', function () {
     expect(auth()->check())->toBeFalse();
 });
 
-test('correct password must be provided to delete account', function () {
+it('requires correct password to delete account', function () {
     $user = User::factory()->withPersonalOrganization()->create();
 
     $this->actingAs($user);

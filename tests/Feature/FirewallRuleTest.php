@@ -5,7 +5,7 @@ use Livewire\Volt\Volt;
 
 // TDD: users can add a firewall rule to a server
 
-test('users can add a firewall rule to a server', function () {
+it('adds a firewall rule to a server', function () {
     $server = Server::factory()->create();
 
     $component = Volt::actingAs($server->organization->user)

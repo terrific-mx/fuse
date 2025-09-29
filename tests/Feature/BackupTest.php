@@ -3,7 +3,7 @@
 use App\Models\Server;
 use Livewire\Volt\Volt;
 
-test('users can add a backup to a server', function () {
+it('adds a backup to a server', function () {
     $server = Server::factory()->create();
 
     $component = Volt::actingAs($server->organization->user)

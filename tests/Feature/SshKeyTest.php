@@ -3,7 +3,7 @@
 use App\Models\User;
 use Livewire\Volt\Volt;
 
-test('users can add an SSH key to their organization', function () {
+it('adds an SSH key to the user organization', function () {
     $user = User::factory()->withPersonalOrganization(['name' => 'Test Org'])->create();
     $organization = $user->organizations()->first();
 

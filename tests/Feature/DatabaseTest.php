@@ -7,7 +7,7 @@ use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
-test('users can create a database for a server without a user', function () {
+it('creates a database for a server without a user', function () {
     $server = Server::factory()->create();
 
     $component = Volt::actingAs($server->organization->user)
@@ -26,7 +26,7 @@ test('users can create a database for a server without a user', function () {
     expect($database->users)->toHaveCount(0);
 });
 
-test('users can create a database for a server with a user', function () {
+it('creates a database for a server with a user', function () {
     $server = Server::factory()->create();
 
     $component = Volt::actingAs($server->organization->user)
@@ -51,7 +51,7 @@ test('users can create a database for a server with a user', function () {
     expect($user->password)->not->toBeEmpty();
 });
 
-test('users can add a database user to a server and assign database access', function () {
+it('adds a database user to a server and assigns database access', function () {
     $server = Server::factory()->create();
     $db1 = Database::factory()->for($server)->create(['name' => 'app_db']);
     $db2 = Database::factory()->for($server)->create(['name' => 'blog_db']);

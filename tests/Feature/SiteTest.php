@@ -1,14 +1,12 @@
 <?php
 
-use App\Models\User;
-use App\Models\ServerProvider;
 use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
-test('users can create a site for a server', function () {
+it('creates a site for a server', function () {
     $server = Server::factory()->create();
 
     $component = Volt::actingAs($server->organization->user)

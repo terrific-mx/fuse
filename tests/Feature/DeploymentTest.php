@@ -3,7 +3,7 @@
 use App\Models\Site;
 use Livewire\Volt\Volt;
 
-test('users can dispatch a new deployment for a site', function () {
+it('dispatches a new deployment for a site', function () {
     $site = Site::factory()->create();
 
     $component = Volt::actingAs($site->server->organization->user)

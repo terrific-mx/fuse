@@ -5,7 +5,7 @@ use Livewire\Volt\Volt;
 
 // TDD: users can add a daemon to a server
 
-test('users can add a daemon to a server', function () {
+it('adds a daemon to a server', function () {
     $server = Server::factory()->create();
 
     $component = Volt::actingAs($server->organization->user)

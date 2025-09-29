@@ -1,16 +1,16 @@
 <?php
 
-use App\Models\User;
 use App\Models\ServerProvider;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
-use Illuminate\Support\Facades\Queue;
 use App\Jobs\ProvisionServer;
+use Illuminate\Support\Facades\Queue;
 
-test('users can create a server for their current organization', function () {
+it('creates a server for the user\'s current organization', function () {
     Queue::fake();
 
     $user = User::factory()->withPersonalOrganization()->create();

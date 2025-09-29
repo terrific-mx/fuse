@@ -7,7 +7,7 @@ use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
-test('switching to a subscribed organization redirects to dashboard', function () {
+it('redirects to dashboard when switching to a subscribed organization', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalOrganization()->create();
 
@@ -21,7 +21,7 @@ test('switching to a subscribed organization redirects to dashboard', function (
         ->assertRedirect(route('dashboard'));
 });
 
-test('switching to a non-subscribed organization stays on the page', function () {
+it('stays on the page when switching to a non-subscribed organization', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalOrganization()->create();
 
@@ -35,7 +35,7 @@ test('switching to a non-subscribed organization stays on the page', function ()
         ->assertOk();
 });
 
-test('user can switch to an organization they are a member of', function () {
+it('switches to an organization the user is a member of', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalOrganization()->create();
 
@@ -49,7 +49,7 @@ test('user can switch to an organization they are a member of', function () {
         ->assertOk();
 });
 
-test('user cannot switch to an organization they neither own nor are a member of', function () {
+it('prevents switching to an organization the user neither owns nor is a member of', function () {
     /** @var User $user */
     $user = User::factory()->withPersonalOrganization()->create();
 

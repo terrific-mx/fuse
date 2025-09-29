@@ -3,7 +3,7 @@
 use App\Models\Server;
 use Livewire\Volt\Volt;
 
-test('users can add a cronjob to a server', function () {
+it('adds a cronjob to a server', function () {
     $server = Server::factory()->create();
 
     $component = Volt::actingAs($server->organization->user)
