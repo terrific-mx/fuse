@@ -13,7 +13,7 @@ class DatabaseUserForm extends Form
     #[Validate('required|string|min:8')]
     public string $password = '';
 
-    #[Validate('required|array|min:1')]
+    #[Validate('array')]
     public array $databases = [];
 
     public function store($server): void
@@ -27,5 +27,7 @@ class DatabaseUserForm extends Form
         ]);
 
         $user->databases()->sync($this->databases);
+
+        $this->reset();
     }
 }
