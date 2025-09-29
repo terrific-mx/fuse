@@ -1,7 +1,6 @@
 <?php
 
 use App\Livewire\Forms\ServerForm;
-use App\Models\Server;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
@@ -11,6 +10,11 @@ new class extends Component {
     use WithPagination;
 
     public ServerForm $form;
+
+    public function mount()
+    {
+        $this->form->setOrganization($this->organization);
+    }
 
     #[Computed]
     public function organization()
@@ -28,9 +32,7 @@ new class extends Component {
 
     public function save()
     {
-        $server = $this->form->store();
-
-        $server->provision();
+        $this->form->store();
     }
 }; ?>
 

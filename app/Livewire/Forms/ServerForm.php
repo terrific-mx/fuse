@@ -2,12 +2,15 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\Organization;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class ServerForm extends Form
 {
+    public Organization $organization;
+
     #[Validate]
     public string $name = '';
 
@@ -30,19 +33,22 @@ class ServerForm extends Form
         ];
     }
 
-    public function store()
+    public function setOrganization(Organization $organization)
+    {
+        $this->organization = $organization;
+    }
+
+    public function store(): void
     {
         $this->validate();
 
-        $server = Auth::user()->currentOrganization->servers()->create([
+        $this->organization->servers()->create([
             'name' => $this->name,
             'provider_id' => $this->provider_id,
             'region' => $this->region,
             'type' => $this->type,
         ]);
 
-        $this->reset();
-
-        return $server;
+        $this->reset('name', 'provider_id', 'region', 'type');
     }
 }
