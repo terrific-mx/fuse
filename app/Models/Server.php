@@ -61,4 +61,9 @@ class Server extends Model
     {
         return $this->hasMany(Backup::class);
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

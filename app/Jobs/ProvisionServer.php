@@ -22,5 +22,11 @@ class ProvisionServer implements ShouldQueue
     public function handle(): void
     {
         $this->server->update(['status' => 'provisioning']);
+
+        // Create a task for provisioning scripts
+        $this->server->tasks()->create([
+            'name' => 'provision',
+            'payload' => [],
+        ]);
     }
 }
