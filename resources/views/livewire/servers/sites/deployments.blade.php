@@ -6,8 +6,15 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public Server $server;
-
     public Site $site;
+
+    public function triggerDeployment(): void
+    {
+        $this->site->deployments()->create([
+            'status' => 'pending',
+            'triggered_by' => $this->server->organization->user->id,
+        ]);
+    }
 }; ?>
 
 <div class="space-y-12">
