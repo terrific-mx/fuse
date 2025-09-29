@@ -118,4 +118,9 @@ class Server extends Model
     {
         return $this->hasMany(DatabaseUser::class);
     }
+
+    public function cronjobs()
+    {
+        return $this->hasMany(Cronjob::class);
+    }
 }
