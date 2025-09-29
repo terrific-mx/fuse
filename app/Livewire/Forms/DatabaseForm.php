@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\DatabaseUser;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -18,4 +19,24 @@ class DatabaseForm extends Form
 
     #[Validate('required_if:create_user,true|string|min:8')]
     public $password = '';
+
+    public function store($server): void
+    {
+        $this->validate();
+
+        $database = $server->databases()->create([
+            'name' => $this->name,
+        ]);
+
+        if ($this->create_user) {
+            $user = DatabaseUser::create([
+                'name' => $this->user_name,
+                'password' => bcrypt($this->password),
+            ]);
+
+            $database->users()->attach($user->id);
+        }
+
+        $this->reset();
+    }
 }

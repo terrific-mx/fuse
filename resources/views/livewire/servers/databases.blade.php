@@ -12,21 +12,7 @@ new class extends Component {
 
     public function save()
     {
-        $this->form->validate();
-
-        // Create the database for the server
-        $database = $this->server->databases()->create([
-            'name' => $this->form->name,
-        ]);
-
-        // Optionally create a user for the database
-        if ($this->form->create_user) {
-            $user = DatabaseUser::create([
-                'name' => $this->form->user_name,
-                'password' => bcrypt($this->form->password),
-            ]);
-            $database->users()->attach($user->id);
-        }
+        $this->form->store($this->server);
     }
 }; ?>
 
