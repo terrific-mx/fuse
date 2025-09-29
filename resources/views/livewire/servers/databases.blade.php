@@ -108,23 +108,25 @@ new class extends Component {
             <flux:text class="mt-2">{{ __('Create a user and assign database access.') }}</flux:text>
         </header>
 
-        <flux:input :label="__('User name')" />
+        <form wire:submit="addUser" class="space-y-6">
+            <flux:input :label="__('User name')" wire:model="userForm.name" required />
 
-        <flux:field>
-            <flux:label>{{ __('Password') }}</flux:label>
-            <flux:input.group>
-                <flux:input type="password" />
-                <flux:button icon="sparkles">{{ __('Auto generate') }}</flux:button>
-            </flux:input.group>
-        </flux:field>
+            <flux:field>
+                <flux:label>{{ __('Password') }}</flux:label>
+                <flux:input.group>
+                    <flux:input type="password" wire:model="userForm.password" required />
+                    <flux:button icon="sparkles">{{ __('Auto generate') }}</flux:button>
+                </flux:input.group>
+            </flux:field>
 
-        <flux:pillbox multiple placeholder="Select databases..." :label="__('Databases access')">
-            <flux:pillbox.option value="app_db">app_db</flux:pillbox.option>
-            <flux:pillbox.option value="blog_db">blog_db</flux:pillbox.option>
-            <flux:pillbox.option value="analytics_db">analytics_db</flux:pillbox.option>
-        </flux:pillbox>
+            <flux:pillbox multiple placeholder="Select databases..." :label="__('Databases access')" wire:model="userForm.databases">
+                @foreach ($this->databases as $database)
+                    <flux:pillbox.option :value="$database->id">{{ $database->name }}</flux:pillbox.option>
+                @endforeach
+            </flux:pillbox>
 
-        <flux:button variant="primary">{{ __('Add User') }}</flux:button>
+            <flux:button type="submit" variant="primary">{{ __('Add User') }}</flux:button>
+        </form>
     </section>
 
     <section class="space-y-6">
