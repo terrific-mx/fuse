@@ -16,6 +16,8 @@ new class extends Component {
     <section class="space-y-6">
         <flux:heading size="lg">{{ __('Deployments') }}</flux:heading>
 
+        <flux:button variant="primary" class="mb-4">{{ __('Dispatch Deployment') }}</flux:button>
+
         <flux:table>
             <flux:table.columns>
                 <flux:table.column>{{ __('ID') }}</flux:table.column>
