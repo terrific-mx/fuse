@@ -20,9 +20,35 @@ class DatabaseSeeder extends Seeder
         $user = $this->seedUser();
         $organization = $user->currentOrganization;
 
+        $this->seedSshKeysForOrganization($organization);
         $this->seedServerProviders($organization);
         $this->seedSourceProviders($organization);
         $this->seedServersForOrganization($organization);
+    }
+
+    /**
+     * Seed a few SSH keys for the given organization.
+     */
+    private function seedSshKeysForOrganization($organization): void
+    {
+        $keys = [
+            [
+                'name' => 'Work Laptop',
+                'public_key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkey1',
+            ],
+            [
+                'name' => 'Home Desktop',
+                'public_key' => 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIrandomkey2',
+            ],
+            [
+                'name' => 'Server Key',
+                'public_key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkey3',
+            ],
+        ];
+
+        foreach ($keys as $key) {
+            $organization->sshKeys()->create($key);
+        }
     }
 
     /**

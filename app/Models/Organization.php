@@ -80,4 +80,9 @@ class Organization extends Model
             'email' => $email,
         ]);
     }
+
+    public function sshKeys()
+    {
+        return $this->hasMany(SshKey::class);
+    }
 }

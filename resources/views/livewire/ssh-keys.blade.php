@@ -1,21 +1,43 @@
 <?php
 
 use Livewire\Volt\Component;
+use App\Livewire\Forms\SshKeyForm;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Computed;
 
 new class extends Component {
-    //
+    public SshKeyForm $form;
+
+    public function save()
+    {
+        $this->form->store($this->organization);
+    }
+
+    #[Computed]
+    public function organization()
+    {
+        return Auth::user()->currentOrganization;
+    }
+
+    #[Computed]
+    public function sshKeys()
+    {
+        return $this->organization->sshKeys()->latest()->get();
+    }
 }; ?>
 
 <div>
-    <form class="space-y-6">
+    <form wire:submit="save" class="space-y-6">
         <flux:input
+            wire:model="form.name"
             label="{{ __('SSH Key Name') }}"
-            name="ssh_key_name"
+            name="form.name"
             required
         />
         <flux:input
+            wire:model="form.public_key"
             label="{{ __('Public Key') }}"
-            name="public_key"
+            name="form.public_key"
             required
         />
         <flux:button type="submit" variant="primary">
@@ -31,21 +53,13 @@ new class extends Component {
                 <flux:table.column>{{ __('Created At') }}</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
-                <flux:table.row :key="1">
-                    <flux:table.cell>Work Laptop</flux:table.cell>
-                    <flux:table.cell>ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkey1</flux:table.cell>
-                    <flux:table.cell>2025-09-28 10:00</flux:table.cell>
-                </flux:table.row>
-                <flux:table.row :key="2">
-                    <flux:table.cell>Home Desktop</flux:table.cell>
-                    <flux:table.cell>ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIrandomkey2</flux:table.cell>
-                    <flux:table.cell>2025-09-27 15:30</flux:table.cell>
-                </flux:table.row>
-                <flux:table.row :key="3">
-                    <flux:table.cell>Server Key</flux:table.cell>
-                    <flux:table.cell>ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkey3</flux:table.cell>
-                    <flux:table.cell>2025-09-26 08:45</flux:table.cell>
-                </flux:table.row>
+                @foreach ($this->sshKeys as $key)
+                    <flux:table.row :key="$key->id">
+                        <flux:table.cell>{{ $key->name }}</flux:table.cell>
+                        <flux:table.cell>{{ $key->public_key }}</flux:table.cell>
+                        <flux:table.cell>{{ $key->created_at->format('Y-m-d H:i') }}</flux:table.cell>
+                    </flux:table.row>
+                @endforeach
             </flux:table.rows>
         </flux:table>
     </div>
