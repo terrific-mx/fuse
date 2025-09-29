@@ -24,9 +24,9 @@ class SiteForm extends Form
 
     public bool $use_deploy_key = false;
 
-    public function store($server): Site
+    public function store($server): void
     {
-        return $server->sites()->create([
+        $server->sites()->create([
             'hostname' => $this->hostname,
             'php_version' => $this->php_version,
             'type' => $this->type,
@@ -36,5 +36,7 @@ class SiteForm extends Form
             'repository_branch' => $this->repository_branch,
             'use_deploy_key' => $this->use_deploy_key,
         ]);
+
+        $this->reset();
     }
 }

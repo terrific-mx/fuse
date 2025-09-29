@@ -2,6 +2,7 @@
 
 use App\Livewire\Forms\SiteForm;
 use App\Models\Server;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component {
@@ -14,6 +15,7 @@ new class extends Component {
         $this->form->store($this->server);
     }
 
+    #[Computed]
     public function sites()
     {
         return $this->server->sites()->orderByDesc('created_at')->get();
@@ -75,7 +77,7 @@ new class extends Component {
                 <flux:table.column>{{ __('Deploy Key') }}</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
-                @foreach ($this->sites() as $site)
+                @foreach ($this->sites as $site)
                     <flux:table.row :key="$site->id">
                         <flux:table.cell><flux:link :href="route('servers.sites.show', ['server' => $server, 'site' => $site])">{{ $site->hostname }}</flux:link></flux:table.cell>
                         <flux:table.cell>{{ $site->type }}</flux:table.cell>
