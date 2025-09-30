@@ -36,6 +36,12 @@ class ProvisionServer implements ShouldQueue
         // Ensure working directory exists on the remote server using the task user
         Process::run("ssh {$task->user}@{$this->server->ip_address} 'bash -s' <<TOKEN mkdir -p /var/www TOKEN");
 
+        // Upload the provision script to the server
+        Process::run("scp {$task->script} {$task->user}@{$this->server->ip_address}:/var/www/{$task->script}");
+
+        // Run the uploaded script on the server
+        Process::run("ssh {$task->user}@{$this->server->ip_address} 'bash /var/www/{$task->script}'");
+
         $task->update(['status' => 'running']);
     }
 }
