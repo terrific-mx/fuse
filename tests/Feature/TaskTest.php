@@ -23,7 +23,10 @@ it('runs the correct process commands and updates status when provisioning a tas
 
     // Assert the expected shell command was run
     Process::assertRan(function ($process) use ($task, $server) {
-        return str_contains($process->command, "ssh {$task->user}@{$server->ip_address} 'bash -s' <<") &&
+        return str_contains(
+                $process->command,
+                "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i /home/user/.ssh/id_rsa -p 2222 {$task->user}@{$server->ip_address} 'bash -s' <<"
+            ) &&
             str_contains($process->command, "mkdir -p {$task->fuseDirectory()}");
     });
 

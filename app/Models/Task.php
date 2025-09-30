@@ -90,10 +90,13 @@ class Task extends Model
     {
         $remotePath = $this->fuseDirectory();
 
+        $privateKeyPath = '/home/user/.ssh/id_rsa';
+        $port = 2222;
+        $sshOptions = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i {$privateKeyPath} -p {$port}";
         $token = Str::random(20);
 
         $command = <<<SSH
-            ssh {$this->user}@{$this->server->ip_address} 'bash -s' <<{$token}
+            ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash -s' <<{$token}
             mkdir -p {$remotePath}
             {$token}
             SSH;
