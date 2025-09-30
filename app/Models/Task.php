@@ -56,10 +56,40 @@ class Task extends Model
     /**
      * Prepare the remote directory on the server.
      */
+    /**
+     * Get the remote home directory for the user.
+     */
+    public function remoteHomeDirectory(): string
+    {
+        return $this->user === 'root'
+            ? '/root'
+            : "/home/{$this->user}";
+    }
+
+    /**
+     * The .fuse directory path for the user.
+     */
+    public function fuseDirectory(): string
+    {
+        return $this->remoteHomeDirectory() . '/.fuse';
+    }
+
+    /**
+     * The remote script path for the user.
+     */
+    public function remoteScriptPath(): string
+    {
+        return $this->fuseDirectory() . '/' . basename($this->script);
+    }
+
+    /**
+     * Prepare the remote directory on the server.
+     */
     protected function prepareRemoteDirectory(): void
     {
+        $remotePath = $this->fuseDirectory();
         Process::run(
-            "ssh {$this->user}@{$this->server->ip_address} 'bash -s' <<TOKEN mkdir -p /var/www TOKEN"
+            "ssh {$this->user}@{$this->server->ip_address} 'bash -s' <<TOKEN mkdir -p {$remotePath} TOKEN"
         );
     }
 
@@ -68,8 +98,9 @@ class Task extends Model
      */
     protected function uploadScript(): void
     {
+        $remoteScriptPath = $this->remoteScriptPath();
         Process::run(
-            "scp {$this->script} {$this->user}@{$this->server->ip_address}:/var/www/{$this->script}"
+            "scp {$this->script} {$this->user}@{$this->server->ip_address}:{$remoteScriptPath}"
         );
     }
 
@@ -78,8 +109,9 @@ class Task extends Model
      */
     protected function runScript(): void
     {
+        $remoteScriptPath = $this->remoteScriptPath();
         Process::run(
-            "ssh {$this->user}@{$this->server->ip_address} 'bash /var/www/{$this->script}'"
+            "ssh {$this->user}@{$this->server->ip_address} 'bash {$remoteScriptPath}'"
         );
     }
 
