@@ -11,6 +11,11 @@ class Task extends Model
     /** @use HasFactory<\Database\Factories\TaskFactory> */
     use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
     protected $guarded = [];
 
     /**
@@ -26,6 +31,9 @@ class Task extends Model
         ];
     }
 
+    /**
+     * The server that this task belongs to.
+     */
     public function server()
     {
         return $this->belongsTo(Server::class);
@@ -45,6 +53,9 @@ class Task extends Model
         $this->runScript();
     }
 
+    /**
+     * Prepare the remote directory on the server.
+     */
     protected function prepareRemoteDirectory(): void
     {
         Process::run(
@@ -52,6 +63,9 @@ class Task extends Model
         );
     }
 
+    /**
+     * Upload the provisioning script to the server.
+     */
     protected function uploadScript(): void
     {
         Process::run(
@@ -59,6 +73,9 @@ class Task extends Model
         );
     }
 
+    /**
+     * Run the provisioning script on the server.
+     */
     protected function runScript(): void
     {
         Process::run(
@@ -66,6 +83,9 @@ class Task extends Model
         );
     }
 
+    /**
+     * Mark this task as running.
+     */
     protected function markRunning(): void
     {
         $this->update(['status' => 'running']);

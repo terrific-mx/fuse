@@ -1,9 +1,11 @@
 <?php
 
 use App\Jobs\ProvisionServer;
+use App\Models\Server;
 use App\Models\ServerProvider;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
@@ -38,4 +40,39 @@ it('creates a server for the user\'s current organization', function () {
 
         return true;
     });
+});
+
+it('marks the server as provisioning', function () {
+    $server = Server::factory()->create(['status' => 'pending']);
+    $server->markProvisioning();
+
+    $server->refresh();
+    expect($server->status)->toBe('provisioning');
+});
+
+it('creates a provision task with correct attributes', function () {
+    $server = Server::factory()->create();
+    $task = $server->createProvisionTask();
+
+    expect($task)->not->toBeNull();
+    expect($task->name)->toBe('provision');
+    expect($task->user)->toBe('root');
+    expect($task->script)->toBe('provision.sh');
+    expect($task->callback)->toBe(App\Callbacks\MarkServerProvisioned::class);
+    expect($task->server_id)->toBe($server->id);
+});
+
+it('provisions the server: marks provisioning, creates task, and calls task provision', function () {
+    Process::fake();
+    $server = Server::factory()->create(['status' => 'pending']);
+
+    $server->provision();
+
+    $server->refresh();
+    expect($server->status)->toBe('provisioning');
+    $task = $server->tasks()->first();
+    expect($task)->not->toBeNull();
+    expect($task->name)->toBe('provision');
+    expect($task->status)->toBe('running');
+    // Optionally, assert process calls here or in TaskTest
 });
