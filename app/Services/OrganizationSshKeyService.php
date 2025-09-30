@@ -32,8 +32,6 @@ class OrganizationSshKeyService
 
     /**
      * Write the organization's private key to storage for SSH operations.
-     *
-     * @return string Path to the written private key file
      */
     public function writePrivateKeyToStorage(Organization $organization): string
     {
