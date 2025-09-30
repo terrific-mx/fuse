@@ -3,6 +3,8 @@
 use App\Models\Organization;
 use App\Models\User;
 use Livewire\Volt\Volt;
+use App\Services\OrganizationSshKeyService;
+use Mockery\MockInterface;
 
 it('renders the registration screen', function () {
     $response = $this->get('/register');

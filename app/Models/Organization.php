@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use Laravel\Cashier\Billable;
 
+use App\Services\OrganizationSshKeyService;
+
 class Organization extends Model
 {
     use Billable;
@@ -20,6 +22,7 @@ class Organization extends Model
     {
         return [
             'personal' => 'boolean',
+            'ssh_private_key' => 'encrypted',
         ];
     }
 
