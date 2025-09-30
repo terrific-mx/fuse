@@ -35,16 +35,39 @@ class Task extends Model
      */
     public function provision(): void
     {
-        // Prepare remote directory
-        \Illuminate\Support\Facades\Process::run("ssh {$this->user}@{$this->server->ip_address} 'bash -s' <<TOKEN mkdir -p /var/www TOKEN");
+        $this->markRunning();
 
-        // Upload script
-        \Illuminate\Support\Facades\Process::run("scp {$this->script} {$this->user}@{$this->server->ip_address}:/var/www/{$this->script}");
+        $this->prepareRemoteDirectory();
 
-        // Run script
-        \Illuminate\Support\Facades\Process::run("ssh {$this->user}@{$this->server->ip_address} 'bash /var/www/{$this->script}'");
+        $this->uploadScript();
 
-        // Update status
+        $this->runScript();
+    }
+
+    protected function prepareRemoteDirectory(): void
+    {
+        \Illuminate\Support\Facades\Process::run(
+            "ssh {$this->user}@{$this->server->ip_address} 'bash -s' <<TOKEN mkdir -p /var/www TOKEN"
+        );
+    }
+
+    protected function uploadScript(): void
+    {
+        \Illuminate\Support\Facades\Process::run(
+            "scp {$this->script} {$this->user}@{$this->server->ip_address}:/var/www/{$this->script}"
+        );
+    }
+
+    protected function runScript(): void
+    {
+        \Illuminate\Support\Facades\Process::run(
+            "ssh {$this->user}@{$this->server->ip_address} 'bash /var/www/{$this->script}'"
+        );
+    }
+
+    protected function markRunning(): void
+    {
         $this->update(['status' => 'running']);
     }
+
 }
