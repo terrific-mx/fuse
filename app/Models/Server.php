@@ -66,4 +66,38 @@ class Server extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    /**
+     * Mark this server as provisioning.
+     */
+    public function markProvisioning(): void
+    {
+        $this->update(['status' => 'provisioning']);
+    }
+
+    /**
+     * Create a provisioning task for this server.
+     */
+    public function createProvisionTask(): Task
+    {
+        return $this->tasks()->create([
+            'name' => 'provision',
+            'user' => 'root',
+            'script' => 'provision.sh',
+            'payload' => [],
+            'callback' => \App\Callbacks\MarkServerProvisioned::class,
+        ]);
+    }
+
+    /**
+     * Provision this server by marking as provisioning, creating a task, and running it.
+     */
+    public function provision(): void
+    {
+        $this->markProvisioning();
+
+        $task = $this->createProvisionTask();
+
+        $task->provision();
+    }
 }

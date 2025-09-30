@@ -29,4 +29,22 @@ class Task extends Model
     {
         return $this->belongsTo(Server::class);
     }
+
+    /**
+     * Run the provisioning steps for this task on its server.
+     */
+    public function provision(): void
+    {
+        // Prepare remote directory
+        \Illuminate\Support\Facades\Process::run("ssh {$this->user}@{$this->server->ip_address} 'bash -s' <<TOKEN mkdir -p /var/www TOKEN");
+
+        // Upload script
+        \Illuminate\Support\Facades\Process::run("scp {$this->script} {$this->user}@{$this->server->ip_address}:/var/www/{$this->script}");
+
+        // Run script
+        \Illuminate\Support\Facades\Process::run("ssh {$this->user}@{$this->server->ip_address} 'bash /var/www/{$this->script}'");
+
+        // Update status
+        $this->update(['status' => 'running']);
+    }
 }
