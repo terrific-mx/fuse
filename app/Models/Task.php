@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Process;
 
 class Task extends Model
 {
@@ -46,21 +47,21 @@ class Task extends Model
 
     protected function prepareRemoteDirectory(): void
     {
-        \Illuminate\Support\Facades\Process::run(
+        Process::run(
             "ssh {$this->user}@{$this->server->ip_address} 'bash -s' <<TOKEN mkdir -p /var/www TOKEN"
         );
     }
 
     protected function uploadScript(): void
     {
-        \Illuminate\Support\Facades\Process::run(
+        Process::run(
             "scp {$this->script} {$this->user}@{$this->server->ip_address}:/var/www/{$this->script}"
         );
     }
 
     protected function runScript(): void
     {
-        \Illuminate\Support\Facades\Process::run(
+        Process::run(
             "ssh {$this->user}@{$this->server->ip_address} 'bash /var/www/{$this->script}'"
         );
     }
@@ -69,5 +70,4 @@ class Task extends Model
     {
         $this->update(['status' => 'running']);
     }
-
 }
