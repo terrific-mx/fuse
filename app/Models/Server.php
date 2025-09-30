@@ -134,7 +134,6 @@ class Server extends Model
      */
     public function provision(): void
     {
-        dd('sdf');
         $this->markProvisioning();
 
         $task = $this->createProvisionTask();

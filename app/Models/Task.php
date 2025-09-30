@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Str;
 
 class Task extends Model
 {
@@ -88,9 +89,16 @@ class Task extends Model
     protected function prepareRemoteDirectory(): void
     {
         $remotePath = $this->fuseDirectory();
-        Process::run(
-            "ssh {$this->user}@{$this->server->ip_address} 'bash -s' <<TOKEN mkdir -p {$remotePath} TOKEN"
-        );
+
+        $token = Str::random(20);
+
+        $command = <<<SSH
+            ssh {$this->user}@{$this->server->ip_address} 'bash -s' <<{$token}
+            mkdir -p {$remotePath}
+            {$token}
+            SSH;
+
+        Process::timeout(10)->run($command);
     }
 
     /**

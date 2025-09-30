@@ -23,7 +23,8 @@ it('runs the correct process commands and updates status when provisioning a tas
 
     // Assert the expected shell command was run
     Process::assertRan(function ($process) use ($task, $server) {
-        return $process->command === "ssh {$task->user}@{$server->ip_address} 'bash -s' <<TOKEN mkdir -p /var/www TOKEN";
+        return str_contains($process->command, "ssh {$task->user}@{$server->ip_address} 'bash -s' <<") &&
+            str_contains($process->command, "mkdir -p {$task->fuseDirectory()}");
     });
 
     // Assert the script upload process was run
@@ -38,6 +39,6 @@ it('runs the correct process commands and updates status when provisioning a tas
         return str_contains($process->command, "ssh") &&
             str_contains($process->command, $task->user) &&
             str_contains($process->command, $server->ip_address) &&
-            str_contains($process->command, "/var/www/{$task->script}");
+            str_contains($process->command, $task->fuseDirectory() . '/' . $task->script);
     });
 });
