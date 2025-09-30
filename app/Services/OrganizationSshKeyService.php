@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\Process;
 class OrganizationSshKeyService
 {
     /**
-     * Generate an SSH key pair for the given organization and store in the database.
+     * Create an SSH key pair for the given organization.
+     *
+     * @return array{privateKey: string, publicKey: string}
      *
      * @throws \RuntimeException
      */
-    public function generateAndStoreSshKeyPair(Organization $organization): void
+    public function createSshKeyPair(Organization $organization): array
     {
         $this->ensureSshKeyDirectoryExists();
         $privateKeyPath = $this->privateKeyPath($organization);
@@ -23,11 +25,12 @@ class OrganizationSshKeyService
         $privateKey = file_get_contents($privateKeyPath);
         $publicKey = file_get_contents($publicKeyPath);
 
-        $organization->ssh_private_key = $privateKey;
-        $organization->ssh_public_key = $publicKey;
-        $organization->save();
-
         $this->cleanupKeyFiles([$privateKeyPath, $publicKeyPath]);
+
+        return [
+            'privateKey' => $privateKey,
+            'publicKey' => $publicKey,
+        ];
     }
 
     /**
