@@ -19,8 +19,9 @@ class Task extends Model
      */
     protected function casts(): array
     {
-        return [
+         return [
             'payload' => 'array',
+            'callback' => 'string',
         ];
     }
 

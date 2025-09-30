@@ -15,7 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('server_id')->constrained()->cascadeOnDelete();
             $table->string('name')->nullable();
+            $table->string('user')->nullable();
+            $table->string('script')->nullable();
+            $table->string('status')->default('pending');
             $table->json('payload')->nullable();
+            $table->string('callback')->nullable();
             $table->timestamps();
         });
     }

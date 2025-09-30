@@ -50,6 +50,8 @@ class ServerForm extends Form
             'type' => $this->type,
         ]);
 
+        // Simulate provider server ID and IP address for testing purposes
+
         $server->update([
             'provider_server_id' => 'simulated-' . $server->id,
         ]);

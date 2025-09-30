@@ -24,9 +24,14 @@ class ProvisionServer implements ShouldQueue
         $this->server->update(['status' => 'provisioning']);
 
         // Create a task for provisioning scripts
-        $this->server->tasks()->create([
+        $task = $this->server->tasks()->create([
             'name' => 'provision',
+            'user' => 'root',
+            'script' => 'provision.sh',
             'payload' => [],
+            'callback' => \App\Callbacks\MarkServerProvisioned::class,
         ]);
+
+        $task->update(['status' => 'running']);
     }
 }
