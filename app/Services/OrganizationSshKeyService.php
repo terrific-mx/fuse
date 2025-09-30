@@ -2,17 +2,14 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Organization;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Process;
 
 class OrganizationSshKeyService
 {
     /**
      * Generate an SSH key pair for the given organization and store in the database.
      *
-     * @param Organization $organization
      * @throws \RuntimeException
      */
     public function generateAndStoreSshKeyPair(Organization $organization): void
@@ -36,7 +33,6 @@ class OrganizationSshKeyService
     /**
      * Write the organization's private key to storage for SSH operations.
      *
-     * @param Organization $organization
      * @return string Path to the written private key file
      */
     public function writePrivateKeyToStorage(Organization $organization): string
@@ -45,13 +41,12 @@ class OrganizationSshKeyService
         $privateKeyPath = $this->privateKeyPath($organization);
         file_put_contents($privateKeyPath, $organization->ssh_private_key);
         chmod($privateKeyPath, 0600);
+
         return $privateKeyPath;
     }
 
     /**
      * Delete the private key file from storage after use.
-     *
-     * @param Organization $organization
      */
     public function deletePrivateKeyFromStorage(Organization $organization): void
     {
@@ -69,38 +64,30 @@ class OrganizationSshKeyService
     {
         $dir = storage_path('app/ssh-keys');
 
-        if (!is_dir($dir)) {
+        if (! is_dir($dir)) {
             mkdir($dir, 0700, true);
         }
     }
 
     /**
      * Get the private key file path for the organization.
-     *
-     * @param Organization $organization
-     * @return string
      */
     private function privateKeyPath(Organization $organization): string
     {
-        return storage_path('app/ssh-keys/org_' . $organization->id . '_id_rsa');
+        return storage_path('app/ssh-keys/org_'.$organization->id.'_id_rsa');
     }
 
     /**
      * Get the public key file path for the organization.
-     *
-     * @param Organization $organization
-     * @return string
      */
     private function publicKeyPath(Organization $organization): string
     {
-        return $this->privateKeyPath($organization) . '.pub';
+        return $this->privateKeyPath($organization).'.pub';
     }
 
     /**
      * Generate an SSH key pair using ssh-keygen.
      *
-     * @param Organization $organization
-     * @param string $privateKeyPath
      * @throws \RuntimeException
      */
     private function generateSshKeyPair(Organization $organization, string $privateKeyPath): void
@@ -108,15 +95,14 @@ class OrganizationSshKeyService
         $process = Process::run(
             "ssh-keygen -t rsa -b 4096 -N '' -f {$privateKeyPath} -C 'org-{$organization->id}'"
         );
-        if (!$process->successful()) {
-            throw new \RuntimeException('Failed to generate SSH key pair: ' . $process->errorOutput());
+
+        if (! $process->successful()) {
+            throw new \RuntimeException('Failed to generate SSH key pair: '.$process->errorOutput());
         }
     }
 
     /**
      * Remove key files from disk.
-     *
-     * @param array $paths
      */
     private function cleanupKeyFiles(array $paths): void
     {
