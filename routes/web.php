@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CallbackController;
 use App\Http\Middleware\EnsureUserIsSubscribed;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
@@ -8,6 +9,8 @@ use App\Http\Controllers\OrganizationInvitationAcceptController;
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::get('/callback/task/{id}', [CallbackController::class, 'task']);
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
     Route::view('dashboard', 'dashboard')->name('dashboard');

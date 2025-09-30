@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Server;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'server_id' => Server::factory(),
+            'callback' => 'test-callback',
+            'payload' => [],
+            'status' => 'pending',
         ];
     }
 }

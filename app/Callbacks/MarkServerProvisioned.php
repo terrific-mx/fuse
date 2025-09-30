@@ -3,16 +3,17 @@
 namespace App\Callbacks;
 
 use App\Models\Server;
+use App\Models\Task;
 
 class MarkServerProvisioned
 {
     /**
      * Mark the given server as provisioned.
      */
-    public function __invoke(Server $server): Server
+    public function __invoke(Task $task): Server
     {
-        $server->update(['status' => 'provisioned']);
+        $task->server->update(['status' => 'provisioned']);
 
-        return $server;
+        return $task->server;
     }
 }
