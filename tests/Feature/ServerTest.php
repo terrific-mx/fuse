@@ -48,7 +48,7 @@ it('creates a provision task with correct attributes', function () {
     expect($task)->not->toBeNull();
     expect($task->name)->toBe('provision');
     expect($task->user)->toBe('root');
-    expect($task->script)->toBe('provision.sh');
+    expect($task->script)->toBe('echo "Provisioning..."');
     expect($task->callback)->toBe(App\Callbacks\MarkServerProvisioned::class);
     expect($task->server_id)->toBe($server->id);
 });

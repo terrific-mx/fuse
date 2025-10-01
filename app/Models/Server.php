@@ -123,7 +123,7 @@ class Server extends Model
         return $this->tasks()->create([
             'name' => 'provision',
             'user' => 'root',
-            'script' => 'provision.sh',
+            'script' => 'echo "Provisioning..."',
             'payload' => [],
             'callback' => \App\Callbacks\MarkServerProvisioned::class,
         ]);
