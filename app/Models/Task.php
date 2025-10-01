@@ -52,7 +52,7 @@ class Task extends Model
 
         $this->uploadScript();
 
-        $this->runScript();
+        $this->runScriptInBackground();
     }
 
     /**
@@ -181,15 +181,16 @@ class Task extends Model
     }
 
     /**
-     * Run the provisioning script on the server.
+     * Run the script on the server in the background.
      */
-    protected function runScript(): void
+    protected function runScriptInBackground(): void
     {
         $remoteScriptPath = $this->remoteScriptPath();
 
         $this->withOrganizationSshKey(function ($privateKeyPath) use ($remoteScriptPath) {
             $sshOptions = $this->buildSshOptions($privateKeyPath);
-            $command = "ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash {$remoteScriptPath}'";
+            $outputLogPath = $this->fuseDirectory() . '/task-' . $this->id . '.log';
+            $command = "ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'nohup bash {$remoteScriptPath} >> {$outputLogPath} 2>&1 &'";
 
             $this->runProcess($command);
         });
