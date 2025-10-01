@@ -99,21 +99,6 @@ class Task extends Model
         return $this->fuseDirectory().'/'.basename($this->script);
     }
 
-    /**
-     * Run a callback with the organization's SSH private key, ensuring cleanup.
-     */
-    private function withOrganizationSshKey(callable $callback): void
-    {
-        $organization = $this->server->organization;
-        $sshKeyService = app(OrganizationSshKeyService::class);
-        $privateKeyPath = $sshKeyService->writePrivateKeyToStorage($organization);
-
-        try {
-            $callback($privateKeyPath);
-        } finally {
-            $sshKeyService->deletePrivateKeyFromStorage($organization);
-        }
-    }
 
     /**
      * Build SSH options string for commands.
@@ -134,7 +119,7 @@ class Task extends Model
     /**
      * Run a process with optional timeout.
      */
-    private function runProcess(string $command, int $timeout = 10): void
+    private function runProcess(string $command, int $timeout = 60): void
     {
         Process::timeout($timeout)->run($command);
     }
@@ -146,25 +131,31 @@ class Task extends Model
     {
         $remotePath = $this->fuseDirectory();
 
-        $this->runSshCommandOnServer("mkdir -p {$remotePath}");
+        $this->runSshCommandOnServer("mkdir -p {$remotePath}", 10);
     }
 
     /**
      * Run an SSH command on the remote server using heredoc for multi-line scripts.
      */
-    protected function runSshCommandOnServer(string $command, int $timeout = 10): void
+    protected function runSshCommandOnServer(string $command, int $timeout = 60): void
     {
-        $this->withOrganizationSshKey(function ($privateKeyPath) use ($command, $timeout) {
-            $sshOptions = $this->buildSshOptions($privateKeyPath);
-            $heredocToken = Str::random(20);
-            $fullCommand = <<<SSH
-                ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash -s' <<{$heredocToken}
-                {$command}
-                {$heredocToken}
-            SSH;
+        $heredocToken = Str::random(20);
 
-            $this->runProcess($fullCommand, $timeout);
-        });
+        $sshKeyService = app(OrganizationSshKeyService::class);
+
+        $privateKeyPath = $sshKeyService->writePrivateKeyToStorage($this->server->organization);
+
+        $sshOptions = $this->buildSshOptions($privateKeyPath);
+
+        $fullCommand = <<<SSH
+            ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash -s' <<{$heredocToken}
+            {$command}
+            {$heredocToken}
+        SSH;
+
+        $this->runProcess($fullCommand, $timeout);
+
+        $sshKeyService->deletePrivateKeyFromStorage($this->server->organization);
     }
 
     /**
@@ -191,13 +182,16 @@ class Task extends Model
         $remoteScriptPath = $this->remoteScriptPath();
         $storageScriptFile = $this->writeScriptToStorageDir();
 
+        $organization = $this->server->organization;
+        $sshKeyService = app(OrganizationSshKeyService::class);
+        $privateKeyPath = $sshKeyService->writePrivateKeyToStorage($organization);
+
         try {
-            $this->withOrganizationSshKey(function ($privateKeyPath) use ($remoteScriptPath, $storageScriptFile) {
-                $scpOptions = $this->buildScpOptions($privateKeyPath);
-                $command = "scp {$scpOptions} {$storageScriptFile} {$this->user}@{$this->server->ip_address}:{$remoteScriptPath}";
-                $this->runProcess($command);
-            });
+            $scpOptions = $this->buildScpOptions($privateKeyPath);
+            $command = "scp {$scpOptions} {$storageScriptFile} {$this->user}@{$this->server->ip_address}:{$remoteScriptPath}";
+            $this->runProcess($command);
         } finally {
+            $sshKeyService->deletePrivateKeyFromStorage($organization);
             if (file_exists($storageScriptFile)) {
                 unlink($storageScriptFile);
             }
@@ -211,13 +205,19 @@ class Task extends Model
     {
         $remoteScriptPath = $this->remoteScriptPath();
 
-        $this->withOrganizationSshKey(function ($privateKeyPath) use ($remoteScriptPath) {
+        $organization = $this->server->organization;
+        $sshKeyService = app(OrganizationSshKeyService::class);
+        $privateKeyPath = $sshKeyService->writePrivateKeyToStorage($organization);
+
+        try {
             $sshOptions = $this->buildSshOptions($privateKeyPath);
             $outputLogPath = $this->fuseDirectory().'/task-'.$this->id.'.log';
             $command = "ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'nohup bash {$remoteScriptPath} >> {$outputLogPath} 2>&1 &'";
 
             $this->runProcess($command);
-        });
+        } finally {
+            $sshKeyService->deletePrivateKeyFromStorage($organization);
+        }
     }
 
     /**
