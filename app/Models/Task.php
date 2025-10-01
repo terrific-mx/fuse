@@ -46,12 +46,24 @@ class Task extends Model
      */
     public function provision(): void
     {
+        // Generate a unique path and token for the script
+        $path = $this->fuseDirectory() . '/task-' . $this->id . '-' . Str::random(8) . '.sh';
+        $token = Str::random(20);
+
+        // Render the script with callback using Blade
+        $renderedScript = view('scripts.task-callback', [
+            'task' => $this,
+            'path' => $path,
+            'token' => $token,
+        ])->render();
+
+        // Update the script attribute with the rendered script
+        $this->script = $renderedScript;
+        $this->save();
+
         $this->markRunning();
-
         $this->prepareRemoteDirectory();
-
         $this->uploadScript();
-
         $this->runScriptInBackground();
     }
 
@@ -202,5 +214,13 @@ class Task extends Model
     protected function markRunning(): void
     {
         $this->update(['status' => 'running']);
+    }
+
+    /**
+     * Get the timeout duration for the task in seconds.
+     */
+    public function timeout(): int
+    {
+        return 3600;
     }
 }
