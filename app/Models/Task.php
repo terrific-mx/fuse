@@ -145,18 +145,39 @@ class Task extends Model
     }
 
     /**
+     * Write the raw script content to a file in storage/app/scripts and return its path.
+     */
+    private function writeScriptToStorageDir(): string
+    {
+        $dir = storage_path('app/scripts');
+        if (!is_dir($dir)) {
+            mkdir($dir, 0700, true);
+        }
+        $filename = 'task-script-'.Str::random(20).'.sh';
+        $path = $dir . DIRECTORY_SEPARATOR . $filename;
+        file_put_contents($path, $this->script);
+        return $path;
+    }
+
+    /**
      * Upload the provisioning script to the server.
      */
     protected function uploadScript(): void
     {
         $remoteScriptPath = $this->remoteScriptPath();
+        $storageScriptFile = $this->writeScriptToStorageDir();
 
-        $this->withOrganizationSshKey(function ($privateKeyPath) use ($remoteScriptPath) {
-            $scpOptions = $this->buildScpOptions($privateKeyPath);
-            $command = "scp {$scpOptions} {$this->script} {$this->user}@{$this->server->ip_address}:{$remoteScriptPath}";
-
-            $this->runProcess($command);
-        });
+        try {
+            $this->withOrganizationSshKey(function ($privateKeyPath) use ($remoteScriptPath, $storageScriptFile) {
+                $scpOptions = $this->buildScpOptions($privateKeyPath);
+                $command = "scp {$scpOptions} {$storageScriptFile} {$this->user}@{$this->server->ip_address}:{$remoteScriptPath}";
+                $this->runProcess($command);
+            });
+        } finally {
+            if (file_exists($storageScriptFile)) {
+                unlink($storageScriptFile);
+            }
+        }
     }
 
     /**
@@ -174,9 +195,6 @@ class Task extends Model
         });
     }
 
-    /**
-     * Mark this task as running.
-     */
     /**
      * Mark this task as running.
      */
