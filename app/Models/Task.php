@@ -46,26 +46,34 @@ class Task extends Model
      */
     public function provision(): void
     {
-        // Generate a unique path and token for the script
+        $this->markRunning();
+
+        $this->generateAndSaveScript();
+
+        $this->prepareRemoteDirectory();
+
+        $this->uploadScript();
+
+        $this->runScriptInBackground();
+    }
+
+    /**
+     * Generate the provisioning script with callback and save it to the model.
+     */
+    protected function generateAndSaveScript(): void
+    {
         $path = $this->fuseDirectory() . '/task-' . $this->id . '-' . Str::random(8) . '.sh';
         $token = Str::random(20);
 
-        // Render the script with callback using Blade
-        $renderedScript = view('scripts.task-callback', [
-            'task' => $this,
-            'path' => $path,
-            'token' => $token,
-        ])->render();
-
-        // Update the script attribute with the rendered script
-        $this->script = $renderedScript;
-        $this->save();
-
-        $this->markRunning();
-        $this->prepareRemoteDirectory();
-        $this->uploadScript();
-        $this->runScriptInBackground();
+        $this->update([
+            'script' => view('scripts.task-callback', [
+                'task' => $this,
+                'path' => $path,
+                'token' => $token,
+            ])->render()
+        ]);
     }
+
 
     /**
      * Prepare the remote directory on the server.
