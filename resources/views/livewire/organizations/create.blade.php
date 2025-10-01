@@ -17,6 +17,16 @@ new class extends Component {
 
         $organization = Auth::user()->organizations()->create([
             'name' => $this->name,
+            'ssh_private_key' => 'temp',
+            'ssh_public_key' => 'temp',
+        ]);
+
+        // Generate real SSH key pair and update
+        $service = app(\App\Services\OrganizationSshKeyService::class);
+        $keys = $service->createSshKeyPair($organization);
+        $organization->update([
+            'ssh_private_key' => $keys['privateKey'],
+            'ssh_public_key' => $keys['publicKey'],
         ]);
 
         Auth::user()->switchOrganization($organization);

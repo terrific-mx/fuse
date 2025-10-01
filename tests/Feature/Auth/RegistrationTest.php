@@ -12,6 +12,16 @@ it('renders the registration screen', function () {
     $response->assertStatus(200);
 });
 
+beforeEach(function () {
+    $mock = Mockery::mock(\App\Services\OrganizationSshKeyService::class);
+    $mock->shouldReceive('createSshKeyPair')
+        ->andReturn([
+            'privateKey' => 'FAKE_PRIVATE_KEY',
+            'publicKey' => 'FAKE_PUBLIC_KEY',
+        ]);
+    app()->instance(\App\Services\OrganizationSshKeyService::class, $mock);
+});
+
 it('registers a new user with valid data', function () {
     $response = Volt::test('auth.register')
         ->set('name', 'Test User')
