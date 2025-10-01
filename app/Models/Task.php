@@ -89,10 +89,10 @@ class Task extends Model
     protected function prepareRemoteDirectory(): void
     {
         $remotePath = $this->fuseDirectory();
-
-        $privateKeyPath = '/home/user/.ssh/id_rsa';
-        $port = 2222;
-        $sshOptions = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i {$privateKeyPath} -p {$port}";
+        $organization = $this->server->organization;
+        $sshKeyService = app(\App\Services\OrganizationSshKeyService::class);
+        $privateKeyPath = $sshKeyService->writePrivateKeyToStorage($organization);
+        $sshOptions = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i {$privateKeyPath}";
         $token = Str::random(20);
 
         $command = <<<SSH
@@ -102,6 +102,7 @@ class Task extends Model
             SSH;
 
         Process::timeout(10)->run($command);
+        $sshKeyService->deletePrivateKeyFromStorage($organization);
     }
 
     /**
@@ -110,9 +111,14 @@ class Task extends Model
     protected function uploadScript(): void
     {
         $remoteScriptPath = $this->remoteScriptPath();
+        $organization = $this->server->organization;
+        $sshKeyService = app(\App\Services\OrganizationSshKeyService::class);
+        $privateKeyPath = $sshKeyService->writePrivateKeyToStorage($organization);
+        $scpOptions = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i {$privateKeyPath}";
         Process::run(
-            "scp {$this->script} {$this->user}@{$this->server->ip_address}:{$remoteScriptPath}"
+            "scp {$scpOptions} {$this->script} {$this->user}@{$this->server->ip_address}:{$remoteScriptPath}"
         );
+        $sshKeyService->deletePrivateKeyFromStorage($organization);
     }
 
     /**
@@ -121,9 +127,14 @@ class Task extends Model
     protected function runScript(): void
     {
         $remoteScriptPath = $this->remoteScriptPath();
+        $organization = $this->server->organization;
+        $sshKeyService = app(\App\Services\OrganizationSshKeyService::class);
+        $privateKeyPath = $sshKeyService->writePrivateKeyToStorage($organization);
+        $sshOptions = "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i {$privateKeyPath}";
         Process::run(
-            "ssh {$this->user}@{$this->server->ip_address} 'bash {$remoteScriptPath}'"
+            "ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash {$remoteScriptPath}'"
         );
+        $sshKeyService->deletePrivateKeyFromStorage($organization);
     }
 
     /**
