@@ -27,7 +27,7 @@ class Task extends Model
      */
     protected function casts(): array
     {
-         return [
+        return [
             'payload' => 'array',
             'callback' => 'string',
         ];
@@ -73,7 +73,7 @@ class Task extends Model
      */
     public function fuseDirectory(): string
     {
-        return $this->remoteHomeDirectory() . '/.fuse';
+        return $this->remoteHomeDirectory().'/.fuse';
     }
 
     /**
@@ -81,7 +81,7 @@ class Task extends Model
      */
     public function remoteScriptPath(): string
     {
-        return $this->fuseDirectory() . '/' . basename($this->script);
+        return $this->fuseDirectory().'/'.basename($this->script);
     }
 
     /**
