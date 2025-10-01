@@ -22,8 +22,8 @@ class OrganizationFactory extends Factory
         return [
             'name' => $this->faker->company,
             'user_id' => User::factory(),
-            'ssh_private_key' => "-----BEGIN OPENSSH PRIVATE KEY-----\nfakekeydata\n-----END OPENSSH PRIVATE KEY-----\n",
-            'ssh_public_key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDfakekeydata org@example.com',
+            'ssh_private_key' => env('TEST_SSH_PRIVATE_KEY', "-----BEGIN OPENSSH PRIVATE KEY-----\nfakekeydata\n-----END OPENSSH PRIVATE KEY-----\n"),
+            'ssh_public_key' => env('TEST_SSH_PUBLIC_KEY', 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDfakekeydata org@example.com'),
         ];
     }
 

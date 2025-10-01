@@ -20,10 +20,10 @@ class DatabaseSeeder extends Seeder
         $user = $this->seedUser();
         $organization = $user->currentOrganization;
 
-        $this->seedSshKeysForOrganization($organization);
-        $this->seedServerProviders($organization);
-        $this->seedSourceProviders($organization);
-        $this->seedServersForOrganization($organization);
+        // $this->seedSshKeysForOrganization($organization);
+        // $this->seedServerProviders($organization);
+        // $this->seedSourceProviders($organization);
+        // $this->seedServersForOrganization($organization);
     }
 
     /**
