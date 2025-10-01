@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\ProvisionServer;
+use App\Services\OrganizationSshKeyService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -139,5 +140,25 @@ class Server extends Model
         $task = $this->createProvisionTask();
 
         $task->provision();
+    }
+
+    /**
+     * Write the organization's private key to storage and return the path.
+     */
+    public function privateKeyPath(): string
+    {
+        $sshKeyService = app(OrganizationSshKeyService::class);
+
+        return $sshKeyService->writePrivateKeyToStorage($this->organization);
+    }
+
+    /**
+     * Delete the organization's private key from storage.
+     */
+    public function deletePrivateKey(): void
+    {
+        $sshKeyService = app(OrganizationSshKeyService::class);
+
+        $sshKeyService->deletePrivateKeyFromStorage($this->organization);
     }
 }
