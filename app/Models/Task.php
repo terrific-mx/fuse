@@ -62,7 +62,7 @@ class Task extends Model
      */
     protected function generateAndSaveScript(): void
     {
-        $path = $this->fuseDirectory() . '/task-' . $this->id . '-' . Str::random(8) . '.sh';
+        $path = $this->fuseDirectory().'/task-'.$this->id.'-'.Str::random(8).'.sh';
         $token = Str::random(20);
 
         $this->update([
@@ -70,14 +70,10 @@ class Task extends Model
                 'task' => $this,
                 'path' => $path,
                 'token' => $token,
-            ])->render()
+            ])->render(),
         ]);
     }
 
-
-    /**
-     * Prepare the remote directory on the server.
-     */
     /**
      * Get the remote home directory for the user.
      */
@@ -170,12 +166,13 @@ class Task extends Model
     private function writeScriptToStorageDir(): string
     {
         $dir = storage_path('app/scripts');
-        if (!is_dir($dir)) {
+        if (! is_dir($dir)) {
             mkdir($dir, 0700, true);
         }
         $filename = 'task-script-'.Str::random(20).'.sh';
-        $path = $dir . DIRECTORY_SEPARATOR . $filename;
+        $path = $dir.DIRECTORY_SEPARATOR.$filename;
         file_put_contents($path, $this->script);
+
         return $path;
     }
 
@@ -209,7 +206,7 @@ class Task extends Model
 
         $this->withOrganizationSshKey(function ($privateKeyPath) use ($remoteScriptPath) {
             $sshOptions = $this->buildSshOptions($privateKeyPath);
-            $outputLogPath = $this->fuseDirectory() . '/task-' . $this->id . '.log';
+            $outputLogPath = $this->fuseDirectory().'/task-'.$this->id.'.log';
             $command = "ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'nohup bash {$remoteScriptPath} >> {$outputLogPath} 2>&1 &'";
 
             $this->runProcess($command);

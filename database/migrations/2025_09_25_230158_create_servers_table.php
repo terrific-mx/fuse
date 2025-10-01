@@ -14,12 +14,8 @@ return new class extends Migration
         Schema::create('servers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('provider_id')->constrained('server_providers')->cascadeOnDelete();
             $table->string('name');
-            $table->string('region');
-            $table->string('type');
             $table->string('status')->default('pending');
-            $table->string('provider_server_id')->nullable();
             $table->string('ip_address')->nullable();
             $table->timestamps();
         });

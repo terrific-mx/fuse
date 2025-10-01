@@ -43,32 +43,11 @@ new class extends Component {
             wire:model="form.name"
             required
         />
-        <flux:select
-            label="{{ __('Provider') }}"
-            wire:model="form.provider_id"
+        <flux:input
+            label="{{ __('Server IP Address') }}"
+            wire:model="form.ip_address"
             required
-        >
-            <flux:select.option value="">{{ __('Select Provider') }}</flux:select.option>
-            @foreach ($this->organization->serverProviders as $provider)
-                <flux:select.option :value="$provider->id">{{ $provider->name }}</flux:select.option>
-            @endforeach
-        </flux:select>
-        <flux:select
-            label="{{ __('Region') }}"
-            wire:model="form.region"
-            required
-        >
-            <flux:select.option value="">{{ __('Select Region') }}</flux:select.option>
-            <flux:select.option value="fsn1">fsn1</flux:select.option>
-        </flux:select>
-        <flux:select
-            label="{{ __('Type') }}"
-            wire:model="form.type"
-            required
-        >
-            <flux:select.option value="">{{ __('Select Type') }}</flux:select.option>
-            <flux:select.option value="cx21">cx21</flux:select.option>
-        </flux:select>
+        />
         <flux:button type="submit" variant="primary">
             {{ __('Save Server') }}
         </flux:button>
@@ -78,18 +57,14 @@ new class extends Component {
         <flux:table :paginate="$this->servers">
             <flux:table.columns>
                 <flux:table.column>{{ __('Server Name') }}</flux:table.column>
-                <flux:table.column>{{ __('Provider') }}</flux:table.column>
-                <flux:table.column>{{ __('Region') }}</flux:table.column>
-                <flux:table.column>{{ __('Type') }}</flux:table.column>
+                <flux:table.column>{{ __('IP Address') }}</flux:table.column>
                 <flux:table.column>{{ __('Created At') }}</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->servers as $server)
                     <flux:table.row :key="$server->id">
                         <flux:table.cell><flux:link :href="route('servers.show', $server)" wire:navigate>{{ $server->name }}</flux:link></flux:table.cell>
-                        <flux:table.cell>{{ $server->provider->name ?? '-' }}</flux:table.cell>
-                        <flux:table.cell>{{ $server->region }}</flux:table.cell>
-                        <flux:table.cell>{{ $server->type }}</flux:table.cell>
+                        <flux:table.cell>{{ $server->ip_address }}</flux:table.cell>
                         <flux:table.cell>{{ $server->created_at->format('Y-m-d H:i') }}</flux:table.cell>
                     </flux:table.row>
                 @endforeach

@@ -3,10 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Server;
-use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-use Illuminate\Support\Facades\Process;
 
 class ProvisionServer implements ShouldQueue
 {

@@ -4,7 +4,6 @@ namespace App\Livewire\Forms;
 
 use App\Jobs\ProvisionServer;
 use App\Models\Organization;
-use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -15,22 +14,14 @@ class ServerForm extends Form
     #[Validate]
     public string $name = '';
 
-    #[Validate('required|exists:server_providers,id')]
-    public ?int $provider_id = null;
-
     #[Validate]
-    public string $region = '';
-
-    #[Validate]
-    public string $type = '';
+    public string $ip_address = '';
 
     protected function rules()
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'provider_id' => ['required', 'exists:server_providers,id'],
-            'region' => ['required', 'string', 'max:255'],
-            'type' => ['required', 'string', 'max:255'],
+            'ip_address' => ['required', 'ipv4'],
         ];
     }
 
@@ -45,23 +36,11 @@ class ServerForm extends Form
 
         $server = $this->organization->servers()->create([
             'name' => $this->name,
-            'provider_id' => $this->provider_id,
-            'region' => $this->region,
-            'type' => $this->type,
-        ]);
-
-        // Simulate provider server ID and IP address for testing purposes
-
-        $server->update([
-            'provider_server_id' => 'simulated-' . $server->id,
-        ]);
-
-        $server->update([
-            'ip_address' => '192.0.2.' . rand(1, 254),
+            'ip_address' => $this->ip_address,
         ]);
 
         ProvisionServer::dispatch($server);
 
-        $this->reset('name', 'provider_id', 'region', 'type');
+        $this->reset('name', 'ip_address');
     }
 }

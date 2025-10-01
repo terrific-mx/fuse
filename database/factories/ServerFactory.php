@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Organization;
-use App\Models\ServerProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,10 +19,7 @@ class ServerFactory extends Factory
     {
         return [
             'organization_id' => Organization::factory(),
-            'provider_id' => ServerProvider::factory(),
             'name' => $this->faker->word(),
-            'type' => 'test-type',
-            'region' => 'test-region',
             'status' => 'pending',
         ];
     }
