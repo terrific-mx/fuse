@@ -48,7 +48,7 @@ class Task extends Model
     {
         $this->markRunning();
 
-        $this->generateAndSaveScript();
+        $this->wrapScriptWithCallbackAndSave();
 
         $this->prepareRemoteDirectory();
 
@@ -58,9 +58,9 @@ class Task extends Model
     }
 
     /**
-     * Generate the provisioning script with callback and save it to the model.
+     * Wrap the raw script with callback logic and save it to the model.
      */
-    protected function generateAndSaveScript(): void
+    protected function wrapScriptWithCallbackAndSave(): void
     {
         $path = $this->fuseDirectory().'/task-'.$this->id.'-'.Str::random(8).'.sh';
         $token = Str::random(20);
