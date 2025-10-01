@@ -21,6 +21,9 @@ it('runs the correct process commands and updates status when provisioning a tas
     $task->refresh();
     expect($task->status)->toBe('running');
 
+    // Assert the callback is present in the script
+    expect($task->script)->toContain("/callback/task/{$task->id}");
+
     // Assert the expected shell command was run
     Process::assertRan(function ($process) use ($task, $server) {
         return str_contains(
