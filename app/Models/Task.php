@@ -48,7 +48,7 @@ class Task extends Model
     {
         $this->markRunning();
 
-        $this->wrapScriptWithCallbackAndSave();
+        $this->wrapScriptWithCallback();
 
         $this->prepareRemoteDirectory();
 
@@ -60,16 +60,15 @@ class Task extends Model
     /**
      * Wrap the raw script with callback logic and save it to the model.
      */
-    protected function wrapScriptWithCallbackAndSave(): void
+    protected function wrapScriptWithCallback(): void
     {
         $path = $this->fuseDirectory().'/task-'.$this->id.'-'.Str::random(8).'.sh';
-        $token = Str::random(20);
 
         $this->update([
             'script' => view('scripts.task-callback', [
                 'task' => $this,
                 'path' => $path,
-                'token' => $token,
+                'token' => Str::random(20),
             ])->render(),
         ]);
     }
@@ -146,17 +145,25 @@ class Task extends Model
     protected function prepareRemoteDirectory(): void
     {
         $remotePath = $this->fuseDirectory();
-        $token = Str::random(20);
 
-        $this->withOrganizationSshKey(function ($privateKeyPath) use ($remotePath, $token) {
+        $this->runSshCommandOnServer("mkdir -p {$remotePath}");
+    }
+
+    /**
+     * Run an SSH command on the remote server using heredoc for multi-line scripts.
+     */
+    protected function runSshCommandOnServer(string $command, int $timeout = 10): void
+    {
+        $this->withOrganizationSshKey(function ($privateKeyPath) use ($command, $timeout) {
             $sshOptions = $this->buildSshOptions($privateKeyPath);
-            $command = <<<SSH
-                ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash -s' <<{$token}
-                mkdir -p {$remotePath}
-                {$token}
-                SSH;
+            $heredocToken = Str::random(20);
+            $fullCommand = <<<SSH
+                ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash -s' <<{$heredocToken}
+                {$command}
+                {$heredocToken}
+            SSH;
 
-            $this->runProcess($command);
+            $this->runProcess($fullCommand, $timeout);
         });
     }
 
