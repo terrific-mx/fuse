@@ -66,5 +66,8 @@
   "Description": "Descripción",
   "Access": "Acceder",
   "All requests made to this site": "Todas las solicitudes hechas a este sitio",
-  "Site-specific web server error log": "Registro de errores del servidor web específico del sitio"
+  "Site-specific web server error log": "Registro de errores del servidor web específico del sitio",
+  "Organization SSH Key Required": "Clave SSH de la organización requerida",
+  "To provision your server, ensure the organization SSH public key is installed on the server you create with your cloud provider.": "Para aprovisionar tu servidor, asegúrate de que la clave pública SSH de la organización esté instalada en el servidor que crees con tu proveedor de nube.",
+  "Organization SSH Public Key": "Clave pública SSH de la organización"
 }

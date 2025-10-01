@@ -37,6 +37,19 @@ new class extends Component {
 }; ?>
 
 <div>
+    <flux:callout icon="information-circle" variant="secondary">
+        <flux:callout.heading>{{ __('Organization SSH Key Required') }}</flux:callout.heading>
+        <flux:callout.text>{{ __('To provision your server, ensure the organization SSH public key is installed on the server you create with your cloud provider.') }}</flux:callout.text>
+    </flux:callout>
+    <div class="my-6">
+        <flux:input
+            icon="key"
+            label="{{ __('Organization SSH Public Key') }}"
+            value="{{ $this->organization->ssh_public_key }}"
+            readonly
+            copyable
+        />
+    </div>
     <form wire:submit="save" class="space-y-6">
         <flux:input
             label="{{ __('Server Name') }}"
