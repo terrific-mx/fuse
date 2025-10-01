@@ -131,13 +131,13 @@ class Task extends Model
     {
         $remotePath = $this->fuseDirectory();
 
-        $this->runSshCommandOnServer("mkdir -p {$remotePath}", 10);
+        $this->executeScriptOnRemoteServer("mkdir -p {$remotePath}", 10);
     }
 
     /**
-     * Run an SSH command on the remote server using heredoc for multi-line scripts.
+     * Execute a shell script on the remote server via SSH using heredoc for multi-line scripts.
      */
-    protected function runSshCommandOnServer(string $command, int $timeout = 60): void
+    protected function executeScriptOnRemoteServer(string $script, int $timeout = 60): void
     {
         $heredocToken = Str::random(20);
 
@@ -149,7 +149,7 @@ class Task extends Model
 
         $fullCommand = <<<SSH
             ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash -s' <<{$heredocToken}
-            {$command}
+            {$script}
             {$heredocToken}
         SSH;
 
