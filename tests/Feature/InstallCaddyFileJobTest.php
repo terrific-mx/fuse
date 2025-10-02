@@ -1,5 +1,6 @@
 <?php
 
+use App\Callbacks\MarkCaddyInstalled;
 use App\Jobs\InstallCaddyFileJob;
 use App\Models\Site;
 use Illuminate\Support\Facades\Process;
@@ -7,7 +8,7 @@ use Illuminate\Support\Facades\Process;
 it('creates server tasks to install the Caddy file and update Caddy sites for the site', function () {
     Process::fake();
 
-    $site = Site::factory()->create();
+    $site = Site::factory()->create(['caddy_installed_at' => null]);
     $server = $site->server;
 
     (new InstallCaddyFileJob($site))->handle();
@@ -20,6 +21,12 @@ it('creates server tasks to install the Caddy file and update Caddy sites for th
     expect($installTask->script)->not->toBeNull();
     expect($installTask->script)->not->toBe('');
     expect($installTask->status)->toBe('running');
+
+    // Assert after action to adjust caddy_installed_at
+    expect($installTask->after_actions)->toContain([
+        'class' => MarkCaddyInstalled::class,
+        'args' => ['site_id' => $site->id],
+    ]);
 
     $updateTask = $server->tasks->firstWhere('name', 'update_caddy_sites');
     expect($updateTask)->not->toBeNull();

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Callbacks\MarkCaddyInstalled;
 use App\Models\Site;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -32,6 +33,9 @@ class InstallCaddyFileJob implements ShouldQueue
                 'site' => $this->site,
                 'tempCaddyfilePath' => Str::of($this->site->caddyfile_path)->append('.' . Str::random(16)),
             ])->render(),
+            'after_actions' => [
+                (new MarkCaddyInstalled($this->site->id))->toCallbackArray(),
+            ],
         ])->provision();
 
         $server->tasks()->create([
