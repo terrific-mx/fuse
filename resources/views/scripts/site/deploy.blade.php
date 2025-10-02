@@ -5,7 +5,7 @@ export PHP_BINARY={!!  $site->php_binary !!}
 # Create the necessary directories
 mkdir -p {!! $site->repository_directory !!}
 mkdir -p {!! $site->shared_directory !!}
-mkdir -p {!! $site->releases_directory !!}
+mkdir -p {!! $deployment->release_directory !!}
 mkdir -p {!! $site->logs_directory !!}
 
 # Cleanup old releases
@@ -145,12 +145,12 @@ done
 @endforeach
 
 @foreach($site->writable_directories as $directory)
-    DIRECTORY_IS_WRITEABLE=$(getfacl -p {!! $deployment->release_directory !!}/{!! $directory !!} | grep "^user:{!! $site->user !!}:.*w" | wc -l)
+    DIRECTORY_IS_WRITEABLE=$(getfacl -p {!! $deployment->release_directory !!}/{!! $directory !!} | grep "^user:fuse:.*w" | wc -l)
 
     if [ $DIRECTORY_IS_WRITEABLE -eq 0 ]; then
         # Make the directory writable (without sudo)
-        setfacl -L -m u:{!! $site->user !!}:rwX {!! $deployment->release_directory !!}/{!! $directory !!}
-        setfacl -dL -m u:{!! $site->user !!}:rwX {!! $deployment->release_directory !!}/{!! $directory !!}
+        setfacl -L -m u:fuse:rwX {!! $deployment->release_directory !!}/{!! $directory !!}
+        setfacl -dL -m u:fuse:rwX {!! $deployment->release_directory !!}/{!! $directory !!}
     fi
 
 @endforeach
