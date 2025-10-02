@@ -39,6 +39,14 @@ class Server extends Model
     }
 
     /**
+     * The SSH keys associated with this server.
+     */
+    public function sshKeys()
+    {
+        return $this->belongsToMany(SshKey::class, 'server_ssh_key');
+    }
+
+    /**
      * The provider that this server belongs to.
      */
     public function provider()

@@ -2,6 +2,7 @@
 
 use App\Jobs\ProvisionServer;
 use App\Models\Server;
+use App\Models\SshKey;
 use App\Models\User;
 use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Facades\Queue;
@@ -52,6 +53,29 @@ it('creates a provision task with correct attributes', function () {
     expect($task->user)->toBe('root');
     expect($task->callback)->toBe(App\Callbacks\MarkServerProvisioned::class);
     expect($task->server_id)->toBe($server->id);
+});
+
+it('can associate ssh keys with a server via the servers.index component', function () {
+    Queue::fake();
+    $user = User::factory()->withPersonalOrganization()->create();
+    $organization = $user->currentOrganization;
+    $sshKey1 = SshKey::factory()->for($organization)->create();
+    $sshKey2 = SshKey::factory()->for($organization)->create();
+
+    $component = Volt::actingAs($user)
+        ->test('servers.index')
+        ->set('form.name', 'Server With Keys')
+        ->set('form.ip_address', '203.0.113.10')
+        ->set('form.ssh_keys', [$sshKey1->id, $sshKey2->id])
+        ->call('save');
+
+    $component->assertHasNoErrors();
+
+    $server = $organization->servers()->latest()->first();
+
+    expect($server->sshKeys)->toHaveCount(2);
+    expect($server->sshKeys->pluck('id'))->toContain($sshKey1->id);
+    expect($server->sshKeys->pluck('id'))->toContain($sshKey2->id);
 });
 
 it('provisions the server: marks provisioning, creates task, and calls task provision', function () {

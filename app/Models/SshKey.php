@@ -16,8 +16,8 @@ class SshKey extends Model
         return $this->belongsTo(Organization::class);
     }
 
-    protected function casts(): array
+    public function servers()
     {
-        return [];
+        return $this->belongsToMany(Server::class, 'server_ssh_key');
     }
 }

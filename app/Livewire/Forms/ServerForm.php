@@ -18,11 +18,16 @@ class ServerForm extends Form
     #[Validate]
     public string $ip_address = '';
 
+    #[Validate]
+    public array $ssh_keys = [];
+
     protected function rules()
     {
         return [
             'name' => ['required', 'string', 'max:255'],
             'ip_address' => ['required', 'ipv4'],
+            'ssh_keys' => ['array'],
+            'ssh_keys.*' => ['exists:ssh_keys,id'],
         ];
     }
 
@@ -42,8 +47,12 @@ class ServerForm extends Form
             'sudo_password' => Str::random(40),
         ]);
 
+        if (!empty($this->ssh_keys)) {
+            $server->sshKeys()->sync($this->ssh_keys);
+        }
+
         ProvisionServer::dispatch($server);
 
-        $this->reset('name', 'ip_address');
+        $this->reset('name', 'ip_address', 'ssh_keys');
     }
 }
