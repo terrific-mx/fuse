@@ -4,6 +4,8 @@ namespace App\Callbacks;
 
 use App\Models\Deployment;
 use App\Models\Task;
+use App\Jobs\InstallCaddyFileJob;
+use Illuminate\Support\Facades\Bus;
 
 class UpdateDeploymentStatus
 {
@@ -17,6 +19,10 @@ class UpdateDeploymentStatus
         $deployment = Deployment::findOrFail($this->deployment_id);
 
         $deployment->update(['status' => 'deployed']);
+
+        if (! $deployment->site->caddy_installed_at) {
+            InstallCaddyFileJob::dispatch($deployment->site);
+        }
     }
 
     /**

@@ -26,6 +26,7 @@ return new class extends Migration
                 $table->text('script_before_activate')->default('');
                 $table->text('script_after_activate')->default('');
                 $table->timestamp('installed_at')->nullable();
+                $table->timestamp('caddy_installed_at')->nullable();
                 $table->timestamps();
         });
     }
