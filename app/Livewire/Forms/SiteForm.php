@@ -4,7 +4,6 @@ namespace App\Livewire\Forms;
 
 use App\Models\Site;
 use Illuminate\Support\Facades\Auth;
-use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class SiteForm extends Form
@@ -62,10 +61,13 @@ class SiteForm extends Form
         ]);
 
         // Create initial deployment for the site
-        $site->deployments()->create([
+        $deployment = $site->deployments()->create([
             'status' => 'pending',
             'triggered_by' => Auth::id(),
         ]);
+
+        // Dispatch job to deploy the site
+        \App\Jobs\DeploySite::dispatch($deployment);
 
         $this->reset();
     }

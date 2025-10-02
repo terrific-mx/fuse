@@ -1,12 +1,15 @@
 <?php
 
+use App\Jobs\DeploySite;
 use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
 it('creates a site for a server', function () {
+    Queue::fake();
     $server = Server::factory()->create();
 
     $component = Volt::actingAs($server->organization->user)
@@ -63,4 +66,9 @@ it('creates a site for a server', function () {
     expect($deployment->site->is($site))->toBeTrue();
     expect($deployment->status)->toBe('pending');
     expect($deployment->triggeredBy->is($server->organization->user))->toBeTrue();
+
+    // Assert the deployment job was dispatched
+    Queue::assertPushed(DeploySite::class, function ($job) use ($deployment) {
+        return $job->deployment->is($deployment);
+    });
 });
