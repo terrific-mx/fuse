@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Callbacks\UpdateDeploymentStatus;
 use App\Models\Deployment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -31,6 +32,9 @@ class DeploySite implements ShouldQueue
                 'site' => $this->deployment->site,
                 'deployment' => $this->deployment,
             ])->render(),
+            'after_actions' => [
+                (new UpdateDeploymentStatus($this->deployment->id))->toCallbackArray(),
+            ],
         ]);
 
         $task->provision();

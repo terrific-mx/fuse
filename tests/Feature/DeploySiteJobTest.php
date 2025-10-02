@@ -1,11 +1,12 @@
 <?php
 
+use App\Callbacks\UpdateDeploymentStatus;
 use App\Jobs\DeploySite;
 use App\Models\Deployment;
 
 use Illuminate\Support\Facades\Process;
 
-it('creates a server task to deploy the site and provisions it', function () {
+it('creates a server task to deploy the site', function () {
     Process::fake();
 
     $deployment = Deployment::factory()->create();
@@ -21,6 +22,10 @@ it('creates a server task to deploy the site and provisions it', function () {
     expect($task->user)->toBe('fuse');
     expect($task->script)->not->toBeNull();
     expect($task->script)->not->toBe('');
+    expect($task->after_actions)->toContain([
+        'class' => UpdateDeploymentStatus::class,
+        'args' => ['deployment_id' => $deployment->id],
+    ]);
 
     expect($task->status)->toBe('running');
     Process::assertRan(fn () => true);
