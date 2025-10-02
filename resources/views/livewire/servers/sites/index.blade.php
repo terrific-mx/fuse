@@ -45,8 +45,6 @@ new class extends Component {
 
         <flux:input :label="__('Web folder')" wire:model="form.web_folder" required />
 
-        <flux:checkbox :label="__('Enable Zero Downtime Deployment')" wire:model="form.zero_downtime" />
-
         <flux:fieldset>
             <flux:legend>Repository</flux:legend>
 
@@ -71,7 +69,6 @@ new class extends Component {
                 <flux:table.column>{{ __('Type') }}</flux:table.column>
                 <flux:table.column>{{ __('PHP version') }}</flux:table.column>
                 <flux:table.column>{{ __('Web folder') }}</flux:table.column>
-                <flux:table.column>{{ __('Zero Downtime') }}</flux:table.column>
                 <flux:table.column>{{ __('Repository URL') }}</flux:table.column>
                 <flux:table.column>{{ __('Repository Branch') }}</flux:table.column>
                 <flux:table.column>{{ __('Deploy Key') }}</flux:table.column>
@@ -83,7 +80,6 @@ new class extends Component {
                         <flux:table.cell>{{ $site->type }}</flux:table.cell>
                         <flux:table.cell>{{ $site->php_version }}</flux:table.cell>
                         <flux:table.cell>{{ $site->web_folder }}</flux:table.cell>
-                        <flux:table.cell>{{ $site->zero_downtime ? __('Yes') : __('No') }}</flux:table.cell>
                         <flux:table.cell>{{ $site->repository_url }}</flux:table.cell>
                         <flux:table.cell>{{ $site->repository_branch }}</flux:table.cell>
                         <flux:table.cell>{{ $site->use_deploy_key ? __('Yes') : __('No') }}</flux:table.cell>

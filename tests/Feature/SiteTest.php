@@ -15,7 +15,6 @@ it('creates a site for a server', function () {
         ->set('form.php_version', '8.4')
         ->set('form.type', 'Laravel')
         ->set('form.web_folder', '/public')
-        ->set('form.zero_downtime', true)
         ->set('form.repository_url', 'git@github.com:laravel/laravel.git')
         ->set('form.repository_branch', 'main')
         ->set('form.use_deploy_key', true)
@@ -31,8 +30,16 @@ it('creates a site for a server', function () {
     expect($site->php_version)->toBe('8.4');
     expect($site->type)->toBe('Laravel');
     expect($site->web_folder)->toBe('/public');
-    expect($site->zero_downtime)->toBeTrue();
     expect($site->repository_url)->toBe('git@github.com:laravel/laravel.git');
     expect($site->repository_branch)->toBe('main');
     expect($site->use_deploy_key)->toBeTrue();
+
+    // New assertions for auto-filled attributes
+    expect($site->shared_directory)->toBe('storage');
+    expect($site->shared_files)->toBe(['.env']);
+    expect($site->writeable_directories)->toBe(['storage', 'bootstrap/cache']);
+    expect($site->script_before_deploy)->toBe('');
+    expect($site->script_after_deploy)->toBe('');
+    expect($site->script_before_activate)->toBe('');
+    expect($site->script_after_activate)->toBe('');
 });

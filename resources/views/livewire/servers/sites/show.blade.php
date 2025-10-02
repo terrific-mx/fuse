@@ -24,8 +24,6 @@ new class extends Component {
 
         <flux:input :label="__('Web folder')" value="{{ $site->web_folder }}" readonly variant="filled" />
 
-        <flux:input :label="__('Zero Downtime Deployment')" value="{{ $site->zero_downtime ? __('Yes') : __('No') }}" readonly variant="filled" />
-
         <flux:input :label="__('Repository URL')" value="{{ $site->repository_url }}" readonly variant="filled" />
 
         <flux:input :label="__('Repository Branch')" value="{{ $site->repository_branch }}" readonly variant="filled" />

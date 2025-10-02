@@ -18,10 +18,16 @@ return new class extends Migration
                 $table->string('php_version');
                 $table->string('type');
                 $table->string('web_folder')->default('/public');
-                $table->boolean('zero_downtime')->default(true);
                 $table->string('repository_url')->nullable();
                 $table->string('repository_branch')->nullable();
                 $table->boolean('use_deploy_key')->default(false);
+                $table->string('shared_directory')->default('storage');
+                $table->json('shared_files')->default(json_encode([]));
+                $table->json('writeable_directories')->default(json_encode([]));
+                $table->text('script_before_deploy')->default('');
+                $table->text('script_after_deploy')->default('');
+                $table->text('script_before_activate')->default('');
+                $table->text('script_after_activate')->default('');
                 $table->timestamps();
         });
     }

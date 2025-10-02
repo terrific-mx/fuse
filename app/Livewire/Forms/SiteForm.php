@@ -16,8 +16,6 @@ class SiteForm extends Form
 
     public string $web_folder = '/public';
 
-    public bool $zero_downtime = true;
-
     public string $repository_url = '';
 
     public string $repository_branch = '';
@@ -31,10 +29,17 @@ class SiteForm extends Form
             'php_version' => $this->php_version,
             'type' => $this->type,
             'web_folder' => $this->web_folder,
-            'zero_downtime' => $this->zero_downtime,
             'repository_url' => $this->repository_url,
             'repository_branch' => $this->repository_branch,
             'use_deploy_key' => $this->use_deploy_key,
+            // Laravel defaults for new attributes
+            'shared_directory' => 'storage',
+            'shared_files' => ['.env'],
+            'writeable_directories' => ['storage', 'bootstrap/cache'],
+            'script_before_deploy' => '',
+            'script_after_deploy' => '',
+            'script_before_activate' => '',
+            'script_after_activate' => '',
         ]);
 
         $this->reset();
