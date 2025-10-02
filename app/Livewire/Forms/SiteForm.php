@@ -27,17 +27,35 @@ class SiteForm extends Form
         $server->sites()->create([
             'hostname' => $this->hostname,
             'php_version' => $this->php_version,
-            'type' => $this->type,
-            'web_folder' => $this->web_folder,
             'repository_url' => $this->repository_url,
             'repository_branch' => $this->repository_branch,
-            'use_deploy_key' => $this->use_deploy_key,
+
             // Laravel defaults for new attributes
-            'shared_directory' => 'storage',
+            'shared_directories' => ['storage'],
             'shared_files' => ['.env'],
-            'writeable_directories' => ['storage', 'bootstrap/cache'],
+            'writeable_directories' => [
+                'bootstrap/cache',
+                'storage',
+                'storage/app',
+                'storage/app/public',
+                'storage/framework',
+                'storage/framework/cache',
+                'storage/framework/sessions',
+                'storage/framework/views',
+                'storage/logs',
+            ],
             'script_before_deploy' => '',
-            'script_after_deploy' => '',
+            'script_after_deploy' => <<<'EOT'
+                composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+                npm install --prefer-offline --no-audit
+                npm run build
+                $PHP_BINARY artisan storage:link
+                $PHP_BINARY artisan config:cache
+                $PHP_BINARY artisan route:cache
+                $PHP_BINARY artisan view:cache
+                $PHP_BINARY artisan event:cache
+                # $PHP_BINARY artisan migrate --force
+                EOT,
             'script_before_activate' => '',
             'script_after_activate' => '',
         ]);

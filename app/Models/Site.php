@@ -15,10 +15,9 @@ class Site extends Model
     protected function casts(): array
     {
         return [
-            'use_deploy_key' => 'boolean',
             'shared_files' => 'array',
             'writeable_directories' => 'array',
-            'shared_directory' => 'string',
+            'shared_directories' => 'array',
             'script_before_deploy' => 'string',
             'script_after_deploy' => 'string',
             'script_before_activate' => 'string',

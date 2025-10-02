@@ -21,11 +21,8 @@ class SiteFactory extends Factory
             'server_id' => Server::factory(),
             'hostname' => $this->faker->domainName,
             'php_version' => $this->faker->randomElement(['8.4', '8.3', '8.1']),
-            'type' => $this->faker->randomElement(['Generic', 'Laravel', 'Static', 'Wordpress']),
-            'web_folder' => '/public',
             'repository_url' => 'git@github.com:laravel/laravel.git',
             'repository_branch' => 'main',
-            'use_deploy_key' => true,
         ];
     }
 }
