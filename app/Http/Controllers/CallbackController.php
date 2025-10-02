@@ -7,13 +7,13 @@ use Illuminate\Http\JsonResponse;
 
 class CallbackController extends Controller
 {
-    public function task($id): JsonResponse
+    public function task($id)
     {
         $task = Task::findOrFail($id);
 
         $task->update(['status' => 'finished']);
 
-        foreach ($task->after_actions as $callback) {
+        foreach ($task->after_actions ?? [] as $callback) {
             if (!isset($callback['class'])) {
                 continue;
             }
@@ -22,7 +22,5 @@ class CallbackController extends Controller
 
             $instance($task);
         }
-
-        return response()->json($task);
     }
 }
