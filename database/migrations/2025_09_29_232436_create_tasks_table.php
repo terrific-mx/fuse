@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('script')->nullable();
             $table->string('status')->default('pending');
             $table->json('payload')->nullable();
-            $table->string('callback')->nullable();
+            $table->json('after_actions')->nullable();
             $table->timestamps();
         });
     }

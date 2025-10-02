@@ -16,4 +16,16 @@ class MarkServerProvisioned
 
         return $task->server;
     }
+
+    /**
+     * Get the array representation of this callback for storing in the task.
+     *
+     * @return array{class: string, args: array<int, mixed>}
+     */
+    public function toCallbackArray(): array
+    {
+        return [
+            'class' => self::class,
+        ];
+    }
 }

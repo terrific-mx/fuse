@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Callbacks\MarkServerProvisioned;
 use App\Services\OrganizationSshKeyService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -142,7 +143,9 @@ class Server extends Model
                 'maxChildrenPhpPool' => 14,
             ])->render(),
             'payload' => [],
-            'callback' => \App\Callbacks\MarkServerProvisioned::class,
+            'after_actions' => [
+                (new MarkServerProvisioned)->toCallbackArray(),
+            ],
         ]);
     }
 

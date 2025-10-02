@@ -8,6 +8,7 @@ mkdir -p {!! $site->shared_directory !!}
 mkdir -p {!! $deployment->release_directory !!}
 mkdir -p {!! $site->logs_directory !!}
 
+
 # Cleanup old releases
 DEPLOYMENT_KEEP="{{ $site->latestFinishedDeployment ? $site->latestFinishedDeployment->created_at->timestamp : 'none' }}"
 

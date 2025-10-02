@@ -13,10 +13,14 @@ class CallbackController extends Controller
 
         $task->update(['status' => 'finished']);
 
-        if ($task->callback && class_exists($task->callback)) {
-            $callback = app($task->callback);
+        foreach ($task->after_actions as $callback) {
+            if (!isset($callback['class'])) {
+                continue;
+            }
 
-            $callback($task);
+            $instance = app()->makeWith($callback['class'], $callback['args'] ?? []);
+
+            $instance($task);
         }
 
         return response()->json($task);

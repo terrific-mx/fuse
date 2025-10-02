@@ -19,9 +19,9 @@ class TaskFactory extends Factory
     {
         return [
             'server_id' => Server::factory(),
-            'callback' => 'test-callback',
             'payload' => [],
             'status' => 'pending',
+            'after_actions' => [],
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Callbacks\MarkServerProvisioned;
 use App\Models\Server;
 use App\Models\Task;
 use Illuminate\Support\Facades\Process;
@@ -12,7 +13,9 @@ it('runs the correct process commands and updates status when provisioning a tas
         'name' => 'provision',
         'user' => 'root',
         'script' => 'provision.sh',
-        'callback' => App\Callbacks\MarkServerProvisioned::class,
+        'after_actions' => [
+            (new MarkServerProvisioned)->toCallbackArray(),
+        ],
         'status' => 'pending',
     ]);
 

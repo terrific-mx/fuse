@@ -1,5 +1,6 @@
 <?php
 
+use App\Callbacks\MarkServerProvisioned;
 use App\Models\Server;
 use App\Models\Task;
 
@@ -10,7 +11,9 @@ it('returns a task via callback route', function () {
     $task = Task::factory()->create([
         'server_id' => $server->id,
         'status' => 'pending',
-        'callback' => \App\Callbacks\MarkServerProvisioned::class,
+        'after_actions' => [
+            (new MarkServerProvisioned)->toCallbackArray(),
+        ],
     ]);
 
     $response = get("/callback/task/{$task->id}");
