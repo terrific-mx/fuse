@@ -25,7 +25,11 @@ class DeploySite implements ShouldQueue
         $server->tasks()->create([
             'name' => 'deploy',
             'status' => 'pending',
-            // Add other required fields if needed (user, script, etc.)
+            'user' => 'fuse',
+            'script' => view('scripts.site.deploy', [
+                'server' => $server,
+                'deployment' => $this->deployment,
+            ])->render(),
         ]);
     }
 }

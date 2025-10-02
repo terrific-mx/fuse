@@ -17,4 +17,9 @@ it('creates a server task to deploy the site', function () {
     expect($task)->not->toBeNull();
     expect($task->status)->toBe('pending');
     expect($task->name)->toBe('deploy');
+    expect($task->user)->toBe('fuse');
+    expect($task->script)->not->toBeNull();
+    expect($task->script)->not->toBe('');
+    expect($task->script)->toContain('# Site Deployment Script');
+    expect($task->script)->toContain('Starting site deployment...');
 });
