@@ -4,7 +4,7 @@ use App\Jobs\InstallCaddyFileJob;
 use App\Models\Site;
 use Illuminate\Support\Facades\Process;
 
-it('creates a server task to install the Caddy file for the site', function () {
+it('creates server tasks to install the Caddy file and update Caddy sites for the site', function () {
     Process::fake();
 
     $site = Site::factory()->create();
@@ -12,14 +12,21 @@ it('creates a server task to install the Caddy file for the site', function () {
 
     (new InstallCaddyFileJob($site))->handle();
 
-    expect($server->tasks)->toHaveCount(1);
+    expect($server->tasks)->toHaveCount(2);
 
-    $task = $server->tasks->first();
-    expect($task->name)->toBe('install_caddy_file');
-    expect($task->user)->toBe('fuse');
-    expect($task->script)->not->toBeNull();
-    expect($task->script)->not->toBe('');
+    $installTask = $server->tasks->firstWhere('name', 'install_caddy_file');
+    expect($installTask)->not->toBeNull();
+    expect($installTask->user)->toBe('fuse');
+    expect($installTask->script)->not->toBeNull();
+    expect($installTask->script)->not->toBe('');
+    expect($installTask->status)->toBe('running');
 
-    expect($task->status)->toBe('running');
+    $updateTask = $server->tasks->firstWhere('name', 'update_caddy_sites');
+    expect($updateTask)->not->toBeNull();
+    expect($updateTask->user)->toBe('root');
+    expect($updateTask->script)->not->toBeNull();
+    expect($updateTask->script)->not->toBe('');
+    expect($updateTask->status)->toBe('running');
+
     Process::assertRan(fn () => true);
 });

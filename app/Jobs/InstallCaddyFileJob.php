@@ -33,5 +33,13 @@ class InstallCaddyFileJob implements ShouldQueue
                 'tempCaddyfilePath' => Str::of($this->site->caddyfile_path)->append('.' . Str::random(16)),
             ])->render(),
         ])->provision();
+
+        $server->tasks()->create([
+            'name' => 'update_caddy_sites',
+            'user' => 'root',
+            'script' => view('scripts.site.update-caddy-sites', [
+                'sites' => $server->sites,
+            ])->render(),
+        ])->provision();
     }
 }
