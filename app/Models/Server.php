@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use App\Jobs\ProvisionServer;
 use App\Services\OrganizationSshKeyService;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Server extends Model
 {
@@ -124,7 +123,14 @@ class Server extends Model
         return $this->tasks()->create([
             'name' => 'provision',
             'user' => 'root',
-            'script' => 'echo "Provisioning..."',
+            'script' => view('scripts.server.provision', [
+                'swapInMegabytes' => 2048,
+                'swappiness' => 50,
+                'server' => $this,
+                'sshKeys' => collect([]),
+                'mysqlMaxConnections' => 400,
+                'maxChildrenPhpPool' => 14,
+            ])->render(),
             'payload' => [],
             'callback' => \App\Callbacks\MarkServerProvisioned::class,
         ]);

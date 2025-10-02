@@ -89,7 +89,7 @@ class User extends Authenticatable
      */
     public function currentOrganization()
     {
-        if (is_null($this->current_organization_id)) {
+        if (is_null($this->current_organization_id ?? null)) {
             $this->assignPersonalOrganizationAsCurrent();
 
             $this->fresh();

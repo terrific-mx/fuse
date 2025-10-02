@@ -71,15 +71,17 @@ new class extends Component {
             <flux:table.columns>
                 <flux:table.column>{{ __('Server Name') }}</flux:table.column>
                 <flux:table.column>{{ __('IP Address') }}</flux:table.column>
-                <flux:table.column>{{ __('Created At') }}</flux:table.column>
-            </flux:table.columns>
+                 <flux:table.column>{{ __('Created At') }}</flux:table.column>
+                 <flux:table.column>{{ __('Status') }}</flux:table.column>
+             </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->servers as $server)
                     <flux:table.row :key="$server->id">
                         <flux:table.cell><flux:link :href="route('servers.show', $server)" wire:navigate>{{ $server->name }}</flux:link></flux:table.cell>
                         <flux:table.cell>{{ $server->ip_address }}</flux:table.cell>
-                        <flux:table.cell>{{ $server->created_at->format('Y-m-d H:i') }}</flux:table.cell>
-                    </flux:table.row>
+                         <flux:table.cell>{{ $server->created_at->format('Y-m-d H:i') }}</flux:table.cell>
+                         <flux:table.cell>{{ __($server->status) }}</flux:table.cell>
+                     </flux:table.row>
                 @endforeach
             </flux:table.rows>
         </flux:table>
