@@ -27,7 +27,6 @@ class Site extends Model
             'script_after_deploy' => 'string',
             'script_before_activate' => 'string',
             'script_after_activate' => 'string',
-            'installed_at' => 'datetime',
             'caddy_installed_at' => 'datetime',
         ];
     }
