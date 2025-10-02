@@ -22,7 +22,7 @@ class DeploySite implements ShouldQueue
     {
         $server = $this->deployment->site->server;
 
-        $server->tasks()->create([
+        $task = $server->tasks()->create([
             'name' => 'deploy',
             'status' => 'pending',
             'user' => 'fuse',
@@ -31,5 +31,7 @@ class DeploySite implements ShouldQueue
                 'deployment' => $this->deployment,
             ])->render(),
         ]);
+
+        $task->provision();
     }
 }
