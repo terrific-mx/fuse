@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Model::preventAccessingMissingAttributes(! $this->app->isProduction());
+        Model::shouldBeStrict(! app()->isProduction());
 
         Cashier::useCustomerModel(Organization::class);
     }

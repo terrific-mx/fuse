@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('status')->default('pending');
-            $table->string('ip_address')->nullable();
+            $table->string('ip_address');
+            $table->string('sudo_password');
+            $table->string('database_password');
             $table->timestamps();
         });
     }

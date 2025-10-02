@@ -13,12 +13,12 @@ apt-get install -y caddy=2.*
 echo "Install default Caddyfile"
 
 cat > /etc/caddy/Sites.caddy << EOF
-# import /home/{{ $server->username }}/example.com/Caddyfile
+# import /home/fuse/example.com/Caddyfile
 EOF
 
 cat > /etc/caddy/Caddyfile << EOF
-{!! $server->public_address !!}:80 {
-    root * /home/{!! $server->username !!}/default
+{!! $server->ip_address !!}:80 {
+    root * /home/fuse/default
     file_server
 }
 
@@ -33,12 +33,12 @@ mkdir -p /etc/systemd/system/caddy.service.d
 
 cat > /etc/systemd/system/caddy.service.d/override.conf << EOF
 [Service]
-User={!! $server->username !!}
-Group={!! $server->username !!}
+User=fuse
+Group=fuse
 
 EOF
 
 systemctl daemon-reload
 service caddy start
 
-echo "{!! $server->username !!} ALL=(root) NOPASSWD: /usr/sbin/service caddy reload" >> /etc/sudoers.d/caddy
+echo "fuse ALL=(root) NOPASSWD: /usr/sbin/service caddy reload" >> /etc/sudoers.d/caddy

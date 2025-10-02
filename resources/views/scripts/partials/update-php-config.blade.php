@@ -19,10 +19,10 @@ sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/{{ $version }}/fpm/p
 echo "Update PHP FPM pool config"
 
 sed -i "s/;request_terminate_timeout.*/request_terminate_timeout = 60/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
-sed -i "s/^user = www-data/user = {!! $server->username !!}/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
-sed -i "s/^group = www-data/group = {!! $server->username !!}/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
-sed -i "s/;listen\.owner.*/listen.owner = {!! $server->username !!}/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
-sed -i "s/;listen\.group.*/listen.group = {!! $server->username !!}/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
+sed -i "s/^user = www-data/user = fuse/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
+sed -i "s/^group = www-data/group = fuse/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
+sed -i "s/;listen\.owner.*/listen.owner = fuse/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
+sed -i "s/;listen\.group.*/listen.group = fuse/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
 sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
 sed -i "s/^pm.max_children.*=.*/pm.max_children = {{ $maxChildrenPhpPool }}/" /etc/php/{{ $version }}/fpm/pool.d/www.conf
 

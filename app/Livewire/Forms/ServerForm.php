@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Jobs\ProvisionServer;
 use App\Models\Organization;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -37,6 +38,8 @@ class ServerForm extends Form
         $server = $this->organization->servers()->create([
             'name' => $this->name,
             'ip_address' => $this->ip_address,
+            'database_password' => Str::random(40),
+            'sudo_password' => Str::random(40),
         ]);
 
         ProvisionServer::dispatch($server);

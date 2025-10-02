@@ -24,7 +24,10 @@ class Server extends Model
      */
     protected function casts(): array
     {
-        return [];
+        return [
+            'sudo_password' => 'encrypted',
+            'database_password' => 'encrypted',
+        ];
     }
 
     /**

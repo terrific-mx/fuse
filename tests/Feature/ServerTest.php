@@ -25,6 +25,8 @@ it('creates a server for the user\'s current organization', function () {
 
     expect($server->name)->toBe('Test Server');
     expect($server->ip_address)->toBe('192.0.2.1');
+    expect($server->sudo_password)->not->toBeEmpty();
+    expect($server->database_password)->not->toBeEmpty();
 
     Queue::assertPushed(ProvisionServer::class, function ($job) use ($server) {
         expect($job->server->is($server))->toBeTrue();

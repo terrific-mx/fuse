@@ -38,19 +38,19 @@ else
   echo "bind-address = *" >> /etc/mysql/mysql.conf.d/mysqld.cnf
 fi
 
-mysql --user="root" --password="{{ $server->database_password }}" -e "CREATE USER 'root'@'{{ $server->public_address }}' IDENTIFIED BY '{{ $server->database_password }}';"
+mysql --user="root" --password="{{ $server->database_password }}" -e "CREATE USER 'root'@'{{ $server->ip_address }}' IDENTIFIED BY '{{ $server->database_password }}';"
 mysql --user="root" --password="{{ $server->database_password }}" -e "CREATE USER 'root'@'%' IDENTIFIED BY '{{ $server->database_password }}';"
-mysql --user="root" --password="{{ $server->database_password }}" -e "GRANT ALL PRIVILEGES ON *.* TO root@'{{ $server->public_address }}' WITH GRANT OPTION;"
+mysql --user="root" --password="{{ $server->database_password }}" -e "GRANT ALL PRIVILEGES ON *.* TO root@'{{ $server->ip_address }}' WITH GRANT OPTION;"
 mysql --user="root" --password="{{ $server->database_password }}" -e "GRANT ALL PRIVILEGES ON *.* TO root@'%' WITH GRANT OPTION;"
 service mysql restart
 
-mysql --user="root" --password="{{ $server->database_password }}" -e "CREATE USER '{{ $server->username }}'@'{{ $server->public_address }}' IDENTIFIED BY '{{ $server->database_password }}';"
-mysql --user="root" --password="{{ $server->database_password }}" -e "CREATE USER '{{ $server->username }}'@'%' IDENTIFIED BY '{{ $server->database_password }}';"
-mysql --user="root" --password="{{ $server->database_password }}" -e "GRANT ALL PRIVILEGES ON *.* TO '{{ $server->username }}'@'{{ $server->public_address }}' WITH GRANT OPTION;"
-mysql --user="root" --password="{{ $server->database_password }}" -e "GRANT ALL PRIVILEGES ON *.* TO '{{ $server->username }}'@'%' WITH GRANT OPTION;"
+mysql --user="root" --password="{{ $server->database_password }}" -e "CREATE USER 'fuse'@'{{ $server->ip_address }}' IDENTIFIED BY '{{ $server->database_password }}';"
+mysql --user="root" --password="{{ $server->database_password }}" -e "CREATE USER 'fuse'@'%' IDENTIFIED BY '{{ $server->database_password }}';"
+mysql --user="root" --password="{{ $server->database_password }}" -e "GRANT ALL PRIVILEGES ON *.* TO 'fuse'@'{{ $server->ip_address }}' WITH GRANT OPTION;"
+mysql --user="root" --password="{{ $server->database_password }}" -e "GRANT ALL PRIVILEGES ON *.* TO 'fuse'@'%' WITH GRANT OPTION;"
 mysql --user="root" --password="{{ $server->database_password }}" -e "FLUSH PRIVILEGES;"
 
-mysql --user="root" --password="{{ $server->database_password }}" -e "CREATE DATABASE {{ $server->username }} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+mysql --user="root" --password="{{ $server->database_password }}" -e "CREATE DATABASE fuse CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
 
 service mysql restart
 

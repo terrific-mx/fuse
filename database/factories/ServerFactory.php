@@ -21,6 +21,9 @@ class ServerFactory extends Factory
             'organization_id' => Organization::factory(),
             'name' => $this->faker->word(),
             'status' => 'pending',
+            'ip_address' => $this->faker->ipv4(),
+            'sudo_password' => $this->faker->password(),
+            'database_password' => $this->faker->password(),
         ];
     }
 }

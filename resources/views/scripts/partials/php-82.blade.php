@@ -55,4 +55,4 @@ yes '' | apt-get install php8.2-redis
 
 service php8.2-fpm restart > /dev/null 2>&1
 
-echo "{!! $server->username !!} ALL=NOPASSWD: /usr/sbin/service php8.2-fpm reload" >> /etc/sudoers.d/php-fpm
+echo "fuse ALL=NOPASSWD: /usr/sbin/service php8.2-fpm reload" >> /etc/sudoers.d/php-fpm

@@ -3,14 +3,14 @@ echo "Download and install Composer dependency manager"
 curl -sS https://getcomposer.org/installer | php -- --2
 mv composer.phar /usr/local/bin/composer
 
-echo "{!! $server->username !!} ALL=(root) NOPASSWD: /usr/local/bin/composer self-update*" > /etc/sudoers.d/composer
+echo "fuse ALL=(root) NOPASSWD: /usr/local/bin/composer self-update*" > /etc/sudoers.d/composer
 
 # Create default auth.json
 
-mkdir -p /home/{!! $server->username !!}/.config/composer
-touch /home/{!! $server->username !!}/.config/composer/auth.json
+mkdir -p /home/fuse/.config/composer
+touch /home/fuse/.config/composer/auth.json
 
-cat > /home/{!! $server->username !!}/.config/composer/auth.json << 'EOF'
+cat > /home/fuse/.config/composer/auth.json << 'EOF'
 {
   "bearer": {},
   "bitbucket-oauth": {},
@@ -21,5 +21,5 @@ cat > /home/{!! $server->username !!}/.config/composer/auth.json << 'EOF'
 }
 EOF
 
-chown -R {!! $server->username !!}:{!! $server->username !!} /home/{!! $server->username !!}/.config/composer
-chmod 600 /home/{!! $server->username !!}/.config/composer/auth.json
+chown -R fuse:fuse /home/fuse/.config/composer
+chmod 600 /home/fuse/.config/composer/auth.json
