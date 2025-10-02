@@ -141,4 +141,52 @@ class Site extends Model
             }
         );
     }
+
+    /**
+     * Check if the site hostname starts with 'www.'
+     */
+    public function hasWwwSubdomain(): bool
+    {
+        return str_starts_with($this->hostname, 'www.');
+    }
+
+    /**
+     * Get the Caddyfile path for the site.
+     */
+    protected function caddyfilePath(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => "{$this->path}/Caddyfile"
+        );
+    }
+
+    /**
+     * Get the web directory path for the site.
+     */
+    protected function webDirectoryPath(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => "{$this->path}/current/public"
+        );
+    }
+
+    /**
+     * Get the PHP socket path for the site based on its PHP version.
+     */
+    protected function phpSocketPath(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => "/run/php/php{$this->php_version}-fpm.sock"
+        );
+    }
+
+    /**
+     * Get the site port (hardcoded to 443).
+     */
+    protected function port(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => 443
+        );
+    }
 }
