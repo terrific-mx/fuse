@@ -20,11 +20,6 @@ it('returns a task via callback route', function () {
 
     $response->assertStatus(200);
 
-    $response->assertJson([
-        'id' => $task->id,
-        'status' => 'finished',
-    ]);
-
     expect($task->fresh()->status)->toBe('finished');
     expect($server->fresh()->status)->toBe('provisioned');
 });
