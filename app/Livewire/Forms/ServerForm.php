@@ -5,6 +5,7 @@ namespace App\Livewire\Forms;
 use App\Jobs\ProvisionServer;
 use App\Models\Organization;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -27,7 +28,7 @@ class ServerForm extends Form
             'name' => ['required', 'string', 'max:255'],
             'ip_address' => ['required', 'ipv4'],
             'ssh_keys' => ['array'],
-            'ssh_keys.*' => ['exists:ssh_keys,id'],
+            'ssh_keys.*' => [Rule::exists('ssh_keys', 'id')->where(fn ($q) => $q->where('organization_id', $this->organization->id))],
         ];
     }
 

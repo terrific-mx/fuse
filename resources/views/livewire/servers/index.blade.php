@@ -51,12 +51,17 @@ new class extends Component {
         />
     </div>
     <form wire:submit="save" class="space-y-6">
-        <label class="block text-sm font-medium text-gray-700">{{ __('SSH Keys') }}</label>
-<select wire:model="form.ssh_keys" multiple class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-    @foreach ($this->organization->sshKeys as $key)
-        <option value="{{ $key->id }}">{{ $key->name }}</option>
-    @endforeach
-</select>
+        <flux:pillbox 
+            wire:model="form.ssh_keys"
+            multiple
+            searchable
+            label="{{ __('SSH Keys') }}"
+            placeholder="{{ __('Select SSH keys...') }}"
+        >
+            @foreach ($this->organization->sshKeys as $key)
+                <flux:pillbox.option value="{{ $key->id }}">{{ $key->name }}</flux:pillbox.option>
+            @endforeach
+        </flux:pillbox>
         <flux:input
             label="{{ __('Server Name') }}"
             wire:model="form.name"

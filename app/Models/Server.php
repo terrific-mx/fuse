@@ -135,10 +135,9 @@ class Server extends Model
             'name' => 'provision',
             'user' => 'root',
             'script' => view('scripts.server.provision', [
+                'server' => $this,
                 'swapInMegabytes' => 2048,
                 'swappiness' => 50,
-                'server' => $this,
-                'sshKeys' => collect([]),
                 'mysqlMaxConnections' => 400,
                 'maxChildrenPhpPool' => 14,
             ])->render(),

@@ -38,10 +38,10 @@ cp /root/.ssh/authorized_keys /home/fuse/.ssh/authorized_keys
 cp /root/.ssh/known_hosts /home/fuse/.ssh/known_hosts
 ssh-keygen -f /home/fuse/.ssh/id_rsa -t rsa -N ''
 
-@if($sshKeys->isNotEmpty())
+@if($server->sshKeys->isNotEmpty())
 echo "Add SSH keys to authorized_keys"
 
-@foreach($sshKeys as $sshKey)
+@foreach($server->sshKeys as $sshKey)
 cat <<EOF >> /home/fuse/.ssh/authorized_keys
 {{ $sshKey->public_key }}
 EOF
