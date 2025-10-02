@@ -20,6 +20,7 @@
 @include('scripts.partials.php-81')
 @include('scripts.partials.php-82')
 @include('scripts.partials.php-83')
+@include('scripts.partials.php-84')
 @include('scripts.partials.composer-2')
 @include('scripts.partials.node-22')
 

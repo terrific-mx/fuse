@@ -1,0 +1,58 @@
+@include('scripts.partials.apt-functions')
+
+echo "Install PHP 8.4"
+
+waitForAptUnlock
+apt-add-repository ppa:ondrej/php -y
+apt-get update
+waitForAptUnlock
+
+# confdef: If a conffile has been modified and the version in the package did change,
+# always choose the default action without prompting. If there is no default action
+# it will stop to ask the user unless --force-confnew or --force-confold is also
+# been given, in which case it will use that to decide the final action.
+
+# confold: If a conffile has been modified and the version in the package did change,
+# always keep the old version without prompting, unless the --force-confdef is also
+# specified, in which case the default action is preferred.
+
+apt-get install -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y --force-yes \
+    php8.4-bcmath \
+    php8.4-cli \
+    php8.4-curl \
+    php8.4-dev \
+    php8.4-fpm \
+    php8.4-gd \
+    php8.4-gmp \
+    php8.4-igbinary \
+    php8.4-imap \
+    php8.4-intl \
+    php8.4-mbstring \
+    php8.4-memcached \
+    php8.4-msgpack \
+    php8.4-mysql \
+    php8.4-pgsql \
+    php8.4-readline \
+    php8.4-soap \
+    php8.4-sqlite3 \
+    php8.4-swoole \
+    php8.4-tokenizer \
+    php8.4-xml \
+    php8.4-zip
+
+echo "Install Imagick for PHP 8.4"
+
+waitForAptUnlock
+echo "extension=imagick.so" > /etc/php/8.4/mods-available/imagick.ini
+yes '' | apt-get install php8.4-imagick
+
+echo "Install Redis for PHP 8.4"
+
+waitForAptUnlock
+yes '' | apt-get install php8.4-redis
+
+@include('scripts.partials.update-php-config', ['version' => '8.4'])
+
+service php8.4-fpm restart > /dev/null 2>&1
+
+echo "fuse ALL=NOPASSWD: /usr/sbin/service php8.4-fpm reload" >> /etc/sudoers.d/php-fpm
