@@ -18,4 +18,14 @@ class Deployment extends Model
             'status' => 'string',
         ];
     }
+
+    public function site()
+    {
+        return $this->belongsTo(Site::class);
+    }
+
+    public function triggeredBy()
+    {
+        return $this->belongsTo(User::class, 'triggered_by');
+    }
 }

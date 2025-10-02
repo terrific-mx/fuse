@@ -56,4 +56,11 @@ it('creates a site for a server', function () {
         EOT);
     expect($site->script_before_activate)->toBe('');
     expect($site->script_after_activate)->toBe('');
+
+    // Assert an initial deployment is created for the site
+    expect($site->deployments)->toHaveCount(1);
+    $deployment = $site->deployments()->first();
+    expect($deployment->site->is($site))->toBeTrue();
+    expect($deployment->status)->toBe('pending');
+    expect($deployment->triggeredBy->is($server->organization->user))->toBeTrue();
 });

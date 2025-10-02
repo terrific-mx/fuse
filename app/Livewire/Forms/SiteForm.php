@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Site;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -24,7 +25,7 @@ class SiteForm extends Form
 
     public function store($server): void
     {
-        $server->sites()->create([
+        $site = $server->sites()->create([
             'hostname' => $this->hostname,
             'php_version' => $this->php_version,
             'repository_url' => $this->repository_url,
@@ -58,6 +59,12 @@ class SiteForm extends Form
                 EOT,
             'script_before_activate' => '',
             'script_after_activate' => '',
+        ]);
+
+        // Create initial deployment for the site
+        $site->deployments()->create([
+            'status' => 'pending',
+            'triggered_by' => Auth::id(),
         ]);
 
         $this->reset();
