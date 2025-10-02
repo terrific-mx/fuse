@@ -20,6 +20,12 @@ class DeploySite implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        $server = $this->deployment->site->server;
+
+        $server->tasks()->create([
+            'name' => 'deploy',
+            'status' => 'pending',
+            // Add other required fields if needed (user, script, etc.)
+        ]);
     }
 }
