@@ -20,11 +20,12 @@ return new class extends Migration
                 $table->string('repository_branch')->nullable();
                 $table->json('shared_directories')->default(json_encode([]));
                 $table->json('shared_files')->default(json_encode([]));
-                $table->json('writeable_directories')->default(json_encode([]));
+                $table->json('writable_directories')->default(json_encode([]));
                 $table->text('script_before_deploy')->default('');
                 $table->text('script_after_deploy')->default('');
                 $table->text('script_before_activate')->default('');
                 $table->text('script_after_activate')->default('');
+                $table->timestamp('installed_at')->nullable();
                 $table->timestamps();
         });
     }

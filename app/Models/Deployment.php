@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,5 +28,15 @@ class Deployment extends Model
     public function triggeredBy()
     {
         return $this->belongsTo(User::class, 'triggered_by');
+    }
+
+    /**
+     * Get the release directory for this deployment.
+     */
+    protected function releaseDirectory(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => "{$this->site->releases_directory}/{$this->created_at->timestamp}"
+        );
     }
 }

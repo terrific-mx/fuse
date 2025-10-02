@@ -34,7 +34,7 @@ it('creates a site for a server', function () {
     // New assertions for auto-filled attributes
     expect($site->shared_directories)->toBe(['storage']);
     expect($site->shared_files)->toBe(['.env']);
-    expect($site->writeable_directories)->toBe([
+    expect($site->writable_directories)->toBe([
         'bootstrap/cache',
         'storage',
         'storage/app',

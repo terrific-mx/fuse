@@ -33,7 +33,7 @@ class SiteForm extends Form
             // Laravel defaults for new attributes
             'shared_directories' => ['storage'],
             'shared_files' => ['.env'],
-            'writeable_directories' => [
+            'writable_directories' => [
                 'bootstrap/cache',
                 'storage',
                 'storage/app',

@@ -28,6 +28,7 @@ class DeploySite implements ShouldQueue
             'user' => 'fuse',
             'script' => view('scripts.site.deploy', [
                 'server' => $server,
+                'site' => $this->deployment->site,
                 'deployment' => $this->deployment,
             ])->render(),
         ]);
