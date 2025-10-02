@@ -13,11 +13,13 @@ new class extends Component {
     <section class="space-y-6">
         <flux:heading size="lg">{{ __('Server Overview') }}</flux:heading>
 
-        <flux:input :label="__('Name')" value="{{ $server->name }}" readonly variant="filled" />
+        <flux:input :label="__('Name')" value="{{ $server->name }}" variant="filled" readonly />
 
-        <flux:input :label="__('Ip Address')" value="{{ $server->ip_address }}" readonly variant="filled" />
+        <flux:input :label="__('Ip Address')" value="{{ $server->ip_address }}" variant="filled" readonly />
 
-        <flux:input :label="__('Provider')" value="{{ $server->provider->name }} ({{ $server->provider->type }})" readonly variant="filled" />
+        <flux:input :label="__('Sudo Password')" value="{{ $server->sudo_password }}" type="password" variant="filled" readonly viewable copyable />
+
+        <flux:input :label="__('Database Password')" value="{{ $server->database_password }}" type="password" variant="filled" readonly viewable copyable />
     </section>
 
     <flux:separator class="my-12" />
