@@ -54,7 +54,7 @@ new class extends Component {
         </div>
         <flux:modal.trigger name="add-server">
             <flux:button variant="primary">
-                {{ __('Add Server') }}
+                {{ __('Add server') }}
             </flux:button>
         </flux:modal.trigger>
     </header>
@@ -62,14 +62,14 @@ new class extends Component {
     <flux:modal name="add-server" variant="flyout" class="max-w-md">
         <form wire:submit="save" class="space-y-6">
             <div>
-                <flux:heading size="lg">{{ __('Add Server') }}</flux:heading>
+                <flux:heading size="lg">{{ __('Add server') }}</flux:heading>
                 <flux:text class="mt-2 max-w-prose">
                     {{ __('Provide a name, IP address, and select SSH keys for this server.') }}
                 </flux:text>
             </div>
 
             <flux:callout icon="information-circle" variant="secondary">
-                <flux:callout.heading>{{ __('Organization SSH Key Required') }}</flux:callout.heading>
+                <flux:callout.heading>{{ __('Organization SSH key required') }}</flux:callout.heading>
                 <flux:callout.text>{{ __('To provision your server, ensure the organization SSH public key is installed on the server you create with your cloud provider.') }}</flux:callout.text>
                 <x-slot name="actions">
                     <flux:input
@@ -82,21 +82,25 @@ new class extends Component {
             </flux:callout>
 
             <flux:input
-                label="{{ __('Server Name') }}"
+                label="{{ __('Name') }}"
+                description="{{ __('A label to identify this server.') }}"
                 wire:model="form.name"
                 required
             />
+
             <flux:input
-                label="{{ __('Server IP Address') }}"
+                label="{{ __('IP address') }}"
+                description="{{ __('The public IP address of your server.') }}"
                 wire:model="form.ip_address"
                 required
             />
+
             <flux:pillbox
                 wire:model="form.ssh_keys"
                 multiple
                 searchable
-                label="{{ __('SSH Keys') }}"
-                placeholder="{{ __('Select SSH keys...') }}"
+                label="{{ __('SSH keys') }}"
+                description="{{ __('Select one or more SSH keys to install on this server.') }}"
             >
                 @foreach ($this->organization->sshKeys as $key)
                     <flux:pillbox.option value="{{ $key->id }}">{{ $key->name }}</flux:pillbox.option>
@@ -105,7 +109,7 @@ new class extends Component {
             <div class="flex">
                 <flux:spacer />
                 <flux:button type="submit" variant="primary">
-                    {{ __('Add Server') }}
+                    {{ __('Add server') }}
                 </flux:button>
             </div>
         </form>
@@ -114,9 +118,9 @@ new class extends Component {
     <div class="mt-10">
         <flux:table :paginate="$this->servers">
             <flux:table.columns>
-                <flux:table.column>{{ __('Server Name') }}</flux:table.column>
+                <flux:table.column>{{ __('Server name') }}</flux:table.column>
                 <flux:table.column>{{ __('IP Address') }}</flux:table.column>
-                 <flux:table.column>{{ __('Created At') }}</flux:table.column>
+                 <flux:table.column>{{ __('Created at') }}</flux:table.column>
                  <flux:table.column>{{ __('Status') }}</flux:table.column>
              </flux:table.columns>
             <flux:table.rows>
