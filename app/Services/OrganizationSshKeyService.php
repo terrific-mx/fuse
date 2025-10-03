@@ -20,7 +20,7 @@ class OrganizationSshKeyService
         $privateKeyPath = $this->privateKeyPath($organization);
         $publicKeyPath = $this->publicKeyPath($organization);
 
-        $this->generateSshKeyPair($organization, $privateKeyPath);
+        $this->generateSshKeyPair($privateKeyPath);
 
         $privateKey = file_get_contents($privateKeyPath);
         $publicKey = file_get_contents($publicKeyPath);
@@ -91,7 +91,7 @@ class OrganizationSshKeyService
      *
      * @throws \RuntimeException
      */
-    private function generateSshKeyPair(Organization $organization, string $privateKeyPath): void
+    private function generateSshKeyPair(string $privateKeyPath): void
     {
         $process = Process::run(
             "ssh-keygen -t ed25519 -N '' -f {$privateKeyPath} -C 'robot@terrific.com.mx'"
