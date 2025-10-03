@@ -6,6 +6,7 @@ use App\Services\OrganizationSshKeyService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
 class Task extends Model
@@ -69,6 +70,7 @@ class Task extends Model
                 'task' => $this,
                 'path' => $path,
                 'token' => Str::random(20),
+                'signedUrl' => URL::signedRoute('task.callback', ['task' => $this]),
             ])->render(),
         ]);
     }

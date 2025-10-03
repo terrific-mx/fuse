@@ -17,4 +17,4 @@ bash {!! $path !!}
 
 STATUS=$?
 
-curl --insecure {!! url('/callback/task/' . $task->id) !!}?exit_code=$STATUS > /dev/null 2>&1
+curl --insecure "{!! $signedUrl !!}&exit_code=$STATUS" > /dev/null 2>&1

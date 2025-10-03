@@ -10,7 +10,7 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/callback/task/{id}', [CallbackController::class, 'task']);
+Route::get('/task/{task}/callback', [CallbackController::class, 'task'])->name('task.callback');
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
     Route::redirect('/dashboard', '/servers')->name('dashboard');
