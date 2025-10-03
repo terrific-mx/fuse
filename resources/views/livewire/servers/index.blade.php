@@ -68,6 +68,11 @@ new class extends Component {
                 </flux:text>
             </div>
 
+            <flux:callout icon="exclamation-triangle" variant="warning">
+                <flux:callout.heading>{{ __('Important: Ubuntu 24.04 required') }}</flux:callout.heading>
+                <flux:callout.text>{{ __('Please ensure your server is provisioned with Ubuntu version 24.04 for compatibility.') }}</flux:callout.text>
+            </flux:callout>
+
             <flux:callout icon="information-circle" variant="secondary">
                 <flux:callout.heading>{{ __('Organization SSH key required') }}</flux:callout.heading>
                 <flux:callout.text>{{ __('To provision your server, ensure the organization SSH public key is installed on the server you create with your cloud provider.') }}</flux:callout.text>
@@ -120,16 +125,16 @@ new class extends Component {
             <flux:table.columns>
                 <flux:table.column>{{ __('Server name') }}</flux:table.column>
                 <flux:table.column>{{ __('IP Address') }}</flux:table.column>
-                 <flux:table.column>{{ __('Created at') }}</flux:table.column>
-                 <flux:table.column>{{ __('Status') }}</flux:table.column>
+                <flux:table.column>{{ __('Created at') }}</flux:table.column>
+                <flux:table.column align="end">{{ __('Status') }}</flux:table.column>
              </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->servers as $server)
                     <flux:table.row :key="$server->id">
                         <flux:table.cell><flux:link :href="route('servers.show', $server)" wire:navigate>{{ $server->name }}</flux:link></flux:table.cell>
                         <flux:table.cell>{{ $server->ip_address }}</flux:table.cell>
-                         <flux:table.cell>{{ $server->created_at->format('Y-m-d H:i') }}</flux:table.cell>
-                         <flux:table.cell>{{ __($server->status) }}</flux:table.cell>
+                        <flux:table.cell>{{ $server->created_at->format('Y-m-d H:i') }}</flux:table.cell>
+                        <flux:table.cell align="end">{{ __($server->status) }}</flux:table.cell>
                      </flux:table.row>
                 @endforeach
             </flux:table.rows>
