@@ -8,8 +8,8 @@
             <livewire:organizations-dropdown />
 
             <flux:sidebar.nav>
-                <flux:sidebar.item :href="route('servers.index')" wire:navigate>{{ __('Servers') }}</flux:sidebar.item>
-                <flux:sidebar.item :href="route('ssh-keys')" wire:navigate>{{ __('SSH Keys') }}</flux:sidebar.item>
+                <flux:sidebar.item :href="route('servers.index')" icon="server-stack" wire:navigate>{{ __('Servers') }}</flux:sidebar.item>
+                <flux:sidebar.item :href="route('ssh-keys')" icon="key" wire:navigate>{{ __('SSH keys') }}</flux:sidebar.item>
             </flux:sidebar.nav>
 
             @can('update', auth()->user()->currentOrganization)

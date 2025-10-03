@@ -36,46 +36,80 @@ new class extends Component {
     }
 }; ?>
 
+<x-slot:breadcrumbs>
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item>{{ __('Servers') }}</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+</x-slot:breadcrumbs>
+
 <div>
-    <flux:callout icon="information-circle" variant="secondary">
-        <flux:callout.heading>{{ __('Organization SSH Key Required') }}</flux:callout.heading>
-        <flux:callout.text>{{ __('To provision your server, ensure the organization SSH public key is installed on the server you create with your cloud provider.') }}</flux:callout.text>
-    </flux:callout>
-    <div class="my-6">
-        <flux:input
-            icon="key"
-            label="{{ __('Organization SSH Public Key') }}"
-            value="{{ $this->organization->ssh_public_key }}"
-            readonly
-            copyable
-        />
-    </div>
-    <form wire:submit="save" class="space-y-6">
-        <flux:pillbox 
-            wire:model="form.ssh_keys"
-            multiple
-            searchable
-            label="{{ __('SSH Keys') }}"
-            placeholder="{{ __('Select SSH keys...') }}"
-        >
-            @foreach ($this->organization->sshKeys as $key)
-                <flux:pillbox.option value="{{ $key->id }}">{{ $key->name }}</flux:pillbox.option>
-            @endforeach
-        </flux:pillbox>
-        <flux:input
-            label="{{ __('Server Name') }}"
-            wire:model="form.name"
-            required
-        />
-        <flux:input
-            label="{{ __('Server IP Address') }}"
-            wire:model="form.ip_address"
-            required
-        />
-        <flux:button type="submit" variant="primary">
-            {{ __('Save Server') }}
-        </flux:button>
-    </form>
+    <header class="mb-8 flex flex-wrap items-end justify-between gap-4">
+        <div class="max-sm:w-full sm:flex-1">
+            <flux:heading size="lg">
+                {{ __('Servers') }}
+            </flux:heading>
+            <flux:text class="mt-2 max-w-prose">
+                {{ __('Manage the servers for your organization. Servers are used to host your sites and deployments.') }}
+            </flux:text>
+        </div>
+        <flux:modal.trigger name="add-server">
+            <flux:button variant="primary">
+                {{ __('Add Server') }}
+            </flux:button>
+        </flux:modal.trigger>
+    </header>
+
+    <flux:modal name="add-server" variant="flyout" class="max-w-md">
+        <form wire:submit="save" class="space-y-6">
+            <div>
+                <flux:heading size="lg">{{ __('Add Server') }}</flux:heading>
+                <flux:text class="mt-2 max-w-prose">
+                    {{ __('Provide a name, IP address, and select SSH keys for this server.') }}
+                </flux:text>
+            </div>
+
+            <flux:callout icon="information-circle" variant="secondary">
+                <flux:callout.heading>{{ __('Organization SSH Key Required') }}</flux:callout.heading>
+                <flux:callout.text>{{ __('To provision your server, ensure the organization SSH public key is installed on the server you create with your cloud provider.') }}</flux:callout.text>
+                <x-slot name="actions">
+                    <flux:input
+                        icon="key"
+                        value="{{ $this->organization->ssh_public_key }}"
+                        readonly
+                        copyable
+                    />
+                </x-slot>
+            </flux:callout>
+
+            <flux:input
+                label="{{ __('Server Name') }}"
+                wire:model="form.name"
+                required
+            />
+            <flux:input
+                label="{{ __('Server IP Address') }}"
+                wire:model="form.ip_address"
+                required
+            />
+            <flux:pillbox
+                wire:model="form.ssh_keys"
+                multiple
+                searchable
+                label="{{ __('SSH Keys') }}"
+                placeholder="{{ __('Select SSH keys...') }}"
+            >
+                @foreach ($this->organization->sshKeys as $key)
+                    <flux:pillbox.option value="{{ $key->id }}">{{ $key->name }}</flux:pillbox.option>
+                @endforeach
+            </flux:pillbox>
+            <div class="flex">
+                <flux:spacer />
+                <flux:button type="submit" variant="primary">
+                    {{ __('Add Server') }}
+                </flux:button>
+            </div>
+        </form>
+    </flux:modal>
 
     <div class="mt-10">
         <flux:table :paginate="$this->servers">

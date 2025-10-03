@@ -69,5 +69,7 @@
   "Site-specific web server error log": "Registro de errores del servidor web específico del sitio",
   "Organization SSH Key Required": "Clave SSH de la organización requerida",
   "To provision your server, ensure the organization SSH public key is installed on the server you create with your cloud provider.": "Para aprovisionar tu servidor, asegúrate de que la clave pública SSH de la organización esté instalada en el servidor que crees con tu proveedor de nube.",
-  "Organization SSH Public Key": "Clave pública SSH de la organización"
+  "Organization SSH Public Key": "Clave pública SSH de la organización",
+  "SSH Keys": "Claves SSH",
+  "Manage the SSH keys for your organization. SSH keys allow secure, passwordless access to your servers and deployments.": "Administra las claves SSH de tu organización. Las claves SSH permiten el acceso seguro y sin contraseña a tus servidores y despliegues."
 }
