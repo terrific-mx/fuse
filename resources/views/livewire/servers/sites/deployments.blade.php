@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\DeploySite;
 use App\Models\Server;
 use App\Models\Site;
 use Livewire\Attributes\Computed;
@@ -17,10 +18,12 @@ new class extends Component {
 
     public function triggerDeployment(): void
     {
-        $this->site->deployments()->create([
+        $deployment = $this->site->deployments()->create([
             'status' => 'pending',
             'triggered_by' => $this->server->organization->user->id,
         ]);
+
+        DeploySite::dispatch($deployment);
     }
 }; ?>
 
