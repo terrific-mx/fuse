@@ -46,7 +46,8 @@ it('creates a site for a server', function () {
         'storage/logs',
     ]);
     expect($site->script_before_deploy)->toBe('');
-    expect($site->script_after_deploy)->toBe(<<<'EOT'
+    expect($site->script_after_deploy)->toBe('');
+    expect($site->script_before_activate)->toBe(<<<'EOT'
         composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
         npm install --prefer-offline --no-audit
         npm run build
@@ -57,7 +58,6 @@ it('creates a site for a server', function () {
         $PHP_BINARY artisan event:cache
         # $PHP_BINARY artisan migrate --force
         EOT);
-    expect($site->script_before_activate)->toBe('');
     expect($site->script_after_activate)->toBe('');
 
     // Assert an initial deployment is created for the site
