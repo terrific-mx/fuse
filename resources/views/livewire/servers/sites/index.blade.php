@@ -27,7 +27,13 @@ new class extends Component {
     }
 }; ?>
 
+<x-slot:breadcrumbs>
+    @include('partials.server-breadcrumbs', ['server' => $server, 'current' => __('Sites')])
+</x-slot:breadcrumbs>
+
 <div class="space-y-12">
+    @include('partials.server-heading')
+
     @include('partials.server-navbar', ['server' => $server])
 
     <form wire:submit="save" class="space-y-6">

@@ -12,12 +12,16 @@ new class extends Component {
     }
 }; ?>
 
+<x-slot:breadcrumbs>
+    @include('partials.server-breadcrumbs', ['server' => $server, 'current' => __('Overview')])
+</x-slot:breadcrumbs>
+
 <div class="space-y-12">
+    @include('partials.server-heading')
+
     @include('partials.server-navbar', ['server' => $server])
 
     <section class="space-y-6">
-        <flux:heading size="lg">{{ __('Server Overview') }}</flux:heading>
-
         <flux:input :label="__('Name')" value="{{ $server->name }}" variant="filled" readonly />
 
         <flux:input :label="__('Ip Address')" value="{{ $server->ip_address }}" variant="filled" readonly />
