@@ -8,7 +8,15 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public Server $server;
+
     public Site $site;
+
+    public function mount()
+    {
+        $this->authorize('view', $this->server);
+
+        $this->authorize('view', $this->site);
+    }
 
     #[Computed]
     public function deployments()

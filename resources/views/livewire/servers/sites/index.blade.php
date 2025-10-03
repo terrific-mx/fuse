@@ -10,6 +10,11 @@ new class extends Component {
 
     public SiteForm $form;
 
+    public function mount()
+    {
+        $this->authorize('view', $this->server);
+    }
+
     public function save()
     {
         $this->form->store($this->server);

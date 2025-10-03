@@ -5,6 +5,11 @@ use Livewire\Volt\Component;
 
 new class extends Component {
     public Server $server;
+
+    public function mount()
+    {
+        $this->authorize('view', $this->server);
+    }
 }; ?>
 
 <div class="space-y-12">

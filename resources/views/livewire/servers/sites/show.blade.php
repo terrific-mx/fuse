@@ -8,6 +8,11 @@ new class extends Component {
     public Server $server;
 
     public Site $site;
+
+    public function mount()
+    {
+        $this->authorize('view', $this->site);
+    }
 }; ?>
 
 <div class="space-y-12">
