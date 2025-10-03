@@ -97,7 +97,7 @@ done
     cd {!! $site->path !!}
 @endunless
 
-@foreach($site->shared_directories as $directory)
+@foreach($site->shared_directories ?? [] as $directory)
     if [ ! -d "{!! $site->shared_directory !!}/{!! $directory !!}" ]; then
         # Create shared directory if it does not exist.
         mkdir -p {!! $site->shared_directory !!}/{!! $directory !!}
@@ -120,7 +120,7 @@ done
 
 @endforeach
 
-@foreach($site->shared_files as $file)
+@foreach($site->shared_files ?? [] as $file)
     # Create directories in shared and release directories if they don't exist
     mkdir -p {!! $deployment->release_directory !!}/{!! dirname($file) !!}
     mkdir -p {!! $site->shared_directory !!}/{!! dirname($file) !!}
@@ -145,7 +145,7 @@ done
 
 @endforeach
 
-@foreach($site->writable_directories as $directory)
+@foreach($site->writable_directories ?? [] as $directory)
     DIRECTORY_IS_WRITEABLE=$(getfacl -p {!! $deployment->release_directory !!}/{!! $directory !!} | grep "^user:fuse:.*w" | wc -l)
 
     if [ $DIRECTORY_IS_WRITEABLE -eq 0 ]; then
