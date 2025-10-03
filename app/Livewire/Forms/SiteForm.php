@@ -46,7 +46,8 @@ class SiteForm extends Form
                 'storage/logs',
             ],
             'script_before_deploy' => '',
-            'script_after_deploy' => <<<'EOT'
+            'script_after_deploy' => '',
+            'script_before_activate' => <<<'EOT'
                 composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
                 npm install --prefer-offline --no-audit
                 npm run build
@@ -57,7 +58,6 @@ class SiteForm extends Form
                 $PHP_BINARY artisan event:cache
                 # $PHP_BINARY artisan migrate --force
                 EOT,
-            'script_before_activate' => '',
             'script_after_activate' => '',
         ]);
 
