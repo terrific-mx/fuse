@@ -15,6 +15,10 @@ class EnsureUserIsSubscribed
      */
     public function handle(Request $request, Closure $next): Response
     {
+        if (in_array($request->user()->email, config('fuse.admin_emails', []))) {
+            return $next($request);
+        }
+
         if (! $request->user()->currentOrganization->subscribed()) {
             return redirect()->route('subscription-required');
         }
