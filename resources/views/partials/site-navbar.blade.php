@@ -2,5 +2,6 @@
     <flux:navlist>
         <flux:navlist.item :href="route('servers.sites.show', [$server, $site])" wire:navigate>{{ __('Overview') }}</flux:navlist.item>
         <flux:navlist.item :href="route('servers.sites.deployments', [$server, $site])" wire:navigate>{{ __('Deployments') }}</flux:navlist.item>
+        <flux:navlist.item :href="route('servers.sites.deployment-settings', [$server, $site])" wire:navigate>{{ __('Deployment Settings') }}</flux:navlist.item>
     </flux:navlist>
 </div>

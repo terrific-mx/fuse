@@ -33,9 +33,9 @@ it('allows a user to update deployment settings for a site', function () {
             'server' => $site->server,
             'site' => $site,
         ])
-        ->set('form.shared_directories', ['storage', 'public/uploads'])
-        ->set('form.shared_files', ['.env', 'config/app.php'])
-        ->set('form.writable_directories', ['storage', 'public/uploads'])
+        ->set('form.shared_directories', "storage\npublic/uploads")
+        ->set('form.shared_files', ".env\nconfig/app.php")
+        ->set('form.writable_directories', "storage\npublic/uploads")
         ->set('form.script_before_deploy', 'echo before deploy')
         ->set('form.script_after_deploy', 'echo after deploy')
         ->set('form.script_before_activate', 'php artisan migrate')

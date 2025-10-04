@@ -27,7 +27,7 @@ new class extends Component {
         <div class="flex-1 self-stretch max-md:pt-6">
             <section class="space-y-6 max-w-lg">
                 <header>
-                    <flux:heading>{{ __('Site Overview') }}</flux:heading>
+                    <flux:heading>{{ __('Site overview') }}</flux:heading>
                     <flux:text class="mt-2">{{ __('View details and configuration for this site.') }}</flux:text>
                 </header>
                 <flux:input :label="__('Hostname')" value="{{ $site->hostname }}" readonly variant="filled" />
