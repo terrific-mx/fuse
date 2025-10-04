@@ -3,28 +3,28 @@
 namespace App\Livewire\Forms;
 
 use App\Jobs\DeploySite;
-use App\Models\Site;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Validate;
 use Livewire\Form;
 
 class SiteForm extends Form
 {
+    #[Validate('required|string|max:255')]
     public string $hostname = '';
 
+    #[Validate('required|string|in:8.4,8.3,8.1')]
     public string $php_version = '';
 
-    public string $type = '';
-
-    public string $web_folder = '/public';
-
+    #[Validate('required|string|url|max:255')]
     public string $repository_url = '';
 
+    #[Validate('required|string|max:255')]
     public string $repository_branch = '';
-
-    public bool $use_deploy_key = false;
 
     public function store($server): void
     {
+        $this->validate();
+
         $site = $server->sites()->create([
             'hostname' => $this->hostname,
             'php_version' => $this->php_version,

@@ -1,11 +1,16 @@
-<div>
-    <header>
-        <flux:navbar scrollable>
-            <flux:navbar.item :href="route('servers.show', $server)" wire:navigate>{{ __('Overview') }}</flux:navbar.item>
-            <flux:navbar.item :href="route('servers.sites.index', $server)" wire:navigate>{{ __('Sites') }}</flux:navbar.item>
-        </flux:navbar>
-    </header>
-    <div class="-mx-8">
-        <flux:separator />
-    </div>
+<div class="me-10 w-full pb-4 md:w-[220px]">
+    <flux:navlist>
+        <flux:navlist.item
+            :href="route('servers.show', $server)"
+            wire:navigate
+        >
+            {{ __('Overview') }}
+        </flux:navlist.item>
+        <flux:navlist.item
+            :href="route('servers.sites.index', $server)"
+            wire:navigate
+        >
+            {{ __('Sites') }}
+        </flux:navlist.item>
+    </flux:navlist>
 </div>
