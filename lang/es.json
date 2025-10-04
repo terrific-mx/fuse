@@ -56,6 +56,7 @@
   "Deployments": "Despliegues",
   "Site Settings": "Configuración del sitio",
   "Deployment Settings": "Configuración de despliegue",
+  "Deployment settings updated successfully": "Configuración de despliegue actualizada correctamente",
   "SSL": "SSL",
   "Files": "Archivos",
   "Logs": "Registros",
