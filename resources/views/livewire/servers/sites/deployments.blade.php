@@ -75,7 +75,7 @@ new class extends Component {
                                         >{{ __(ucfirst($deployment->status)) }}</flux:badge>
                                     </flux:table.cell>
                                     <flux:table.cell>{{ $deployment->commit ?? '-' }}</flux:table.cell>
-                                    <flux:table.cell>{{ $deployment->deployed_at ? $deployment->deployed_at->format('Y-m-d H:i') : '-' }}</flux:table.cell>
+                                    <flux:table.cell>{{ $deployment->created_at ? $deployment->created_at->format('Y-m-d H:i') : '-' }}</flux:table.cell>
                                     <flux:table.cell align="end">{{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}</flux:table.cell>
                                 </flux:table.row>
                             @endforeach
