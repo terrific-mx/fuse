@@ -60,11 +60,10 @@ new class extends Component {
     </header>
 
     <div class="mt-10">
-        <flux:table :paginate="$this->servers">
+        <flux:table :paginate="$this->servers" wire:poll>
             <flux:table.columns>
                 <flux:table.column>{{ __('Server name') }}</flux:table.column>
                 <flux:table.column>{{ __('IP Address') }}</flux:table.column>
-                <flux:table.column>{{ __('Created at') }}</flux:table.column>
                 <flux:table.column align="end">{{ __('Status') }}</flux:table.column>
              </flux:table.columns>
             <flux:table.rows>
@@ -72,8 +71,9 @@ new class extends Component {
                     <flux:table.row :key="$server->id">
                         <flux:table.cell><flux:link :href="route('servers.show', $server)" wire:navigate>{{ $server->name }}</flux:link></flux:table.cell>
                         <flux:table.cell>{{ $server->ip_address }}</flux:table.cell>
-                        <flux:table.cell>{{ $server->created_at->format('Y-m-d H:i') }}</flux:table.cell>
-                        <flux:table.cell align="end">{{ __($server->status) }}</flux:table.cell>
+                        <flux:table.cell align="end">
+                            <flux:badge :color="$server->status_color" size="sm" inset="top bottom" @class(['animate-pulse' => $server->is_provisioning])>{{ $server->status_formatted }}</flux:badge>
+                        </flux:table.cell>
                      </flux:table.row>
                 @endforeach
             </flux:table.rows>

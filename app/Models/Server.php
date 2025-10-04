@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Callbacks\MarkServerProvisioned;
 use App\Services\OrganizationSshKeyService;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -179,5 +180,36 @@ class Server extends Model
         $sshKeyService = app(OrganizationSshKeyService::class);
 
         $sshKeyService->deletePrivateKeyFromStorage($this->organization);
+    }
+
+    /**
+     * Get the color representing the server status.
+     */
+    protected function statusColor(): Attribute
+    {
+        return Attribute::get(function () {
+            return match ($this->status) {
+                'active', 'provisioned' => 'green',
+                'provisioning' => 'blue',
+                'failed', 'error' => 'red',
+                default => 'gray',
+            };
+        });
+    }
+
+    /**
+     * Get the status with the first letter uppercased.
+     */
+    protected function statusFormatted(): Attribute
+    {
+        return Attribute::get(fn () => ucfirst($this->status));
+    }
+
+    /**
+     * Check if the server status is provisioning.
+     */
+    protected function isProvisioning(): Attribute
+    {
+        return Attribute::get(fn () => $this->status === 'provisioning');
     }
 }

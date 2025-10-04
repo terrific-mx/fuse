@@ -39,4 +39,36 @@ class Deployment extends Model
             get: fn () => "{$this->site->releases_directory}/{$this->created_at->timestamp}"
         );
     }
+
+    /**
+     * Get the color representing the deployment status.
+     */
+    protected function statusColor(): Attribute
+    {
+        return Attribute::get(function () {
+            return match (
+                $this->status
+            ) {
+                'success', 'deployed' => 'green',
+                'failed' => 'red',
+                default => 'amber',
+            };
+        });
+    }
+
+    /**
+     * Get the status with the first letter uppercased.
+     */
+    protected function statusFormatted(): Attribute
+    {
+        return Attribute::get(fn () => ucfirst($this->status));
+    }
+
+    /**
+     * Check if the deployment status is pending.
+     */
+    protected function isPending(): Attribute
+    {
+        return Attribute::get(fn () => $this->status === 'pending');
+    }
 }

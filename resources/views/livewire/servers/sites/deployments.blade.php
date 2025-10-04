@@ -55,28 +55,29 @@ new class extends Component {
                 </header>
 
                 <div class="mt-4">
-                    <flux:table>
+                    <flux:table wire:poll>
                         <flux:table.columns>
                             <flux:table.column>{{ __('Deployment number') }}</flux:table.column>
-                            <flux:table.column>{{ __('Status') }}</flux:table.column>
                             <flux:table.column>{{ __('Commit') }}</flux:table.column>
                             <flux:table.column>{{ __('Deployed At') }}</flux:table.column>
-                            <flux:table.column align="end">{{ __('Triggered By') }}</flux:table.column>
+                            <flux:table.column>{{ __('Triggered By') }}</flux:table.column>
+                            <flux:table.column align="end">{{ __('Status') }}</flux:table.column>
                         </flux:table.columns>
                         <flux:table.rows>
                             @foreach($this->deployments as $deployment)
                                 <flux:table.row :key="$deployment->id">
-                                    <flux:table.cell>#{{ $deployment->id }}</flux:table.cell>
-                                    <flux:table.cell>
-                                        <flux:badge
-                                            :color="$deployment->status === 'success' ? 'green' : ($deployment->status === 'failed' ? 'red' : 'amber')"
-                                            size="sm"
-                                            inset="top bottom"
-                                        >{{ __(ucfirst($deployment->status)) }}</flux:badge>
-                                    </flux:table.cell>
+                                    <flux:table.cell>{{ $deployment->id }}</flux:table.cell>
                                     <flux:table.cell>{{ $deployment->commit ?? '-' }}</flux:table.cell>
                                     <flux:table.cell>{{ $deployment->created_at ? $deployment->created_at->format('Y-m-d H:i') : '-' }}</flux:table.cell>
-                                    <flux:table.cell align="end">{{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}</flux:table.cell>
+                                    <flux:table.cell>{{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}</flux:table.cell>
+                                    <flux:table.cell align="end">
+                                        <flux:badge
+                                            :color="$deployment->status_color"
+                                            size="sm"
+                                            inset="top bottom"
+                                            @class(['animate-pulse' => $deployment->is_pending])
+                                        >{{ $deployment->status_formatted }}</flux:badge>
+                                    </flux:table.cell>
                                 </flux:table.row>
                             @endforeach
                         </flux:table.rows>
