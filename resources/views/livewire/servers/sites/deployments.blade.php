@@ -6,7 +6,11 @@ use App\Models\Site;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
+use Livewire\WithPagination;
+
 new class extends Component {
+    use WithPagination;
+
     public Server $server;
 
     public Site $site;
@@ -21,7 +25,7 @@ new class extends Component {
     #[Computed]
     public function deployments()
     {
-        return $this->site->deployments()->latest()->get();
+        return $this->site->deployments()->latest()->paginate(10);
     }
 
     public function triggerDeployment(): void
@@ -55,7 +59,7 @@ new class extends Component {
                 </header>
 
                 <div class="mt-4">
-                    <flux:table wire:poll>
+                    <flux:table :paginate="$this->deployments" wire:poll>
                         <flux:table.columns>
                             <flux:table.column>{{ __('Deployment number') }}</flux:table.column>
                             <flux:table.column>{{ __('Commit') }}</flux:table.column>
