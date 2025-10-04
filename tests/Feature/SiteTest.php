@@ -16,7 +16,7 @@ it('creates a site for a server', function () {
         ->test('servers.sites.index', ['server' => $server])
         ->set('form.hostname', 'laravel.example.com')
         ->set('form.php_version', '8.4')
-        ->set('form.repository_url', 'git@github.com:laravel/laravel.git')
+        ->set('form.repository_url', 'https://github.com/laravel/laravel.git')
         ->set('form.repository_branch', 'main')
         ->call('save');
 
@@ -28,7 +28,7 @@ it('creates a site for a server', function () {
     $site = $server->sites()->first();
     expect($site->hostname)->toBe('laravel.example.com');
     expect($site->php_version)->toBe('8.4');
-    expect($site->repository_url)->toBe('git@github.com:laravel/laravel.git');
+    expect($site->repository_url)->toBe('https://github.com/laravel/laravel.git');
     expect($site->repository_branch)->toBe('main');
 
     // New assertions for auto-filled attributes
