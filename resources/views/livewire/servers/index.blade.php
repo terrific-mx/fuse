@@ -43,7 +43,7 @@ new class extends Component {
 </x-slot:breadcrumbs>
 
 <div>
-    <header class="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <header class="flex flex-wrap items-end justify-between gap-4">
         <div class="max-sm:w-full sm:flex-1">
             <flux:heading size="lg">
                 {{ __('Servers') }}
@@ -58,6 +58,27 @@ new class extends Component {
             </flux:button>
         </flux:modal.trigger>
     </header>
+
+    <div class="mt-10">
+        <flux:table :paginate="$this->servers">
+            <flux:table.columns>
+                <flux:table.column>{{ __('Server name') }}</flux:table.column>
+                <flux:table.column>{{ __('IP Address') }}</flux:table.column>
+                <flux:table.column>{{ __('Created at') }}</flux:table.column>
+                <flux:table.column align="end">{{ __('Status') }}</flux:table.column>
+             </flux:table.columns>
+            <flux:table.rows>
+                @foreach ($this->servers as $server)
+                    <flux:table.row :key="$server->id">
+                        <flux:table.cell><flux:link :href="route('servers.show', $server)" wire:navigate>{{ $server->name }}</flux:link></flux:table.cell>
+                        <flux:table.cell>{{ $server->ip_address }}</flux:table.cell>
+                        <flux:table.cell>{{ $server->created_at->format('Y-m-d H:i') }}</flux:table.cell>
+                        <flux:table.cell align="end">{{ __($server->status) }}</flux:table.cell>
+                     </flux:table.row>
+                @endforeach
+            </flux:table.rows>
+        </flux:table>
+    </div>
 
     <flux:modal name="add-server" variant="flyout" class="max-w-md">
         <form wire:submit="save" class="space-y-6">
@@ -119,25 +140,4 @@ new class extends Component {
             </div>
         </form>
     </flux:modal>
-
-    <div class="mt-10">
-        <flux:table :paginate="$this->servers">
-            <flux:table.columns>
-                <flux:table.column>{{ __('Server name') }}</flux:table.column>
-                <flux:table.column>{{ __('IP Address') }}</flux:table.column>
-                <flux:table.column>{{ __('Created at') }}</flux:table.column>
-                <flux:table.column align="end">{{ __('Status') }}</flux:table.column>
-             </flux:table.columns>
-            <flux:table.rows>
-                @foreach ($this->servers as $server)
-                    <flux:table.row :key="$server->id">
-                        <flux:table.cell><flux:link :href="route('servers.show', $server)" wire:navigate>{{ $server->name }}</flux:link></flux:table.cell>
-                        <flux:table.cell>{{ $server->ip_address }}</flux:table.cell>
-                        <flux:table.cell>{{ $server->created_at->format('Y-m-d H:i') }}</flux:table.cell>
-                        <flux:table.cell align="end">{{ __($server->status) }}</flux:table.cell>
-                     </flux:table.row>
-                @endforeach
-            </flux:table.rows>
-        </flux:table>
-    </div>
 </div>

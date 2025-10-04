@@ -38,14 +38,10 @@ new class extends Component {
         <flux:separator class="md:hidden" />
         <div class="flex-1 self-stretch max-md:pt-6">
             <section>
-                <header class="mb-8 flex flex-wrap items-end justify-between gap-4">
+                <header class="flex flex-wrap items-end justify-between gap-4">
                     <div class="max-sm:w-full sm:flex-1">
-                        <flux:heading size="lg">
-                            {{ __('Sites') }}
-                        </flux:heading>
-                        <flux:text class="mt-2 max-w-prose">
-                            {{ __('Manage all the sites hosted on this server. Add new sites, view details, and configure deployment settings.') }}
-                        </flux:text>
+                        <flux:heading>{{ __('Sites') }}</flux:heading>
+                        <flux:text class="mt-2 max-w-prose">{{ __('Manage all the sites hosted on this server. Add new sites, view details, and configure deployment settings.') }}</flux:text>
                     </div>
                     <flux:modal.trigger name="add-site">
                         <flux:button variant="primary">{{ __('Add site') }}</flux:button>
