@@ -38,14 +38,16 @@ new class extends Component {
         <flux:separator class="md:hidden" />
         <div class="flex-1 self-stretch max-md:pt-6">
             <header>
-                <flux:heading></flux:heading>
-                <flux:text class="mt-2"></flux:text>
+                <flux:heading>{{ __('Deployment Settings') }}</flux:heading>
+                <flux:text class="mt-2 max-w-prose">
+                    {{ __('Manage shared files, writable directories, and deployment scripts for this site.') }}
+                </flux:text>
             </header>
             <form wire:submit="save" class="max-w-lg space-y-6 mt-6">
                 <flux:textarea
                     name="form.shared_directories"
-                    :label="__('Shared Directories')"
-                    :placeholder="__('One directory per line')"
+                    :label="__('Directories Shared Across Deployments')"
+                    :description="__('List the directories to be shared across deployments. Enter one directory per line.')"
                     class="font-mono"
                     rows="3"
                     wire:model="form.shared_directories"
@@ -53,8 +55,8 @@ new class extends Component {
 
                 <flux:textarea
                     name="form.shared_files"
-                    :label="__('Shared Files')"
-                    :placeholder="__('One file per line')"
+                    :label="__('Files Shared Across Deployments')"
+                    :description="__('List the files to be shared across deployments. Enter one file per line.')"
                     class="font-mono"
                     rows="3"
                     wire:model="form.shared_files"
@@ -62,8 +64,8 @@ new class extends Component {
 
                 <flux:textarea
                     name="form.writable_directories"
-                    :label="__('Writable Directories')"
-                    :placeholder="__('One directory per line')"
+                    :label="__('Writable Directories for Webserver')"
+                    :description="__('List the directories that should be writable by the webserver. Enter one directory per line.')"
                     class="font-mono"
                     rows="10"
                     wire:model="form.writable_directories"
@@ -71,8 +73,8 @@ new class extends Component {
 
                 <flux:textarea
                     name="form.script_before_deploy"
-                    :label="__('Script Before Deploy')"
-                    :placeholder="__('Enter script to run before deploy')"
+                    :label="__('Script to Run Before Deploy')"
+                    :description="__('This script will be executed just before updating the git repository during deployment.')"
                     class="font-mono min-h-[220px]"
                     rows="10"
                     wire:model="form.script_before_deploy"
@@ -80,8 +82,8 @@ new class extends Component {
 
                 <flux:textarea
                     name="form.script_after_deploy"
-                    :label="__('Script After Deploy')"
-                    :placeholder="__('Enter script to run after deploy')"
+                    :label="__('Script to Run After Deploy')"
+                    :description="__('This script will be executed just after updating the git repository during deployment.')"
                     class="font-mono"
                     rows="10"
                     wire:model="form.script_after_deploy"
@@ -89,8 +91,8 @@ new class extends Component {
 
                 <flux:textarea
                     name="form.script_before_activate"
-                    :label="__('Script Before Activate')"
-                    :placeholder="__('Enter script to run before activate')"
+                    :label="__('Script to Run Before Activating Release')"
+                    :description="__('This script will be executed before activating the new deployment release (before swapping the symlink to the new release).')"
                     class="font-mono min-h-[220px]"
                     rows="10"
                     wire:model="form.script_before_activate"
@@ -98,8 +100,8 @@ new class extends Component {
 
                 <flux:textarea
                     name="form.script_after_activate"
-                    :label="__('Script After Activate')"
-                    :placeholder="__('Enter script to run after activate')"
+                    :label="__('Script to Run After Activating Release')"
+                    :description="__('This script will be executed after activating the new deployment release (after swapping the symlink to the new release).')"
                     class="font-mono min-h-[220px]"
                     rows="10"
                     wire:model="form.script_after_activate"
