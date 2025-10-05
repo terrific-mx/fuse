@@ -6,7 +6,7 @@ use App\Models\Site;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
-class UpdateDeploymentSettingsForm extends Form
+class DeploymentSettingsForm extends Form
 {
     public ?Site $site = null;
 
@@ -34,9 +34,9 @@ class UpdateDeploymentSettingsForm extends Form
     public function setSite(Site $site): void
     {
         $this->site = $site;
-        $this->shared_directories = isset($site->shared_directories) ? implode("\n", $site->shared_directories) : '';
-        $this->shared_files = isset($site->shared_files) ? implode("\n", $site->shared_files) : '';
-        $this->writable_directories = isset($site->writable_directories) ? implode("\n", $site->writable_directories) : '';
+        $this->shared_directories = $this->arrayToString($site->shared_directories ?? []);
+        $this->shared_files = $this->arrayToString($site->shared_files ?? []);
+        $this->writable_directories = $this->arrayToString($site->writable_directories ?? []);
         $this->script_before_deploy = $site->script_before_deploy ?? '';
         $this->script_after_deploy = $site->script_after_deploy ?? '';
         $this->script_before_activate = $site->script_before_activate ?? '';
@@ -48,9 +48,9 @@ class UpdateDeploymentSettingsForm extends Form
         $this->validate();
 
         $this->site->update([
-            'shared_directories' => $this->splitLines($this->shared_directories),
-            'shared_files' => $this->splitLines($this->shared_files),
-            'writable_directories' => $this->splitLines($this->writable_directories),
+            'shared_directories' => $this->stringToArray($this->shared_directories),
+            'shared_files' => $this->stringToArray($this->shared_files),
+            'writable_directories' => $this->stringToArray($this->writable_directories),
             'script_before_deploy' => $this->script_before_deploy,
             'script_after_deploy' => $this->script_after_deploy,
             'script_before_activate' => $this->script_before_activate,
@@ -58,9 +58,13 @@ class UpdateDeploymentSettingsForm extends Form
         ]);
     }
 
-    private function splitLines(string $value): array
+    private function arrayToString(array $arr): string
     {
-        return array_values(array_filter(array_map('trim', preg_split('/\r?\n/', $value))));
+        return implode("\n", array_map('trim', $arr));
     }
 
+    private function stringToArray(string $str): array
+    {
+        return array_values(array_filter(array_map('trim', preg_split('/\r?\n/', $str))));
+    }
 }
