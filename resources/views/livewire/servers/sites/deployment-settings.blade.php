@@ -3,6 +3,7 @@
 use App\Livewire\Forms\DeploymentSettingsForm;
 use App\Models\Server;
 use App\Models\Site;
+use Flux\Flux;
 use Livewire\Volt\Component;
 
 new class extends Component {
@@ -16,7 +17,7 @@ new class extends Component {
     {
         $this->authorize('view', $this->server);
 
-        $this->authorize('view', $this->site);
+        $this->authorize('update', $this->site);
 
         $this->form->setSite($this->site);
     }
@@ -24,6 +25,12 @@ new class extends Component {
     public function save(): void
     {
         $this->form->update();
+
+        Flux::toast(
+            heading: __('Saved'),
+            text: __('Deployment settings updated successfully.'),
+            variant: 'success'
+        );
     }
 }; ?>
 

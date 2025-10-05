@@ -36,7 +36,7 @@ class SitePolicy
      */
     public function update(User $user, Site $site): bool
     {
-        return false;
+        return $user->currentOrganization->id === $site->server->organization_id;
     }
 
     /**
