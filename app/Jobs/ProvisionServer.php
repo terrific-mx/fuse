@@ -11,6 +11,11 @@ class ProvisionServer implements ShouldQueue
     use Queueable;
 
     /**
+     * The number of times the job may be attempted.
+     */
+    public int $tries = 40;
+
+    /**
      * Create a new job instance.
      */
     public function __construct(public Server $server) {}
