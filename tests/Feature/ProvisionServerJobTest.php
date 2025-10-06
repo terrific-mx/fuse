@@ -11,3 +11,12 @@ it('calls provision on the server when the job runs', function () {
 
     (new ProvisionServer($mock))->handle();
 });
+
+it('deletes the job if the server is already provisioned', function () {
+    $server = Server::factory()->create(['status' => 'provisioned']);
+    $job = (new ProvisionServer($server))->withFakeQueueInteractions();
+
+    $job->handle();
+
+    $job->assertDeleted();
+});

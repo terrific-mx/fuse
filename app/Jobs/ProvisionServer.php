@@ -25,6 +25,12 @@ class ProvisionServer implements ShouldQueue
      */
     public function handle(): void
     {
+        if ($this->server->status === 'provisioned') {
+            $this->delete();
+
+            return;
+        }
+
         $this->server->provision();
     }
 }
