@@ -33,3 +33,14 @@ it('fails the job if the server is older than 15 minutes', function () {
 
     $job->assertFailed();
 });
+
+it('releases the job for 30 seconds if the server is still provisioning', function () {
+    $server = Server::factory()->create([
+        'status' => 'provisioning',
+    ]);
+    $job = (new ProvisionServer($server))->withFakeQueueInteractions();
+
+    $job->handle();
+
+    $job->assertReleased(30);
+});
