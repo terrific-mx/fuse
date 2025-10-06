@@ -43,7 +43,11 @@ class ProvisionServer implements ShouldQueue
             return;
         }
 
-        $this->server->provision();
+        if ($this->server->isReadyForProvisioning()) {
+            $this->server->provision();
+        }
+
+        $this->release(30);
     }
 
     /**

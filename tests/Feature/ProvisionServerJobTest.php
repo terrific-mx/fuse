@@ -8,6 +8,7 @@ it('calls provision on the server when the job runs', function () {
     $server = Server::factory()->create(['status' => 'pending']);
 
     $mock = Mockery::mock($server);
+    $mock->shouldReceive('isReadyForProvisioning')->andReturn(true);
     $mock->shouldReceive('provision')->once()->andReturnNull();
 
     (new ProvisionServer($mock))->handle();
@@ -52,4 +53,16 @@ it('deletes the server when the job fails', function () {
     $job->failed(new Exception('Simulated failure'));
 
     expect($server->fresh())->toBeNull();
+});
+
+it('does not provision the server if it is not ready for provisioning', function () {
+    $server = Server::factory()->create(['status' => 'pending']);
+    $mock = Mockery::mock($server);
+    $mock->shouldReceive('isReadyForProvisioning')->andReturn(false);
+    $mock->shouldReceive('provision')->never();
+    $job = (new ProvisionServer($mock))->withFakeQueueInteractions();
+
+    $job->handle();
+
+    $job->assertReleased(30);
 });
