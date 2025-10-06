@@ -3,6 +3,7 @@
 use App\Jobs\ProvisionServer;
 use App\Models\Server;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Process;
 
 it('calls provision on the server when the job runs', function () {
     $server = Server::factory()->create(['status' => 'pending']);
@@ -65,4 +66,29 @@ it('does not provision the server if it is not ready for provisioning', function
     $job->handle();
 
     $job->assertReleased(30);
+});
+
+it('runs the readiness script via Process and returns true only if output is /root', function () {
+    Process::fake([
+        // Simulate the process returning '/root' as output
+        '*' => Process::result(output: '/root'),
+    ]);
+
+    $server = Server::factory()->create(['status' => 'pending']);
+
+    $result = $server->isReadyForProvisioning();
+
+    // Assert a task was created for this server with script 'pwd'
+    $task = $server->tasks()->latest()->first();
+    expect($task)->not->toBeNull();
+    expect($task->script)->toContain('pwd');
+
+    // Should return true because output is '/root'
+    expect($result)->toBeTrue();
+
+    // Now fake a different output and assert it returns false
+    Process::fake([
+        '*' => Process::result(output: '/not-root'),
+    ]);
+    expect($server->isReadyForProvisioning())->toBeFalse();
 });

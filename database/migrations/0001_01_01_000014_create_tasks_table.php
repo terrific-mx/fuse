@@ -16,7 +16,9 @@ return new class extends Migration
             $table->foreignId('server_id')->constrained()->cascadeOnDelete();
             $table->string('name')->nullable();
             $table->string('user')->nullable();
-            $table->text('script')->nullable();
+            $table->longText('script')->nullable();
+            $table->longText('output')->nullable();
+            $table->integer('exit_code')->nullable();
             $table->string('status')->default('pending');
             $table->json('payload')->nullable();
             $table->json('after_actions')->nullable();

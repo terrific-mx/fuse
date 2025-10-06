@@ -228,4 +228,22 @@ class Server extends Model
     {
         return $this->created_at->lt(now()->subMinutes($minutes));
     }
+
+    /**
+     * Check if the server is ready for provisioning by running 'pwd' and expecting '/root'.
+     */
+    public function isReadyForProvisioning()
+    {
+        $task = $this->tasks()->create([
+            'name' => 'provisioning-readiness',
+            'user' => 'root',
+            'script' => 'pwd',
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+
+        $task->run();
+
+        return $task->output === '/root';
+    }
 }

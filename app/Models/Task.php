@@ -59,6 +59,28 @@ class Task extends Model
     }
 
     /**
+     * Run the script on the server and wait for it to complete, capturing output.
+     */
+    public function run()
+    {
+        $this->markRunning();
+
+        $this->prepareRemoteDirectory();
+
+        $this->uploadScript();
+
+        $result = $this->executeScriptOnRemoteServer("bash {$this->remoteScriptPath()} 2>&1 | tee {$this->fuseDirectory()}/task-{$this->id}.log");
+
+        $this->update([
+            'exit_code' => $result->exitCode(),
+            'status' => $result->successful() ? 'completed' : 'failed',
+            'output' => trim($result->output()),
+        ]);
+
+        return $this;
+    }
+
+    /**
      * Wrap the raw script with callback logic and save it to the model.
      */
     protected function wrapScriptWithCallback(): void
@@ -139,7 +161,7 @@ class Task extends Model
     /**
      * Execute a shell script on the remote server via SSH using heredoc for multi-line scripts.
      */
-    protected function executeScriptOnRemoteServer(string $script, int $timeout = 60): void
+    protected function executeScriptOnRemoteServer(string $script, int $timeout = 60)
     {
         $heredocToken = Str::random(20);
 
@@ -151,9 +173,11 @@ class Task extends Model
             {$heredocToken}
         SSH;
 
-        $this->runProcess($fullCommand, $timeout);
+        $result = $this->runProcess($fullCommand, $timeout);
 
         $this->server->deletePrivateKey();
+
+        return $result;
     }
 
     /**

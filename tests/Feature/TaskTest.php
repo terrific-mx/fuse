@@ -5,6 +5,28 @@ use App\Models\Server;
 use App\Models\Task;
 use Illuminate\Support\Facades\Process;
 
+it('runs the task script on the remote server and returns the output', function () {
+    Process::fake([
+        // Match the actual command that will be run (bash {remoteScriptPath()})
+        '*' => Process::result(output: "expected-output\n"),
+    ]);
+
+    $server = Server::factory()->create(['ip_address' => '203.0.113.10']);
+    $task = Task::factory()->for($server)->create([
+        'user' => 'root',
+        'script' => 'echo hello',
+    ]);
+
+    $task = $task->run();
+
+    expect($task->output)->toBe('expected-output');
+
+    Process::assertRan(function ($process) use ($server, $task) {
+        return str_contains($process->command, $server->ip_address)
+            && str_contains($process->command, $task->remoteScriptPath());
+    });
+});
+
 it('runs the correct process commands and updates status when provisioning a task', function () {
     Process::fake();
 
