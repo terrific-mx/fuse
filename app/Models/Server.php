@@ -212,4 +212,12 @@ class Server extends Model
     {
         return Attribute::get(fn () => $this->status === 'provisioning');
     }
+
+    /**
+     * Check if the server status is provisioned.
+     */
+    protected function isProvisioned(): Attribute
+    {
+        return Attribute::get(fn () => $this->status === 'provisioned');
+    }
 }
