@@ -220,4 +220,12 @@ class Server extends Model
     {
         return Attribute::get(fn () => $this->status === 'provisioned');
     }
+
+    /**
+     * Check if the server is older than the given number of minutes.
+     */
+    public function isOlderThanMinutes(int $minutes): bool
+    {
+        return $this->created_at->lt(now()->subMinutes($minutes));
+    }
 }

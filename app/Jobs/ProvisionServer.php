@@ -31,6 +31,12 @@ class ProvisionServer implements ShouldQueue
             return;
         }
 
+        if ($this->server->isOlderThanMinutes(15)) {
+            $this->fail();
+
+            return;
+        }
+
         $this->server->provision();
     }
 }
