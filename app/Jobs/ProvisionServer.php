@@ -45,4 +45,12 @@ class ProvisionServer implements ShouldQueue
 
         $this->server->provision();
     }
+
+    /**
+     * Handle a job failure.
+     */
+    public function failed(\Throwable $exception): void
+    {
+        $this->server->delete();
+    }
 }

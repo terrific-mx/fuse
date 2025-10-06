@@ -44,3 +44,12 @@ it('releases the job for 30 seconds if the server is still provisioning', functi
 
     $job->assertReleased(30);
 });
+
+it('deletes the server when the job fails', function () {
+    $server = Server::factory()->create();
+    $job = (new ProvisionServer($server))->withFakeQueueInteractions();
+
+    $job->failed(new Exception('Simulated failure'));
+
+    expect($server->fresh())->toBeNull();
+});
