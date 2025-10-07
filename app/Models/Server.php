@@ -230,7 +230,7 @@ class Server extends Model
     }
 
     /**
-     * Check if the server is ready for provisioning by running 'pwd' and expecting '/root'.
+     * Determine if the server is ready for provisioning by running readiness checks.
      */
     public function isReadyForProvisioning()
     {
