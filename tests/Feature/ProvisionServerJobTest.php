@@ -71,7 +71,7 @@ it('does not provision the server if it is not ready for provisioning', function
     $job->assertReleased(30);
 });
 
-it('runs the readiness script via Process and returns true only if output is /root', function () {
+it('returns true if readiness script output is /root', function () {
     Process::fake([
         '*' => Process::sequence()
             ->push(Process::result()) // Prepare remote directory
@@ -81,20 +81,22 @@ it('runs the readiness script via Process and returns true only if output is /ro
 
     $server = Server::factory()->create(['status' => 'pending']);
 
-    $result = $server->isReadyForProvisioning();
+    expect($server->isReadyForProvisioning())->toBeTrue();
 
     $task = $server->tasks()->latest()->first();
     expect($task)->not->toBeNull();
     expect($task->script)->toContain('pwd');
+});
 
-    expect($result)->toBeTrue();
-
+it('returns false if readiness script output is not /root', function () {
     Process::fake([
         '*' => Process::sequence()
             ->push(Process::result()) // Prepare remote directory
             ->push(Process::result()) // Upload script
             ->push(Process::result(output: '/not-root')), // Execute script
     ]);
+
+    $server = Server::factory()->create(['status' => 'pending']);
 
     expect($server->isReadyForProvisioning())->toBeFalse();
 });
