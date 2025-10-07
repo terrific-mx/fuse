@@ -240,22 +240,21 @@ class Server extends Model
             'script' => 'pwd',
             'payload' => [],
             'after_actions' => [],
-        ]);
-        $pwdTask->run();
+        ])->run();
 
         if ($pwdTask->output !== '/root') {
             return false;
         }
 
         $aptLockScript = 'lsof | grep /var/lib/dpkg/lock && ps -e | grep -e apt -e adept | grep -v grep';
+
         $aptLockTask = $this->tasks()->create([
             'name' => 'provisioning-readiness-apt-lock',
             'user' => 'root',
             'script' => $aptLockScript,
             'payload' => [],
             'after_actions' => [],
-        ]);
-        $aptLockTask->run();
+        ])->run();
 
         return $aptLockTask->exit_code === 0 && $aptLockTask->output === '';
     }
