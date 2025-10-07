@@ -2,7 +2,10 @@
 
 use App\Jobs\ProvisionServer;
 use App\Models\Server;
+use Illuminate\Contracts\Process\ProcessResult;
+use Illuminate\Process\PendingProcess;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Process;
 
 it('calls provision on the server when the job runs', function () {
@@ -70,25 +73,28 @@ it('does not provision the server if it is not ready for provisioning', function
 
 it('runs the readiness script via Process and returns true only if output is /root', function () {
     Process::fake([
-        // Simulate the process returning '/root' as output
-        '*' => Process::result(output: '/root'),
+        '*' => Process::sequence()
+            ->push(Process::result()) // Prepare remote directory
+            ->push(Process::result()) // Upload script
+            ->push(Process::result(output: '/root')), // Execute script
     ]);
 
     $server = Server::factory()->create(['status' => 'pending']);
 
     $result = $server->isReadyForProvisioning();
 
-    // Assert a task was created for this server with script 'pwd'
     $task = $server->tasks()->latest()->first();
     expect($task)->not->toBeNull();
     expect($task->script)->toContain('pwd');
 
-    // Should return true because output is '/root'
     expect($result)->toBeTrue();
 
-    // Now fake a different output and assert it returns false
     Process::fake([
-        '*' => Process::result(output: '/not-root'),
+        '*' => Process::sequence()
+            ->push(Process::result()) // Prepare remote directory
+            ->push(Process::result()) // Upload script
+            ->push(Process::result(output: '/not-root')), // Execute script
     ]);
+
     expect($server->isReadyForProvisioning())->toBeFalse();
 });
