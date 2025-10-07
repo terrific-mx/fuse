@@ -71,8 +71,7 @@ it('does not provision the server if it is not ready for provisioning', function
     $job->assertReleased(30);
 });
 
-it('returns true if readiness script output is /root and apt lock script output is empty', function () {
-    // Simulate two script runs: pwd and apt lock status
+it('considers the server ready if the working directory is /root and no apt lock is present', function () {
     Process::fake([
         '*' => Process::sequence()
             // pwd task
@@ -98,7 +97,7 @@ it('returns true if readiness script output is /root and apt lock script output 
     expect($aptLockTask)->not->toBeNull();
 });
 
-it('returns false if readiness script output is not /root', function () {
+it('considers the server not ready if the working directory is not /root', function () {
     Process::fake([
         '*' => Process::sequence()
             // pwd task
@@ -112,7 +111,7 @@ it('returns false if readiness script output is not /root', function () {
     expect($server->isReadyForProvisioning())->toBeFalse();
 });
 
-it('returns false if apt lock script exit code is not zero', function () {
+it('considers the server not ready if the apt lock check fails', function () {
     Process::fake([
         '*' => Process::sequence()
             // pwd task

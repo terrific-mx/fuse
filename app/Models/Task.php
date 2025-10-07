@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Services\OrganizationSshKeyService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Process;
@@ -171,7 +170,7 @@ class Task extends Model
             ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash -s' <<{$heredocToken}
             {$script}
             {$heredocToken}
-        SSH;
+            SSH;
 
         $result = $this->runProcess($fullCommand, $timeout);
 
