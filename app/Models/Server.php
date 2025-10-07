@@ -234,16 +234,29 @@ class Server extends Model
      */
     public function isReadyForProvisioning()
     {
-        $task = $this->tasks()->create([
-            'name' => 'provisioning-readiness',
+        $pwdTask = $this->tasks()->create([
+            'name' => 'provisioning-readiness-pwd',
             'user' => 'root',
             'script' => 'pwd',
             'payload' => [],
             'after_actions' => [],
         ]);
+        $pwdTask->run();
 
-        $task->run();
+        if ($pwdTask->output !== '/root') {
+            return false;
+        }
 
-        return $task->output === '/root';
+        $aptLockScript = 'lsof | grep /var/lib/dpkg/lock && ps -e | grep -e apt -e adept | grep -v grep';
+        $aptLockTask = $this->tasks()->create([
+            'name' => 'provisioning-readiness-apt-lock',
+            'user' => 'root',
+            'script' => $aptLockScript,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+        $aptLockTask->run();
+
+        return $aptLockTask->exit_code === 0 && $aptLockTask->output === '';
     }
 }

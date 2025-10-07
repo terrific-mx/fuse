@@ -71,29 +71,59 @@ it('does not provision the server if it is not ready for provisioning', function
     $job->assertReleased(30);
 });
 
-it('returns true if readiness script output is /root', function () {
+it('returns true if readiness script output is /root and apt lock script output is empty', function () {
+    // Simulate two script runs: pwd and apt lock status
     Process::fake([
         '*' => Process::sequence()
+            // pwd task
             ->push(Process::result()) // Prepare remote directory
             ->push(Process::result()) // Upload script
-            ->push(Process::result(output: '/root')), // Execute script
+            ->push(Process::result(output: '/root')) // Execute script
+
+            // apt lock status task
+            ->push(Process::result()) // Prepare remote directory
+            ->push(Process::result()) // Upload script
+            ->push(Process::result(output: '', exitCode: 0)), // Execute script (empty output, success)
     ]);
 
     $server = Server::factory()->create(['status' => 'pending']);
 
     expect($server->isReadyForProvisioning())->toBeTrue();
 
-    $task = $server->tasks()->latest()->first();
-    expect($task)->not->toBeNull();
-    expect($task->script)->toContain('pwd');
+    $tasks = $server->tasks()->orderBy('id')->get();
+    expect($tasks->count())->toBeGreaterThanOrEqual(2);
+    $pwdTask = $tasks->first(fn($task) => str_contains($task->script, 'pwd'));
+    $aptLockTask = $tasks->first(fn($task) => str_contains($task->script, 'lsof | grep /var/lib/dpkg/lock'));
+    expect($pwdTask)->not->toBeNull();
+    expect($aptLockTask)->not->toBeNull();
 });
 
 it('returns false if readiness script output is not /root', function () {
     Process::fake([
         '*' => Process::sequence()
+            // pwd task
             ->push(Process::result()) // Prepare remote directory
             ->push(Process::result()) // Upload script
-            ->push(Process::result(output: '/not-root')), // Execute script
+            ->push(Process::result(output: '/not-root')) // Execute script
+    ]);
+
+    $server = Server::factory()->create(['status' => 'pending']);
+
+    expect($server->isReadyForProvisioning())->toBeFalse();
+});
+
+it('returns false if apt lock script exit code is not zero', function () {
+    Process::fake([
+        '*' => Process::sequence()
+            // pwd task
+            ->push(Process::result()) // Prepare remote directory
+            ->push(Process::result()) // Upload script
+            ->push(Process::result(output: '/root')) // Execute script
+
+            // apt lock status task
+            ->push(Process::result()) // Prepare remote directory
+            ->push(Process::result()) // Upload script
+            ->push(Process::result(output: '', exitCode: 1)), // Execute script (empty output, fail)
     ]);
 
     $server = Server::factory()->create(['status' => 'pending']);
