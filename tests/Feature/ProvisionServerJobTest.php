@@ -120,7 +120,7 @@ it('considers the server ready if the working directory is /root and no apt lock
     $aptLockTask = $tasks->first(fn($task) => str_contains($task->script, 'lsof | grep /var/lib/dpkg/lock'));
     expect($pwdTask)->not->toBeNull();
     expect($aptLockTask)->not->toBeNull();
-
+});
 
 it('considers the server not ready if the working directory is not /root', function () {
     Process::fake([
