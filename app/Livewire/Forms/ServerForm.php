@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Jobs\ProvisionServer;
 use App\Models\Organization;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Validate;
@@ -42,6 +43,7 @@ class ServerForm extends Form
         $this->validate();
 
         $server = $this->organization->servers()->create([
+            'created_by' => Auth::id(),
             'name' => $this->name,
             'ip_address' => $this->ip_address,
             'database_password' => Str::random(40),

@@ -41,6 +41,14 @@ class Server extends Model
     }
 
     /**
+     * The user who created this server.
+     */
+    public function createdBy()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
      * The SSH keys associated with this server.
      */
     public function sshKeys()
@@ -153,7 +161,7 @@ class Server extends Model
     /**
      * Provision this server by marking as provisioning, creating a task, and running it.
      */
-    public function provision(): void
+    public function provision()
     {
         $this->markProvisioning();
 

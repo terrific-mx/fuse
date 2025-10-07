@@ -2,11 +2,14 @@
 
 use App\Jobs\ProvisionServer;
 use App\Models\Server;
+use App\Notifications\ServerProvisioningFailed;
 use Illuminate\Contracts\Process\ProcessResult;
 use Illuminate\Process\PendingProcess;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Process;
+use Mockery\Matcher\Not;
 
 it('calls provision on the server when the job runs', function () {
     $server = Server::factory()->create(['status' => 'pending']);
@@ -59,6 +62,22 @@ it('deletes the server when the job fails', function () {
     expect($server->fresh())->toBeNull();
 });
 
+it('notifies the user who created the server when provisioning fails', function () {
+    Notification::fake();
+    $server = Server::factory()->create();
+    $job = (new ProvisionServer($server))->withFakeQueueInteractions();
+
+    $job->failed(new Exception('Simulated failure'));
+
+    Notification::assertSentTo(
+        $server->createdBy,
+        ServerProvisioningFailed::class,
+        function ($notification, $channels) use ($server) {
+            return $notification->server->is($server);
+        }
+    );
+});
+
 it('does not provision the server if it is not ready for provisioning', function () {
     $server = Server::factory()->create(['status' => 'pending']);
     $mock = Mockery::mock($server);
@@ -89,13 +108,19 @@ it('considers the server ready if the working directory is /root and no apt lock
 
     expect($server->isReadyForProvisioning())->toBeTrue();
 
+    Process::assertRan(function ($process, $result) {
+        Log::info("Process command: {$process->command}");
+        return true;
+    });
+
+    // Assert both tasks (pwd and apt lock) exist
     $tasks = $server->tasks()->orderBy('id')->get();
     expect($tasks->count())->toBeGreaterThanOrEqual(2);
     $pwdTask = $tasks->first(fn($task) => str_contains($task->script, 'pwd'));
     $aptLockTask = $tasks->first(fn($task) => str_contains($task->script, 'lsof | grep /var/lib/dpkg/lock'));
     expect($pwdTask)->not->toBeNull();
     expect($aptLockTask)->not->toBeNull();
-});
+
 
 it('considers the server not ready if the working directory is not /root', function () {
     Process::fake([

@@ -55,6 +55,9 @@ class ProvisionServer implements ShouldQueue
      */
     public function failed(\Throwable $exception): void
     {
+        if ($this->server->createdBy) {
+            $this->server->createdBy->notify(new \App\Notifications\ServerProvisioningFailed($this->server));
+        }
         $this->server->delete();
     }
 }
