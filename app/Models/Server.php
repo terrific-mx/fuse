@@ -150,6 +150,24 @@ class Server extends Model
     }
 
     /**
+     * Create a get_git_hash task for the given site.
+     */
+    public function createGetGitHashTask(Site $site): Task
+    {
+        return $this->tasks()->create([
+            'name' => 'get_git_hash',
+            'user' => 'fuse',
+            'script' => <<<'EOT'
+                cd {$site->repository_directory}
+
+                git rev-list {$site->repository_branch} -1
+            EOT,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
      * Mark this server as provisioning.
      */
     public function markProvisioning(): void
