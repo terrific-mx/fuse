@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\InstallCaddyFileJob;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -116,5 +117,17 @@ class Deployment extends Model
         $task = $server->createDeployTask($this);
 
         $task->provision();
+    }
+
+    /**
+     * Mark the deployment as deployed and handle post-deploy actions.
+     */
+    public function markDeployed(): void
+    {
+        $this->update(['status' => 'deployed']);
+
+        if (! $this->site->isCaddyInstalled()) {
+            InstallCaddyFileJob::dispatch($this->site);
+        }
     }
 }

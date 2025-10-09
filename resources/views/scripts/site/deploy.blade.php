@@ -76,7 +76,7 @@ done
 
 @endif
 
-@unless($site->caddy_installed_at)
+@unless($site->isCaddyInstalled())
     cd {!! $site->path !!}
 
     cd {!! $site->path !!}

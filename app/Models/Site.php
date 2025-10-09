@@ -142,6 +142,14 @@ class Site extends Model
     }
 
     /**
+     * Determine if Caddy is installed for the site.
+     */
+    public function isCaddyInstalled(): bool
+    {
+        return (bool) $this->caddy_installed_at;
+    }
+
+    /**
      * Check if the site hostname starts with 'www.'
      */
     public function hasWwwSubdomain(): bool

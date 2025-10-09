@@ -12,6 +12,11 @@ class DeploySite implements ShouldQueue
     use Queueable;
 
     /**
+     * The number of times the job may be attempted.
+     */
+    public int $tries = 20;
+
+    /**
      * Create a new job instance.
      */
     public function __construct(public Deployment $deployment) {}
