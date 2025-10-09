@@ -79,7 +79,7 @@ new class extends Component {
                                             :color="$deployment->status_color"
                                             size="sm"
                                             inset="top bottom"
-                                            @class(['animate-pulse' => $deployment->is_pending, 'animate-none' => $deployment->isDeployed()])
+                                            @class(['animate-pulse' => $deployment->is_pending || $deployment->isDeployed()])
                                         >{{ $deployment->status_formatted }}</flux:badge>
                                     </flux:table.cell>
                                 </flux:table.row>
