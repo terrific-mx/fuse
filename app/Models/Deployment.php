@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Jobs\InstallCaddyFileJob;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -144,5 +145,13 @@ class Deployment extends Model
         $task = $this->site->server->createGetGitHashTask($this->site)->run();
 
         $this->update(['commit' => $task->output]);
+    }
+
+    /**
+     * Get the short (7-char) commit hash.
+     */
+    protected function shortCommit(): Attribute
+    {
+        return Attribute::get(fn () => $this->commit ? Str::substr($this->commit, 0, 7) : null);
     }
 }

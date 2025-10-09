@@ -71,7 +71,7 @@ new class extends Component {
                             @foreach($this->deployments as $deployment)
                                 <flux:table.row :key="$deployment->id">
                                     <flux:table.cell>{{ $deployment->id }}</flux:table.cell>
-                                    <flux:table.cell>{{ $deployment->commit ?? '-' }}</flux:table.cell>
+                                    <flux:table.cell>{{ $deployment->short_commit ?? '-' }}</flux:table.cell>
                                     <flux:table.cell>{{ $deployment->created_at ? $deployment->created_at->format('Y-m-d H:i') : '-' }}</flux:table.cell>
                                     <flux:table.cell>{{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}</flux:table.cell>
                                     <flux:table.cell align="end">
