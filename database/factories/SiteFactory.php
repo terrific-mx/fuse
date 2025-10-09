@@ -23,6 +23,17 @@ class SiteFactory extends Factory
             'php_version' => $this->faker->randomElement(['8.4', '8.3', '8.1']),
             'repository_url' => 'git@github.com:laravel/laravel.git',
             'repository_branch' => 'main',
-        ];
+         ];
+    }
+
+    /**
+     * Indicate that the site has not had Caddy installed.
+     */
+    public function caddyNotInstalled(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'caddy_installed_at' => null,
+        ]);
     }
 }
+

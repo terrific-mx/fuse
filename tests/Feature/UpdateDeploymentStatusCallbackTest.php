@@ -10,18 +10,11 @@ use Illuminate\Support\Facades\Queue;
 it('dispatches a job to install the Caddy file if it has not been installed before', function () {
     Queue::fake();
 
-    // Create a site and deployment where the Caddy file has not been installed
-    $site = Site::factory()->create([
-        'caddy_installed_at' => null,
-    ]);
-
-    $deployment = Deployment::factory()->create([
-        'site_id' => $site->id,
-    ]);
-
+    $site = Site::factory()->caddyNotInstalled()->create();
+    $deployment = Deployment::factory()->for($site)->create();
     $task = Task::factory()->create();
-
     $callback = new UpdateDeploymentStatus($deployment->id);
+
     $callback($task);
 
     Queue::assertPushed(InstallCaddyFileJob::class, function ($job) use ($site) {
