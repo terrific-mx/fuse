@@ -71,4 +71,50 @@ class Deployment extends Model
     {
         return Attribute::get(fn () => $this->status === 'pending');
     }
+
+    /**
+     * Check if the deployment is deployed.
+     */
+    public function isDeployed(): bool
+    {
+        return $this->status === 'deployed';
+    }
+
+    /**
+     * Check if the deployment is currently deploying.
+     */
+    public function isDeploying(): bool
+    {
+        return $this->status === 'deploying';
+    }
+
+    /**
+     * Check if the deployment is stale (older than 10 minutes).
+     */
+    public function isStale(): bool
+    {
+        return $this->created_at->lt(now()->subMinutes(10));
+    }
+
+    /**
+     * Mark the deployment as deploying.
+     */
+    public function markDeploying(): void
+    {
+        $this->update(['status' => 'deploying']);
+    }
+
+    /**
+     * Deploy this deployment: mark as deploying, create and provision the deploy task.
+     */
+    public function deploy(): void
+    {
+        $this->markDeploying();
+
+        $server = $this->site->server;
+
+        $task = $server->createDeployTask($this);
+
+        $task->provision();
+    }
 }

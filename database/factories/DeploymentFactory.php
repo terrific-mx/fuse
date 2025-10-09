@@ -26,4 +26,28 @@ class DeploymentFactory extends Factory
             'deployed_at' => null,
         ];
     }
+
+    /**
+     * Indicate that the deployment is pending.
+     */
+    public function pending(): static
+    {
+        return $this->state(fn () => ['status' => 'pending']);
+    }
+
+    /**
+     * Indicate that the deployment is deploying.
+     */
+    public function deploying(): static
+    {
+        return $this->state(fn () => ['status' => 'deploying']);
+    }
+
+    /**
+     * Indicate that the deployment is deployed.
+     */
+    public function deployed(): static
+    {
+        return $this->state(fn () => ['status' => 'deployed']);
+    }
 }

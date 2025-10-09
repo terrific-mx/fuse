@@ -21,22 +21,26 @@ class DeploySite implements ShouldQueue
      */
     public function handle(): void
     {
-        $server = $this->deployment->site->server;
+        if ($this->deployment->isDeployed()) {
+            $this->delete();
 
-        $task = $server->tasks()->create([
-            'name' => 'deploy',
-            'status' => 'pending',
-            'user' => 'fuse',
-            'script' => view('scripts.site.deploy', [
-                'server' => $server,
-                'site' => $this->deployment->site,
-                'deployment' => $this->deployment,
-            ])->render(),
-            'after_actions' => [
-                (new UpdateDeploymentStatus($this->deployment->id))->toCallbackArray(),
-            ],
-        ]);
+            return;
+        }
 
-        $task->provision();
+        if ($this->deployment->isDeploying()) {
+            $this->release(30);
+
+            return;
+        }
+
+        if ($this->deployment->isStale()) {
+            $this->fail();
+
+            return;
+        }
+
+        $this->deployment->deploy();
+
+        $this->release(30);
     }
 }

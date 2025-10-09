@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Callbacks\MarkServerProvisioned;
+use App\Callbacks\UpdateDeploymentStatus;
 use App\Services\OrganizationSshKeyService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -126,6 +127,26 @@ class Server extends Model
     public function tasks()
     {
         return $this->hasMany(Task::class);
+    }
+
+    /**
+     * Create a deploy task for the given deployment.
+     */
+    public function createDeployTask(Deployment $deployment): Task
+    {
+        return $this->tasks()->create([
+            'name' => 'deploy',
+            'status' => 'pending',
+            'user' => 'fuse',
+            'script' => view('scripts.site.deploy', [
+                'server' => $this,
+                'site' => $deployment->site,
+                'deployment' => $deployment,
+            ])->render(),
+            'after_actions' => [
+                (new UpdateDeploymentStatus($deployment->id))->toCallbackArray(),
+            ],
+        ]);
     }
 
     /**

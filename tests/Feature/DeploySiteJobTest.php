@@ -6,13 +6,43 @@ use App\Models\Deployment;
 
 use Illuminate\Support\Facades\Process;
 
+it('releases the job for 30 seconds if the deployment is still deploying', function () {
+    $deployment = Deployment::factory()->deploying()->create();
+    $job = (new DeploySite($deployment))->withFakeQueueInteractions();
+
+    $job->handle();
+
+    $job->assertReleased(30);
+});
+
+it('fails the job if the deployment is older than 10 minutes', function () {
+    $deployment = Deployment::factory()->create([
+        'created_at' => now()->subMinutes(11),
+    ]);
+    $job = (new DeploySite($deployment))->withFakeQueueInteractions();
+
+    $job->handle();
+
+    $job->assertFailed();
+});
+
+it('deletes the job if the deployment is already deployed', function () {
+    $deployment = Deployment::factory()->deployed()->create();
+    $job = (new DeploySite($deployment))->withFakeQueueInteractions();
+
+    $job->handle();
+
+    $job->assertDeleted();
+});
+
 it('creates a server task to deploy the site', function () {
     Process::fake();
 
-    $deployment = Deployment::factory()->create();
+    $deployment = Deployment::factory()->pending()->create();
     $server = $deployment->site->server;
 
-    (new DeploySite($deployment))->handle();
+    $job = (new DeploySite($deployment))->withFakeQueueInteractions();
+    $job->handle();
 
     expect($server->tasks)->toHaveCount(1);
 
@@ -29,4 +59,6 @@ it('creates a server task to deploy the site', function () {
 
     expect($task->status)->toBe('running');
     Process::assertRan(fn () => true);
+
+    $job->assertReleased(30);
 });
