@@ -18,6 +18,17 @@ class UpdateDeploymentStatus
         $deployment = Deployment::findOrFail($this->deployment_id);
 
         $deployment->markDeployed();
+
+        // Create a get_git_hash task for this deployment's site/server
+        $task = $deployment->site->server->tasks()->create([
+            'name' => 'get_git_hash',
+            'user' => 'fuse',
+            'script' => "git rev-list {$deployment->site->repository_branch} -1",
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+        $task->run();
+        $deployment->update(['commit' => $task->output]);
     }
 
     /**
