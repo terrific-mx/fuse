@@ -157,11 +157,11 @@ class Server extends Model
         return $this->tasks()->create([
             'name' => 'get_git_hash',
             'user' => 'fuse',
-            'script' => <<<'EOT'
+            'script' => <<<EOT
                 cd {$site->repository_directory}
 
                 git rev-list {$site->repository_branch} -1
-            EOT,
+                EOT,
             'payload' => [],
             'after_actions' => [],
         ]);
