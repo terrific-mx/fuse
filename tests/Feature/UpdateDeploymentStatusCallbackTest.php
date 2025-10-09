@@ -21,3 +21,16 @@ it('dispatches a job to install the Caddy file if it has not been installed befo
         return $job->site->is($site);
     });
 });
+
+it('sets the deployment status to deployed after running the callback', function () {
+    Queue::fake();
+
+    $deployment = Deployment::factory()->pending()->create();
+    $task = Task::factory()->create();
+    $callback = new UpdateDeploymentStatus($deployment->id);
+
+    $callback($task);
+
+    $deployment->refresh();
+    expect($deployment->status)->toBe('deployed');
+});
