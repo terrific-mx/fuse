@@ -15,7 +15,7 @@ it('dispatches a job to install the Caddy file if it has not been installed befo
 
     $site = Site::factory()->caddyNotInstalled()->create();
     $deployment = Deployment::factory()->for($site)->create();
-    $task = Task::factory()->create();
+    $task = Task::factory()->successful()->create();
     $callback = new UpdateDeploymentStatus($deployment->id);
 
     $callback($task);
@@ -35,7 +35,7 @@ it('creates and runs a get_git_hash task for the deployment and updates the depl
     ]);
 
     $deployment = Deployment::factory()->pending()->create(['commit' => null]);
-    $task = Task::factory()->create();
+    $task = Task::factory()->successful()->create();
 
     $callback = new UpdateDeploymentStatus($deployment->id);
     $callback($task);
@@ -59,11 +59,22 @@ it('sets the deployment status to deployed after running the callback', function
     Queue::fake();
 
     $deployment = Deployment::factory()->pending()->create();
-    $task = Task::factory()->create();
+    $task = Task::factory()->successful()->create();
     $callback = new UpdateDeploymentStatus($deployment->id);
 
     $callback($task);
 
     $deployment->refresh();
     expect($deployment->status)->toBe('deployed');
+});
+
+it('marks the deployment as failed if the task exit code is not zero', function () {
+    $deployment = Deployment::factory()->pending()->create();
+    $task = Task::factory()->failed()->create();
+    $callback = new UpdateDeploymentStatus($deployment->id);
+
+    $callback($task);
+
+    $deployment->refresh();
+    expect($deployment->status)->toBe('failed');
 });

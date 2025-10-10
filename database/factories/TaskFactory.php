@@ -24,4 +24,25 @@ class TaskFactory extends Factory
             'after_actions' => [],
         ];
     }
+
+    /**
+     * Indicate that the task was successful (exit_code 0).
+     */
+    public function successful(): static
+    {
+        return $this->state(fn () => [
+            'exit_code' => 0,
+        ]);
+    }
+
+    /**
+     * Indicate that the task failed (exit_code non-zero).
+     */
+    public function failed(): static
+    {
+        return $this->state(fn () => [
+            'exit_code' => 1,
+        ]);
+    }
 }
+

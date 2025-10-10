@@ -254,4 +254,12 @@ class Task extends Model
     {
         return 3600;
     }
+
+    /**
+     * Determine if the task was successful (exit code 0).
+     */
+    public function isSuccessful()
+    {
+        return $this->exit_code === 0;
+    }
 }
