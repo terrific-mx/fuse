@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\UpdateTaskStatusJob;
+use App\Jobs\FinishTaskJob;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -16,6 +16,6 @@ class CallbackController extends Controller
 
         abort_unless($task->status === 'running', 404);
 
-        UpdateTaskStatusJob::dispatch($task, (int) $request->input('exit_code', 0));
+        FinishTaskJob::dispatch($task, (int) $request->input('exit_code', 0));
     }
 }

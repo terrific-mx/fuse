@@ -1,11 +1,11 @@
 <?php
 
-use App\Jobs\UpdateTaskStatusJob;
+use App\Jobs\FinishTaskJob;
 use App\Models\Task;
 
 it('updates the task status to finished and sets the exit code', function () {
     $task = Task::factory()->running()->create(['exit_code' => null]);
-    $job = new UpdateTaskStatusJob($task, 42);
+    $job = new FinishTaskJob($task, 42);
 
     $job->handle();
 
@@ -28,7 +28,7 @@ it('executes all after actions', function () {
             ['class' => 'mock.callback'],
         ],
     ]);
-    $job = new UpdateTaskStatusJob($task, 0);
+    $job = new FinishTaskJob($task, 0);
 
     $job->handle();
 
@@ -39,7 +39,7 @@ it('executes all after actions', function () {
 
 it('handles no after actions gracefully', function () {
     $task = Task::factory()->running()->create(['after_actions' => null]);
-    $job = new UpdateTaskStatusJob($task, 0);
+    $job = new FinishTaskJob($task, 0);
 
     $job->handle();
 

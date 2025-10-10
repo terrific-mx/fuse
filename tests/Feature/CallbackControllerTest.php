@@ -1,6 +1,6 @@
 <?php
 
-use App\Jobs\UpdateTaskStatusJob;
+use App\Jobs\FinishTaskJob;
 use App\Models\Task;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\URL;
@@ -18,7 +18,7 @@ it('dispatches a job to update the task status via callback route', function () 
 
     $response->assertStatus(200);
 
-    Queue::assertPushed(UpdateTaskStatusJob::class, function ($job) use ($task) {
+    Queue::assertPushed(FinishTaskJob::class, function ($job) use ($task) {
         return $job->task->is($task) && $job->exitCode === 0;
     });
 });

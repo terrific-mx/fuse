@@ -6,7 +6,7 @@ use App\Models\Task;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
-class UpdateTaskStatusJob implements ShouldQueue
+class FinishTaskJob implements ShouldQueue
 {
     use Queueable;
 
@@ -15,7 +15,8 @@ class UpdateTaskStatusJob implements ShouldQueue
         public int $exitCode = 0
     ) {}
 
-    public function handle(): void
+
+    public function handle()
     {
         $this->task->finish($this->exitCode);
     }
