@@ -2,10 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Models\Task;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
-
-use App\Models\Task;
 
 class UpdateTaskStatusJob implements ShouldQueue
 {
@@ -18,10 +17,10 @@ class UpdateTaskStatusJob implements ShouldQueue
 
     public function handle(): void
     {
-        $this->task->update(['status' => 'finished', 'exit_code' => $this->exitCode]);
+        $this->task->markFinished($this->exitCode);
 
         foreach ($this->task->after_actions ?? [] as $callback) {
-            if (!isset($callback['class'])) {
+            if (! isset($callback['class'])) {
                 continue;
             }
 
@@ -30,4 +29,3 @@ class UpdateTaskStatusJob implements ShouldQueue
         }
     }
 }
-

@@ -122,7 +122,6 @@ class Task extends Model
         return "{$this->fuseDirectory()}/task-{$this->id}.sh";
     }
 
-
     /**
      * Build SSH options string for commands.
      */
@@ -197,6 +196,17 @@ class Task extends Model
         file_put_contents($path, $this->script);
 
         return $path;
+    }
+
+    /**
+     * Mark this task as finished and set the exit code.
+     */
+    public function markFinished(int $exitCode = 0): void
+    {
+        $this->update([
+            'status' => 'finished',
+            'exit_code' => $exitCode,
+        ]);
     }
 
     /**
