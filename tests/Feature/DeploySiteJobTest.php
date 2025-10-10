@@ -24,6 +24,11 @@ it('fails the job if the deployment is older than 10 minutes', function () {
     $job->handle();
 
     $job->assertFailed();
+
+    $job->failed();
+
+    $deployment->refresh();
+    expect($deployment->status)->toBe('failed');
 });
 
 it('deletes the job if the deployment is already deployed', function () {

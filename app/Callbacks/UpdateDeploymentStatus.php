@@ -4,7 +4,6 @@ namespace App\Callbacks;
 
 use App\Models\Deployment;
 use App\Models\Task;
-use App\Jobs\InstallCaddyFileJob;
 
 class UpdateDeploymentStatus
 {
@@ -16,6 +15,7 @@ class UpdateDeploymentStatus
     public function __invoke(Task $task)
     {
         $deployment = Deployment::findOrFail($this->deployment_id);
+
         $deployment->finalizeDeployment();
     }
 

@@ -48,4 +48,12 @@ class DeploySite implements ShouldQueue
 
         $this->release(30);
     }
+
+    /**
+     * Handle a job failure.
+     */
+    public function failed(): void
+    {
+        $this->deployment->markFailed();
+    }
 }

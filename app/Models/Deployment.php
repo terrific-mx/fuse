@@ -125,8 +125,7 @@ class Deployment extends Model
      */
     public function markDeployed()
     {
-        $this->update(['status' => 'deployed']);
-        return $this;
+        tap($this)->update(['status' => 'deployed']);
     }
 
     /**
@@ -154,4 +153,13 @@ class Deployment extends Model
     {
         return Attribute::get(fn () => $this->commit ? Str::substr($this->commit, 0, 7) : null);
     }
+
+    /**
+     * Mark the deployment as failed.
+     */
+    public function markFailed(): void
+    {
+        $this->update(['status' => 'failed']);
+    }
 }
+
