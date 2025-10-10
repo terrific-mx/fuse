@@ -5,9 +5,8 @@ use App\Jobs\InstallCaddyFileJob;
 use App\Models\Deployment;
 use App\Models\Site;
 use App\Models\Task;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Facades\Queue;
 
 it('dispatches a job to install the Caddy file if it has not been installed before', function () {
     Process::fake();
@@ -31,7 +30,7 @@ it('creates and runs a get_git_hash task for the deployment and updates the depl
         '*' => Process::sequence()
             ->push(Process::result()) // Prepare remote directory
             ->push(Process::result()) // Upload script
-            ->push(Process::result(output: 'abcdef1234567890')) // Execute script
+            ->push(Process::result(output: 'abcdef1234567890')), // Execute script
     ]);
 
     $deployment = Deployment::factory()->pending()->create(['commit' => null]);

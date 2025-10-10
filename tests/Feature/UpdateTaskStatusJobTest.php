@@ -15,8 +15,10 @@ it('updates the task status to finished and sets the exit code', function () {
 });
 
 it('executes all after actions', function () {
-    $mockCallback = new class {
-        public function __invoke($task) {
+    $mockCallback = new class
+    {
+        public function __invoke($task)
+        {
             $GLOBALS['__after_action_called'] = true;
         }
     };

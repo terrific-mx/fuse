@@ -3,7 +3,6 @@
 use App\Callbacks\UpdateDeploymentStatus;
 use App\Jobs\DeploySite;
 use App\Models\Deployment;
-
 use Illuminate\Support\Facades\Process;
 
 it('releases the job for 30 seconds if the deployment is still deploying', function () {

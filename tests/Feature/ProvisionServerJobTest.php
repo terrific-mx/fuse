@@ -3,13 +3,10 @@
 use App\Jobs\ProvisionServer;
 use App\Models\Server;
 use App\Notifications\ServerProvisioningFailed;
-use Illuminate\Contracts\Process\ProcessResult;
-use Illuminate\Process\PendingProcess;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Process;
-use Mockery\Matcher\Not;
 
 it('calls provision on the server when the job runs', function () {
     $server = Server::factory()->create(['status' => 'pending']);
@@ -110,14 +107,15 @@ it('considers the server ready if the working directory is /root and no apt lock
 
     Process::assertRan(function ($process, $result) {
         Log::info("Process command: {$process->command}");
+
         return true;
     });
 
     // Assert both tasks (pwd and apt lock) exist
     $tasks = $server->tasks()->orderBy('id')->get();
     expect($tasks->count())->toBeGreaterThanOrEqual(2);
-    $pwdTask = $tasks->first(fn($task) => str_contains($task->script, 'pwd'));
-    $aptLockTask = $tasks->first(fn($task) => str_contains($task->script, 'lsof | grep /var/lib/dpkg/lock'));
+    $pwdTask = $tasks->first(fn ($task) => str_contains($task->script, 'pwd'));
+    $aptLockTask = $tasks->first(fn ($task) => str_contains($task->script, 'lsof | grep /var/lib/dpkg/lock'));
     expect($pwdTask)->not->toBeNull();
     expect($aptLockTask)->not->toBeNull();
 });
@@ -128,7 +126,7 @@ it('considers the server not ready if the working directory is not /root', funct
             // pwd task
             ->push(Process::result()) // Prepare remote directory
             ->push(Process::result()) // Upload script
-            ->push(Process::result(output: '/not-root')) // Execute script
+            ->push(Process::result(output: '/not-root')), // Execute script
     ]);
 
     $server = Server::factory()->create(['status' => 'pending']);

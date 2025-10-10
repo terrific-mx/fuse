@@ -52,23 +52,23 @@ it('runs the correct process commands and updates status when provisioning a tas
     // Assert the expected shell command was run
     Process::assertRan(function ($process) use ($task, $server) {
         return str_contains(
-                $process->command,
-                "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i "
-            ) &&
+            $process->command,
+            'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i '
+        ) &&
             str_contains($process->command, "{$task->user}@{$server->ip_address} 'bash -s' <<") &&
             str_contains($process->command, "mkdir -p {$task->fuseDirectory()}");
     });
 
     // Assert the script upload process was run
     Process::assertRan(function ($process) use ($task, $server) {
-        return str_contains($process->command, "scp") &&
-            str_contains($process->command, $task->user . '@' . $server->ip_address) &&
+        return str_contains($process->command, 'scp') &&
+            str_contains($process->command, $task->user.'@'.$server->ip_address) &&
             str_contains($process->command, $task->remoteScriptPath());
     });
 
     // Assert the script execution process was run
     Process::assertRan(function ($process) use ($task, $server) {
-        return str_contains($process->command, "ssh") &&
+        return str_contains($process->command, 'ssh') &&
             str_contains($process->command, $task->user) &&
             str_contains($process->command, $server->ip_address) &&
             str_contains($process->command, $task->remoteScriptPath());
