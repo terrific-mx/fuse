@@ -19,6 +19,7 @@ class Deployment extends Model
     {
         return [
             'status' => 'string',
+            'output' => 'string',
         ];
     }
 
@@ -123,9 +124,12 @@ class Deployment extends Model
     /**
      * Mark the deployment as deployed and handle post-deploy actions.
      */
-    public function markDeployed()
+    public function markDeployed(?string $output = null)
     {
-        tap($this)->update(['status' => 'deployed']);
+        tap($this)->update([
+            'status' => 'deployed',
+            'output' => $output,
+        ]);
     }
 
     /**
@@ -133,9 +137,9 @@ class Deployment extends Model
      *
      * @return void
      */
-    public function finalizeDeployment(): void
+    public function finalizeDeployment(?string $output = null): void
     {
-        $this->markDeployed();
+        $this->markDeployed($output);
 
         if (! $this->site->isCaddyInstalled()) {
             InstallCaddyFileJob::dispatch($this->site);
@@ -157,9 +161,11 @@ class Deployment extends Model
     /**
      * Mark the deployment as failed.
      */
-    public function markFailed(): void
+    public function markFailed(?string $output = null): void
     {
-        $this->update(['status' => 'failed']);
+        $this->update([
+            'status' => 'failed',
+            'output' => $output,
+        ]);
     }
 }
-

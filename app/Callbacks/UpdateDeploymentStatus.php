@@ -17,12 +17,12 @@ class UpdateDeploymentStatus
         $deployment = Deployment::findOrFail($this->deployment_id);
 
         if (! $task->isSuccessful()) {
-            $deployment->markFailed();
+            $deployment->markFailed($task->output);
 
             return;
         }
 
-        $deployment->finalizeDeployment();
+        $deployment->finalizeDeployment($task->output);
     }
 
     /**

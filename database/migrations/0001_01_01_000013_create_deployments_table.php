@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('status');
             $table->foreignId('triggered_by')->constrained('users')->cascadeOnDelete();
             $table->string('commit')->nullable();
+            $table->longText('output')->nullable();
             $table->timestamp('deployed_at')->nullable();
             $table->timestamps();
         });

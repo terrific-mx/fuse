@@ -58,22 +58,24 @@ it('sets the deployment status to deployed after running the callback', function
     Queue::fake();
 
     $deployment = Deployment::factory()->pending()->create();
-    $task = Task::factory()->successful()->create();
+    $task = Task::factory()->successful()->create(['output' => 'success output']);
     $callback = new UpdateDeploymentStatus($deployment->id);
 
     $callback($task);
 
     $deployment->refresh();
     expect($deployment->status)->toBe('deployed');
+    expect($deployment->output)->toBe('success output');
 });
 
 it('marks the deployment as failed if the task exit code is not zero', function () {
     $deployment = Deployment::factory()->pending()->create();
-    $task = Task::factory()->failed()->create();
+    $task = Task::factory()->failed()->create(['output' => 'fail output']);
     $callback = new UpdateDeploymentStatus($deployment->id);
 
     $callback($task);
 
     $deployment->refresh();
     expect($deployment->status)->toBe('failed');
+    expect($deployment->output)->toBe('fail output');
 });
