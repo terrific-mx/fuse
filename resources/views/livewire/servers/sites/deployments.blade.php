@@ -117,7 +117,7 @@ new class extends Component {
                     <flux:field>
                         <flux:label>{{ __('Log Output') }}</flux:label>
                         <flux:text>
-                            <pre id="deployment-log-output" class="bg-zinc-100 dark:bg-zinc-800 rounded p-3 overflow-x-auto text-xs font-mono" tabindex="0">{{ $selectedDeployment->log ?? __('No log output available.') }}</pre>
+                            <pre class="bg-zinc-100 dark:bg-zinc-800 rounded p-3 overflow-x-auto text-xs font-mono">{{ $selectedDeployment->output ?? __('No log output available.') }}</pre>
                         </flux:text>
                     </flux:field>
                 </div>
