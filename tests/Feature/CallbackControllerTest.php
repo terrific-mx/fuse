@@ -8,19 +8,19 @@ use Illuminate\Support\Facades\URL;
 use function Pest\Laravel\get;
 
 it('returns a task via callback route', function () {
-    $server = Server::factory()->create(['status' => 'pending']);
-    $task = Task::factory()->create([
-        'server_id' => $server->id,
-        'status' => 'pending',
-        'after_actions' => [
-            (new MarkServerProvisioned)->toCallbackArray(),
-        ],
-    ]);
+    $task = Task::factory()->running()->create();
 
     $response = get(URL::signedRoute('task.callback', ['task' => $task]) . '&exit_code=0');
 
     $response->assertStatus(200);
 
     expect($task->fresh()->status)->toBe('finished');
-    expect($server->fresh()->status)->toBe('provisioned');
+});
+
+it('returns 404 unless task status is running', function () {
+    $task = Task::factory()->finished()->create();
+
+    $response = get(URL::signedRoute('task.callback', ['task' => $task]) . '&exit_code=0');
+
+    $response->assertStatus(404);
 });

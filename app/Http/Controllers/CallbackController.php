@@ -13,6 +13,8 @@ class CallbackController extends Controller
 
         $task = Task::findOrFail($id);
 
+        abort_unless($task->status === 'running', 404);
+
         $task->update(['status' => 'finished']);
 
         foreach ($task->after_actions ?? [] as $callback) {

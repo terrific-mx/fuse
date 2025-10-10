@@ -26,6 +26,26 @@ class TaskFactory extends Factory
     }
 
     /**
+     * Indicate that the task is running.
+     */
+    public function running(): static
+    {
+        return $this->state(fn () => [
+            'status' => 'running',
+        ]);
+    }
+
+    /**
+     * Indicate that the task is finished.
+     */
+    public function finished(): static
+    {
+        return $this->state(fn () => [
+            'status' => 'finished',
+        ]);
+    }
+
+    /**
      * Indicate that the task was successful (exit_code 0).
      */
     public function successful(): static
