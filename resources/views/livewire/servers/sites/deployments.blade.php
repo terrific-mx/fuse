@@ -31,6 +31,8 @@ new class extends Component {
 
     public function showDeployment(Deployment $deployment)
     {
+        $this->authorize('view', $deployment);
+
         $this->selectedDeployment = $deployment;
 
         Flux::modal('showDeploymentModal')->show();
