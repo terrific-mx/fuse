@@ -14,6 +14,23 @@ class Task extends Model
     use HasFactory;
 
     /**
+     * Mark this task as finished and run after actions.
+     */
+    public function finish(int $exitCode = 0): void
+    {
+        $this->markFinished($exitCode);
+
+        foreach ($this->after_actions ?? [] as $callback) {
+            if (! isset($callback['class'])) {
+                continue;
+            }
+
+            $instance = app()->makeWith($callback['class'], $callback['args'] ?? []);
+            $instance($this);
+        }
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>

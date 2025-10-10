@@ -17,15 +17,6 @@ class UpdateTaskStatusJob implements ShouldQueue
 
     public function handle(): void
     {
-        $this->task->markFinished($this->exitCode);
-
-        foreach ($this->task->after_actions ?? [] as $callback) {
-            if (! isset($callback['class'])) {
-                continue;
-            }
-
-            $instance = app()->makeWith($callback['class'], $callback['args'] ?? []);
-            $instance($this->task);
-        }
+        $this->task->finish($this->exitCode);
     }
 }
