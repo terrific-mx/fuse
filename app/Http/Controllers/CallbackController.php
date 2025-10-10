@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\UpdateTaskStatusJob;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
@@ -15,16 +16,6 @@ class CallbackController extends Controller
 
         abort_unless($task->status === 'running', 404);
 
-        $task->update(['status' => 'finished']);
-
-        foreach ($task->after_actions ?? [] as $callback) {
-            if (!isset($callback['class'])) {
-                continue;
-            }
-
-            $instance = app()->makeWith($callback['class'], $callback['args'] ?? []);
-
-            $instance($task);
-        }
+        UpdateTaskStatusJob::dispatch($task, (int) $request->input('exit_code', 0));
     }
 }
