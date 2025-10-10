@@ -15,10 +15,8 @@ class FinishTaskJob implements ShouldQueue
         public int $exitCode = 0
     ) {}
 
-
     public function handle()
     {
         $this->task->finish($this->exitCode);
-        $this->task->fetchAndStoreOutput();
     }
 }

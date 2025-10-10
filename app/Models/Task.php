@@ -20,6 +20,10 @@ class Task extends Model
     {
         $this->markFinished($exitCode);
 
+        $this->update([
+            'output' => $this->outputLog(),
+        ]);
+
         foreach ($this->after_actions ?? [] as $callback) {
             if (! isset($callback['class'])) {
                 continue;
@@ -31,16 +35,17 @@ class Task extends Model
     }
 
     /**
-     * Fetch the last 2MB of the output log from the remote server and store it in the output attribute.
+     * Fetch the last 2MB of the output log from the remote server and return as string.
      */
-    public function fetchAndStoreOutput(): void
+    public function outputLog()
     {
-        $logPath = $this->fuseDirectory() . "/task-{$this->id}.log";
+        $logPath = $this->fuseDirectory()."/task-{$this->id}.log";
+
         $command = "tail --bytes=2000000 {$logPath}";
+
         $result = $this->executeScriptOnRemoteServer($command, 10);
-        $this->update([
-            'output' => trim($result->output()),
-        ]);
+
+        return trim($result->output());
     }
 
     /**
