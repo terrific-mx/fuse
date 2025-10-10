@@ -3,7 +3,16 @@
 use App\Jobs\FinishTaskJob;
 use App\Models\Task;
 
-it('updates the task status to finished and sets the exit code', function () {
+use Illuminate\Support\Facades\Process;
+
+it('updates the task status to finished, sets the exit code, and stores output', function () {
+    Process::fake([
+        '*' => Process::result(
+            output: 'Test output from remote log',
+            exitCode: 0,
+        ),
+    ]);
+
     $task = Task::factory()->running()->create(['exit_code' => null]);
     $job = new FinishTaskJob($task, 42);
 
@@ -12,6 +21,13 @@ it('updates the task status to finished and sets the exit code', function () {
     $task->refresh();
     expect($task->status)->toBe('finished');
     expect($task->exit_code)->toBe(42);
+    expect($task->output)->toBe('Test output from remote log');
+
+    Process::assertRan(function ($process, $result) use ($task) {
+        return str_contains($process->command, 'tail --bytes=2000000') &&
+            $process->timeout === 10 &&
+            str_contains($process->command, $task->fuseDirectory()."/task-{$task->id}.log");
+    });
 });
 
 it('executes all after actions', function () {

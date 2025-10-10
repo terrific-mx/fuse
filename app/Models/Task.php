@@ -31,6 +31,19 @@ class Task extends Model
     }
 
     /**
+     * Fetch the last 2MB of the output log from the remote server and store it in the output attribute.
+     */
+    public function fetchAndStoreOutput(): void
+    {
+        $logPath = $this->fuseDirectory() . "/task-{$this->id}.log";
+        $command = "tail --bytes=2000000 {$logPath}";
+        $result = $this->executeScriptOnRemoteServer($command, 10);
+        $this->update([
+            'output' => trim($result->output()),
+        ]);
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
