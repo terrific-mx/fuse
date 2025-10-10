@@ -17,5 +17,4 @@
       ];
   }
 - Never use the `.prevent` modifier for `wire:submit` in Livewire forms. The latest Livewire version does not require it.
-- Always use the `__()` helper for all UI strings in Blade to ensure translations, and update the `lang/es.json` file with new strings.
 - Use Blade short syntax (e.g. `:label`, `:placeholder`) whenever possible for passing PHP expressions and translations to components.

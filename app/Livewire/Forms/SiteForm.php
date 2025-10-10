@@ -15,7 +15,7 @@ class SiteForm extends Form
     #[Validate('required|string|in:8.4,8.3,8.1')]
     public string $php_version = '';
 
-    #[Validate('required|string|url|max:255')]
+    #[Validate('required|string|max:255')]
     public string $repository_url = '';
 
     #[Validate('required|string|max:255')]
