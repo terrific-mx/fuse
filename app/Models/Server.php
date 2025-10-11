@@ -176,6 +176,14 @@ class Server extends Model
     }
 
     /**
+     * Mark this server as provisioned.
+     */
+    public function markProvisioned(): void
+    {
+        $this->update(['status' => 'provisioned']);
+    }
+
+    /**
      * Create a provisioning task for this server.
      */
     public function createProvisionTask(): Task

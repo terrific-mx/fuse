@@ -10,11 +10,9 @@ class MarkServerProvisioned
     /**
      * Mark the given server as provisioned.
      */
-    public function __invoke(Task $task): Server
+    public function __invoke(Task $task)
     {
-        $task->server->update(['status' => 'provisioned']);
-
-        return $task->server;
+        $task->server->markProvisioned();
     }
 
     /**
