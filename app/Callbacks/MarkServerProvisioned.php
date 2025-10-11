@@ -12,7 +12,7 @@ class MarkServerProvisioned
      */
     public function __invoke(Task $task)
     {
-        $task->server->markProvisioned();
+        $task->server->afterProvisioned();
     }
 
     /**

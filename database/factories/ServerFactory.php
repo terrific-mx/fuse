@@ -28,4 +28,24 @@ class ServerFactory extends Factory
             'database_password' => $this->faker->password(),
         ];
     }
+
+    /**
+     * Indicate that the server status is pending.
+     */
+    public function pending(): static
+    {
+        return $this->state(fn () => [
+            'status' => 'pending',
+        ]);
+    }
+
+    /**
+     * Indicate that the server has no public SSH key.
+     */
+    public function withoutPublicSshKey(): static
+    {
+        return $this->state(fn () => [
+            'public_ssh_key' => null,
+        ]);
+    }
 }

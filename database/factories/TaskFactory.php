@@ -26,6 +26,16 @@ class TaskFactory extends Factory
     }
 
     /**
+     * Indicate that the task is pending.
+     */
+    public function pending(): static
+    {
+        return $this->state(fn () => [
+            'status' => 'pending',
+        ]);
+    }
+
+    /**
      * Indicate that the task is running.
      */
     public function running(): static
@@ -65,4 +75,3 @@ class TaskFactory extends Factory
         ]);
     }
 }
-

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Callbacks\MarkServerProvisioned;
 use App\Callbacks\UpdateDeploymentStatus;
+use App\Jobs\RetrieveRemoteSshKey;
 use App\Services\OrganizationSshKeyService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -181,6 +182,34 @@ class Server extends Model
     public function markProvisioned(): void
     {
         $this->update(['status' => 'provisioned']);
+    }
+
+    /**
+     * Run all post-provisioning actions for this server.
+     */
+    public function afterProvisioned(): void
+    {
+        $this->markProvisioned();
+
+        dispatch(new RetrieveRemoteSshKey($this));
+    }
+
+    /**
+     * Create and run a get_ssh_key task, and update the public_ssh_key.
+     */
+    public function syncPublicSshKey(): void
+    {
+        $task = $this->tasks()->create([
+            'name' => 'get_ssh_key',
+            'user' => 'fuse',
+            'script' => 'cat ~/.ssh/id_rsa.pub',
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+
+        $task = $task->run();
+
+        $this->update(['public_ssh_key' => trim($task->output)]);
     }
 
     /**

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('ip_address');
             $table->text('sudo_password');
             $table->text('database_password');
+            $table->text('public_ssh_key')->nullable();
             $table->timestamps();
         });
     }
