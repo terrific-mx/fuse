@@ -76,6 +76,14 @@ class Deployment extends Model
     }
 
     /**
+     * Check if the deployment is failed.
+     */
+    public function isFailed(): bool
+    {
+        return $this->status === 'failed';
+    }
+
+    /**
      * Check if the deployment is deployed.
      */
     public function isDeployed(): bool

@@ -39,6 +39,15 @@ it('deletes the job if the deployment is already deployed', function () {
     $job->assertDeleted();
 });
 
+it('deletes the job if the deployment is already failed', function () {
+    $deployment = Deployment::factory()->create(['status' => 'failed']);
+    $job = (new DeploySite($deployment))->withFakeQueueInteractions();
+
+    $job->handle();
+
+    $job->assertDeleted();
+});
+
 it('creates a server task to deploy the site', function () {
     Process::fake();
 

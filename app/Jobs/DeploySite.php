@@ -26,6 +26,12 @@ class DeploySite implements ShouldQueue
      */
     public function handle(): void
     {
+        if ($this->deployment->isFailed()) {
+            $this->delete();
+
+            return;
+        }
+
         if ($this->deployment->isDeployed()) {
             $this->delete();
 
