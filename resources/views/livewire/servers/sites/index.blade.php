@@ -69,7 +69,7 @@ new class extends Component {
                     </flux:table>
                 </div>
             </section>
-            <flux:modal name="add-site" variant="flyout">
+            <flux:modal name="add-site" variant="flyout" class="max-w-lg">
                 <form wire:submit="save" class="space-y-6">
                     <div>
                         <flux:heading size="lg">{{ __('Add site') }}</flux:heading>
@@ -84,11 +84,23 @@ new class extends Component {
                         <flux:select.option value="8.3">8.3</flux:select.option>
                         <flux:select.option value="8.1">8.1</flux:select.option>
                     </flux:select>
+
                     <flux:fieldset>
                         <flux:legend class="text-sm">{{ __('Repository') }}</flux:legend>
-
                         <div class="space-y-6">
-                            <flux:input wire:model="form.repository_url" :label="__('Repository URL')" :description="__('The Git repository URL to deploy from (e.g. https://github.com/your/repo.git).')" />
+                            <flux:callout icon="information-circle" variant="secondary">
+                                <flux:callout.heading>{{ __('Repository access required') }}</flux:callout.heading>
+                                <flux:callout.text>{{ __('To deploy code from your repository, add this server’s public SSH key as an access key to your repository provider (e.g., GitHub, GitLab). This grants the server read access to your repository so it can fetch and deploy your code.') }}</flux:callout.text>
+                                <x-slot name="actions">
+                                    <flux:input
+                                        icon="key"
+                                        value="{{ $server->public_ssh_key }}"
+                                        readonly
+                                        copyable
+                                    />
+                                </x-slot>
+                            </flux:callout>
+                            <flux:input wire:model="form.repository_url" :label="__('Repository URL')" :description="__('The Git repository URL to deploy from (e.g. https://github.com/your/repo.git or git@github.com:your/repo.git).')" />
                             <flux:input wire:model="form.repository_branch" :label="__('Repository Branch')" :description="__('The branch to deploy from (e.g. main, develop).')" />
                         </div>
                     </flux:fieldset>
