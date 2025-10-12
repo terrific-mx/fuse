@@ -104,15 +104,15 @@ new class extends Component
                 @endforeach
             </flux:pillbox>
 
-            <flux:callout icon="exclamation-triangle" variant="warning">
-                <flux:callout.heading>Important: Ubuntu 24.04 required</flux:callout.heading>
+            <flux:callout variant="warning">
+                <flux:callout.heading icon="exclamation-triangle">Important: Ubuntu 24.04 required</flux:callout.heading>
                 <flux:callout.text>
                     Please ensure your server is provisioned with Ubuntu version 24.04 for compatibility.
                 </flux:callout.text>
             </flux:callout>
 
-            <flux:callout icon="information-circle" variant="secondary">
-                <flux:callout.heading>Organization SSH key required</flux:callout.heading>
+            <flux:callout variant="secondary">
+                <flux:callout.heading icon="information-circle">Organization SSH key required</flux:callout.heading>
                 <flux:callout.text>
                     To provision your server, ensure the organization SSH public key is installed on the server you create with your cloud provider.
                 </flux:callout.text>

@@ -76,8 +76,8 @@ new class extends Component
             <flux:fieldset>
                 <flux:legend class="text-sm">Repository</flux:legend>
                 <div class="space-y-6">
-                    <flux:callout icon="information-circle" variant="secondary">
-                        <flux:callout.heading>Repository access required</flux:callout.heading>
+                    <flux:callout variant="secondary">
+                        <flux:callout.heading icon="information-circle">Repository access required</flux:callout.heading>
                         <flux:callout.text>To deploy code from your repository, add this server’s public SSH key as an access key to your repository provider (e.g., GitHub, GitLab). This grants the server read access to your repository so it can fetch and deploy your code.</flux:callout.text>
                         <x-slot name="actions">
                             <flux:input
