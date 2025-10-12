@@ -33,13 +33,12 @@ new class extends Component
     </header>
 
     <div class="flex gap-2 mt-4">
-        <flux:button wire:click="getEnvFile" wire:loading.attr="disabled">
+        <flux:button wire:click="getEnvFile">
             Reload .env file
         </flux:button>
-        <flux:button wire:click="saveEnvFile" color="primary" :disabled="!$envContent" wire:loading.attr="disabled">
+        <flux:button wire:click="saveEnvFile" color="primary" :disabled="!$envContent">
             Save .env file
         </flux:button>
-        <span wire:loading class="ml-2 text-xs text-zinc-500">Loading...</span>
     </div>
 
     <div class="mt-4">
