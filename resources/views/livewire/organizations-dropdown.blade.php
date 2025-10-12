@@ -41,6 +41,8 @@ new class extends Component {
         :name="$currentOrganization?->name ?? __('No organization')"
     />
     <flux:menu>
+        <flux:menu.item :href="route('organizations.settings.general', $currentOrganization)" icon="cog">Settings</flux:menu.item>
+        <flux:menu.separator />
         <flux:menu.radio.group wire:model.live="selectedOrganizationId">
             @foreach($organizations as $organization)
                 <flux:menu.radio :value="$organization->id">
