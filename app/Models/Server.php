@@ -169,6 +169,22 @@ class Server extends Model
     }
 
     /**
+     * Create a get_env_file task for the given site.
+     */
+    public function createGetEnvFileTask(Site $site)
+    {
+        $envPath = $site->path.'/shared/.env';
+
+        return $this->tasks()->create([
+            'name' => 'get_env_file',
+            'user' => 'fuse',
+            'script' => "cat {$envPath}",
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
      * Mark this server as provisioning.
      */
     public function markProvisioning(): void

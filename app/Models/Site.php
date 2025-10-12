@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Encryption\Encrypter;
 
 class Site extends Model
@@ -134,11 +132,22 @@ class Site extends Model
         return Attribute::make(
             get: function () {
                 return [
-                    'APP_KEY' => 'base64:' . base64_encode(Encrypter::generateKey('AES-256-CBC')),
+                    'APP_KEY' => 'base64:'.base64_encode(Encrypter::generateKey('AES-256-CBC')),
                     'APP_URL' => "https://{$this->hostname}",
                 ];
             }
         );
+    }
+
+    /**
+     * Fetch the .env file content from the server for the site.
+     */
+    public function env()
+    {
+        $task = $this->server->createGetEnvFileTask($this);
+        $task = $task->run();
+
+        return $task->output;
     }
 
     /**

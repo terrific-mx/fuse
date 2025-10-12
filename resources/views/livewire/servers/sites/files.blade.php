@@ -14,20 +14,7 @@ new class extends Component
 
     public function getEnvFile(): void
     {
-        // Build the .env file path (adjust as needed for your app)
-        $envPath = $this->site->path.'/shared/.env';
-        // Create the get_env_file task
-        $task = $this->server->tasks()->create([
-            'name' => 'get_env_file',
-            'user' => 'fuse',
-            'script' => "cat {$envPath}",
-            'payload' => [],
-            'after_actions' => [],
-        ]);
-        // Run the task
-        $task = $task->run();
-        // Set the envContent property
-        $this->envContent = $task->output;
+        $this->envContent = $this->site->env();
     }
 }; ?>
 
