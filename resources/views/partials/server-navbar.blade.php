@@ -1,16 +1,10 @@
-<div class="me-10 w-full pb-4 md:w-[220px]">
-    <flux:navlist>
-        <flux:navlist.item
-            :href="route('servers.show', $server)"
-            wire:navigate
-        >
-            {{ __('Overview') }}
-        </flux:navlist.item>
-        <flux:navlist.item
-            :href="route('servers.sites.index', $server)"
-            wire:navigate
-        >
-            {{ __('Sites') }}
-        </flux:navlist.item>
-    </flux:navlist>
+<div class="border-b border-zinc-200 dark:border-zinc-600">
+    <flux:navbar class="-mb-px">
+        <flux:navbar.item :href="route('servers.show', $server)" wire:navigate>
+            Overview
+        </flux:navbar.item>
+        <flux:navbar.item :href="route('servers.sites.index', $server)" wire:navigate>
+            Sites
+        </flux:navbar.item>
+    </flux:navbar>
 </div>

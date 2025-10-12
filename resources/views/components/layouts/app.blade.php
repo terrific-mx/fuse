@@ -1,7 +1,7 @@
-<x-layouts.app.sidebar :title="$title ?? null" :breadcrumbs="$breadcrumbs ?? null">
-    <flux:main>
+<x-layouts.app.header :title="$title ?? null">
+    <flux:main container>
         {{ $slot }}
     </flux:main>
     <livewire:organizations.create />
     <flux:toast />
-</x-layouts.app.sidebar>
+</x-layouts.app.header>
