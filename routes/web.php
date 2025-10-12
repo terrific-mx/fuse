@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\CallbackController;
+use App\Http\Controllers\OrganizationInvitationAcceptController;
 use App\Http\Middleware\EnsureUserIsSubscribed;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
-use App\Http\Controllers\OrganizationInvitationAcceptController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
     Volt::route('servers/{server}/sites/{site}', 'servers.sites.show')->name('servers.sites.show');
     Volt::route('servers/{server}/sites/{site}/deployments', 'servers.sites.deployments')->name('servers.sites.deployments');
     Volt::route('servers/{server}/sites/{site}/deployment-settings', 'servers.sites.deployment-settings')->name('servers.sites.deployment-settings');
+    Volt::route('servers/{server}/sites/{site}/files', 'servers.sites.files')->name('servers.sites.files');
 });
 
 Route::middleware(['auth'])->group(function () {
