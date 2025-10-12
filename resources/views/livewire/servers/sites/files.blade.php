@@ -16,6 +16,11 @@ new class extends Component
     {
         $this->envContent = $this->site->env();
     }
+
+    public function saveEnvFile(): void
+    {
+        $this->site->setEnv($this->envContent);
+    }
 }; ?>
 
 <div>
@@ -27,11 +32,22 @@ new class extends Component
         @include('partials.site-navbar')
     </header>
 
-    <flux:button wire:click="getEnvFile">
-    {{ __('Show .env file') }}
-</flux:button>
+    <div class="flex gap-2 mt-4">
+        <flux:button wire:click="getEnvFile" wire:loading.attr="disabled">
+            Reload .env file
+        </flux:button>
+        <flux:button wire:click="saveEnvFile" color="primary" :disabled="!$envContent" wire:loading.attr="disabled">
+            Save .env file
+        </flux:button>
+        <span wire:loading class="ml-2 text-xs text-zinc-500">Loading...</span>
+    </div>
 
-    @if ($envContent)
-        <pre class="mt-4 p-4 bg-zinc-100 dark:bg-zinc-800 rounded text-xs overflow-x-auto">{{ $envContent }}</pre>
-    @endif
+    <div class="mt-4">
+        <flux:textarea
+            wire:model="envContent"
+            rows="20"
+            class="font-mono"
+            placeholder="The .env file will appear here..."
+        ></flux:textarea>
+    </div>
 </div>

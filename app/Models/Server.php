@@ -59,67 +59,11 @@ class Server extends Model
     }
 
     /**
-     * The provider that this server belongs to.
-     */
-    public function provider()
-    {
-        return $this->belongsTo(ServerProvider::class, 'provider_id');
-    }
-
-    /**
      * The sites associated with this server.
      */
     public function sites()
     {
         return $this->hasMany(Site::class);
-    }
-
-    /**
-     * The databases associated with this server.
-     */
-    public function databases()
-    {
-        return $this->hasMany(Database::class);
-    }
-
-    /**
-     * The database users associated with this server.
-     */
-    public function databaseUsers()
-    {
-        return $this->hasMany(DatabaseUser::class);
-    }
-
-    /**
-     * The cronjobs associated with this server.
-     */
-    public function cronjobs()
-    {
-        return $this->hasMany(Cronjob::class);
-    }
-
-    /**
-     * The daemons associated with this server.
-     */
-    public function daemons()
-    {
-        return $this->hasMany(Daemon::class);
-    }
-
-    /**
-     * The firewall rules associated with this server.
-     */
-    public function firewallRules()
-    {
-        return $this->hasMany(FirewallRule::class);
-    }
-
-    /**
-     * The backups associated with this server.
-     */
-    public function backups()
-    {
-        return $this->hasMany(Backup::class);
     }
 
     /**
@@ -179,6 +123,28 @@ class Server extends Model
             'name' => 'get_env_file',
             'user' => 'fuse',
             'script' => "cat {$envPath}",
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
+     * Create a set_env_file task for the given site and content.
+     */
+    public function createSetEnvFileTask(Site $site, string $content)
+    {
+        $directory = $site->path.'/shared';
+        $path = $site->path.'/shared/.env';
+        $script = view('scripts.site.set_env_file', [
+            'directory' => $directory,
+            'path' => $path,
+            'contents' => $content,
+        ])->render();
+
+        return $this->tasks()->create([
+            'name' => 'set_env_file',
+            'user' => 'fuse',
+            'script' => $script,
             'payload' => [],
             'after_actions' => [],
         ]);

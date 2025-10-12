@@ -151,6 +151,17 @@ class Site extends Model
     }
 
     /**
+     * Save the .env file content to the server for the site.
+     */
+    public function setEnv(string $content)
+    {
+        $task = $this->server->createSetEnvFileTask($this, $content);
+        $task = $task->run();
+
+        return $task->output;
+    }
+
+    /**
      * Determine if Caddy is installed for the site.
      */
     public function isCaddyInstalled(): bool
