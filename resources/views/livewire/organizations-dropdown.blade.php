@@ -52,7 +52,7 @@ new class extends Component {
         </flux:menu.radio.group>
         <flux:menu.separator />
         <flux:modal.trigger name="create-organization">
-            <flux:menu.item icon="plus">{{ __('New organization') }}</flux:menu.item>
+            <flux:menu.item icon="plus">New organization</flux:menu.item>
         </flux:modal.trigger>
     </flux:menu>
 </flux:dropdown>
