@@ -18,7 +18,7 @@ new class extends Component
 
     public int $stop_wait_seconds = 5;
 
-    public string $stop_signal = '';
+    public string $stop_signal = 'TERM';
 
     public array $signals = [
         'HUP', 'INT', 'QUIT', 'ILL', 'TRAP', 'ABRT', 'EMT', 'FPE', 'KILL', 'BUS', 'SEGV', 'SYS', 'PIPE', 'ALRM', 'TERM', 'URG', 'STOP', 'TSTP', 'CONT', 'CHLD', 'TTIN', 'TTOU', 'IO', 'XCPU', 'XFSZ', 'VTALRM', 'PROF', 'WINCH', 'INFO', 'USR1', 'USR2',
