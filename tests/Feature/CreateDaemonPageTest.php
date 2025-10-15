@@ -20,10 +20,9 @@ it('allows a user to create a daemon for a server', function () {
         ->set('user', 'forge')
         ->set('processes', 2)
         ->set('stop_wait_seconds', 10)
-        ->set('stop_signal', 'SIGTERM')
+        ->set('stop_signal', 'TERM')
         ->call('create')
-        ->assertHasNoErrors()
-        ->assertSee('Daemon created successfully');
+        ->assertHasNoErrors();
 
     $daemon = $server->daemons()->first();
 
@@ -33,5 +32,5 @@ it('allows a user to create a daemon for a server', function () {
     expect($daemon->user)->toBe('forge');
     expect($daemon->processes)->toBe(2);
     expect($daemon->stop_wait_seconds)->toBe(10);
-    expect($daemon->stop_signal)->toBe('SIGTERM');
+    expect($daemon->stop_signal)->toBe('TERM');
 });

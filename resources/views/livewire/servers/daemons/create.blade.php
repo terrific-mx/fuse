@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Server;
+use Flux\Flux;
 use Livewire\Volt\Component;
 
 new class extends Component
@@ -19,6 +20,10 @@ new class extends Component
 
     public string $stop_signal = '';
 
+    public array $signals = [
+        'HUP', 'INT', 'QUIT', 'ILL', 'TRAP', 'ABRT', 'EMT', 'FPE', 'KILL', 'BUS', 'SEGV', 'SYS', 'PIPE', 'ALRM', 'TERM', 'URG', 'STOP', 'TSTP', 'CONT', 'CHLD', 'TTIN', 'TTOU', 'IO', 'XCPU', 'XFSZ', 'VTALRM', 'PROF', 'WINCH', 'INFO', 'USR1', 'USR2',
+    ];
+
     public function create()
     {
         $this->validate([
@@ -27,7 +32,7 @@ new class extends Component
             'user' => ['required', 'string'],
             'processes' => ['required', 'integer', 'min:1'],
             'stop_wait_seconds' => ['required', 'integer', 'min:0'],
-            'stop_signal' => ['required', 'string'],
+            'stop_signal' => ['required', 'string', 'in:'.implode(',', $this->signals)],
         ]);
 
         $this->server->daemons()->create([
@@ -39,7 +44,11 @@ new class extends Component
             'stop_signal' => $this->stop_signal,
         ]);
 
-        session()->flash('success', 'Daemon created successfully');
+        Flux::toast([
+            'heading' => 'Success!',
+            'text' => 'Daemon created successfully',
+            'variant' => 'success',
+        ]);
         $this->reset(['command', 'directory', 'user', 'processes', 'stop_wait_seconds', 'stop_signal']);
     }
 }; ?>
@@ -50,35 +59,17 @@ new class extends Component
         @include('partials.server-navbar')
     </header>
 
-    @if (session()->has('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-    @endif
-
-    <form wire:submit="create">
-        <div>
-            <label>Command</label>
-            <input type="text" wire:model="command" required />
-        </div>
-        <div>
-            <label>Directory (optional)</label>
-            <input type="text" wire:model="directory" />
-        </div>
-        <div>
-            <label>User</label>
-            <input type="text" wire:model="user" required />
-        </div>
-        <div>
-            <label>Processes</label>
-            <input type="number" wire:model="processes" min="1" required />
-        </div>
-        <div>
-            <label>Stop Wait Seconds</label>
-            <input type="number" wire:model="stop_wait_seconds" min="0" required />
-        </div>
-        <div>
-            <label>Stop Signal</label>
-            <input type="text" wire:model="stop_signal" required />
-        </div>
-        <button type="submit">Create Daemon</button>
+    <form wire:submit="create" class="space-y-4 mt-8">
+        <flux:input wire:model="command" label="Command" required />
+        <flux:input wire:model="directory" label="Directory (optional)" />
+        <flux:input wire:model="user" label="User" required />
+        <flux:input wire:model="processes" label="Processes" type="number" min="1" required />
+        <flux:input wire:model="stop_wait_seconds" label="Stop Wait Seconds" type="number" min="0" required />
+        <flux:select wire:model="stop_signal" label="Stop Signal" required placeholder="Select a signal">
+    @foreach ($signals as $signal)
+        <flux:select.option value="{{ $signal }}">{{ $signal }}</flux:select.option>
+    @endforeach
+</flux:select>
+        <flux:button type="submit" variant="primary">Create Daemon</flux:button>
     </form>
 </div>
