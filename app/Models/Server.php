@@ -67,6 +67,14 @@ class Server extends Model
     }
 
     /**
+     * The daemons associated with this server.
+     */
+    public function daemons()
+    {
+        return $this->hasMany(Daemon::class);
+    }
+
+    /**
      * The tasks associated with this server.
      */
     public function tasks()
