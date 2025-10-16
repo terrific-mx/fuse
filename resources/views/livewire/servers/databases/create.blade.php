@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\InstallDatabaseJob;
 use App\Models\Server;
 use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
@@ -30,7 +31,7 @@ new class extends Component
             'name' => $this->name,
         ]);
 
-        dispatch(new \App\Jobs\InstallDatabaseJob($database));
+        dispatch(new InstallDatabaseJob($database));
     }
 }; ?>
 
