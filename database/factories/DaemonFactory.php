@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Server;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,12 @@ class DaemonFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'server_id' => Server::factory(),
+            'command' => 'php artisan queue:work',
+            'user' => 'fuse',
+            'processes' => 2,
+            'stop_wait_seconds' => 10,
+            'stop_signal' => 'TERM',
         ];
     }
 }

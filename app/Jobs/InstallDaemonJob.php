@@ -18,4 +18,9 @@ class InstallDaemonJob implements ShouldQueue
     {
         $this->daemon->install();
     }
+
+    public function failed(\Throwable $exception): void
+    {
+        $this->daemon->markAsFailed();
+    }
 }

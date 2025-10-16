@@ -3,6 +3,7 @@
 use App\Jobs\InstallDaemonJob;
 use App\Models\Daemon;
 use App\Models\Server;
+use Exception;
 use Illuminate\Support\Facades\Process;
 
 it('creates and runs an install_daemon task for the server', function () {
@@ -39,4 +40,13 @@ it('creates and runs an install_daemon task for the server', function () {
     Process::assertRan(function ($process, $result) {
         return true;
     });
+});
+
+it('stores the failed date when the job fails', function () {
+    $daemon = Daemon::factory()->create();
+
+    $job = new InstallDaemonJob($daemon);
+    $job->failed(new Exception('Simulated failure'));
+
+    expect($daemon->fresh()->failed_at)->not()->toBeNull();
 });

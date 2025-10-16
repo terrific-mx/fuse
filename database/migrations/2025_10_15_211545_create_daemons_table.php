@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('stop_wait_seconds');
             $table->string('stop_signal');
             $table->timestamp('installed_at')->nullable();
+            $table->timestamp('failed_at')->nullable();
             $table->timestamps();
         });
     }
