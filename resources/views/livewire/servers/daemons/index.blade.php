@@ -8,6 +8,11 @@ new class extends Component
 {
     public Server $server;
 
+    public function mount()
+    {
+        $this->authorize('view', $this->server);
+    }
+
     #[Computed]
     public function daemons()
     {
