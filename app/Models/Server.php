@@ -343,7 +343,7 @@ class Server extends Model
         ])->render();
 
         $script = <<<BASH
-            cat <<'EOF' > {$daemon->supervisor_config_path}
+            cat <<'EOF' > {$daemon->config_path}
             {$supervisorConfig}
             EOF
             supervisorctl reread

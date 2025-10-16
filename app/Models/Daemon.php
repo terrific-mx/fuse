@@ -31,17 +31,25 @@ class Daemon extends Model
         return $this->belongsTo(Server::class);
     }
 
-    public function outputLogPath(): string
+    protected function outputPath(): Attribute
     {
-        return "/var/log/daemon-{$this->id}.out.log";
+        return Attribute::make(
+            get: fn () => $this->user === 'root'
+                ? "/root/.fuse/daemon-{$this->id}.log"
+                : "/home/{$this->user}/.fuse/daemon-{$this->id}.log",
+        );
     }
 
-    public function errorLogPath(): string
+    protected function errorPath(): Attribute
     {
-        return "/var/log/daemon-{$this->id}.err.log";
+        return Attribute::make(
+            get: fn () => $this->user === 'root'
+                ? "/root/.fuse/daemon-{$this->id}.err"
+                : "/home/{$this->user}/.fuse/daemon-{$this->id}.err",
+        );
     }
 
-    protected function supervisorConfigPath(): Attribute
+    protected function configPath(): Attribute
     {
         return Attribute::make(
             get: fn () => "/etc/supervisor/conf.d/daemon-{$this->id}.conf",
