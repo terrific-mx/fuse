@@ -332,4 +332,30 @@ class Server extends Model
 
         return $aptLockTask->exit_code === 0 && $aptLockTask->output === '';
     }
+
+    /**
+     * Create an install_daemon task for the given daemon.
+     */
+    public function createInstallDaemonTask(Daemon $daemon)
+    {
+        $supervisorConfig = view('scripts.daemon.supervisor-conf', [
+            'daemon' => $daemon,
+        ])->render();
+
+        $script = <<<BASH
+            cat <<'EOF' > {$daemon->supervisor_config_path}
+            {$supervisorConfig}
+            EOF
+            supervisorctl reread
+            supervisorctl update
+            BASH;
+
+        return $this->tasks()->create([
+            'name' => 'install_daemon',
+            'user' => 'root',
+            'script' => $script,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
 }
