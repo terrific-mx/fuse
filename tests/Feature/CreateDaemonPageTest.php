@@ -1,7 +1,9 @@
 <?php
 
+use App\Jobs\InstallDaemonJob;
 use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 use function Pest\Laravel\actingAs;
@@ -9,6 +11,7 @@ use function Pest\Laravel\actingAs;
 uses(RefreshDatabase::class);
 
 it('allows a user to create a daemon for a server', function () {
+    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
@@ -33,4 +36,8 @@ it('allows a user to create a daemon for a server', function () {
     expect($daemon->processes)->toBe(2);
     expect($daemon->stop_wait_seconds)->toBe(10);
     expect($daemon->stop_signal)->toBe('TERM');
+
+    Queue::assertPushed(InstallDaemonJob::class, function ($job) use ($daemon) {
+        return $job->daemon->is($daemon);
+    });
 });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\InstallDaemonJob;
 use App\Models\Server;
 use Flux\Flux;
 use Livewire\Volt\Component;
@@ -35,7 +36,7 @@ new class extends Component
             'stop_signal' => ['required', 'string', 'in:'.implode(',', $this->signals)],
         ]);
 
-        $this->server->daemons()->create([
+        $daemon = $this->server->daemons()->create([
             'command' => $this->command,
             'directory' => $this->directory,
             'user' => $this->user,
@@ -44,11 +45,14 @@ new class extends Component
             'stop_signal' => $this->stop_signal,
         ]);
 
+        dispatch(new InstallDaemonJob($daemon));
+
         Flux::toast([
             'heading' => 'Success!',
             'text' => 'Daemon created successfully',
             'variant' => 'success',
         ]);
+
         $this->reset(['command', 'directory', 'user', 'processes', 'stop_wait_seconds', 'stop_signal']);
     }
 }; ?>
