@@ -29,4 +29,14 @@ class Daemon extends Model
     {
         return $this->belongsTo(Server::class);
     }
+
+    public function outputLogPath(): string
+    {
+        return "/var/log/daemon-{$this->id}.out.log";
+    }
+
+    public function errorLogPath(): string
+    {
+        return "/var/log/daemon-{$this->id}.err.log";
+    }
 }
