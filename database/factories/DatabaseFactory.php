@@ -17,7 +17,8 @@ class DatabaseFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'server_id' => \App\Models\Server::factory(),
+            'name' => $this->faker->unique()->word,
         ];
     }
 }
