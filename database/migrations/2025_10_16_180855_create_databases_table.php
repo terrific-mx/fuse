@@ -16,6 +16,8 @@ return new class extends Migration
             $table->foreignId('server_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->timestamps();
+            $table->timestamp('installed_at')->nullable();
+            $table->timestamp('failed_at')->nullable();
 
             $table->unique(['server_id', 'name']);
         });

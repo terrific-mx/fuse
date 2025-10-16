@@ -10,18 +10,17 @@ class InstallDatabaseJob implements ShouldQueue
 {
     use Queueable;
 
-    /**
-     * Create a new job instance.
-     */
     public function __construct(
         public Database $database
     ) {}
 
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
-        //
+        $this->database->install();
+    }
+
+    public function failed(\Throwable $exception): void
+    {
+        $this->database->markAsFailed();
     }
 }

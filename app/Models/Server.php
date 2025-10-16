@@ -366,4 +366,22 @@ class Server extends Model
             'after_actions' => [],
         ]);
     }
+
+    /**
+     * Create an install_database task for the given database.
+     */
+    public function createInstallDatabaseTask(Database $database)
+    {
+        $sh = <<<BASH
+            mysql -u root -e "CREATE DATABASE IF NOT EXISTS `{$database->name}`;"
+        BASH;
+
+        return $this->tasks()->create([
+            'name' => 'install_database',
+            'user' => 'root',
+            'script' => $sh,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
 }
