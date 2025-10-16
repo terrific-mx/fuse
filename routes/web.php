@@ -28,6 +28,9 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
 
     Volt::route('servers/{server}/daemons', 'servers.daemons.index')->name('servers.daemons.index');
     Volt::route('servers/{server}/daemons/create', 'servers.daemons.create')->name('servers.daemons.create');
+
+    Volt::route('servers/{server}/databases', 'servers.databases.index')->name('servers.databases.index');
+    Volt::route('servers/{server}/databases/create', 'servers.databases.create')->name('servers.databases.create');
 });
 
 Route::middleware(['auth'])->group(function () {
