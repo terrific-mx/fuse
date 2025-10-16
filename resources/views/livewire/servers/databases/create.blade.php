@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Server;
+use Illuminate\Validation\Rule;
 use Livewire\Volt\Component;
 
 new class extends Component
@@ -17,7 +18,12 @@ new class extends Component
     public function create()
     {
         $this->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('databases')->where(fn ($q) => $q->where('server_id', $this->server->id)),
+            ],
         ]);
 
         $this->server->databases()->create([
