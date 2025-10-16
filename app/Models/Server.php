@@ -373,7 +373,7 @@ class Server extends Model
     public function createInstallDatabaseTask(Database $database)
     {
         $sh = <<<BASH
-            mysql -u root -e "CREATE DATABASE IF NOT EXISTS `{$database->name}`;"
+            MYSQL_PWD="{$this->database_password}" mysql -u root -e "CREATE DATABASE IF NOT EXISTS `{$database->name}`;"
         BASH;
 
         return $this->tasks()->create([
