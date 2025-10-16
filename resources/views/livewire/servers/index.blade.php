@@ -38,14 +38,14 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex flex-wrap justify-between items-center gap-4">
+    <header class="flex flex-wrap justify-between items-center gap-6">
         <flux:heading size="xl">Servers</flux:heading>
         <flux:modal.trigger name="add-server">
             <flux:button variant="primary">Add server</flux:button>
         </flux:modal.trigger>
     </header>
 
-    <div class="mt-8">
+    <div class="mt-6">
         <flux:table :paginate="$this->servers" wire:poll>
             <flux:table.columns>
                 <flux:table.column>Name</flux:table.column>
@@ -77,7 +77,7 @@ new class extends Component
         </flux:table>
     </div>
 
-    <flux:modal name="add-server" variant="flyout" class="max-w-md">
+    <flux:modal name="add-server" variant="flyout" class="max-w-md p-6">
         <form wire:submit="save" class="space-y-6">
             <flux:heading size="lg">Add server</flux:heading>
 

@@ -25,6 +25,9 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
     Volt::route('servers/{server}/sites/{site}/deployments', 'servers.sites.deployments')->name('servers.sites.deployments');
     Volt::route('servers/{server}/sites/{site}/deployment-settings', 'servers.sites.deployment-settings')->name('servers.sites.deployment-settings');
     Volt::route('servers/{server}/sites/{site}/files', 'servers.sites.files')->name('servers.sites.files');
+
+    Volt::route('servers/{server}/daemons', 'servers.daemons.index')->name('servers.daemons.index');
+    Volt::route('servers/{server}/daemons/create', 'servers.daemons.create')->name('servers.daemons.create');
 });
 
 Route::middleware(['auth'])->group(function () {

@@ -6,5 +6,8 @@
         <flux:navbar.item :href="route('servers.sites.index', $server)" wire:navigate>
             Sites
         </flux:navbar.item>
+        <flux:navbar.item :href="route('servers.daemons.index', $server)" wire:navigate>
+            Daemons
+        </flux:navbar.item>
     </flux:navbar>
 </div>

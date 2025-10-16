@@ -67,6 +67,14 @@ class Server extends Model
     }
 
     /**
+     * The daemons associated with this server.
+     */
+    public function daemons()
+    {
+        return $this->hasMany(Daemon::class);
+    }
+
+    /**
      * The tasks associated with this server.
      */
     public function tasks()
@@ -323,5 +331,31 @@ class Server extends Model
         ])->run();
 
         return $aptLockTask->exit_code === 0 && $aptLockTask->output === '';
+    }
+
+    /**
+     * Create an install_daemon task for the given daemon.
+     */
+    public function createInstallDaemonTask(Daemon $daemon)
+    {
+        $conf = view('scripts.daemon.supervisor-conf', [
+            'daemon' => $daemon,
+        ])->render();
+
+        $sh = <<<BASH
+            cat <<'EOF' > {$daemon->config_path}
+            {$conf}
+            EOF
+            supervisorctl reread
+            supervisorctl update
+            BASH;
+
+        return $this->tasks()->create([
+            'name' => 'install_daemon',
+            'user' => 'root',
+            'script' => $sh,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
     }
 }
