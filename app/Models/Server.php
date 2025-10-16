@@ -374,7 +374,7 @@ class Server extends Model
     {
         $sh = <<<BASH
             MYSQL_PWD="{$this->database_password}" mysql -u fuse -e "CREATE DATABASE IF NOT EXISTS `{$database->name}`;"
-        BASH;
+            BASH;
 
         return $this->tasks()->create([
             'name' => 'install_database',
