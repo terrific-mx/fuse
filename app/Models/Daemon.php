@@ -67,7 +67,10 @@ class Daemon extends Model
 
     public function markAsInstalled(): void
     {
-        $this->update(['installed_at' => now()]);
+        $this->update([
+            'installed_at' => now(),
+            'failed_at' => null,
+        ]);
     }
 
     public function markAsFailed(): void
