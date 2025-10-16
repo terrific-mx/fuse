@@ -11,9 +11,15 @@ new class extends Component
     {
         $this->authorize('view', $this->server);
     }
+
+    #[\Livewire\Attributes\Computed]
+    public function databases()
+    {
+        return $this->server->databases()->paginate(10);
+    }
 }; ?>
 
-<div class="space-y-8">
+<div wire:poll class="space-y-8">
     <header class="mb-6 space-y-2">
         <flux:heading size="xl">{{ $server->name }}</flux:heading>
         @include('partials.server-navbar')
@@ -24,6 +30,19 @@ new class extends Component
     </div>
 
     <div>
-        {{-- Database table/list goes here --}}
+        <flux:table :paginate="$this->databases">
+            <flux:table.columns>
+                <flux:table.column>Name</flux:table.column>
+                <flux:table.column>Status</flux:table.column>
+            </flux:table.columns>
+            <flux:table.rows>
+                @foreach ($this->databases as $database)
+                    <flux:table.row :key="$database->id">
+                        <flux:table.cell>{{ $database->name }}</flux:table.cell>
+                        <flux:table.cell>{{ ucfirst($database->status) }}</flux:table.cell>
+                    </flux:table.row>
+                @endforeach
+            </flux:table.rows>
+        </flux:table>
     </div>
 </div>
