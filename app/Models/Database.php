@@ -24,28 +24,23 @@ class Database extends Model
      */
     protected function casts(): array
     {
-        return [
-            'installed_at' => 'datetime',
-            'failed_at' => 'datetime',
-        ];
+        return [];
     }
 
     public function install(): void
     {
+        $this->update(['status' => 'installing']);
         $this->server->createInstallDatabaseTask($this)->run();
         $this->markAsInstalled();
     }
 
     public function markAsInstalled(): void
     {
-        $this->update([
-            'installed_at' => now(),
-            'failed_at' => null,
-        ]);
+        $this->update(['status' => 'installed']);
     }
 
     public function markAsFailed(): void
     {
-        $this->update(['failed_at' => now()]);
+        $this->update(['status' => 'failed']);
     }
 }

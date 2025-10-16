@@ -22,7 +22,7 @@ it('creates and runs an install_database task for the server', function () {
     $job = new InstallDatabaseJob($database);
     $job->handle();
 
-    expect($database->fresh()->installed_at)->not()->toBeNull();
+    expect($database->fresh()->status)->toBe('installed');
 
     $task = $server->tasks()
         ->where('name', 'install_database')
@@ -43,5 +43,5 @@ it('stores the failed date when the job fails', function () {
     $job = new InstallDatabaseJob($database);
     $job->failed(new Exception('Simulated failure'));
 
-    expect($database->fresh()->failed_at)->not()->toBeNull();
+    expect($database->fresh()->status)->toBe('failed');
 });

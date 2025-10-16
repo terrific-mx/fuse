@@ -19,6 +19,7 @@ class DatabaseFactory extends Factory
         return [
             'server_id' => \App\Models\Server::factory(),
             'name' => $this->faker->unique()->word,
+            'status' => 'pending',
         ];
     }
 }
