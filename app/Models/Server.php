@@ -75,6 +75,14 @@ class Server extends Model
     }
 
     /**
+     * The databases associated with this server.
+     */
+    public function databases()
+    {
+        return $this->hasMany(Database::class);
+    }
+
+    /**
      * The tasks associated with this server.
      */
     public function tasks()
