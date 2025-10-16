@@ -3,7 +3,6 @@
 use App\Jobs\InstallDatabaseJob;
 use App\Models\Database;
 use App\Models\Server;
-use Exception;
 use Illuminate\Support\Facades\Process;
 
 it('creates and runs an install_database task for the server', function () {
@@ -41,7 +40,7 @@ it('stores the failed date when the job fails', function () {
     $database = Database::factory()->create();
 
     $job = new InstallDatabaseJob($database);
-    $job->failed(new Exception('Simulated failure'));
+    $job->failed(new \Exception('Simulated failure'));
 
     expect($database->fresh()->status)->toBe('failed');
 });
