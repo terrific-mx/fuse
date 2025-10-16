@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('processes');
             $table->integer('stop_wait_seconds');
             $table->string('stop_signal');
+            $table->timestamp('installed_at')->nullable();
             $table->timestamps();
         });
     }

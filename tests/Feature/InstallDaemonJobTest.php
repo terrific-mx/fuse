@@ -26,6 +26,8 @@ it('creates and runs an install_daemon task for the server', function () {
     $job = new InstallDaemonJob($daemon);
     $job->handle();
 
+    expect($daemon->fresh()->installed_at)->not()->toBeNull();
+
     $task = $server->tasks()
         ->where('name', 'install_daemon')
         ->where('user', 'root')
