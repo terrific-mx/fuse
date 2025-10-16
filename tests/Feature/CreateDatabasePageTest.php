@@ -17,3 +17,20 @@ it('allows a user to view the create database page for a server', function () {
     Volt::test('servers.databases.create', ['server' => $server])
         ->assertOk();
 });
+
+it('creates a database for a server', function () {
+    $server = Server::factory()->create();
+    $user = $server->organization->user;
+
+    actingAs($user);
+
+    Volt::test('servers.databases.create', ['server' => $server])
+        ->set('name', 'my_database')
+        ->call('create')
+        ->assertHasNoErrors();
+
+    $database = $server->databases()->first();
+
+    expect($database)->not->toBeNull();
+    expect($database->name)->toBe('my_database');
+});
