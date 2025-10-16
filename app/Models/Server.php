@@ -75,6 +75,14 @@ class Server extends Model
     }
 
     /**
+     * The databases associated with this server.
+     */
+    public function databases()
+    {
+        return $this->hasMany(Database::class);
+    }
+
+    /**
      * The tasks associated with this server.
      */
     public function tasks()
@@ -352,6 +360,24 @@ class Server extends Model
 
         return $this->tasks()->create([
             'name' => 'install_daemon',
+            'user' => 'root',
+            'script' => $sh,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
+     * Create an install_database task for the given database.
+     */
+    public function createInstallDatabaseTask(Database $database)
+    {
+        $sh = <<<BASH
+            MYSQL_PWD="{$this->database_password}" mysql -u root -e "CREATE DATABASE IF NOT EXISTS `{$database->name}`;"
+        BASH;
+
+        return $this->tasks()->create([
+            'name' => 'install_database',
             'user' => 'root',
             'script' => $sh,
             'payload' => [],
