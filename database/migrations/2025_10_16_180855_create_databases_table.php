@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('server_id')->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->timestamps();
             $table->string('status')->default('pending');
+            $table->timestamps();
 
             $table->unique(['server_id', 'name']);
         });
