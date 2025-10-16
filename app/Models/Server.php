@@ -338,13 +338,13 @@ class Server extends Model
      */
     public function createInstallDaemonTask(Daemon $daemon)
     {
-        $supervisorConfig = view('scripts.daemon.supervisor-conf', [
+        $conf = view('scripts.daemon.supervisor-conf', [
             'daemon' => $daemon,
         ])->render();
 
-        $script = <<<BASH
+        $sh = <<<BASH
             cat <<'EOF' > {$daemon->config_path}
-            {$supervisorConfig}
+            {$conf}
             EOF
             supervisorctl reread
             supervisorctl update
@@ -353,7 +353,7 @@ class Server extends Model
         return $this->tasks()->create([
             'name' => 'install_daemon',
             'user' => 'root',
-            'script' => $script,
+            'script' => $sh,
             'payload' => [],
             'after_actions' => [],
         ]);
