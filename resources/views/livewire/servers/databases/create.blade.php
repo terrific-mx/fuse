@@ -26,9 +26,11 @@ new class extends Component
             ],
         ]);
 
-        $this->server->databases()->create([
+        $database = $this->server->databases()->create([
             'name' => $this->name,
         ]);
+
+        dispatch(new \App\Jobs\InstallDatabaseJob($database));
     }
 }; ?>
 
