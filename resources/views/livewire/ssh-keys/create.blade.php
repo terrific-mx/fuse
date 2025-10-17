@@ -22,7 +22,7 @@ new class extends Component
             'public_key' => $this->public_key,
         ]);
 
-        $this->redirectRoute('ssh-keys', navigate: true);
+        $this->redirectRoute('ssh-keys.index', navigate: true);
     }
 
     #[Computed]
