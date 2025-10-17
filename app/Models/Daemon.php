@@ -23,8 +23,6 @@ class Daemon extends Model
         return [
             'processes' => 'integer',
             'stop_wait_seconds' => 'integer',
-            'installed_at' => 'datetime',
-            'failed_at' => 'datetime',
         ];
     }
 
@@ -60,6 +58,8 @@ class Daemon extends Model
 
     public function install(): void
     {
+        $this->update(['status' => 'installing']);
+
         $this->server->createInstallDaemonTask($this)->run();
 
         $this->markAsInstalled();
@@ -67,14 +67,11 @@ class Daemon extends Model
 
     public function markAsInstalled(): void
     {
-        $this->update([
-            'installed_at' => now(),
-            'failed_at' => null,
-        ]);
+        $this->update(['status' => 'installed']);
     }
 
     public function markAsFailed(): void
     {
-        $this->update(['failed_at' => now()]);
+        $this->update(['status' => 'failed']);
     }
 }

@@ -27,7 +27,7 @@ it('creates and runs an install_daemon task for the server', function () {
     $job = new InstallDaemonJob($daemon);
     $job->handle();
 
-    expect($daemon->fresh()->installed_at)->not()->toBeNull();
+    expect($daemon->fresh()->status)->toBe('installed');
 
     $task = $server->tasks()
         ->where('name', 'install_daemon')
@@ -42,11 +42,11 @@ it('creates and runs an install_daemon task for the server', function () {
     });
 });
 
-it('stores the failed date when the job fails', function () {
+it('stores the failed status when the job fails', function () {
     $daemon = Daemon::factory()->create();
 
     $job = new InstallDaemonJob($daemon);
     $job->failed(new Exception('Simulated failure'));
 
-    expect($daemon->fresh()->failed_at)->not()->toBeNull();
+    expect($daemon->fresh()->status)->toBe('failed');
 });

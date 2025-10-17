@@ -39,8 +39,7 @@ new class extends Component
                 <flux:table.column>Processes</flux:table.column>
                 <flux:table.column>Stop Wait</flux:table.column>
                 <flux:table.column>Stop Signal</flux:table.column>
-                <flux:table.column>Installed At</flux:table.column>
-                <flux:table.column>Failed At</flux:table.column>
+                <flux:table.column>Status</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->daemons as $daemon)
@@ -51,8 +50,7 @@ new class extends Component
                         <flux:table.cell>{{ $daemon->processes }}</flux:table.cell>
                         <flux:table.cell>{{ $daemon->stop_wait_seconds }}</flux:table.cell>
                         <flux:table.cell>{{ $daemon->stop_signal }}</flux:table.cell>
-                        <flux:table.cell>{{ $daemon->installed_at?->format('Y-m-d H:i') }}</flux:table.cell>
-                        <flux:table.cell>{{ $daemon->failed_at?->format('Y-m-d H:i') }}</flux:table.cell>
+                        <flux:table.cell>{{ $daemon->status }}</flux:table.cell>
                     </flux:table.row>
                 @endforeach
             </flux:table.rows>

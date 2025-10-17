@@ -24,6 +24,7 @@ class DaemonFactory extends Factory
             'processes' => 2,
             'stop_wait_seconds' => 10,
             'stop_signal' => 'TERM',
+            'status' => 'pending',
         ];
     }
 }
