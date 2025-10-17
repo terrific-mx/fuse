@@ -71,7 +71,19 @@ new class extends Component
 }; ?>
 
 <div>
-    <form wire:submit="assignServers">
+    <header class="flex items-center -mt-6 lg:-mt-8">
+        <flux:heading size="lg">SSH keys</flux:heading>
+        <flux:spacer />
+        <flux:navbar>
+            <flux:navbar.item :href="route('ssh-keys.index')" :accent="false" wire:navigate>
+                Overview
+            </flux:navbar.item>
+            <flux:button :href="route('ssh-keys.create')" variant="primary" color="zinc" size="sm" wire:navigate>
+                Add
+            </flux:button>
+        </flux:navbar>
+    </header>
+    <form wire:submit="assignServers" class="mt-12">
         <h2 class="text-lg font-bold mb-4">Assign Servers to SSH Key</h2>
         <div class="space-y-2 mb-6">
             @foreach ($servers as $server)
