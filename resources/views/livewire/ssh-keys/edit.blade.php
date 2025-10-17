@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\DeauthorizeSshKeyOnServerJob;
 use App\Models\SshKey;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -46,16 +47,26 @@ new class extends Component
         $this->sshKey->refresh();
     }
 
-    public function deleteSshKey()
+    public function delete()
     {
         $this->authorize('delete', $this->sshKey);
 
-        foreach ($this->sshKey->servers as $server) {
-            \App\Jobs\DeauthorizeSshKeyOnServerJob::dispatch($this->sshKey, $server);
-        }
+        $this->sshKey->servers->each(function ($server) {
+            DeauthorizeSshKeyOnServerJob::dispatch($this->sshKey, $server);
+        });
 
         $this->sshKey->delete();
-        // Optionally, redirect or show a message here
+
+        return redirect()->route('ssh-keys.index');
+    }
+
+    public function purge()
+    {
+        $this->authorize('delete', $this->sshKey);
+        $this->sshKey->servers()->detach();
+        $this->sshKey->delete();
+
+        return redirect()->route('ssh-keys.index');
     }
 }; ?>
 
@@ -73,10 +84,17 @@ new class extends Component
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
 
-    <form wire:submit="deleteSshKey" class="mt-4">
+    <form wire:submit="delete" class="mt-4">
         <button type="submit" class="btn btn-danger"
             onclick="return confirm('Are you sure you want to delete this SSH key? This will remove it from all servers.');">
             Delete SSH Key
+        </button>
+    </form>
+
+    <form wire:submit="purge" class="mt-2">
+        <button type="submit" class="btn btn-warning"
+            onclick="return confirm('Delete SSH key from database only? It will remain on all associated servers.');">
+            Delete SSH Key Only (Keep on Servers)
         </button>
     </form>
 </div>

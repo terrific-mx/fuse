@@ -41,6 +41,39 @@ test('assigning servers to ssh key dispatches authorize jobs', function () {
     });
 });
 
+test('deleting an ssh key only removes it from the database and detaches from servers without dispatching deauthorize jobs', function () {
+    Queue::fake();
+
+    $organization = Organization::factory()->create();
+    $sshKey = SshKey::factory()->for($organization)->create();
+    $servers = Server::factory()->count(3)->for($organization)->create();
+
+    actingAs($organization->user);
+
+    // Assign all servers first
+    Volt::test('ssh-keys.edit', ['sshKey' => $sshKey])
+        ->set('selectedServers', $servers->pluck('id')->toArray())
+        ->call('assignServers')
+        ->assertHasNoErrors();
+    $sshKey->refresh();
+
+    // Delete the SSH key only (do not deauthorize)
+    Volt::test('ssh-keys.edit', ['sshKey' => $sshKey])
+        ->call('purge')
+        ->assertHasNoErrors();
+
+    // Assert the SSH key is deleted
+    expect($sshKey->fresh())->toBeNull();
+
+    // Assert the SSH key is removed from all servers
+    $servers->each(function ($server) use ($sshKey) {
+        expect($server->sshKeys()->where('ssh_key_id', $sshKey->id)->exists())->toBeFalse();
+    });
+
+    // Assert no deauthorize jobs dispatched
+    Queue::assertNotPushed(DeauthorizeSshKeyOnServerJob::class);
+});
+
 test('deleting an ssh key removes it from all servers and dispatches deauthorize jobs', function () {
     Queue::fake();
 
@@ -59,11 +92,11 @@ test('deleting an ssh key removes it from all servers and dispatches deauthorize
 
     // Delete the SSH key
     Volt::test('ssh-keys.edit', ['sshKey' => $sshKey])
-        ->call('deleteSshKey')
+        ->call('delete')
         ->assertHasNoErrors();
 
     // Assert the SSH key is deleted
-    expect($sshKey->refresh())->toBeNull();
+    expect($sshKey->fresh())->toBeNull();
 
     // Assert the SSH key is removed from all servers
     $servers->each(function ($server) use ($sshKey) {
