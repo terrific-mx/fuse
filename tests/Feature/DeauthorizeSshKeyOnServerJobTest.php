@@ -26,12 +26,41 @@ it('creates and runs a deauthorize_ssh_key task for the server', function () {
         ->first();
 
     expect($task)->not()->toBeNull();
-    expect($task->script)->toContain('sed -i.bak');
-    expect($task->script)->toContain('~/.ssh/authorized_keys');
+    $expectedScript = "sed -i.bak '/".str_replace('/', '\/', $sshKey->public_key)."/d' ~/.ssh/authorized_keys";
+    expect($task->script)->toContain($expectedScript);
 
     Process::assertRan(function ($process, $result) {
         return true;
     });
+});
+
+it('generates a correct sed script for keys with slashes', function () {
+    Process::fake([
+        '*' => Process::sequence()
+            ->push(Process::result())
+            ->push(Process::result())
+            ->push(Process::result(output: 'key deauthorized')),
+    ]);
+
+    $server = Server::factory()->create();
+    // Key with a / character
+    $specialKey = 'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEp8/specialkey user@host';
+    $sshKey = SshKey::factory()->for($server->organization)->create([
+        'public_key' => $specialKey,
+    ]);
+    $sshKey->servers()->attach($server->id);
+
+    $job = new DeauthorizeSshKeyOnServerJob($sshKey, $server);
+    $job->handle();
+
+    $task = $server->tasks()
+        ->where('name', 'deauthorize_ssh_key')
+        ->where('user', 'fuse')
+        ->first();
+
+    expect($task)->not()->toBeNull();
+    $expectedScript = "sed -i.bak '/".str_replace('/', '\/', $specialKey)."/d' ~/.ssh/authorized_keys";
+    expect($task->script)->toContain($expectedScript);
 });
 
 it('removes the association if the job fails', function () {
