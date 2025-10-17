@@ -24,7 +24,9 @@ class AuthorizeSshKeyOnServerJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $this->sshKey->authorize($this->server);
+        tap($this->sshKey->authorize($this->server), function ($task) {
+            throw_if($task->isFailed(), \Exception::class, 'SSH key authorization failed on server');
+        });
     }
 
     /**

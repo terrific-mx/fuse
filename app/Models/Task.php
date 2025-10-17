@@ -307,4 +307,12 @@ class Task extends Model
     {
         return $this->exit_code === 0;
     }
+
+    /**
+     * Determine if the task has failed.
+     */
+    public function isFailed(): bool
+    {
+        return $this->status === 'failed' || ($this->exit_code !== null && $this->exit_code !== 0);
+    }
 }
