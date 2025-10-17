@@ -30,7 +30,6 @@ new class extends Component
             <flux:table.columns>
                 <flux:table.column>Name</flux:table.column>
                 <flux:table.column>Public key</flux:table.column>
-                <flux:table.column align="end">Added date</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->sshKeys as $key)
@@ -41,7 +40,6 @@ new class extends Component
                                 <p class="truncate">{{ $key->masked_public_key }}</p>
                             </div>
                         </flux:table.cell>
-                        <flux:table.cell align="end">{{ $key->created_at->format('M j, Y') }}</flux:table.cell>
                     </flux:table.row>
                 @endforeach
             </flux:table.rows>

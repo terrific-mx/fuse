@@ -15,7 +15,7 @@ Route::get('/task/{task}/callback', [CallbackController::class, 'task'])->name('
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
     Route::redirect('/dashboard', '/servers')->name('dashboard');
 
-    Volt::route('ssh-keys', 'ssh-keys')->name('ssh-keys');
+    Volt::route('ssh-keys', 'ssh-keys.index')->name('ssh-keys.index');
     Volt::route('ssh-keys/create', 'ssh-keys.create')->name('ssh-keys.create');
 
     Volt::route('servers', 'servers.index')->name('servers.index');

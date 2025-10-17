@@ -34,7 +34,7 @@ new class extends Component
 
 <div>
     <flux:breadcrumbs class="mb-3">
-        <flux:breadcrumbs.item :href="route('ssh-keys')" wire:navigate>SSH keys</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('ssh-keys.index')" wire:navigate>SSH keys</flux:breadcrumbs.item>
         <flux:breadcrumbs.item>Add SSH key</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
@@ -55,7 +55,7 @@ new class extends Component
         />
         <div class="flex gap-4">
             <flux:button type="submit" variant="primary">Add SSH key</flux:button>
-            <flux:button :href="route('ssh-keys')" variant="ghost" wire:navigate>Cancel</flux:button>
+            <flux:button :href="route('ssh-keys.index')" variant="ghost" wire:navigate>Cancel</flux:button>
         </div>
     </form>
 </div>
