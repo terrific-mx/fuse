@@ -46,3 +46,19 @@ it('removes the association if the job fails', function () {
     // The association should be removed
     expect($sshKey->servers()->where('id', $server->id)->exists())->toBeFalse();
 });
+
+it('fails the job if the authorization task fails', function () {
+    Process::fake([
+        '*' => Process::sequence()
+            ->push(Process::result()) // Prepare remote directory
+            ->push(Process::result()) // Upload public key
+            ->push(Process::result(exitCode: 1, output: 'failed')), // Authorization fails
+    ]);
+
+    $server = Server::factory()->create();
+    $sshKey = SshKey::factory()->for($server->organization)->create();
+
+    $job = new AuthorizeSshKeyOnServerJob($sshKey, $server);
+
+    expect(fn () => $job->handle())->toThrow(Exception::class);
+});
