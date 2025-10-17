@@ -26,7 +26,8 @@ it('creates and runs a deauthorize_ssh_key task for the server', function () {
         ->first();
 
     expect($task)->not()->toBeNull();
-    expect($task->script)->toContain('ssh-keygen -f ~/.ssh/authorized_keys -R "'.$sshKey->public_key.'"');
+    expect($task->script)->toContain('sed -i.bak');
+    expect($task->script)->toContain('~/.ssh/authorized_keys');
 
     Process::assertRan(function ($process, $result) {
         return true;

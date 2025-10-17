@@ -408,8 +408,9 @@ class Server extends Model
      */
     public function createDeauthorizeSshKeyTask(SshKey $sshKey)
     {
+        $escapedKey = str_replace('|', '\\|', $sshKey->public_key);
         $script = <<<BASH
-            ssh-keygen -f ~/.ssh/authorized_keys -R "{$sshKey->public_key}"
+            sed -i.bak '|{$escapedKey}|d' ~/.ssh/authorized_keys
             BASH;
 
         return $this->tasks()->create([
