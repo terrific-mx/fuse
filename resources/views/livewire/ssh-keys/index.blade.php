@@ -20,12 +20,12 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex flex-wrap justify-between items-center gap-4">
+    <header class="flex flex-wrap justify-between items-center gap-4 mt-4">
         <flux:heading size="xl">SSH keys</flux:heading>
         <flux:button :href="route('ssh-keys.create')" variant="primary" size="sm" wire:navigate>Add SSH key</flux:button>
     </header>
 
-    <div class="mt-12">
+    <div class="mt-6">
         <flux:table>
             <flux:table.columns>
                 <flux:table.column>Name</flux:table.column>

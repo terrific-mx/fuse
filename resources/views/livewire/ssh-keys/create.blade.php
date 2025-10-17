@@ -33,14 +33,14 @@ new class extends Component
 }; ?>
 
 <div>
-    <flux:breadcrumbs class="mb-3">
+    <flux:breadcrumbs class="mt-4">
         <flux:breadcrumbs.item :href="route('ssh-keys.index')" wire:navigate>SSH keys</flux:breadcrumbs.item>
         <flux:breadcrumbs.item>Add SSH key</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
-    <flux:heading size="xl">Add SSH key</flux:heading>
+    <flux:heading size="xl" class="mt-3">Add SSH key</flux:heading>
 
-    <form wire:submit="save" class="space-y-6 mt-12">
+    <form wire:submit="save" class="space-y-6 mt-6">
         <flux:textarea
             wire:model="public_key"
             label="Public key"
