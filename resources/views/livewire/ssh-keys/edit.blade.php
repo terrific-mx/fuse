@@ -45,6 +45,18 @@ new class extends Component
         $this->sshKey->syncServers($this->servers->whereIn('id', $this->selectedServers));
         $this->sshKey->refresh();
     }
+
+    public function deleteSshKey()
+    {
+        $this->authorize('delete', $this->sshKey);
+
+        foreach ($this->sshKey->servers as $server) {
+            \App\Jobs\DeauthorizeSshKeyOnServerJob::dispatch($this->sshKey, $server);
+        }
+
+        $this->sshKey->delete();
+        // Optionally, redirect or show a message here
+    }
 }; ?>
 
 <div>
@@ -59,5 +71,12 @@ new class extends Component
             @endforeach
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+    <form wire:submit="deleteSshKey" class="mt-4">
+        <button type="submit" class="btn btn-danger"
+            onclick="return confirm('Are you sure you want to delete this SSH key? This will remove it from all servers.');">
+            Delete SSH Key
+        </button>
     </form>
 </div>

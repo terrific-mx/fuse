@@ -44,7 +44,7 @@ class SshKeyPolicy
      */
     public function delete(User $user, SshKey $sshKey): bool
     {
-        return false;
+        return $user->currentOrganization->id === $sshKey->organization_id;
     }
 
     /**
