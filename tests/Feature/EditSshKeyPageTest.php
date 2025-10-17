@@ -63,7 +63,7 @@ test('deleting an ssh key removes it from all servers and dispatches deauthorize
         ->assertHasNoErrors();
 
     // Assert the SSH key is deleted
-    expect(SshKey::find($sshKey->id))->toBeNull();
+    expect($sshKey->refresh())->toBeNull();
 
     // Assert the SSH key is removed from all servers
     $servers->each(function ($server) use ($sshKey) {
