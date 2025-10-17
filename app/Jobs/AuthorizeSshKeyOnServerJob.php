@@ -24,6 +24,22 @@ class AuthorizeSshKeyOnServerJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        $script = <<<BASH
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+
+echo '{$this->sshKey->public_key}' >> ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/authorized_keys
+BASH;
+
+        $task = $this->server->tasks()->create([
+            'name' => 'authorize_ssh_key',
+            'user' => 'fuse',
+            'script' => $script,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+
+        $task->run();
     }
 }
