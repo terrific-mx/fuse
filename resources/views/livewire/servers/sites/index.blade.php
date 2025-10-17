@@ -30,7 +30,10 @@ new class extends Component
 
 <div>
     <header class="flex items-center -mt-6 lg:-mt-8">
-        <flux:heading size="lg">{{ $server->name }}</flux:heading>
+        <div class="flex items-center gap-4">
+            <flux:heading size="lg">{{ $server->name }}</flux:heading>
+            <flux:input value="{{ $server->ip_address }}" variant="filled" size="sm" readonly copyable />
+        </div>
         <flux:spacer />
         @include('partials.server-navbar')
     </header>

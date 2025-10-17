@@ -8,9 +8,9 @@ it('adds an SSH key to the user organization', function () {
     $organization = $user->organizations()->first();
 
     $component = Volt::actingAs($user)
-        ->test('ssh-keys')
-        ->set('form.name', 'Work Laptop')
-        ->set('form.public_key', 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkey1')
+        ->test('ssh-keys.create')
+        ->set('name', 'Work Laptop')
+        ->set('public_key', 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkey1')
         ->call('save');
 
     $component->assertHasNoErrors();

@@ -1,19 +1,11 @@
 <?php
 
-use App\Livewire\Forms\SshKeyForm;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component
 {
-    public SshKeyForm $form;
-
-    public function save()
-    {
-        $this->form->store($this->organization);
-    }
-
     #[Computed]
     public function organization()
     {
@@ -30,12 +22,10 @@ new class extends Component
 <div>
     <header class="flex flex-wrap justify-between items-center gap-4">
         <flux:heading size="xl">SSH keys</flux:heading>
-        <flux:modal.trigger name="add-ssh-key">
-            <flux:button variant="primary">Add SSH key</flux:button>
-        </flux:modal.trigger>
+        <flux:button :href="route('ssh-keys.create')" variant="primary" size="sm" wire:navigate>Add SSH key</flux:button>
     </header>
 
-    <div class="mt-8">
+    <div class="mt-12">
         <flux:table>
             <flux:table.columns>
                 <flux:table.column>Name</flux:table.column>
@@ -57,26 +47,4 @@ new class extends Component
             </flux:table.rows>
         </flux:table>
     </div>
-
-    <flux:modal name="add-ssh-key" variant="flyout" class="max-w-md">
-        <form wire:submit="save" class="space-y-6">
-            <flux:heading size="lg">Add SSH key</flux:heading>
-            <flux:input
-                wire:model="form.name"
-                label="Name"
-                name="form.name"
-                required
-            />
-            <flux:input
-                wire:model="form.public_key"
-                label="Public key"
-                name="form.public_key"
-                required
-            />
-            <div class="flex">
-                <flux:spacer />
-                <flux:button type="submit" variant="primary">Add SSH key</flux:button>
-            </div>
-        </form>
-    </flux:modal>
 </div>
