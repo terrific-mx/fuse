@@ -41,6 +41,14 @@ class SshKey extends Model
     }
 
     /**
+     * Authorize this SSH key on the given server.
+     */
+    public function authorize(Server $server): void
+    {
+        $server->createAuthorizeSshKeyTask($this)->run();
+    }
+
+    /**
      * Sync servers and dispatch jobs for authorization/deauthorization.
      */
     public function syncServers(Collection $servers): void
