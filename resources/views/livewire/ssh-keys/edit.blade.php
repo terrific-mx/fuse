@@ -42,7 +42,7 @@ new class extends Component
             ],
         ]);
 
-        $this->sshKey->servers()->sync($this->selectedServers);
+        $this->sshKey->syncServers($this->servers->whereIn('id', $this->selectedServers));
         $this->sshKey->refresh();
     }
 }; ?>
