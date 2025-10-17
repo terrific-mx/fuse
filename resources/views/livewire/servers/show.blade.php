@@ -13,12 +13,13 @@ new class extends Component
     }
 }; ?>
 
-<div>
-    <header>
-        <flux:heading size="xl">{{ $server->name }}</flux:heading>
+<div wire:poll class="space-y-8">
+    <header class="flex items-center -mt-6 lg:-mt-8">
+        <flux:heading size="lg">{{ $server->name }}</flux:heading>
+        <flux:spacer />
         @include('partials.server-navbar')
     </header>
-    <section class="space-y-6 max-w-lg mt-8">
+    <section class="space-y-6 max-w-lg">
         <flux:input label="Name" value="{{ $server->name }}" variant="filled" readonly />
         <flux:input label="Ip Address" value="{{ $server->ip_address }}" variant="filled" readonly />
         <flux:input label="Sudo Password" value="{{ $server->sudo_password }}" type="password" variant="filled" readonly viewable copyable />

@@ -21,17 +21,20 @@ new class extends Component
 }; ?>
 
 <div wire:poll class="space-y-8">
-    <header class="mb-6 space-y-2">
-        <flux:heading size="xl">{{ $server->name }}</flux:heading>
+    <header class="flex items-center -mt-6 lg:-mt-8">
+        <flux:heading size="lg">{{ $server->name }}</flux:heading>
+        <flux:spacer />
         @include('partials.server-navbar')
     </header>
 
-    <div class="mb-4">
-        <flux:button :href="route('servers.daemons.create', $server)">Add daemon</flux:button>
-    </div>
+    <section class="mt-12">
+        <div class="flex justify-between items-center">
+            <flux:heading size="xl">Daemons</flux:heading>
+            <flux:button :href="route('servers.daemons.create', $server)" variant="primary" size="sm" color="zinc">Add daemon</flux:button>
+        </div>
 
-    <div>
-        <flux:table :paginate="$this->daemons">
+        <div class="mt-4">
+            <flux:table :paginate="$this->daemons">
             <flux:table.columns>
                 <flux:table.column>Command</flux:table.column>
                 <flux:table.column>Directory</flux:table.column>
@@ -55,5 +58,6 @@ new class extends Component
                 @endforeach
             </flux:table.rows>
         </flux:table>
-    </div>
+        </div>
+    </section>
 </div>

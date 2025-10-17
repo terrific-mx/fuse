@@ -29,14 +29,18 @@ new class extends Component
 }; ?>
 
 <div>
-    <header>
-        <flux:heading size="xl">{{ $server->name }}</flux:heading>
+    <header class="flex items-center -mt-6 lg:-mt-8">
+        <flux:heading size="lg">{{ $server->name }}</flux:heading>
+        <flux:spacer />
         @include('partials.server-navbar')
     </header>
-    <section class="mt-8">
-        <flux:modal.trigger name="add-site">
-            <flux:button variant="primary">Add site</flux:button>
-        </flux:modal.trigger>
+    <section class="mt-12">
+        <div class="flex justify-between items-center">
+            <flux:heading size="xl">Sites</flux:heading>
+            <flux:modal.trigger name="add-site">
+                <flux:button variant="primary" size="sm" color="zinc">Add site</flux:button>
+            </flux:modal.trigger>
+        </div>
 
         <div class="mt-4">
             <flux:table>
@@ -49,7 +53,7 @@ new class extends Component
                 <flux:table.rows>
                     @foreach ($this->sites as $site)
                         <flux:table.row :key="$site->id">
-                            <flux:table.cell><flux:link :href="route('servers.sites.show', ['server' => $server, 'site' => $site])" wire:navigate>{{ $site->hostname }}</flux:link></flux:table.cell>
+                        <flux:table.cell><flux:link :href="route('servers.sites.show', ['server' => $server, 'site' => $site])" color="zinc" wire:navigate>{{ $site->hostname }}</flux:link></flux:table.cell>
                             <flux:table.cell>{{ $site->php_version }}</flux:table.cell>
                             <flux:table.cell>{{ $site->repository_url }}</flux:table.cell>
                             <flux:table.cell>{{ $site->repository_branch }}</flux:table.cell>
