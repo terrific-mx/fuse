@@ -20,9 +20,11 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex flex-wrap justify-between items-center gap-4 mt-4">
+    <header class="mt-4 flex flex-wrap items-center justify-between gap-4">
         <flux:heading size="xl">SSH keys</flux:heading>
-        <flux:button :href="route('ssh-keys.create')" variant="primary" size="sm" wire:navigate>Add SSH key</flux:button>
+        <flux:button :href="route('ssh-keys.create')" variant="primary" size="sm" wire:navigate>
+            Add SSH key
+        </flux:button>
     </header>
 
     <div class="mt-6">
@@ -35,10 +37,10 @@ new class extends Component
                 @foreach ($this->sshKeys as $key)
                     <flux:table.row :key="$key->id">
                         <flux:table.cell variant="strong">
-    <flux:link :href="route('ssh-keys.edit', $key)" wire:navigate>
-        {{ $key->name }}
-    </flux:link>
-</flux:table.cell>
+                            <flux:link :href="route('ssh-keys.edit', $key)" wire:navigate>
+                                {{ $key->name }}
+                            </flux:link>
+                        </flux:table.cell>
                         <flux:table.cell>
                             <div class="max-w-xs">
                                 <p class="truncate">{{ $key->masked_public_key }}</p>
