@@ -17,6 +17,7 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
 
     Volt::route('ssh-keys', 'ssh-keys.index')->name('ssh-keys.index');
     Volt::route('ssh-keys/create', 'ssh-keys.create')->name('ssh-keys.create');
+    Volt::route('ssh-keys/{sshKey}/edit', 'ssh-keys.edit')->name('ssh-keys.edit');
 
     Volt::route('servers', 'servers.index')->name('servers.index');
     Route::redirect('servers/{server}', '/servers/{server}/sites')->name('servers.show');
