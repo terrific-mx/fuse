@@ -36,8 +36,17 @@ new class extends Component
             ? $this->selectedServers
             : (array) $this->selectedServers;
 
-        $this->sshKey->servers()->sync($ids);
+        // Validate that each server exists and belongs to the organization
+        $this->validate([
+            'selectedServers' => ['array'],
+            'selectedServers.*' => [
+                'integer',
+                \Illuminate\Validation\Rule::exists('servers', 'id')
+                    ->where('organization_id', $this->organization->id),
+            ],
+        ]);
 
+        $this->sshKey->servers()->sync($ids);
         $this->sshKey->refresh();
     }
 }; ?>
