@@ -16,12 +16,13 @@ new class extends Component
     public function save()
     {
         $this->validate();
+
         $this->organization->sshKeys()->create([
             'name' => $this->name,
             'public_key' => $this->public_key,
         ]);
 
-        return redirect()->route('ssh-keys');
+        $this->redirectRoute('ssh-keys', navigate: true);
     }
 
     #[Computed]
@@ -33,7 +34,7 @@ new class extends Component
 
 <div>
     <flux:breadcrumbs class="mb-3">
-        <flux:breadcrumbs.item :href="route('ssh-keys')">SSH keys</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('ssh-keys')" wire:navigate>SSH keys</flux:breadcrumbs.item>
         <flux:breadcrumbs.item>Add SSH key</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
