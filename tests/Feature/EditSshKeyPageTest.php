@@ -18,7 +18,7 @@ test('user can assign ssh key to servers from volt edit page', function () {
     $unassigned = $servers->last();
 
     Volt::test('ssh-keys.edit', ['sshKey' => $sshKey])
-        ->set('selectedServers', $assigned->pluck('id'))
+        ->set('selectedServers', $assigned->pluck('id')->toArray())
         ->call('assignServers')
         ->assertHasNoErrors();
 
