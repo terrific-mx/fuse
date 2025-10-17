@@ -71,7 +71,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex items-center -mt-6 lg:-mt-8">
+    <header class="-mt-6 flex items-center lg:-mt-8">
         <flux:heading size="lg">SSH keys</flux:heading>
         <flux:spacer />
         <div class="flex items-center gap-4">
@@ -85,30 +85,32 @@ new class extends Component
             </flux:button>
         </div>
     </header>
-    <form wire:submit="assignServers" class="mt-12">
-        <h2 class="text-lg font-bold mb-4">Assign Servers to SSH Key</h2>
-        <div class="space-y-2 mb-6">
+    <flux:heading size="xl" class="mt-12">{{ $sshKey->name }}</flux:heading>
+    <form wire:submit="assignServers" class="mt-6 space-y-6">
+        <flux:checkbox.group wire:model="selectedServers" label="Server Access">
+            <flux:checkbox.all label="Select all" />
             @foreach ($servers as $server)
-                <label class="flex items-center space-x-2">
-                    <input type="checkbox" wire:model="selectedServers" value="{{ $server->id }}">
-                    <span>{{ $server->name }}</span>
-                </label>
+                <flux:checkbox label="{{ $server->name }}" value="{{ $server->id }}" />
             @endforeach
-        </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+        </flux:checkbox.group>
+        <flux:button type="submit" variant="primary" color="zinc">Save</flux:button>
     </form>
 
-    <form wire:submit="delete" class="mt-4">
-        <button type="submit" class="btn btn-danger"
-            onclick="return confirm('Are you sure you want to delete this SSH key? This will remove it from all servers.');">
-            Delete SSH Key
-        </button>
-    </form>
+    <flux:spacer class="mt-10" />
 
-    <form wire:submit="purge" class="mt-2">
-        <button type="submit" class="btn btn-warning"
-            onclick="return confirm('Delete SSH key from database only? It will remain on all associated servers.');">
-            Delete SSH Key Only (Keep on Servers)
-        </button>
-    </form>
+    <div class="flex gap-2">
+        <flux:button
+            wire:click="delete"
+            wire:confirm="Are you sure you want to delete this SSH key? This will remove it from all servers."
+        >
+            Delete & remove from servers
+        </flux:button>
+        <flux:button
+            wire:click="purge"
+            wire:confirm="Delete SSH key from database only? It will remain on all associated servers."
+            variant="ghost"
+        >
+            Delete only (keep on servers)
+        </flux:button>
+    </div>
 </div>
