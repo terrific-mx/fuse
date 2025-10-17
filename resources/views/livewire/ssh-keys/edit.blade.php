@@ -3,6 +3,7 @@
 use App\Models\SshKey;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
@@ -32,21 +33,16 @@ new class extends Component
     {
         $this->authorize('update', $this->sshKey);
 
-        $ids = is_array($this->selectedServers)
-            ? $this->selectedServers
-            : (array) $this->selectedServers;
-
-        // Validate that each server exists and belongs to the organization
         $this->validate([
             'selectedServers' => ['array'],
             'selectedServers.*' => [
-                'integer',
-                \Illuminate\Validation\Rule::exists('servers', 'id')
+                'required',
+                Rule::exists('servers', 'id')
                     ->where('organization_id', $this->organization->id),
             ],
         ]);
 
-        $this->sshKey->servers()->sync($ids);
+        $this->sshKey->servers()->sync($this->selectedServers);
         $this->sshKey->refresh();
     }
 }; ?>
