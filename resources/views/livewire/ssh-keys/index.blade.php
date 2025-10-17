@@ -20,9 +20,19 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex flex-wrap justify-between items-center gap-4 mt-4">
-        <flux:heading size="xl">SSH keys</flux:heading>
-        <flux:button :href="route('ssh-keys.create')" variant="primary" size="sm" wire:navigate>Add SSH key</flux:button>
+    <header class="flex items-center -mt-6 lg:-mt-8">
+        <flux:heading size="lg">SSH keys</flux:heading>
+        <flux:spacer />
+        <div class="flex items-center gap-4">
+            <flux:navbar>
+                <flux:navbar.item :href="route('ssh-keys.index')" :accent="false" wire:navigate>
+                    Overview
+                </flux:navbar.item>
+            </flux:navbar>
+            <flux:button :href="route('ssh-keys.create')" variant="primary" color="zinc" size="sm" wire:navigate>
+                Add
+            </flux:button>
+        </div>
     </header>
 
     <div class="mt-6">
@@ -34,7 +44,11 @@ new class extends Component
             <flux:table.rows>
                 @foreach ($this->sshKeys as $key)
                     <flux:table.row :key="$key->id">
-                        <flux:table.cell variant="strong">{{ $key->name }}</flux:table.cell>
+                        <flux:table.cell variant="strong">
+                            <flux:link :href="route('ssh-keys.edit', $key)" wire:navigate>
+                                {{ $key->name }}
+                            </flux:link>
+                        </flux:table.cell>
                         <flux:table.cell>
                             <div class="max-w-xs">
                                 <p class="truncate">{{ $key->masked_public_key }}</p>

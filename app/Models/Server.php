@@ -384,4 +384,40 @@ class Server extends Model
             'after_actions' => [],
         ]);
     }
+
+    /**
+     * Create an authorize_ssh_key task for the given SSH key.
+     */
+    public function createAuthorizeSshKeyTask(SshKey $sshKey)
+    {
+        $script = <<<BASH
+            echo '{$sshKey->public_key}' >> ~/.ssh/authorized_keys
+            BASH;
+
+        return $this->tasks()->create([
+            'name' => 'authorize_ssh_key',
+            'user' => 'fuse',
+            'script' => $script,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
+     * Create a deauthorize_ssh_key task for the given SSH key.
+     */
+    public function createDeauthorizeSshKeyTask(SshKey $sshKey)
+    {
+        $script = <<<BASH
+            ssh-keygen -f ~/.ssh/authorized_keys -R "{$sshKey->public_key}"
+            BASH;
+
+        return $this->tasks()->create([
+            'name' => 'deauthorize_ssh_key',
+            'user' => 'fuse',
+            'script' => $script,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
 }
