@@ -24,6 +24,16 @@ class DeauthorizeSshKeyOnServerJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        tap($this->sshKey->deauthorize($this->server), function ($task) {
+            throw_if($task->isFailed(), \Exception::class, 'SSH key deauthorization failed on server');
+        });
+    }
+
+    /**
+     * Remove the association if the job fails.
+     */
+    public function failed(\Throwable $exception): void
+    {
+        $this->sshKey->servers()->detach($this->server->id);
     }
 }
