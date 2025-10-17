@@ -34,7 +34,11 @@ new class extends Component
             <flux:table.rows>
                 @foreach ($this->sshKeys as $key)
                     <flux:table.row :key="$key->id">
-                        <flux:table.cell variant="strong">{{ $key->name }}</flux:table.cell>
+                        <flux:table.cell variant="strong">
+    <flux:link :href="route('ssh-keys.edit', $key)" wire:navigate>
+        {{ $key->name }}
+    </flux:link>
+</flux:table.cell>
                         <flux:table.cell>
                             <div class="max-w-xs">
                                 <p class="truncate">{{ $key->masked_public_key }}</p>
