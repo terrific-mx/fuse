@@ -35,6 +35,10 @@ new class extends Component
         </div>
     </header>
 
+    <flux:spacer class="mt-12" />
+
+    <flux:heading size="xl">SSH keys</flux:heading>
+
     <div class="mt-6">
         <flux:table>
             <flux:table.columns>

@@ -85,7 +85,18 @@ new class extends Component
             </flux:button>
         </div>
     </header>
-    <flux:heading size="xl" class="mt-12">{{ $sshKey->name }}</flux:heading>
+
+    <flux:spacer class="mt-12" />
+
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item :href="route('ssh-keys.index')" wire:navigate>SSH keys</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item>{{ $sshKey->name }}</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
+    <flux:spacer class="mt-3" />
+
+    <flux:heading size="xl">{{ $sshKey->name }}</flux:heading>
+
     <form wire:submit="assignServers" class="mt-6 space-y-6">
         <flux:checkbox.group wire:model="selectedServers" label="Server Access">
             <flux:checkbox.all label="Select all" />
