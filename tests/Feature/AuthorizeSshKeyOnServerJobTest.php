@@ -14,9 +14,7 @@ it('creates and runs an authorize_ssh_key task for the server', function () {
     ]);
 
     $server = Server::factory()->create();
-    $sshKey = SshKey::factory()->create([
-        'organization_id' => $server->organization_id,
-    ]);
+    $sshKey = SshKey::factory()->for($server->organization)->create();
 
     $job = new AuthorizeSshKeyOnServerJob($sshKey, $server);
     $job->handle();
@@ -32,4 +30,19 @@ it('creates and runs an authorize_ssh_key task for the server', function () {
     Process::assertRan(function ($process, $result) {
         return true;
     });
+});
+
+it('removes the association if the job fails', function () {
+    $server = Server::factory()->create();
+    $sshKey = SshKey::factory()->for($server->organization)->create();
+
+    // Associate the SSH key with the server
+    $sshKey->servers()->attach($server->id);
+    expect($sshKey->servers()->where('id', $server->id)->exists())->toBeTrue();
+
+    $job = new AuthorizeSshKeyOnServerJob($sshKey, $server);
+    $job->failed(new Exception('Simulated failure'));
+
+    // The association should be removed
+    expect($sshKey->servers()->where('id', $server->id)->exists())->toBeFalse();
 });

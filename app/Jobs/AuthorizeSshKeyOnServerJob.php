@@ -26,4 +26,12 @@ class AuthorizeSshKeyOnServerJob implements ShouldQueue
     {
         $this->sshKey->authorize($this->server);
     }
+
+    /**
+     * Remove the association if the job fails.
+     */
+    public function failed(\Throwable $exception): void
+    {
+        $this->sshKey->servers()->detach($this->server->id);
+    }
 }
