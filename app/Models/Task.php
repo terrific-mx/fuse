@@ -103,7 +103,7 @@ class Task extends Model
 
         $this->uploadScript();
 
-        $result = $this->executeScriptOnRemoteServer('bash '.$this->remoteScriptPath().' 2>&1 | tee '.$this->fuseDirectory().'/task-'.$this->id.'.log; exit ${PIPESTATUS[0]}');
+        $result = $this->executeScriptOnRemoteServer("bash {$this->remoteScriptPath()} 2>&1 | tee {$this->fuseDirectory()}/task-{$this->id}.log");
 
         $this->update([
             'exit_code' => $result->exitCode(),
