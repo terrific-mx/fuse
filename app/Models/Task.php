@@ -201,7 +201,7 @@ class Task extends Model
         $sshOptions = $this->buildSshOptions($this->server->privateKeyPath());
 
         $fullCommand = <<<SSH
-            ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash -s' <<{$heredocToken}
+            ssh {$sshOptions} {$this->user}@{$this->server->ip_address} 'bash -s; exit $?' <<{$heredocToken}
             {$script}
             {$heredocToken}
             SSH;
