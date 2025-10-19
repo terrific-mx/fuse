@@ -39,7 +39,7 @@ class BackupForm extends Form
         $this->validate();
 
         $this->directories = collect(explode("\n", $this->directories))
-            ->map(fn($path) => trim($path))
+            ->map(fn ($path) => trim($path))
             ->filter()
             ->values()
             ->toArray();

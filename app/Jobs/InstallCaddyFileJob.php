@@ -15,9 +15,7 @@ class InstallCaddyFileJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(public Site $site)
-    {
-    }
+    public function __construct(public Site $site) {}
 
     /**
      * Execute the job.
@@ -31,7 +29,7 @@ class InstallCaddyFileJob implements ShouldQueue
             'user' => 'fuse',
             'script' => view('scripts.site.install-caddy', [
                 'site' => $this->site,
-                'tempCaddyfilePath' => Str::of($this->site->caddyfile_path)->append('.' . Str::random(16)),
+                'tempCaddyfilePath' => Str::of($this->site->caddyfile_path)->append('.'.Str::random(16)),
             ])->render(),
             'after_actions' => [
                 (new MarkCaddyInstalled($this->site->id))->toCallbackArray(),

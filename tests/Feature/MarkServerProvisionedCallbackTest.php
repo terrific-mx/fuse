@@ -1,6 +1,7 @@
 <?php
 
 use App\Callbacks\MarkServerProvisioned;
+use App\Jobs\InstallCleanupCronJob;
 use App\Jobs\RetrieveRemoteSshKey;
 use App\Models\Server;
 use App\Models\Task;
@@ -22,6 +23,10 @@ it('marks a server as provisioned and dispatches a job to retrieve the remote pu
     $firewallRules->each(fn ($rule) => expect($rule->status)->toBe('installed'));
 
     Queue::assertPushed(RetrieveRemoteSshKey::class, function (RetrieveRemoteSshKey $job) use ($server) {
+        return $job->server->is($server);
+    });
+
+    Queue::assertPushed(InstallCleanupCronJob::class, function (InstallCleanupCronJob $job) use ($server) {
         return $job->server->is($server);
     });
 });

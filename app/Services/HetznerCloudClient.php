@@ -23,7 +23,7 @@ class HetznerCloudClient
     public function createServer(string $name, string $type, string $region): string
     {
         // Simulate API call and return a fake provider id
-        return 'hetzner-' . uniqid();
+        return 'hetzner-'.uniqid();
     }
 
     /**

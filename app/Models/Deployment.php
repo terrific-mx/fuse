@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Jobs\InstallCaddyFileJob;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Deployment extends Model
 {
@@ -142,8 +142,6 @@ class Deployment extends Model
 
     /**
      * Finalize the deployment: mark as deployed, update commit hash from git.
-     *
-     * @return void
      */
     public function finalizeDeployment(?string $output = null): void
     {
@@ -151,7 +149,7 @@ class Deployment extends Model
 
         if (! $this->site->isCaddyInstalled()) {
             InstallCaddyFileJob::dispatch($this->site);
-        };
+        }
 
         $task = $this->site->server->createGetGitHashTask($this->site)->run();
 

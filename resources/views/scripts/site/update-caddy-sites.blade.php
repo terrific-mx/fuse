@@ -1,7 +1,7 @@
 # Update Caddy site imports
 
 cat > /etc/caddy/Sites.caddy << EOF
-# import /home/eddy/example.com/Caddyfile
+# import /home/fuse/example.com/Caddyfile
 
 @foreach($sites as $site)
 import {!! $site->path !!}/Caddyfile

@@ -23,7 +23,7 @@ class SiteFactory extends Factory
             'php_version' => $this->faker->randomElement(['8.4', '8.3', '8.1']),
             'repository_url' => 'git@github.com:laravel/laravel.git',
             'repository_branch' => 'main',
-         ];
+        ];
     }
 
     /**
@@ -36,4 +36,3 @@ class SiteFactory extends Factory
         ]);
     }
 }
-

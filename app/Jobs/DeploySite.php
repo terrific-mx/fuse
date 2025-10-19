@@ -2,7 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Callbacks\UpdateDeploymentStatus;
 use App\Models\Deployment;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;

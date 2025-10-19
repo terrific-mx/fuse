@@ -4,10 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
 use Laravel\Cashier\Billable;
-
-use App\Services\OrganizationSshKeyService;
 
 class Organization extends Model
 {
@@ -50,7 +47,6 @@ class Organization extends Model
     {
         return $this->hasMany(Server::class);
     }
-
 
     public function members()
     {

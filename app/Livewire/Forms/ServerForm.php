@@ -50,7 +50,7 @@ class ServerForm extends Form
             'sudo_password' => Str::random(40),
         ]);
 
-        if (!empty($this->ssh_keys)) {
+        if (! empty($this->ssh_keys)) {
             $server->sshKeys()->sync($this->ssh_keys);
         }
 

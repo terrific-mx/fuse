@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Callbacks\MarkServerProvisioned;
 use App\Callbacks\UpdateDeploymentStatus;
+use App\Jobs\InstallCleanupCronJob;
 use App\Jobs\RetrieveRemoteSshKey;
 use App\Services\OrganizationSshKeyService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -88,6 +89,20 @@ class Server extends Model
     public function firewallRules()
     {
         return $this->hasMany(FirewallRule::class);
+    }
+
+    /**
+     * Create and run a task to install the cleanup cron.
+     */
+    public function createInstallCleanupCronTask(): Task
+    {
+        return $this->tasks()->create([
+            'name' => 'install_cleanup_cron',
+            'user' => 'root',
+            'script' => view('scripts.server.install-cleanup-cron')->render(),
+            'payload' => [],
+            'after_actions' => [],
+        ]);
     }
 
     /**
@@ -200,6 +215,7 @@ class Server extends Model
         $this->firewall();
 
         dispatch(new RetrieveRemoteSshKey($this));
+        dispatch(new InstallCleanupCronJob($this));
     }
 
     /**

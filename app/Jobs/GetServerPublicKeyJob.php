@@ -2,10 +2,10 @@
 
 namespace App\Jobs;
 
+use App\Models\Server;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Process;
-use App\Models\Server;
 
 class GetServerPublicKeyJob implements ShouldQueue
 {
