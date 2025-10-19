@@ -54,10 +54,27 @@ new class extends Component
     }
 }; ?>
 
-<div class="max-w-md mx-auto p-6">
-    <form wire:submit="save" class="space-y-6">
-        <flux:heading size="lg">Add server</flux:heading>
+<div>
+    <header class="-mt-6 flex items-center lg:-mt-8">
+        <flux:heading size="lg">Servers</flux:heading>
+        <flux:spacer />
+        <div class="flex items-center gap-4">
+            <flux:navbar>
+                <flux:navbar.item :href="route('servers.index')" :accent="false" wire:navigate>
+                    Overview
+                </flux:navbar.item>
+            </flux:navbar>
+            <flux:button :href="route('servers.create')" variant="primary" color="zinc" size="sm" wire:navigate>
+                Add
+            </flux:button>
+        </div>
+    </header>
 
+    <flux:spacer class="mt-12" />
+    <flux:spacer class="mt-3" />
+    <flux:heading size="xl">Add server</flux:heading>
+
+    <form wire:submit="save" class="space-y-6 mt-6">
         <flux:input
             label="Name"
             wire:model="name"
@@ -98,11 +115,9 @@ new class extends Component
             </x-slot>
         </flux:callout>
 
-        <div class="flex">
-            <flux:spacer />
-            <flux:button type="submit" variant="primary">
-                Add server
-            </flux:button>
+        <div class="flex gap-4">
+            <flux:button type="submit" variant="primary">Add server</flux:button>
+            <flux:button :href="route('servers.index')" variant="ghost" wire:navigate>Cancel</flux:button>
         </div>
     </form>
 </div>
