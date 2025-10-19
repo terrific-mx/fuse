@@ -15,6 +15,7 @@ new class extends Component
 
 <div>
     <h1>Provision Server: {{ $server->name }}</h1>
-    <p>To start provisioning, run the provided script as root on your server.</p>
+    <p>To start provisioning, run the following command as <strong>root</strong> on your server:</p>
+    <pre class="bg-gray-100 p-2 rounded text-sm select-all">wget --no-verbose -O - {{ route('servers.provision-script', ['server' => $server]) }} | bash</pre>
 </div>
 
