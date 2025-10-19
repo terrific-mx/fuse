@@ -10,7 +10,7 @@
             <livewire:organizations-dropdown />
 
             <flux:navbar class="-mb-px max-lg:hidden">
-                <flux:navbar.item :href="route('servers.index')" :current="request()->routeIs('servers.*')" :accent="false" wire:navigate>{{ __('Servers') }}</flux:navbar.item>
+                <flux:navbar.item :href="route('servers.index')" :accent="false" wire:navigate>{{ __('Servers') }}</flux:navbar.item>
                 <flux:navbar.item :href="route('ssh-keys.index')" :accent="false" wire:navigate>{{ __('SSH keys') }}</flux:navbar.item>
             </flux:navbar>
 
