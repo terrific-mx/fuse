@@ -24,4 +24,8 @@ it('marks a server as provisioned and dispatches a job to retrieve the remote pu
     Queue::assertPushed(RetrieveRemoteSshKey::class, function (RetrieveRemoteSshKey $job) use ($server) {
         return $job->server->is($server);
     });
+
+    Queue::assertPushed(InstallCleanupCronJob::class, function (InstallCleanupCronJob $job) use ($server) {
+        return $job->server->is($server);
+    });
 });
