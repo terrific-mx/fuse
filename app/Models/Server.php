@@ -92,6 +92,30 @@ class Server extends Model
     }
 
     /**
+     * Create and run a task to install the cleanup cron.
+     */
+    public function createInstallCleanupCronTask(): Task
+    {
+        return $this->tasks()->create([
+            'name' => 'install_cleanup_cron',
+            'user' => 'root',
+            'script' => <<<BASH
+                echo "SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+0 0 * * * root (
+    find /root/.fuse -name \"task-*\" -type f -mtime +7 -exec rm {} \\\; ; find /home/eddy/.fuse -name \"task-*\" -type f -mtime +7 -exec rm {} \\\;
+) 2>&1
+" > /etc/cron.d/fuse-task-cleanup
+                chmod 644 /etc/cron.d/fuse-task-cleanup
+                service cron reload || systemctl reload cron || true
+BASH,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
      * The tasks associated with this server.
      */
     public function tasks()

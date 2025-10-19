@@ -14,4 +14,8 @@ class InstallCleanupCronJob implements ShouldQueue
         public Server $server,
     ) {}
 
+    public function handle(): void
+    {
+        $this->server->createInstallCleanupCronTask()->run();
+    }
 }
