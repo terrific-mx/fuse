@@ -30,4 +30,4 @@ it('creates and runs an install_cleanup_cron task for the server', function () {
     Process::assertRan(function ($process, $result) {
         return true;
     });
-})->only();
+});
