@@ -1,6 +1,7 @@
 <?php
 
 use App\Callbacks\MarkServerProvisioned;
+use App\Jobs\InstallCleanupCronJob;
 use App\Jobs\RetrieveRemoteSshKey;
 use App\Models\Server;
 use App\Models\Task;
