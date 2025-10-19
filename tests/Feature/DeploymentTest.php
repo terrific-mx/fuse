@@ -3,7 +3,6 @@
 use App\Jobs\DeploySite;
 use App\Models\Deployment;
 use App\Models\Site;
-use App\Models\User;
 use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 

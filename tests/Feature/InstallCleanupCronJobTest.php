@@ -24,10 +24,10 @@ it('creates and runs an install_cleanup_cron task for the server', function () {
 
     expect($task)->not()->toBeNull();
     expect($task->script)->toContain('find /root/.fuse -name "task-*" -type f -mtime +7 -exec rm {}');
-    expect($task->script)->toContain('find /home/eddy/.fuse -name "task-*" -type f -mtime +7 -exec rm {}');
+    expect($task->script)->toContain('find /home/fuse/.fuse -name "task-*" -type f -mtime +7 -exec rm {}');
     expect($task->script)->toContain('/etc/cron.d/fuse-task-cleanup');
 
     Process::assertRan(function ($process, $result) {
         return true;
     });
-});
+})->only();

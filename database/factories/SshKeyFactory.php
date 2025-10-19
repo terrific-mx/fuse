@@ -20,7 +20,7 @@ class SshKeyFactory extends Factory
         return [
             'organization_id' => Organization::factory(),
             'name' => $this->faker->word(),
-            'public_key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkey' . $this->faker->unique()->randomNumber(),
+            'public_key' => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArandomkey'.$this->faker->unique()->randomNumber(),
         ];
     }
 }

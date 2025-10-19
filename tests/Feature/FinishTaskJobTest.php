@@ -2,7 +2,6 @@
 
 use App\Jobs\FinishTaskJob;
 use App\Models\Task;
-
 use Illuminate\Support\Facades\Process;
 
 it('updates the task status to finished, sets the exit code, and stores output', function () {
