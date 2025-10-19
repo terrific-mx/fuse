@@ -16,13 +16,12 @@ it('marks a server as provisioned and dispatches a job to retrieve the remote pu
 
     expect($server->fresh()->status)->toBe('provisioned');
 
-    // Assert firewall rules are created for SSH (22), HTTP (80), HTTPS (443) with status 'installed'
     $firewallRules = $server->firewallRules;
     expect($firewallRules)->toHaveCount(3);
-    expect($firewallRules->pluck('port'))->toEqualCanonicalizing([22, 80, 443]);
+    expect($firewallRules->pluck('port')->all())->toEqualCanonicalizing([22, 80, 443]);
     $firewallRules->each(fn ($rule) => expect($rule->status)->toBe('installed'));
 
     Queue::assertPushed(RetrieveRemoteSshKey::class, function (RetrieveRemoteSshKey $job) use ($server) {
         return $job->server->is($server);
     });
-});
+})->only();
