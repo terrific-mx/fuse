@@ -1,28 +1,56 @@
 <?php
 
-use App\Livewire\Forms\ServerForm;
+use App\Jobs\ProvisionServer;
+use App\Models\Organization;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component
 {
-    public ServerForm $form;
+    public string $name = '';
 
-    public function mount()
-    {
-        $this->form->setOrganization($this->organization);
-    }
+    public string $ip_address = '';
+
+    public array $ssh_keys = [];
 
     #[Computed]
-    public function organization()
+    public function organization(): Organization
     {
         return Auth::user()->currentOrganization;
     }
 
-    public function save()
+    protected function rules(): array
     {
-        $this->form->store();
+        return [
+            'name' => ['required', 'string', 'max:255'],
+            'ip_address' => ['required', 'ipv4'],
+            'ssh_keys' => ['array'],
+            'ssh_keys.*' => [Rule::exists('ssh_keys', 'id')->where(fn ($q) => $q->where('organization_id', $this->organization->id))],
+        ];
+    }
+
+    public function save(): void
+    {
+        $this->validate();
+
+        $server = $this->organization->servers()->create([
+            'created_by' => Auth::id(),
+            'name' => $this->name,
+            'ip_address' => $this->ip_address,
+            'database_password' => Str::random(40),
+            'sudo_password' => Str::random(40),
+        ]);
+
+        if (! empty($this->ssh_keys)) {
+            $server->sshKeys()->sync($this->ssh_keys);
+        }
+
+        ProvisionServer::dispatch($server);
+
+        $this->reset('name', 'ip_address', 'ssh_keys');
     }
 }; ?>
 
@@ -32,18 +60,18 @@ new class extends Component
 
         <flux:input
             label="Name"
-            wire:model="form.name"
+            wire:model="name"
             required
         />
 
         <flux:input
             label="IP address"
-            wire:model="form.ip_address"
+            wire:model="ip_address"
             required
         />
 
         <flux:pillbox
-            wire:model="form.ssh_keys"
+            wire:model="ssh_keys"
             multiple
             searchable
             label="SSH keys"

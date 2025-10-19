@@ -12,8 +12,8 @@ it('creates a server for the user\'s current organization', function () {
 
     $component = Volt::actingAs($user)
         ->test('servers.create')
-        ->set('form.name', 'Test Server')
-        ->set('form.ip_address', '192.0.2.1')
+        ->set('name', 'Test Server')
+        ->set('ip_address', '192.0.2.1')
         ->call('save');
 
     $component->assertHasNoErrors();
@@ -43,9 +43,9 @@ it('can associate ssh keys with a server via the servers.create component', func
 
     $component = Volt::actingAs($user)
         ->test('servers.create')
-        ->set('form.name', 'Server With Keys')
-        ->set('form.ip_address', '203.0.113.10')
-        ->set('form.ssh_keys', [$sshKey1->id, $sshKey2->id])
+        ->set('name', 'Server With Keys')
+        ->set('ip_address', '203.0.113.10')
+        ->set('ssh_keys', [$sshKey1->id, $sshKey2->id])
         ->call('save');
 
     $component->assertHasNoErrors();
