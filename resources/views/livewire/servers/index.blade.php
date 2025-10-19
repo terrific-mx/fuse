@@ -38,12 +38,27 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex flex-wrap justify-between items-center gap-6">
-        <flux:heading size="xl">Servers</flux:heading>
-        <flux:modal.trigger name="add-server">
-            <flux:button variant="primary">Add server</flux:button>
-        </flux:modal.trigger>
+    <header class="flex items-center -mt-6 lg:-mt-8">
+        <flux:heading size="lg">Servers</flux:heading>
+        <flux:spacer />
+        <div class="flex items-center gap-4">
+            <flux:navbar>
+                <flux:navbar.item :href="route('servers.index')" :accent="false" wire:navigate>
+                    Overview
+                </flux:navbar.item>
+            </flux:navbar>
+
+            <flux:modal.trigger name="add-server">
+                <flux:button variant="primary" color="zinc" size="sm">
+                    Add
+                </flux:button>
+            </flux:modal.trigger>
+        </div>
     </header>
+
+    <flux:spacer class="mt-12" />
+
+    <flux:heading size="xl">Servers</flux:heading>
 
     <div class="mt-6">
         <flux:table :paginate="$this->servers" wire:poll>
