@@ -83,6 +83,14 @@ class Server extends Model
     }
 
     /**
+     * The firewall rules associated with this server.
+     */
+    public function firewallRules()
+    {
+        return $this->hasMany(FirewallRule::class);
+    }
+
+    /**
      * The tasks associated with this server.
      */
     public function tasks()
@@ -189,7 +197,21 @@ class Server extends Model
     {
         $this->markProvisioned();
 
+        $this->firewall();
+
         dispatch(new RetrieveRemoteSshKey($this));
+    }
+
+    /**
+     * Create the default firewall rules for SSH, HTTP, and HTTPS.
+     */
+    public function firewall(): void
+    {
+        $this->firewallRules()->createMany([
+            ['port' => 22, 'status' => 'installed'],
+            ['port' => 80, 'status' => 'installed'],
+            ['port' => 443, 'status' => 'installed'],
+        ]);
     }
 
     /**
