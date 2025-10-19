@@ -197,7 +197,6 @@ class Server extends Model
     {
         $this->markProvisioned();
 
-        // Create default firewall rules for SSH, HTTP, and HTTPS
         $this->firewall();
 
         dispatch(new RetrieveRemoteSshKey($this));
