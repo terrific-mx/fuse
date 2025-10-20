@@ -30,7 +30,7 @@ new class extends Component
             readonly
             copyable
             icon="clipboard"
-            class="mt-4 font-mono text-xs"
+            class="mt-4 font-mono"
         />
         <x-slot name="actions">
             <flux:button href="{{ route('servers.index') }}" wire:navigate>
