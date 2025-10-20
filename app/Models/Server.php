@@ -261,7 +261,7 @@ class Server extends Model
                 'server' => $this,
                 'swapInMegabytes' => 2048,
                 'swappiness' => 50,
-                'mysqlMaxConnections' => 400,
+                'mysqlMaxConnections' => $this->mysql_max_connections,
                 'maxChildrenPhpPool' => 14,
             ])->render(),
             'payload' => [],
@@ -458,5 +458,20 @@ class Server extends Model
             'payload' => [],
             'after_actions' => [],
         ]);
+    }
+
+    /**
+     * Get the recommended MySQL max_connections for this server based on memory.
+     */
+    protected function mysqlMaxConnections(): Attribute
+    {
+        return Attribute::get(function () {
+            return match (true) {
+                $this->memory <= 1024 => 100,
+                $this->memory <= 2048 => 200,
+                $this->memory <= 4096 => 400,
+                default => 500,
+            };
+        });
     }
 }
