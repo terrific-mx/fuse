@@ -51,7 +51,7 @@ new class extends Component
 
         ProvisionServer::dispatch($server);
 
-        $this->redirectAction('servers.provision-instructions', ['server' => $server], navigate: true);
+        $this->redirectRoute('servers.provision-instructions', ['server' => $server], navigate: true);
     }
 }; ?>
 
