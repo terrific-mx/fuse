@@ -14,6 +14,7 @@ it('creates a server for the user\'s current organization', function () {
         ->test('servers.create')
         ->set('name', 'Test Server')
         ->set('ip_address', '192.0.2.1')
+        ->set('memory', 2048)
         ->call('save');
 
     $component->assertHasNoErrors();
@@ -24,6 +25,7 @@ it('creates a server for the user\'s current organization', function () {
 
     expect($server->name)->toBe('Test Server');
     expect($server->ip_address)->toBe('192.0.2.1');
+    expect($server->memory)->toBe(2048);
     expect($server->sudo_password)->not->toBeEmpty();
     expect($server->database_password)->not->toBeEmpty();
 
@@ -45,6 +47,7 @@ it('can associate ssh keys with a server via the servers.create component', func
         ->test('servers.create')
         ->set('name', 'Server With Keys')
         ->set('ip_address', '203.0.113.10')
+        ->set('memory', 2048)
         ->set('ssh_keys', [$sshKey1->id, $sshKey2->id])
         ->call('save');
 

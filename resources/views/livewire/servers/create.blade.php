@@ -3,7 +3,6 @@
 use App\Jobs\ProvisionServer;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
@@ -14,6 +13,8 @@ new class extends Component
     public string $name = '';
 
     public string $ip_address = '';
+
+    public ?int $memory = null;
 
     public array $ssh_keys = [];
 
@@ -28,6 +29,7 @@ new class extends Component
         return [
             'name' => ['required', 'string', 'max:255'],
             'ip_address' => ['required', 'ipv4'],
+            'memory' => ['required', 'integer', 'min:512', 'max:1048576'],
             'ssh_keys' => ['array'],
             'ssh_keys.*' => [Rule::exists('ssh_keys', 'id')->where(fn ($q) => $q->where('organization_id', $this->organization->id))],
         ];
@@ -41,6 +43,7 @@ new class extends Component
             'created_by' => Auth::id(),
             'name' => $this->name,
             'ip_address' => $this->ip_address,
+            'memory' => $this->memory,
             'database_password' => Str::random(40),
             'sudo_password' => Str::random(40),
         ]);
@@ -94,6 +97,21 @@ new class extends Component
             wire:model="ip_address"
             required
         />
+
+        <flux:field>
+            <flux:label>Memory</flux:label>
+            <flux:input.group>
+                <flux:input
+                    wire:model="memory"
+                    type="number"
+                    min="512"
+                    max="1048576"
+                    required
+                />
+                <flux:input.group.suffix>MB</flux:input.group.suffix>
+            </flux:input.group>
+            <flux:error name="memory" />
+        </flux:field>
 
         <flux:pillbox
             wire:model="ssh_keys"

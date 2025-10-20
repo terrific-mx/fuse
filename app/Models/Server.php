@@ -32,6 +32,7 @@ class Server extends Model
         return [
             'sudo_password' => 'encrypted',
             'database_password' => 'encrypted',
+            'memory' => 'integer',
         ];
     }
 
@@ -258,10 +259,10 @@ class Server extends Model
             'user' => 'root',
             'script' => view('scripts.server.provision', [
                 'server' => $this,
-                'swapInMegabytes' => 2048,
-                'swappiness' => 50,
-                'mysqlMaxConnections' => 400,
-                'maxChildrenPhpPool' => 14,
+                'swapInMegabytes' => $this->swap_in_megabytes,
+                'swappiness' => $this->swappiness,
+                'mysqlMaxConnections' => $this->mysql_max_connections,
+                'maxChildrenPhpPool' => $this->max_children_php_pool,
             ])->render(),
             'payload' => [],
             'after_actions' => [
@@ -366,12 +367,10 @@ class Server extends Model
             return false;
         }
 
-        $aptLockScript = 'lsof | grep /var/lib/dpkg/lock && ps -e | grep -e apt -e adept | grep -v grep';
-
         $aptLockTask = $this->tasks()->create([
             'name' => 'provisioning-readiness-apt-lock',
             'user' => 'root',
-            'script' => $aptLockScript,
+            'script' => view('scripts.server.apt-lock')->render(),
             'payload' => [],
             'after_actions' => [],
         ])->run();
@@ -459,5 +458,68 @@ class Server extends Model
             'payload' => [],
             'after_actions' => [],
         ]);
+    }
+
+    /**
+     * Get the recommended MySQL max_connections for this server based on memory.
+     */
+    protected function mysqlMaxConnections(): Attribute
+    {
+        return Attribute::get(function () {
+            $memoryMb = $this->memory;
+            $reservedMb = 1024; // Reserve 1GB for OS and MySQL base
+            $perConnectionMb = 8; // Average memory per MySQL connection in MB
+            $availableMb = max(0, $memoryMb - $reservedMb);
+
+            return max(50, (int) floor($availableMb / $perConnectionMb));
+        });
+    }
+
+    /**
+     * Get the recommended PHP-FPM pm.max_children for this server based on memory.
+     */
+    protected function maxChildrenPhpPool(): Attribute
+    {
+        return Attribute::get(function () {
+            $memoryMb = $this->memory;
+            $reservedMb = 512; // Reserve 512MB for OS and other services
+            $phpProcessMb = 40; // Average PHP-FPM process size in MB
+            $availableMb = max(0, $memoryMb - $reservedMb);
+
+            return max(1, (int) floor($availableMb / $phpProcessMb));
+        });
+    }
+
+    /**
+     * Get the recommended swap size in megabytes for this server.
+     */
+    protected function swapInMegabytes(): Attribute
+    {
+        return Attribute::get(function () {
+            $memoryMb = $this->memory;
+            $swap = match (true) {
+                $memoryMb <= 2048 => $memoryMb * 2,
+                $memoryMb <= 8192 => $memoryMb,
+                default => 4096,
+            };
+
+            return max(512, min($swap, 8192));
+        });
+    }
+
+    /**
+     * Get the recommended swappiness value for this server.
+     */
+    protected function swappiness(): Attribute
+    {
+        return Attribute::get(function () {
+            $memoryMb = $this->memory;
+
+            return match (true) {
+                $memoryMb <= 2048 => 30,
+                $memoryMb <= 8192 => 20,
+                default => 10,
+            };
+        });
     }
 }
