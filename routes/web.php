@@ -13,6 +13,10 @@ Route::get('/', function () {
 
 Route::get('/task/{task}/callback', [CallbackController::class, 'task'])->name('task.callback');
 
+Route::get('servers/{server}/setup-root-ssh', [SetupRootSshController::class, 'show'])
+    ->middleware('signed')
+    ->name('servers.setup-root-ssh');
+
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
     Route::redirect('/dashboard', '/servers')->name('dashboard');
 
@@ -36,9 +40,6 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
     Volt::route('servers/{server}/databases', 'servers.databases.index')->name('servers.databases.index');
     Volt::route('servers/{server}/databases/create', 'servers.databases.create')->name('servers.databases.create');
     Volt::route('servers/{server}/provision-instructions', 'servers.provision-instructions')->name('servers.provision-instructions');
-    Route::get('servers/{server}/setup-root-ssh', [SetupRootSshController::class, 'show'])
-        ->middleware('signed')
-        ->name('servers.setup-root-ssh');
 });
 
 Route::middleware(['auth'])->group(function () {
