@@ -36,6 +36,18 @@ it('creates a server for the user\'s current organization', function () {
     });
 });
 
+it('generates a friendly server name when calling generateName', function () {
+    $user = User::factory()->withPersonalOrganization()->create();
+
+    $component = Volt::actingAs($user)
+        ->test('servers.create')
+        ->call('generateName');
+
+    $name = $component->get('name');
+    expect($name)->not->toBeEmpty();
+    expect($name)->toMatch('/^[a-z]+\-[a-z]+$/');
+});
+
 it('can associate ssh keys with a server via the servers.create component', function () {
     Queue::fake();
     $user = User::factory()->withPersonalOrganization()->create();

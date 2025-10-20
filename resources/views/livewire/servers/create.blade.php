@@ -2,6 +2,7 @@
 
 use App\Jobs\ProvisionServer;
 use App\Models\Organization;
+use App\Services\ServerNameGenerator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -20,10 +21,7 @@ new class extends Component
 
     public function generateName(): void
     {
-        // Generate a user-friendly server name (e.g. adjective-noun)
-        $adjectives = ['brisk', 'calm', 'eager', 'frosty', 'gentle', 'jolly', 'lively', 'mighty', 'rapid', 'silent', 'vivid', 'witty'];
-        $nouns = ['falcon', 'meadow', 'nebula', 'ocean', 'panther', 'quartz', 'rocket', 'summit', 'tundra', 'valley', 'willow', 'zenith'];
-        $this->name = ucfirst($adjectives[array_rand($adjectives)]).'-'.ucfirst($nouns[array_rand($nouns)]);
+        $this->name = ServerNameGenerator::generate();
     }
 
     #[Computed]
