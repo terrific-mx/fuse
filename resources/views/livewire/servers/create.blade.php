@@ -50,7 +50,7 @@ new class extends Component
 
         ProvisionServer::dispatch($server);
 
-        $this->reset('name', 'ip_address', 'ssh_keys');
+        $this->redirectRoute('servers.setup-root-ssh', ['server' => $server], navigate: true);
     }
 }; ?>
 
