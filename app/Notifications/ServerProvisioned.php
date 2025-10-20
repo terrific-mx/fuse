@@ -29,7 +29,22 @@ class ServerProvisioned extends Notification
     {
         return (new MailMessage)
             ->subject('Your server is ready!')
-            ->line('Your server "'.$this->server->name.'" has been successfully provisioned and is ready to use.')
+            ->line("Your server \"{$this->server->name}\" has been successfully provisioned and is ready to use.")
+            ->line('')
+            ->line('**SSH Access**')
+            ->line('Username: `fuse`')
+            ->line('Sudo password: `'.$this->server->sudo_password.'`')
+            ->line('SSH command:')
+            ->line('```')
+            ->line('ssh fuse@'.$this->server->ip_address)
+            ->line('```')
+            ->line('')
+            ->line('**API Address**')
+            ->line('`'.$this->server->ip_address.'`')
+            ->line('')
+            ->line('**Database Access**')
+            ->line('Database name: `fuse`')
+            ->line('Database password: `'.$this->server->database_password.'`')
             ->action('View Server', url('/servers/'.$this->server->id))
             ->line('Thank you for using our application!');
     }
