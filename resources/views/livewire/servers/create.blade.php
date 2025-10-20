@@ -106,16 +106,6 @@ new class extends Component
             </flux:callout.text>
         </flux:callout>
 
-        <flux:callout variant="secondary">
-            <flux:callout.heading icon="information-circle">Organization SSH key required</flux:callout.heading>
-            <flux:callout.text>
-                To provision your server, ensure the organization SSH public key is installed on the server you create with your cloud provider.
-            </flux:callout.text>
-            <x-slot name="actions">
-                <flux:input icon="key" value="{{ $this->organization->ssh_public_key }}" readonly copyable />
-            </x-slot>
-        </flux:callout>
-
         <div class="flex gap-4">
             <flux:button type="submit" variant="primary">Add server</flux:button>
             <flux:button :href="route('servers.index')" variant="ghost" wire:navigate>Cancel</flux:button>
