@@ -27,6 +27,22 @@ it('deletes the job if the server is already provisioned', function () {
     $job->assertDeleted();
 });
 
+it('notifies the user who created the server when the server is already provisioned', function () {
+    Notification::fake();
+    $server = Server::factory()->provisioned()->create();
+    $job = new ProvisionServer($server);
+
+    $job->handle();
+
+    Notification::assertSentTo(
+        $server->createdBy,
+        \App\Notifications\ServerProvisioned::class,
+        function ($notification, $channels) use ($server) {
+            return $notification->server->is($server);
+        }
+    );
+});
+
 it('fails the job if the server is older than 15 minutes', function () {
     $server = Server::factory()->create([
         'status' => 'pending',

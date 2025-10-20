@@ -41,6 +41,16 @@ class ServerFactory extends Factory
     }
 
     /**
+     * Indicate that the server status is provisioned.
+     */
+    public function provisioned(): static
+    {
+        return $this->state(fn () => [
+            'status' => 'provisioned',
+        ]);
+    }
+
+    /**
      * Indicate that the server has no public SSH key.
      */
     public function withoutPublicSshKey(): static
