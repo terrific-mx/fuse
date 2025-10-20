@@ -376,7 +376,7 @@ class Server extends Model
             'after_actions' => [],
         ])->run();
 
-        return $aptLockTask->exit_code === 0 && $aptLockTask->output === '';
+        return $aptLockTask->exit_code === 1 && $aptLockTask->output === '';
     }
 
     /**
