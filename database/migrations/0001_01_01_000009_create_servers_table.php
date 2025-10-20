@@ -14,13 +14,14 @@ return new class extends Migration
         Schema::create('servers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->string('name');
             $table->string('status')->default('pending');
             $table->string('ip_address');
             $table->text('sudo_password');
             $table->text('database_password');
             $table->text('public_ssh_key')->nullable();
+            $table->text('public_key')->nullable();
             $table->timestamps();
         });
     }

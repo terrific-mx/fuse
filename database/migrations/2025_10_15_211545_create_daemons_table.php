@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('stop_signal');
             $table->timestamp('installed_at')->nullable();
             $table->timestamp('failed_at')->nullable();
+            $table->dropColumn(['installed_at', 'failed_at']);
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }
