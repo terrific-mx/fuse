@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('servers', function (Blueprint $table) {
-            $table->integer('memory')->nullable()->after('ip_address');
+            $table->integer('memory')->default(4096)->after('ip_address');
         });
     }
 
