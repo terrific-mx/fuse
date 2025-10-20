@@ -2,6 +2,7 @@
 
 use App\Jobs\ProvisionServer;
 use App\Models\Organization;
+use App\Services\ServerNameGenerator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -17,6 +18,11 @@ new class extends Component
     public ?int $memory = null;
 
     public array $ssh_keys = [];
+
+    public function generateName(): void
+    {
+        $this->name = ServerNameGenerator::generate();
+    }
 
     #[Computed]
     public function organization(): Organization
@@ -86,11 +92,14 @@ new class extends Component
             </flux:callout.text>
         </flux:callout>
 
-        <flux:input
-            label="Name"
-            wire:model="name"
-            required
-        />
+        <flux:field>
+            <flux:label>Name</flux:label>
+            <flux:input.group>
+                <flux:input wire:model="name" required />
+                <flux:button type="button" icon="sparkles" wire:click="generateName" class="ml-2">Generate</flux:button>
+            </flux:input.group>
+            <flux:error name="name" />
+        </flux:field>
 
         <flux:input
             label="IP address"
