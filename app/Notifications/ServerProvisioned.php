@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\Server;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
@@ -10,7 +11,7 @@ class ServerProvisioned extends Notification
 {
     use Queueable;
 
-    public function __construct(public \App\Models\Server $server) {}
+    public function __construct(public Server $server) {}
 
     /**
      * Get the notification's delivery channels.

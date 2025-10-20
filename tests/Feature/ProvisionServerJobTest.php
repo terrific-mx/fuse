@@ -2,6 +2,7 @@
 
 use App\Jobs\ProvisionServer;
 use App\Models\Server;
+use App\Notifications\ServerProvisioned;
 use App\Notifications\ServerProvisioningFailed;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -36,7 +37,7 @@ it('notifies the user who created the server when the server is already provisio
 
     Notification::assertSentTo(
         $server->createdBy,
-        \App\Notifications\ServerProvisioned::class,
+        ServerProvisioned::class,
         function ($notification, $channels) use ($server) {
             return $notification->server->is($server);
         }
@@ -70,7 +71,7 @@ it('deletes the server when the job fails', function () {
     $server = Server::factory()->create();
     $job = (new ProvisionServer($server))->withFakeQueueInteractions();
 
-    $job->failed(new Exception('Simulated failure'));
+    $job->failed(new \Exception('Simulated failure'));
 
     expect($server->fresh())->toBeNull();
 });
@@ -80,7 +81,7 @@ it('notifies the user who created the server when provisioning fails', function 
     $server = Server::factory()->create();
     $job = (new ProvisionServer($server))->withFakeQueueInteractions();
 
-    $job->failed(new Exception('Simulated failure'));
+    $job->failed(new \Exception('Simulated failure'));
 
     Notification::assertSentTo(
         $server->createdBy,

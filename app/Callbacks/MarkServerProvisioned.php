@@ -2,7 +2,6 @@
 
 namespace App\Callbacks;
 
-use App\Models\Server;
 use App\Models\Task;
 
 class MarkServerProvisioned
