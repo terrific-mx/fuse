@@ -72,10 +72,17 @@ new class extends Component
     </header>
 
     <flux:spacer class="mt-12" />
-    <flux:spacer class="mt-3" />
+
     <flux:heading size="xl">Add server</flux:heading>
 
     <form wire:submit="save" class="space-y-6 mt-6">
+        <flux:callout variant="warning">
+            <flux:callout.heading icon="exclamation-triangle">Important: Ubuntu 24.04 required</flux:callout.heading>
+            <flux:callout.text>
+                Please ensure your server is provisioned with Ubuntu version 24.04 for compatibility.
+            </flux:callout.text>
+        </flux:callout>
+
         <flux:input
             label="Name"
             wire:model="name"
@@ -98,13 +105,6 @@ new class extends Component
                 <flux:pillbox.option value="{{ $key->id }}">{{ $key->name }}</flux:pillbox.option>
             @endforeach
         </flux:pillbox>
-
-        <flux:callout variant="warning">
-            <flux:callout.heading icon="exclamation-triangle">Important: Ubuntu 24.04 required</flux:callout.heading>
-            <flux:callout.text>
-                Please ensure your server is provisioned with Ubuntu version 24.04 for compatibility.
-            </flux:callout.text>
-        </flux:callout>
 
         <div class="flex gap-4">
             <flux:button type="submit" variant="primary">Add server</flux:button>
