@@ -497,13 +497,11 @@ class Server extends Model
     {
         return Attribute::get(function () {
             $memoryMb = $this->memory;
-            if ($memoryMb <= 2048) {
-                $swap = $memoryMb * 2;
-            } elseif ($memoryMb <= 8192) {
-                $swap = $memoryMb;
-            } else {
-                $swap = 4096;
-            }
+            $swap = match (true) {
+                $memoryMb <= 2048 => $memoryMb * 2,
+                $memoryMb <= 8192 => $memoryMb,
+                default => 4096,
+            };
 
             return max(512, min($swap, 8192));
         });
@@ -516,13 +514,12 @@ class Server extends Model
     {
         return Attribute::get(function () {
             $memoryMb = $this->memory;
-            if ($memoryMb <= 2048) {
-                return 30;
-            } elseif ($memoryMb <= 8192) {
-                return 20;
-            } else {
-                return 10;
-            }
+
+            return match (true) {
+                $memoryMb <= 2048 => 30,
+                $memoryMb <= 8192 => 20,
+                default => 10,
+            };
         });
     }
 }
