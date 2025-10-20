@@ -98,7 +98,7 @@ it('considers the server ready if the working directory is /root and no apt lock
             // apt lock status task
             ->push(Process::result()) // Prepare remote directory
             ->push(Process::result()) // Upload script
-            ->push(Process::result(output: '', exitCode: 0)), // Execute script (empty output, success)
+            ->push(Process::result(output: '', exitCode: 1)), // Execute script (empty output, success)
     ]);
 
     $server = Server::factory()->create(['status' => 'pending']);
@@ -145,7 +145,7 @@ it('considers the server not ready if the apt lock check fails', function () {
             // apt lock status task
             ->push(Process::result()) // Prepare remote directory
             ->push(Process::result()) // Upload script
-            ->push(Process::result(output: '', exitCode: 1)), // Execute script (empty output, fail)
+            ->push(Process::result(output: '', exitCode: 0)), // Execute script (empty output, fail)
     ]);
 
     $server = Server::factory()->create(['status' => 'pending']);
