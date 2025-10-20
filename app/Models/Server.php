@@ -262,7 +262,7 @@ class Server extends Model
                 'swapInMegabytes' => 2048,
                 'swappiness' => 50,
                 'mysqlMaxConnections' => $this->mysql_max_connections,
-                'maxChildrenPhpPool' => 14,
+                'maxChildrenPhpPool' => $this->max_children_php_pool,
             ])->render(),
             'payload' => [],
             'after_actions' => [
@@ -472,6 +472,21 @@ class Server extends Model
                 $this->memory <= 4096 => 400,
                 default => 500,
             };
+        });
+    }
+
+    /**
+     * Get the recommended PHP-FPM pm.max_children for this server based on memory.
+     */
+    protected function maxChildrenPhpPool(): Attribute
+    {
+        return Attribute::get(function () {
+            $memoryMb = $this->memory;
+            $reservedMb = 512; // Reserve 512MB for OS and other services
+            $phpProcessMb = 40; // Average PHP-FPM process size in MB
+            $availableMb = max(0, $memoryMb - $reservedMb);
+
+            return max(1, (int) floor($availableMb / $phpProcessMb));
         });
     }
 }
