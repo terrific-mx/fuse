@@ -367,12 +367,10 @@ class Server extends Model
             return false;
         }
 
-        $aptLockScript = 'lsof | grep /var/lib/dpkg/lock && ps -e | grep -e apt -e adept | grep -v grep';
-
         $aptLockTask = $this->tasks()->create([
             'name' => 'provisioning-readiness-apt-lock',
             'user' => 'root',
-            'script' => $aptLockScript,
+            'script' => view('scripts.server.apt-lock')->render(),
             'payload' => [],
             'after_actions' => [],
         ])->run();

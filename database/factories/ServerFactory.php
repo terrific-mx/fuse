@@ -26,6 +26,7 @@ class ServerFactory extends Factory
             'ip_address' => $this->faker->ipv4(),
             'sudo_password' => $this->faker->password(),
             'database_password' => $this->faker->password(),
+            'memory' => 512,
         ];
     }
 
