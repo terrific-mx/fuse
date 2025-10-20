@@ -18,6 +18,14 @@ new class extends Component
 
     public array $ssh_keys = [];
 
+    public function generateName(): void
+    {
+        // Generate a user-friendly server name (e.g. adjective-noun)
+        $adjectives = ['brisk', 'calm', 'eager', 'frosty', 'gentle', 'jolly', 'lively', 'mighty', 'rapid', 'silent', 'vivid', 'witty'];
+        $nouns = ['falcon', 'meadow', 'nebula', 'ocean', 'panther', 'quartz', 'rocket', 'summit', 'tundra', 'valley', 'willow', 'zenith'];
+        $this->name = ucfirst($adjectives[array_rand($adjectives)]).'-'.ucfirst($nouns[array_rand($nouns)]);
+    }
+
     #[Computed]
     public function organization(): Organization
     {
@@ -86,11 +94,14 @@ new class extends Component
             </flux:callout.text>
         </flux:callout>
 
-        <flux:input
-            label="Name"
-            wire:model="name"
-            required
-        />
+        <flux:field>
+            <flux:label>Name</flux:label>
+            <flux:input.group>
+                <flux:input wire:model="name" required />
+                <flux:button type="button" icon="sparkles" wire:click="generateName" class="ml-2">Generate</flux:button>
+            </flux:input.group>
+            <flux:error name="name" />
+        </flux:field>
 
         <flux:input
             label="IP address"
