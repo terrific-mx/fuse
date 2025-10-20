@@ -32,6 +32,7 @@ class Server extends Model
         return [
             'sudo_password' => 'encrypted',
             'database_password' => 'encrypted',
+            'memory' => 'integer',
         ];
     }
 
