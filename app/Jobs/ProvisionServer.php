@@ -27,6 +27,7 @@ class ProvisionServer implements ShouldQueue
     public function handle(): void
     {
         if ($this->server->is_provisioned) {
+            $this->server->createdBy->notify(new \App\Notifications\ServerProvisioned($this->server));
             $this->delete();
 
             return;
