@@ -14,7 +14,7 @@ class ProvisionServer implements ShouldQueue
     /**
      * The number of times the job may be attempted.
      */
-    public int $tries = 40;
+    public int $tries = 50;
 
     /**
      * Create a new job instance.
