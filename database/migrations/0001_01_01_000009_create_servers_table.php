@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('status')->default('pending');
             $table->string('ip_address');
+            $table->integer('memory')->default(512)->after('ip_address');
             $table->text('sudo_password');
             $table->text('database_password');
             $table->text('public_ssh_key')->nullable();
