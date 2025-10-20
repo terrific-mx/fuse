@@ -3,6 +3,7 @@
 use App\Jobs\ProvisionServer;
 use App\Models\Organization;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Computed;
@@ -50,7 +51,7 @@ new class extends Component
 
         ProvisionServer::dispatch($server);
 
-        $this->redirectRoute('servers.setup-root-ssh', ['server' => $server], navigate: true);
+        $this->redirectAction('servers.provision-instructions', ['server' => $server], navigate: true);
     }
 }; ?>
 

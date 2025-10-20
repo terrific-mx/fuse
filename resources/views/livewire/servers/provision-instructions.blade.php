@@ -26,7 +26,7 @@ new class extends Component
             Run this command as <strong>root</strong> on your server. When finished, you can view your server’s status.
         </flux:callout.text>
         <flux:input
-            value="wget --no-verbose -O - {{ route('servers.setup-root-ssh', ['server' => $server]) }} | bash"
+            value="wget --no-verbose -O - {{ URL::signedRoute('servers.setup-root-ssh', ['server' => $server]) }} | bash"
             readonly
             copyable
             icon="clipboard"
