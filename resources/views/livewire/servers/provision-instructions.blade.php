@@ -33,7 +33,7 @@ new class extends Component
             class="mt-4 font-mono text-xs"
         />
         <x-slot name="actions">
-            <flux:button href="{{ route('servers.index') }}">
+            <flux:button href="{{ route('servers.index') }}" wire:navigate>
                 View servers
             </flux:button>
         </x-slot>
