@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Server;
+use App\Notifications\ServerProvisioned;
 use App\Notifications\ServerProvisioningFailed;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -27,6 +28,7 @@ class ProvisionServer implements ShouldQueue
     public function handle(): void
     {
         if ($this->server->is_provisioned) {
+            $this->server->createdBy->notify(new ServerProvisioned($this->server));
             $this->delete();
 
             return;

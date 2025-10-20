@@ -2,6 +2,7 @@
 
 use App\Jobs\ProvisionServer;
 use App\Models\Server;
+use App\Notifications\ServerProvisioned;
 use App\Notifications\ServerProvisioningFailed;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -25,6 +26,22 @@ it('deletes the job if the server is already provisioned', function () {
     $job->handle();
 
     $job->assertDeleted();
+});
+
+it('notifies the user who created the server when the server is already provisioned', function () {
+    Notification::fake();
+    $server = Server::factory()->provisioned()->create();
+    $job = new ProvisionServer($server);
+
+    $job->handle();
+
+    Notification::assertSentTo(
+        $server->createdBy,
+        ServerProvisioned::class,
+        function ($notification, $channels) use ($server) {
+            return $notification->server->is($server);
+        }
+    );
 });
 
 it('fails the job if the server is older than 15 minutes', function () {
@@ -54,7 +71,7 @@ it('deletes the server when the job fails', function () {
     $server = Server::factory()->create();
     $job = (new ProvisionServer($server))->withFakeQueueInteractions();
 
-    $job->failed(new Exception('Simulated failure'));
+    $job->failed(new \Exception('Simulated failure'));
 
     expect($server->fresh())->toBeNull();
 });
@@ -64,7 +81,7 @@ it('notifies the user who created the server when provisioning fails', function 
     $server = Server::factory()->create();
     $job = (new ProvisionServer($server))->withFakeQueueInteractions();
 
-    $job->failed(new Exception('Simulated failure'));
+    $job->failed(new \Exception('Simulated failure'));
 
     Notification::assertSentTo(
         $server->createdBy,
