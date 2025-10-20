@@ -376,6 +376,7 @@ class Server extends Model
             'after_actions' => [],
         ])->run();
 
+        // Expect exit_code === 1 because the readiness check script returns 1 when no apt/dpkg lock or apt process is found (system is ready for provisioning)
         return $aptLockTask->exit_code === 1 && $aptLockTask->output === '';
     }
 
