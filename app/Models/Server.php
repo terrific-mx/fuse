@@ -466,12 +466,12 @@ class Server extends Model
     protected function mysqlMaxConnections(): Attribute
     {
         return Attribute::get(function () {
-            return match (true) {
-                $this->memory <= 1024 => 100,
-                $this->memory <= 2048 => 200,
-                $this->memory <= 4096 => 400,
-                default => 500,
-            };
+            $memoryMb = $this->memory;
+            $reservedMb = 1024; // Reserve 1GB for OS and MySQL base
+            $perConnectionMb = 8; // Average memory per MySQL connection in MB
+            $availableMb = max(0, $memoryMb - $reservedMb);
+
+            return max(50, (int) floor($availableMb / $perConnectionMb));
         });
     }
 
