@@ -259,8 +259,8 @@ class Server extends Model
             'user' => 'root',
             'script' => view('scripts.server.provision', [
                 'server' => $this,
-                'swapInMegabytes' => 2048,
-                'swappiness' => 50,
+                'swapInMegabytes' => $this->swap_in_megabytes,
+                'swappiness' => $this->swappiness,
                 'mysqlMaxConnections' => $this->mysql_max_connections,
                 'maxChildrenPhpPool' => $this->max_children_php_pool,
             ])->render(),
@@ -487,6 +487,42 @@ class Server extends Model
             $availableMb = max(0, $memoryMb - $reservedMb);
 
             return max(1, (int) floor($availableMb / $phpProcessMb));
+        });
+    }
+
+    /**
+     * Get the recommended swap size in megabytes for this server.
+     */
+    protected function swapInMegabytes(): Attribute
+    {
+        return Attribute::get(function () {
+            $memoryMb = $this->memory;
+            if ($memoryMb <= 2048) {
+                $swap = $memoryMb * 2;
+            } elseif ($memoryMb <= 8192) {
+                $swap = $memoryMb;
+            } else {
+                $swap = 4096;
+            }
+
+            return max(512, min($swap, 8192));
+        });
+    }
+
+    /**
+     * Get the recommended swappiness value for this server.
+     */
+    protected function swappiness(): Attribute
+    {
+        return Attribute::get(function () {
+            $memoryMb = $this->memory;
+            if ($memoryMb <= 2048) {
+                return 30;
+            } elseif ($memoryMb <= 8192) {
+                return 20;
+            } else {
+                return 10;
+            }
         });
     }
 }
