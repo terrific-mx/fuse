@@ -16,7 +16,14 @@ class UninstallCronjobJob implements ShouldQueue
 
     public function handle(): void
     {
-        $this->cronjob->server->createUninstallCronjobTask($this->cronjob)->run();
+        $task = $this->cronjob->server->createUninstallCronjobTask($this->cronjob)->run();
+
+        if (! $task->isSuccessful()) {
+            $this->fail(new \Exception('Uninstall cronjob task failed'));
+
+            return;
+        }
+
         $this->cronjob->delete();
     }
 
