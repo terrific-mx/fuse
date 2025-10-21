@@ -141,6 +141,22 @@ class Server extends Model
     }
 
     /**
+     * Create a task to uninstall the given cronjob.
+     */
+    public function createUninstallCronjobTask(Cronjob $cronjob)
+    {
+        $script = "rm -f /etc/cron.d/cron-{$cronjob->id}";
+
+        return $this->tasks()->create([
+            'name' => 'uninstall_cronjob',
+            'user' => 'root',
+            'script' => $script,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
      * The tasks associated with this server.
      */
     public function tasks()

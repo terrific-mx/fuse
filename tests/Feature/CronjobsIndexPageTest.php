@@ -22,7 +22,7 @@ it('allows an authorized user to delete a cronjob and dispatches the uninstall j
         ->call('delete', $cronjob->id);
 
     $fresh = $cronjob->fresh();
-    expect($fresh->status)->toBe('deleting');
+    expect($fresh->status)->toBe('uninstalling');
 
     Queue::assertPushed(\App\Jobs\UninstallCronjobJob::class, function ($job) use ($cronjob) {
         return $job->cronjob->is($cronjob);
@@ -44,11 +44,11 @@ it('prevents unauthorized users from deleting a cronjob', function () {
     expect(Cronjob::find($cronjob->id))->not()->toBeNull();
 });
 
-it('does not dispatch uninstall job or change status if cronjob is already deleting', function () {
+it('does not dispatch uninstall job or change status if cronjob is already uninstalling', function () {
     Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
-    $cronjob = Cronjob::factory()->for($server)->create(['status' => 'deleting']);
+    $cronjob = Cronjob::factory()->for($server)->create(['status' => 'uninstalling']);
 
     actingAs($user);
 
@@ -56,6 +56,6 @@ it('does not dispatch uninstall job or change status if cronjob is already delet
         ->call('delete', $cronjob->id);
 
     $fresh = $cronjob->fresh();
-    expect($fresh->status)->toBe('deleting');
+    expect($fresh->status)->toBe('uninstalling');
     Queue::assertNotPushed(\App\Jobs\UninstallCronjobJob::class);
 });

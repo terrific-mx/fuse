@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\InstallCronjobJob;
+use App\Jobs\UninstallCronjobJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,7 +40,9 @@ class Cronjob extends Model
         if ($this->status === 'installing') {
             return;
         }
+
         $this->update(['status' => 'installing']);
+
         InstallCronjobJob::dispatch($this);
     }
 
@@ -90,5 +93,19 @@ class Cronjob extends Model
         }
 
         return "/home/{$this->user}/.fuse/cron-{$this->id}.log";
+    }
+
+    /**
+     * Request deletion of this cronjob: set status and dispatch uninstall job.
+     */
+    public function uninstall(): void
+    {
+        if ($this->status === 'uninstalling') {
+            return;
+        }
+
+        $this->update(['status' => 'uninstalling']);
+
+        UninstallCronjobJob::dispatch($this);
     }
 }
