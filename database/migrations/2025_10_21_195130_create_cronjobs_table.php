@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('user');
             $table->string('frequency');
             $table->string('custom_expression')->nullable();
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

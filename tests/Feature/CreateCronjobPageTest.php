@@ -37,6 +37,7 @@ it('creates a cronjob for a server', function () {
     expect($cronjob->command)->toBe('php artisan schedule:run');
     expect($cronjob->user)->toBe('root');
     expect($cronjob->frequency)->toBe('hourly');
+    expect($cronjob->status)->toBe('pending');
 });
 
 it('validates required fields when creating a cronjob', function () {

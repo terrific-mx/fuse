@@ -25,6 +25,7 @@ class CronjobFactory extends Factory
                 'every_minute', 'every_5_minutes', 'hourly', 'daily', 'weekly', 'monthly', 'on_reboot', 'custom',
             ]),
             'custom_expression' => null,
+            'status' => 'pending',
         ];
     }
 }

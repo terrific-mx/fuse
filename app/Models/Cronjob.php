@@ -21,6 +21,7 @@ class Cronjob extends Model
     {
         return [
             'server_id' => 'integer',
+            'status' => 'string',
         ];
     }
 
