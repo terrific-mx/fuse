@@ -37,6 +37,27 @@ it('creates and runs an uninstall_database task for the server', function () {
     });
 });
 
+it('does not delete the database if the uninstall task fails', function () {
+    Process::fake([
+        '*' => Process::sequence()
+            ->push(Process::result()) // Prepare remote directory
+            ->push(Process::result()) // Upload script
+            ->push(Process::result(exitCode: 1, output: 'failed to remove database')),
+    ]);
+
+    $server = Server::factory()->create();
+    $database = Database::factory()
+        ->for($server)
+        ->installed()
+        ->create(['name' => 'my_database']);
+
+    $job = new UninstallDatabaseJob($database);
+    $job->handle();
+
+    expect(Database::find($database->id))->not()->toBeNull();
+    expect($database->fresh()->status)->toBe('installed');
+});
+
 it('stores the failed date when the job fails', function () {
     $database = Database::factory()->installed()->create();
 

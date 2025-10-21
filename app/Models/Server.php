@@ -85,6 +85,14 @@ class Server extends Model
     }
 
     /**
+     * The cronjobs associated with this server.
+     */
+    public function cronjobs()
+    {
+        return $this->hasMany(Cronjob::class);
+    }
+
+    /**
      * The firewall rules associated with this server.
      */
     public function firewallRules()
@@ -101,6 +109,48 @@ class Server extends Model
             'name' => 'install_cleanup_cron',
             'user' => 'root',
             'script' => view('scripts.server.install-cleanup-cron')->render(),
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
+     * Create a task to install the given cronjob.
+     */
+    public function createInstallCronjobTask(Cronjob $cronjob)
+    {
+        $content = <<<EOT
+            SHELL=/bin/sh
+            PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+            {$cronjob->expression()} {$cronjob->user} {$cronjob->command} > {$cronjob->logPath()} 2>&1
+            EOT;
+        $script = <<<BASH
+            cat <<'EOF' > {$cronjob->filePath()}
+            $content
+            EOF
+            BASH;
+
+        return $this->tasks()->create([
+            'name' => 'install_cronjob',
+            'user' => 'root',
+            'script' => $script,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
+     * Create a task to uninstall the given cronjob.
+     */
+    public function createUninstallCronjobTask(Cronjob $cronjob)
+    {
+        $script = "rm -f {$cronjob->filePath()}";
+
+        return $this->tasks()->create([
+            'name' => 'uninstall_cronjob',
+            'user' => 'root',
+            'script' => $script,
             'payload' => [],
             'after_actions' => [],
         ]);

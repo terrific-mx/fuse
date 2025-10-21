@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Models\Database;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\InteractsWithQueue;
 
 class UninstallDatabaseJob implements ShouldQueue
 {
@@ -16,7 +17,14 @@ class UninstallDatabaseJob implements ShouldQueue
 
     public function handle(): void
     {
-        $this->database->server->createUninstallDatabaseTask($this->database)->run();
+        $task = $this->database->server->createUninstallDatabaseTask($this->database)->run();
+
+        if (! $task->isSuccessful()) {
+            $this->fail(new \Exception('Uninstall database task failed'));
+
+            return;
+        }
+
         $this->database->delete();
     }
 

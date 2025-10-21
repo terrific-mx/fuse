@@ -45,20 +45,20 @@ class Database extends Model
         $this->update(['status' => 'failed']);
     }
 
-    public function purge(): void
+    public function uninstall(): void
     {
-        if ($this->isDeleting()) {
+        if ($this->isUninstalling()) {
             return;
         }
 
-        $this->markAsDeleting();
+        $this->markAsUninstalling();
 
         dispatch(new UninstallDatabaseJob($this));
     }
 
-    public function isDeleting(): bool
+    public function isUninstalling(): bool
     {
-        return $this->status === 'deleting';
+        return $this->status === 'uninstalling';
     }
 
     public function isInstalled(): bool
@@ -66,8 +66,8 @@ class Database extends Model
         return $this->status === 'installed';
     }
 
-    public function markAsDeleting(): void
+    public function markAsUninstalling(): void
     {
-        $this->update(['status' => 'deleting']);
+        $this->update(['status' => 'uninstalling']);
     }
 }
