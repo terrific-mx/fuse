@@ -44,3 +44,19 @@ it('prevents unauthorized users from deleting a database', function () {
 
     expect(Database::find($database->id))->not()->toBeNull();
 });
+
+it('does not dispatch uninstall job or change status if database is already deleting', function () {
+    Queue::fake();
+    $server = Server::factory()->create();
+    $user = $server->organization->user;
+    $database = Database::factory()->for($server)->create(['status' => 'deleting']);
+
+    actingAs($user);
+
+    Volt::test('servers.databases.index', ['server' => $server])
+        ->call('delete', $database->id);
+
+    $fresh = $database->fresh();
+    expect($fresh->status)->toBe('deleting');
+    Queue::assertNotPushed(UninstallDatabaseJob::class);
+});

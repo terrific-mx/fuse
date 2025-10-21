@@ -47,8 +47,18 @@ class Database extends Model
 
     public function purge(): void
     {
+        if ($this->isDeleting()) {
+            return;
+        }
+
         $this->markAsDeleting();
+
         dispatch(new UninstallDatabaseJob($this));
+    }
+
+    public function isDeleting(): bool
+    {
+        return $this->status === 'deleting';
     }
 
     public function markAsDeleting(): void
