@@ -22,7 +22,6 @@ new class extends Component
     {
         $this->authorize('delete', $database);
         $database->purge();
-        // Optionally, flash a message or refresh the list
     }
 }; ?>
 
@@ -54,7 +53,15 @@ new class extends Component
                             <flux:table.cell>{{ $database->name }}</flux:table.cell>
                             <flux:table.cell>{{ ucfirst($database->status) }}</flux:table.cell>
                             <flux:table.cell align="end">
-                                <flux:button wire:click="delete({{ $database->id }})" variant="subtle" size="sm" inset="top bottom">Delete</flux:button>
+                                <flux:button
+                                    wire:click="delete({{ $database->id }})"
+                                    wire:confirm="Are you sure you want to delete this database?"
+                                    variant="subtle"
+                                    size="sm"
+                                    inset="top bottom"
+                                >
+                                    Delete
+                                </flux:button>
                             </flux:table.cell>
                         </flux:table.row>
                     @endforeach
