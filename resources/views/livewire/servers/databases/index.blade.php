@@ -17,6 +17,13 @@ new class extends Component
     {
         return $this->server->databases()->paginate(10);
     }
+
+    public function delete(\App\Models\Database $database)
+    {
+        $this->authorize('delete', $database);
+        $database->purge();
+        // Optionally, flash a message or refresh the list
+    }
 }; ?>
 
 <div wire:poll class="space-y-8">
@@ -47,7 +54,7 @@ new class extends Component
                             <flux:table.cell>{{ $database->name }}</flux:table.cell>
                             <flux:table.cell>{{ ucfirst($database->status) }}</flux:table.cell>
                             <flux:table.cell align="end">
-                                <flux:button variant="subtle" size="sm" inset="top bottom">Delete</flux:button>
+                                <flux:button wire:click="delete({{ $database->id }})" variant="subtle" size="sm" inset="top bottom">Delete</flux:button>
                             </flux:table.cell>
                         </flux:table.row>
                     @endforeach
