@@ -43,45 +43,34 @@ new class extends Component
 }; ?>
 
 <div>
-    <form wire:submit="create" class="space-y-6 max-w-lg mx-auto mt-12">
+    <form wire:submit="create" class="mx-auto mt-12 max-w-lg space-y-6">
         <flux:heading size="lg">Create Cronjob</flux:heading>
 
         <div>
-            <flux:input
-                label="Command"
-                name="command"
-                wire:model="command"
-                required
-                autofocus
-            />
+            <flux:input label="Command" name="command" wire:model="command" required autofocus />
         </div>
 
         <div>
-            <flux:input
-                label="User"
-                name="user"
-                wire:model="user"
-                required
-            />
+            <flux:input label="User" name="user" wire:model="user" required />
         </div>
 
         <div>
             <flux:select
-    label="Frequency"
-    name="frequency"
-    wire:model="frequency"
-    required
-    placeholder="Select frequency..."
->
-    <flux:select.option value="every_minute">Every minute</flux:select.option>
-    <flux:select.option value="every_5_minutes">Every 5 minutes</flux:select.option>
-    <flux:select.option value="hourly">Hourly</flux:select.option>
-    <flux:select.option value="daily">Daily</flux:select.option>
-    <flux:select.option value="weekly">Weekly</flux:select.option>
-    <flux:select.option value="monthly">Monthly</flux:select.option>
-    <flux:select.option value="on_reboot">On reboot</flux:select.option>
-    <flux:select.option value="custom">Custom</flux:select.option>
-</flux:select>
+                label="Frequency"
+                name="frequency"
+                wire:model="frequency"
+                required
+                placeholder="Select frequency..."
+            >
+                <flux:select.option value="every_minute">Every minute</flux:select.option>
+                <flux:select.option value="every_5_minutes">Every 5 minutes</flux:select.option>
+                <flux:select.option value="hourly">Hourly</flux:select.option>
+                <flux:select.option value="daily">Daily</flux:select.option>
+                <flux:select.option value="weekly">Weekly</flux:select.option>
+                <flux:select.option value="monthly">Monthly</flux:select.option>
+                <flux:select.option value="on_reboot">On reboot</flux:select.option>
+                <flux:select.option value="custom">Custom</flux:select.option>
+            </flux:select>
         </div>
 
         {{-- Show custom expression input if frequency is custom --}}
