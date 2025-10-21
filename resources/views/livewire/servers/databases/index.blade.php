@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Database;
 use App\Models\Server;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component
@@ -12,15 +14,16 @@ new class extends Component
         $this->authorize('view', $this->server);
     }
 
-    #[\Livewire\Attributes\Computed]
+    #[Computed]
     public function databases()
     {
         return $this->server->databases()->paginate(10);
     }
 
-    public function delete(\App\Models\Database $database)
+    public function delete(Database $database)
     {
         $this->authorize('delete', $database);
+
         $database->purge();
     }
 }; ?>
