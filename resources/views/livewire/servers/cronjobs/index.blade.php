@@ -45,14 +45,18 @@ new class extends Component
         <div class="mt-4">
             <flux:table :paginate="$this->cronjobs">
                 <flux:table.columns>
-                    <flux:table.column>Name</flux:table.column>
+                    <flux:table.column>Command</flux:table.column>
+                    <flux:table.column>Frequency</flux:table.column>
+                    <flux:table.column>User</flux:table.column>
                     <flux:table.column>Status</flux:table.column>
                     <flux:table.column></flux:table.column>
                 </flux:table.columns>
                 <flux:table.rows>
                     @foreach ($this->cronjobs as $cronjob)
                         <flux:table.row :key="$cronjob->id">
-                            <flux:table.cell>{{ $cronjob->name }}</flux:table.cell>
+                            <flux:table.cell>{{ $cronjob->command }}</flux:table.cell>
+                            <flux:table.cell>{{ $cronjob->frequency === 'custom' ? $cronjob->custom_expression : str_replace('_', ' ', ucfirst($cronjob->frequency)) }}</flux:table.cell>
+                            <flux:table.cell>{{ $cronjob->user }}</flux:table.cell>
                             <flux:table.cell>{{ ucfirst($cronjob->status) }}</flux:table.cell>
                             <flux:table.cell align="end">
                                 <flux:button
