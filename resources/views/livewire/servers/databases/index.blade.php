@@ -24,7 +24,7 @@ new class extends Component
     {
         $this->authorize('delete', $database);
 
-        $database->purge();
+        $database->uninstall();
     }
 }; ?>
 
