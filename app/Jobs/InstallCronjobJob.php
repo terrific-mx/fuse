@@ -17,11 +17,18 @@ class InstallCronjobJob implements ShouldQueue
     public function handle(): void
     {
         $task = $this->cronjob->server->createInstallCronjobTask($this->cronjob)->run();
-        $this->cronjob->update(['status' => 'installed']);
+
+        if (! $task->isSuccessful()) {
+            $this->fail(new \Exception('Failed to install cronjob'));
+
+            return;
+        }
+
+        $this->cronjob->markAsInstalled();
     }
 
     public function failed(\Throwable $exception): void
     {
-        $this->cronjob->update(['status' => 'failed']);
+        $this->cronjob->markAsFailed();
     }
 }

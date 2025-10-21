@@ -29,4 +29,20 @@ class Cronjob extends Model
     {
         return $this->belongsTo(Server::class);
     }
+
+    /**
+     * Mark this cronjob as installed.
+     */
+    public function markAsInstalled(): void
+    {
+        $this->update(['status' => 'installed']);
+    }
+
+    /**
+     * Mark this cronjob as failed.
+     */
+    public function markAsFailed(): void
+    {
+        $this->update(['status' => 'failed']);
+    }
 }
