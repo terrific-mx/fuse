@@ -6,10 +6,38 @@ use Livewire\Volt\Component;
 new class extends Component
 {
     public Server $server;
-    // public string $command = '';
-    // public string $user = '';
-    // public string $frequency = '';
-    // public string $custom_expression = '';
+
+    public string $command = '';
+
+    public string $user = '';
+
+    public string $frequency = '';
+
+    public string $custom_expression = '';
+
+    public function mount()
+    {
+        $this->authorize('view', $this->server);
+    }
+
+    public function create()
+    {
+        $this->authorize('view', $this->server);
+
+        $this->validate([
+            'command' => ['required', 'string', 'max:255'],
+            'user' => ['required', 'string', 'max:255'],
+            'frequency' => ['required', 'string'],
+            'custom_expression' => ['required_if:frequency,custom', 'nullable', 'string', 'max:255'],
+        ]);
+
+        $cronjob = $this->server->cronjobs()->create([
+            'command' => $this->command,
+            'user' => $this->user,
+            'frequency' => $this->frequency,
+            'custom_expression' => $this->frequency === 'custom' ? $this->custom_expression : null,
+        ]);
+    }
 }; ?>
 
 <div>

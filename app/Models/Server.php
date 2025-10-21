@@ -85,6 +85,14 @@ class Server extends Model
     }
 
     /**
+     * The cronjobs associated with this server.
+     */
+    public function cronjobs()
+    {
+        return $this->hasMany(Cronjob::class);
+    }
+
+    /**
      * The firewall rules associated with this server.
      */
     public function firewallRules()
