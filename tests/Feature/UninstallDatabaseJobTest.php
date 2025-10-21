@@ -4,7 +4,6 @@ use App\Jobs\UninstallDatabaseJob;
 use App\Models\Database;
 use App\Models\Server;
 use Illuminate\Support\Facades\Process;
-use Illuminate\Support\Facades\Queue;
 
 it('creates and runs an uninstall_database task for the server', function () {
     Process::fake([
