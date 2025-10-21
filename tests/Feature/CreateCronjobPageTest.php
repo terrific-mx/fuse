@@ -22,7 +22,6 @@ it('allows a user to view the create cronjob page for a server', function () {
 
 it('creates a cronjob for a server', function () {
     Queue::fake();
-    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
