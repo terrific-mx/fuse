@@ -38,7 +38,7 @@ new class extends Component
             'custom_expression' => $this->frequency === 'custom' ? $this->custom_expression : null,
         ]);
 
-        $cronjob->markAsInstallingAndDispatch();
+        $cronjob->install();
     }
 }; ?>
 
