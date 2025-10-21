@@ -2,6 +2,7 @@
 
 use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 use function Pest\Laravel\actingAs;
@@ -19,6 +20,8 @@ it('allows a user to view the create cronjob page for a server', function () {
 });
 
 it('creates a cronjob for a server', function () {
+    Queue::fake();
+    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
@@ -37,7 +40,11 @@ it('creates a cronjob for a server', function () {
     expect($cronjob->command)->toBe('php artisan schedule:run');
     expect($cronjob->user)->toBe('root');
     expect($cronjob->frequency)->toBe('hourly');
-    expect($cronjob->status)->toBe('pending');
+    expect($cronjob->status)->toBe('installing');
+
+    Queue::assertPushed(App\Jobs\InstallCronjobJob::class, function ($job) use ($cronjob) {
+        return $job->cronjob->is($cronjob);
+    });
 });
 
 it('validates required fields when creating a cronjob', function () {
@@ -55,6 +62,7 @@ it('validates required fields when creating a cronjob', function () {
 });
 
 it('allows a custom cron expression for frequency', function () {
+    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
@@ -73,6 +81,10 @@ it('allows a custom cron expression for frequency', function () {
     expect($cronjob)->not->toBeNull();
     expect($cronjob->frequency)->toBe('custom');
     expect($cronjob->custom_expression)->toBe('*/7 * * * *');
+    expect($cronjob->status)->toBe('installing');
+    Queue::assertPushed(App\Jobs\InstallCronjobJob::class, function ($job) use ($cronjob) {
+        return $job->cronjob->is($cronjob);
+    });
 });
 
 it('validates custom expression is required when frequency is custom', function () {

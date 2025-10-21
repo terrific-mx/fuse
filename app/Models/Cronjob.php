@@ -31,6 +31,18 @@ class Cronjob extends Model
     }
 
     /**
+     * Mark this cronjob as installing and dispatch the install job.
+     */
+    public function markAsInstallingAndDispatch(): void
+    {
+        if ($this->status === 'installing') {
+            return;
+        }
+        $this->update(['status' => 'installing']);
+        \App\Jobs\InstallCronjobJob::dispatch($this);
+    }
+
+    /**
      * Mark this cronjob as installed.
      */
     public function markAsInstalled(): void
