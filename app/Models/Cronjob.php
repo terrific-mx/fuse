@@ -60,6 +60,27 @@ class Cronjob extends Model
     }
 
     /**
+     * Get the cron expression for this cronjob.
+     */
+    public function expression(): string
+    {
+        if ($this->frequency === 'custom') {
+            return $this->custom_expression;
+        }
+
+        return match ($this->frequency) {
+            'every_minute' => '* * * * *',
+            'every_5_minutes' => '*/5 * * * *',
+            'hourly' => '0 * * * *',
+            'daily' => '0 0 * * *',
+            'weekly' => '0 0 * * 0',
+            'monthly' => '0 0 1 * *',
+            'on_reboot' => '@reboot',
+            default => '* * * * *',
+        };
+    }
+
+    /**
      * Get the log file path for this cronjob.
      */
     public function logPath(): string

@@ -117,41 +117,23 @@ class Server extends Model
     /**
      * Create a task to install the given cronjob.
      */
-    public function createInstallCronjobTask(\App\Models\Cronjob $cronjob)
+    public function createInstallCronjobTask(Cronjob $cronjob)
     {
-        $expression = $cronjob->frequency === 'custom'
-            ? $cronjob->custom_expression
-            : match ($cronjob->frequency) {
-                'every_minute' => '* * * * *',
-                'every_5_minutes' => '*/5 * * * *',
-                'hourly' => '0 * * * *',
-                'daily' => '0 0 * * *',
-                'weekly' => '0 0 * * 0',
-                'monthly' => '0 0 1 * *',
-                'on_reboot' => '@reboot',
-                default => '* * * * *',
-            };
+        $content = <<<EOT
+            SHELL=/bin/sh
+            PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-        $cronFile = "/etc/cron.d/cron-{$cronjob->id}";
-        $logPath = $cronjob->logPath();
-        $cronUser = $cronjob->user;
-        $cronCommand = $cronjob->command;
-        $cronLine = "$expression $cronUser $cronCommand > $logPath 2>&1";
-        $cronContent = <<<EOT
-SHELL=/bin/sh
-PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-
-$cronLine
-EOT;
+            {$cronjob->expression()} {$cronjob->user} {$cronjob->command} > {$cronjob->logPath()} 2>&1
+            EOT;
         $script = <<<BASH
-cat <<'EOF' > $cronFile
-$cronContent
-EOF
-BASH;
+            cat <<'EOF' > /etc/cron.d/cron-{$cronjob->id}
+            $content
+            EOF
+            BASH;
 
         return $this->tasks()->create([
             'name' => 'install_cronjob',
-            'user' => $cronjob->user,
+            'user' => 'root',
             'script' => $script,
             'payload' => [],
             'after_actions' => [],
