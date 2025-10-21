@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Database;
 use App\Models\Server;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component
@@ -12,24 +14,33 @@ new class extends Component
         $this->authorize('view', $this->server);
     }
 
-    #[\Livewire\Attributes\Computed]
+    #[Computed]
     public function databases()
     {
         return $this->server->databases()->paginate(10);
     }
+
+    public function delete(Database $database)
+    {
+        $this->authorize('delete', $database);
+
+        $database->purge();
+    }
 }; ?>
 
 <div wire:poll class="space-y-8">
-    <header class="flex items-center -mt-6 lg:-mt-8">
+    <header class="-mt-6 flex items-center lg:-mt-8">
         <flux:heading size="lg">{{ $server->name }}</flux:heading>
         <flux:spacer />
         @include('partials.server-navbar')
     </header>
 
     <section class="mt-12">
-        <div class="flex justify-between items-center">
+        <div class="flex items-center justify-between">
             <flux:heading size="xl">Databases</flux:heading>
-            <flux:button :href="route('servers.databases.create', $server)" variant="primary" size="sm" color="zinc">Add database</flux:button>
+            <flux:button :href="route('servers.databases.create', $server)" variant="primary" size="sm" color="zinc">
+                Add database
+            </flux:button>
         </div>
 
         <div class="mt-4">
@@ -37,12 +48,25 @@ new class extends Component
                 <flux:table.columns>
                     <flux:table.column>Name</flux:table.column>
                     <flux:table.column>Status</flux:table.column>
+                    <flux:table.column></flux:table.column>
                 </flux:table.columns>
                 <flux:table.rows>
                     @foreach ($this->databases as $database)
                         <flux:table.row :key="$database->id">
                             <flux:table.cell>{{ $database->name }}</flux:table.cell>
                             <flux:table.cell>{{ ucfirst($database->status) }}</flux:table.cell>
+                            <flux:table.cell align="end">
+                                <flux:button
+                                    wire:confirm="Are you sure you want to delete this database?"
+                                    wire:click="delete({{ $database->id }})"
+                                    :disabled="!$database->isInstalled()"
+                                    inset="top bottom"
+                                    variant="subtle"
+                                    size="sm"
+                                >
+                                    Delete
+                                </flux:button>
+                            </flux:table.cell>
                         </flux:table.row>
                     @endforeach
                 </flux:table.rows>

@@ -22,4 +22,14 @@ class DatabaseFactory extends Factory
             'status' => 'pending',
         ];
     }
+
+    /**
+     * Indicate that the database is installed.
+     */
+    public function installed(): static
+    {
+        return $this->state(fn () => [
+            'status' => 'installed',
+        ]);
+    }
 }

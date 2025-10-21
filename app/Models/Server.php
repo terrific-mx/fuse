@@ -424,6 +424,24 @@ class Server extends Model
     }
 
     /**
+     * Create an uninstall_database task for the given database.
+     */
+    public function createUninstallDatabaseTask(Database $database)
+    {
+        $sh = <<<BASH
+            MYSQL_PWD="{$this->database_password}" mysql -u fuse -e "DROP DATABASE IF EXISTS {$database->name};"
+            BASH;
+
+        return $this->tasks()->create([
+            'name' => 'uninstall_database',
+            'user' => 'root',
+            'script' => $sh,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
      * Create an authorize_ssh_key task for the given SSH key.
      */
     public function createAuthorizeSshKeyTask(SshKey $sshKey)
