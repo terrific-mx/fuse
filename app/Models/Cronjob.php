@@ -122,6 +122,11 @@ class Cronjob extends Model
         return $this->status === 'uninstalling';
     }
 
+    public function isInstalled(): bool
+    {
+        return $this->status === 'installed';
+    }
+
     public function uninstall(): void
     {
         if ($this->isUninstalling()) {
