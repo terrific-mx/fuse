@@ -37,13 +37,21 @@ class Cronjob extends Model
      */
     public function install(): void
     {
-        if ($this->status === 'installing') {
+        if ($this->isInstalling()) {
             return;
         }
 
         $this->update(['status' => 'installing']);
 
         InstallCronjobJob::dispatch($this);
+    }
+
+    /**
+     * Determine if the cronjob is currently installing.
+     */
+    public function isInstalling(): bool
+    {
+        return $this->status === 'installing';
     }
 
     /**
@@ -98,7 +106,7 @@ class Cronjob extends Model
     /**
      * Get the cron file path for this cronjob.
      */
-    public function file(): string
+    public function filePath(): string
     {
         return "/etc/cron.d/cron-{$this->id}";
     }
@@ -106,9 +114,17 @@ class Cronjob extends Model
     /**
      * Request deletion of this cronjob: set status and dispatch uninstall job.
      */
+    /**
+     * Determine if the cronjob is currently uninstalling.
+     */
+    public function isUninstalling(): bool
+    {
+        return $this->status === 'uninstalling';
+    }
+
     public function uninstall(): void
     {
-        if ($this->status === 'uninstalling') {
+        if ($this->isUninstalling()) {
             return;
         }
 
