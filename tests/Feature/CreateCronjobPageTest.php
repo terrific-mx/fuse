@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\InstallCronjobJob;
 use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Queue;
@@ -42,7 +43,7 @@ it('creates a cronjob for a server', function () {
     expect($cronjob->frequency)->toBe('hourly');
     expect($cronjob->status)->toBe('installing');
 
-    Queue::assertPushed(App\Jobs\InstallCronjobJob::class, function ($job) use ($cronjob) {
+    Queue::assertPushed(InstallCronjobJob::class, function ($job) use ($cronjob) {
         return $job->cronjob->is($cronjob);
     });
 });
@@ -82,7 +83,7 @@ it('allows a custom cron expression for frequency', function () {
     expect($cronjob->frequency)->toBe('custom');
     expect($cronjob->custom_expression)->toBe('*/7 * * * *');
     expect($cronjob->status)->toBe('installing');
-    Queue::assertPushed(App\Jobs\InstallCronjobJob::class, function ($job) use ($cronjob) {
+    Queue::assertPushed(InstallCronjobJob::class, function ($job) use ($cronjob) {
         return $job->cronjob->is($cronjob);
     });
 });

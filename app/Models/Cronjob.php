@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\InstallCronjobJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,7 +40,7 @@ class Cronjob extends Model
             return;
         }
         $this->update(['status' => 'installing']);
-        \App\Jobs\InstallCronjobJob::dispatch($this);
+        InstallCronjobJob::dispatch($this);
     }
 
     /**
