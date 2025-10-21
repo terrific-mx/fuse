@@ -59,7 +59,7 @@ new class extends Component
                                 <flux:button
                                     wire:confirm="Are you sure you want to delete this database?"
                                     wire:click="delete({{ $database->id }})"
-                                    :disabled="$database->isDeleting()"
+                                    :disabled="!$database->isInstalled()"
                                     inset="top bottom"
                                     variant="subtle"
                                     size="sm"

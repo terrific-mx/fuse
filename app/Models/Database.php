@@ -61,6 +61,11 @@ class Database extends Model
         return $this->status === 'deleting';
     }
 
+    public function isInstalled(): bool
+    {
+        return $this->status === 'installed';
+    }
+
     public function markAsDeleting(): void
     {
         $this->update(['status' => 'deleting']);
