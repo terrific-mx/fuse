@@ -28,4 +28,34 @@ class CronjobFactory extends Factory
             'status' => 'pending',
         ];
     }
+
+    /**
+     * Indicate that the cronjob is pending.
+     */
+    public function pending(): static
+    {
+        return $this->state(fn () => [
+            'status' => 'pending',
+        ]);
+    }
+
+    /**
+     * Indicate that the cronjob is installed.
+     */
+    public function installed(): static
+    {
+        return $this->state(fn () => [
+            'status' => 'installed',
+        ]);
+    }
+
+    /**
+     * Indicate that the cronjob is failed.
+     */
+    public function failed(): static
+    {
+        return $this->state(fn () => [
+            'status' => 'failed',
+        ]);
+    }
 }
