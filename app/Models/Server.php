@@ -126,7 +126,7 @@ class Server extends Model
             {$cronjob->expression()} {$cronjob->user} {$cronjob->command} > {$cronjob->logPath()} 2>&1
             EOT;
         $script = <<<BASH
-            cat <<'EOF' > /etc/cron.d/cron-{$cronjob->id}
+            cat <<'EOF' > {$cronjob->file()}
             $content
             EOF
             BASH;
@@ -145,7 +145,7 @@ class Server extends Model
      */
     public function createUninstallCronjobTask(Cronjob $cronjob)
     {
-        $script = "rm -f /etc/cron.d/cron-{$cronjob->id}";
+        $script = "rm -f {$cronjob->file()}";
 
         return $this->tasks()->create([
             'name' => 'uninstall_cronjob',

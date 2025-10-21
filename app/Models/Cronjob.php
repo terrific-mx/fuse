@@ -96,6 +96,14 @@ class Cronjob extends Model
     }
 
     /**
+     * Get the cron file path for this cronjob.
+     */
+    public function file(): string
+    {
+        return "/etc/cron.d/cron-{$this->id}";
+    }
+
+    /**
      * Request deletion of this cronjob: set status and dispatch uninstall job.
      */
     public function uninstall(): void
