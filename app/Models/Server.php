@@ -115,6 +115,35 @@ class Server extends Model
     }
 
     /**
+     * Create a task to install the given cronjob.
+     */
+    public function createInstallCronjobTask(\App\Models\Cronjob $cronjob)
+    {
+        $expression = $cronjob->frequency === 'custom'
+            ? $cronjob->custom_expression
+            : match ($cronjob->frequency) {
+                'every_minute' => '* * * * *',
+                'every_5_minutes' => '*/5 * * * *',
+                'hourly' => '0 * * * *',
+                'daily' => '0 0 * * *',
+                'weekly' => '0 0 * * 0',
+                'monthly' => '0 0 1 * *',
+                'on_reboot' => '@reboot',
+                default => '* * * * *',
+            };
+
+        $script = "(crontab -u {$cronjob->user} -l 2>/dev/null; echo \"$expression {$cronjob->command}\") | crontab -u {$cronjob->user} -";
+
+        return $this->tasks()->create([
+            'name' => 'install_cronjob',
+            'user' => $cronjob->user,
+            'script' => $script,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
      * The tasks associated with this server.
      */
     public function tasks()
