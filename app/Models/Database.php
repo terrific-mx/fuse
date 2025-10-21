@@ -43,4 +43,16 @@ class Database extends Model
     {
         $this->update(['status' => 'failed']);
     }
+
+    public function purge(): void
+    {
+        $this->markAsDeleting();
+        $this->server->createUninstallDatabaseTask($this)->run();
+        $this->delete();
+    }
+
+    public function markAsDeleting(): void
+    {
+        $this->update(['status' => 'deleting']);
+    }
 }
