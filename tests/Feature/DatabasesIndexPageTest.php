@@ -28,7 +28,7 @@ it('allows an authorized user to delete a database and dispatches the uninstall 
     Queue::assertPushed(UninstallDatabaseJob::class, function ($job) use ($database) {
         return $job->database->is($database);
     });
-})->only();
+});
 
 it('prevents unauthorized users from deleting a database', function () {
     $server = Server::factory()->create();

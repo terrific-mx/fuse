@@ -16,7 +16,8 @@ class UninstallDatabaseJob implements ShouldQueue
 
     public function handle(): void
     {
-        $this->database->purge();
+        $this->database->server->createUninstallDatabaseTask($this->database)->run();
+        $this->database->delete();
     }
 
     public function failed(\Throwable $exception): void

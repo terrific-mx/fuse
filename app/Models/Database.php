@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\UninstallDatabaseJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,8 +48,7 @@ class Database extends Model
     public function purge(): void
     {
         $this->markAsDeleting();
-        $this->server->createUninstallDatabaseTask($this)->run();
-        $this->delete();
+        dispatch(new UninstallDatabaseJob($this));
     }
 
     public function markAsDeleting(): void
