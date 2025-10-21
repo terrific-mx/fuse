@@ -58,4 +58,16 @@ class Cronjob extends Model
     {
         $this->update(['status' => 'failed']);
     }
+
+    /**
+     * Get the log file path for this cronjob.
+     */
+    public function logPath(): string
+    {
+        if ($this->user === 'root') {
+            return "/root/.fuse/cron-{$this->id}.log";
+        }
+
+        return "/home/{$this->user}/.fuse/cron-{$this->id}.log";
+    }
 }

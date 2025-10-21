@@ -132,7 +132,22 @@ class Server extends Model
                 default => '* * * * *',
             };
 
-        $script = "(crontab -u {$cronjob->user} -l 2>/dev/null; echo \"$expression {$cronjob->command}\") | crontab -u {$cronjob->user} -";
+        $cronFile = "/etc/cron.d/cron-{$cronjob->id}";
+        $logPath = $cronjob->logPath();
+        $cronUser = $cronjob->user;
+        $cronCommand = $cronjob->command;
+        $cronLine = "$expression $cronUser $cronCommand > $logPath 2>&1";
+        $cronContent = <<<EOT
+SHELL=/bin/sh
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+$cronLine
+EOT;
+        $script = <<<BASH
+cat <<'EOF' > $cronFile
+$cronContent
+EOF
+BASH;
 
         return $this->tasks()->create([
             'name' => 'install_cronjob',
