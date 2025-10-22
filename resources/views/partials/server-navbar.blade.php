@@ -17,4 +17,7 @@
     <flux:navbar.item :href="route('servers.daemons.index', $server)" :accent="false" wire:navigate>
         Daemons
     </flux:navbar.item>
+    <flux:navbar.item :href="route('servers.services.index', $server)" :accent="false" wire:navigate>
+        Services
+    </flux:navbar.item>
 </flux:navbar>
