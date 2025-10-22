@@ -50,6 +50,7 @@ it('creates a firewall rule for a server and dispatches install job', function (
 });
 
 it('validates required fields when creating a firewall rule', function () {
+    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
@@ -64,6 +65,7 @@ it('validates required fields when creating a firewall rule', function () {
 });
 
 it('allows omitting from_ip_address when creating a firewall rule', function () {
+    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
@@ -82,6 +84,7 @@ it('allows omitting from_ip_address when creating a firewall rule', function () 
 });
 
 it('validates action must be allow, deny, or reject', function () {
+    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
@@ -96,6 +99,7 @@ it('validates action must be allow, deny, or reject', function () {
 });
 
 it('validates port must be a valid port number', function () {
+    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
@@ -117,6 +121,7 @@ it('validates port must be a valid port number', function () {
 });
 
 it('validates from_ip_address must be a valid IP address if provided', function () {
+    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
