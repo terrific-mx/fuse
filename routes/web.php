@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
 
     Volt::route('servers/{server}/cronjobs', 'servers.cronjobs.index')->name('servers.cronjobs.index');
     Volt::route('servers/{server}/cronjobs/create', 'servers.cronjobs.create')->name('servers.cronjobs.create');
+    Volt::route('servers/{server}/cronjobs/{cronjob}/edit', 'servers.cronjobs.edit')->name('servers.cronjobs.edit');
 });
 
 Route::middleware(['auth'])->group(function () {
