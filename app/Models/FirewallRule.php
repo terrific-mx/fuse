@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use App\Jobs\InstallFirewallRuleJob;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class FirewallRule extends Model
 {
-    use \Illuminate\Database\Eloquent\Factories\HasFactory;
+    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasFactory;
 
     public $guarded = [];
 
