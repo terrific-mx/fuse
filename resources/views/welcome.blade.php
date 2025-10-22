@@ -4,8 +4,12 @@
         @include('partials.head')
     </head>
     <body>
-        <flux:header container class="[&>div]:max-w-2xl! min-h-18">
+        <flux:header container class="border-b border-zinc-200 dark:border-zinc-700">
             <flux:brand href="route('dashboard')" :name="config('app.name')" class="[&>div]:first:hidden" />
+
+            <flux:navbar class="-mb-px">
+                <flux:navbar.item href="https://github.com/terrific-mx/fuse">Github</flux:navbar.item>
+            </flux:navbar>
 
             <flux:spacer />
 
@@ -19,24 +23,22 @@
             </div>
         </flux:header>
 
-        <flux:main class="[:where(&)]:max-w-2xl!" container>
-            <flux:heading level="1" size="xl" class="font-serif">
-                Easily deploy Laravel apps.
-            </flux:heading>
+        <flux:main container>
+            <section class="pt-10 pb-20 -mt-6 lg:-mt-8">
+                <flux:heading level="1" size="xl" class="text-7xl/20 font-bold! tracking-tight">
+                    Easily deploy
+                    <br class="hidden md:block" />
+                    Laravel apps
+                </flux:heading>
 
-            <flux:text variant="strong" size="lg" class="mt-6">
-                From provisioning your server to deploying your Laravel app.
-            </flux:text>
+                <flux:text class="mt-3 text-xl/8">
+                    From provisioning your server to deploying your Laravel app.
+                </flux:text>
 
-            <flux:button :href="route('register')" variant="primary" class="mt-6">{{ __('Get Started') }}</flux:button>
-
-            <flux:heading size="lg" level="2" class="font-serif mt-20">
-                The simplest pricing possible
-            </flux:heading>
-
-            <flux:text variant="strong" size="lg" class="mt-6">
-                Start with a 30-day free trial. After that, it’s just $9/month for unlimited users, servers, and Laravel apps.
-            </flux:text>
+                <flux:button :href="route('register')" variant="primary" color="zinc" icon:trailing="arrow-right" class="mt-8 h-12">
+                    Sign up for $29 / year
+                </flux:button>
+            </section>
 
             <div class="mt-64 flex items-center justify-between">
                 <flux:text variant="subtle" class="flex items-center gap-2">
