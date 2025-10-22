@@ -105,17 +105,19 @@ class Server extends Model
      */
     public function createInstallFirewallRuleTask(FirewallRule $rule)
     {
-        $fromIp = $rule->from_ip_address ? "from {$rule->from_ip_address}" : '';
-        $script = <<<BASH
-        #!/bin/bash
-        # Add firewall rule
-        ufw {$rule->action} {$rule->port} proto tcp $fromIp
-        BASH;
+        $command = match ($rule->action) {
+            'allow' => 'ufw allow'
+                .($rule->from_ip_address ? ' from '.$rule->from_ip_address : '')
+                .' to any port '.$rule->port,
+            default => 'ufw insert 1 '.$rule->action
+                .($rule->from_ip_address ? ' from '.$rule->from_ip_address : '')
+                .' to any port '.$rule->port,
+        };
 
         return $this->tasks()->create([
             'name' => 'install_firewall_rule',
             'user' => 'root',
-            'script' => $script,
+            'script' => $command,
             'payload' => [],
             'after_actions' => [],
         ]);
