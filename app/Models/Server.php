@@ -124,6 +124,24 @@ class Server extends Model
     }
 
     /**
+     * Create a task to uninstall the given firewall rule.
+     */
+    public function createUninstallFirewallRuleTask(FirewallRule $rule)
+    {
+        $command = 'ufw delete '.$rule->action
+            .($rule->from_ip_address ? ' from '.$rule->from_ip_address : '')
+            .' to any port '.$rule->port;
+
+        return $this->tasks()->create([
+            'name' => 'uninstall_firewall_rule',
+            'user' => 'root',
+            'script' => $command,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
      * Create and run a task to install the cleanup cron.
      */
     public function createInstallCleanupCronTask(): Task
