@@ -1,7 +1,9 @@
 <?php
 
+use App\Jobs\InstallFirewallRuleJob;
 use App\Models\Server;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
 use Livewire\Volt\Volt;
 
 use function Pest\Laravel\actingAs;
@@ -18,7 +20,8 @@ it('allows a user to view the create firewall rule page for a server', function 
         ->assertOk();
 });
 
-it('creates a firewall rule for a server', function () {
+it('creates a firewall rule for a server and dispatches install job', function () {
+    Queue::fake();
     $server = Server::factory()->create();
     $user = $server->organization->user;
 
@@ -40,6 +43,10 @@ it('creates a firewall rule for a server', function () {
     expect($rule->port)->toBe(22);
     expect($rule->from_ip_address)->toBe('192.168.1.1');
     expect($rule->status)->toBe('installing');
+
+    Queue::assertPushed(InstallFirewallRuleJob::class, function ($job) use ($rule) {
+        return $job->firewallRule->is($rule);
+    });
 });
 
 it('validates required fields when creating a firewall rule', function () {

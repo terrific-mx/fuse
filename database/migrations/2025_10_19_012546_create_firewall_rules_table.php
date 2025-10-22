@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('action');
             $table->unsignedSmallInteger('port');
             $table->string('from_ip_address')->nullable();
-            $table->string('status');
+            $table->string('status')->default('pending');
             $table->timestamps();
         });
     }

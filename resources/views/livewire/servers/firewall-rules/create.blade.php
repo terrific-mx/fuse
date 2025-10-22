@@ -36,12 +36,10 @@ new class extends Component
             'action' => $this->action,
             'port' => $this->port,
             'from_ip_address' => $this->from_ip_address,
-            'status' => 'installing',
+            'status' => 'pending',
         ]);
 
-        if (method_exists($rule, 'install')) {
-            $rule->install();
-        }
+        $rule->install();
 
         return redirect()->route('servers.firewall-rules.index', $this->server);
     }
