@@ -56,17 +56,11 @@ new class extends Component
         </div>
 
         <div>
-            <flux:select
-                label="Action"
-                name="action"
-                wire:model="action"
-                required
-                placeholder="Select action..."
-            >
-                <flux:select.option value="allow">Allow</flux:select.option>
-                <flux:select.option value="deny">Deny</flux:select.option>
-                <flux:select.option value="reject">Reject</flux:select.option>
-            </flux:select>
+            <flux:radio.group wire:model="action" label="Action" required>
+                <flux:radio value="allow" label="Allow" />
+                <flux:radio value="deny" label="Deny" />
+                <flux:radio value="reject" label="Reject" />
+            </flux:radio.group>
         </div>
 
         <div>
