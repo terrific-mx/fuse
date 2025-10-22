@@ -19,8 +19,8 @@ class SiteFactory extends Factory
     {
         return [
             'server_id' => Server::factory(),
-            'hostname' => $this->faker->domainName,
-            'php_version' => $this->faker->randomElement(['8.4', '8.3', '8.1']),
+            'hostname' => fake()->domainName,
+            'php_version' => fake()->randomElement(['8.4', '8.3', '8.1']),
             'repository_url' => 'git@github.com:laravel/laravel.git',
             'repository_branch' => 'main',
         ];

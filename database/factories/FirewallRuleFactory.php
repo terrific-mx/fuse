@@ -2,22 +2,19 @@
 
 namespace Database\Factories;
 
-use App\Models\FirewallRule;
 use App\Models\Server;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FirewallRuleFactory extends Factory
 {
-    protected $model = FirewallRule::class;
-
     public function definition(): array
     {
         return [
             'server_id' => Server::factory(),
-            'name' => $this->faker->words(2, true),
-            'action' => $this->faker->randomElement(['allow', 'deny', 'reject']),
-            'port' => $this->faker->numberBetween(1, 65535),
-            'from_ip_address' => $this->faker->optional()->ipv4(),
+            'name' => fake()->words(2, true),
+            'action' => fake()->randomElement(['allow', 'deny', 'reject']),
+            'port' => fake()->numberBetween(1, 65535),
+            'from_ip_address' => fake()->optional()->ipv4(),
             'status' => 'pending',
         ];
     }

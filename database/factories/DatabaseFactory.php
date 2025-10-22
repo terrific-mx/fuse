@@ -18,7 +18,7 @@ class DatabaseFactory extends Factory
     {
         return [
             'server_id' => \App\Models\Server::factory(),
-            'name' => $this->faker->unique()->word,
+            'name' => fake()->unique()->word,
             'status' => 'pending',
         ];
     }

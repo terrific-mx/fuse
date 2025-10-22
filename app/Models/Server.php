@@ -296,9 +296,9 @@ class Server extends Model
     public function firewall(): void
     {
         $this->firewallRules()->createMany([
-            ['port' => 22, 'status' => 'installed'],
-            ['port' => 80, 'status' => 'installed'],
-            ['port' => 443, 'status' => 'installed'],
+            ['name' => 'ssh', 'port' => 22, 'action' => 'allow', 'status' => 'installed'],
+            ['name' => 'http', 'port' => 80, 'action' => 'allow', 'status' => 'installed'],
+            ['name' => 'https', 'port' => 443, 'action' => 'allow', 'status' => 'installed'],
         ]);
     }
 

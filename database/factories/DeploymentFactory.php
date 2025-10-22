@@ -22,7 +22,7 @@ class DeploymentFactory extends Factory
             'site_id' => Site::factory(),
             'status' => 'pending',
             'triggered_by' => User::factory(),
-            'commit' => $this->faker->sha1(),
+            'commit' => fake()->sha1(),
             'deployed_at' => null,
         ];
     }
