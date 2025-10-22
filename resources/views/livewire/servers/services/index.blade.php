@@ -17,11 +17,11 @@ new class extends Component
     #[Computed]
     public function services()
     {
-        return Service::query()->paginate(10);
+        return Service::all();
     }
 }; ?>
 
-<div wire:poll class="space-y-8">
+<div class="space-y-8">
     <header class="-mt-6 flex items-center lg:-mt-8">
         <flux:heading size="lg">{{ $server->name }}</flux:heading>
         <flux:spacer />
@@ -34,7 +34,7 @@ new class extends Component
         </div>
 
         <div class="mt-4">
-            <flux:table :paginate="$this->services">
+            <flux:table>
                 <flux:table.columns>
                     <flux:table.column>Name</flux:table.column>
                     <flux:table.column></flux:table.column>
