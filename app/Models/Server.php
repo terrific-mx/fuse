@@ -101,6 +101,27 @@ class Server extends Model
     }
 
     /**
+     * Create a task to install the given firewall rule.
+     */
+    public function createInstallFirewallRuleTask(FirewallRule $rule)
+    {
+        $fromIp = $rule->from_ip_address ? "from {$rule->from_ip_address}" : '';
+        $script = <<<BASH
+        #!/bin/bash
+        # Add firewall rule
+        ufw {$rule->action} {$rule->port} proto tcp $fromIp
+        BASH;
+
+        return $this->tasks()->create([
+            'name' => 'install_firewall_rule',
+            'user' => 'root',
+            'script' => $script,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
      * Create and run a task to install the cleanup cron.
      */
     public function createInstallCleanupCronTask(): Task

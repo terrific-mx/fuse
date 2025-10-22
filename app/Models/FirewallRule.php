@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class FirewallRule extends Model
 {
+    use \Illuminate\Database\Eloquent\Factories\HasFactory;
+
     public $guarded = [];
 
     /**
@@ -47,5 +49,15 @@ class FirewallRule extends Model
     public function isInstalling(): bool
     {
         return $this->status === 'installing';
+    }
+
+    public function markAsInstalled(): void
+    {
+        $this->update(['status' => 'installed']);
+    }
+
+    public function markAsFailed(): void
+    {
+        $this->update(['status' => 'failed']);
     }
 }

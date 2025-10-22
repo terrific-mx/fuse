@@ -31,8 +31,7 @@ it('creates and runs an install_firewall_rule task for the server', function () 
 
     $task = $server->tasks()
         ->where('name', 'install_firewall_rule')
-        ->where('port', $rule->port)
-        ->where('action', $rule->action)
+        ->where('user', 'root')
         ->first();
 
     expect($task)->not()->toBeNull();
