@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Models\FirewallRule;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -10,7 +11,7 @@ class InstallFirewallRuleJob implements ShouldQueue
     use Queueable;
 
     public function __construct(
-        public \App\Models\FirewallRule $firewallRule
+        public FirewallRule $firewallRule
     ) {}
 
     /**
