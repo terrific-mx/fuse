@@ -18,19 +18,15 @@ class InstallFirewallRuleJob implements ShouldQueue
      */
     public function handle(): void
     {
-        $rule = $this->firewallRule;
-        $server = $rule->server;
+        $task = $this->firewallRule->server->createInstallFirewallRuleTask($this->firewallRule)->run();
 
-        // Create the install_firewall_rule task on the server
-        $task = $server->createInstallFirewallRuleTask($rule);
+        if (! $task->isSuccessful()) {
+            $this->fail(new \Exception('Failed to install firewall rule'));
 
-        // Simulate running the task
-        $result = \Illuminate\Support\Facades\Process::run($task->script);
-
-        // If the process succeeded, mark as installed
-        if ($result->successful()) {
-            $rule->markAsInstalled();
+            return;
         }
+
+        $this->firewallRule->markAsInstalled();
     }
 
     public function failed(\Throwable $exception): void
