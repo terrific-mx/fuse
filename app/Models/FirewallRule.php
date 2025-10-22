@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Jobs\InstallFirewallRuleJob;
+use App\Jobs\UninstallFirewallRuleJob;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -43,6 +44,36 @@ class FirewallRule extends Model
         $this->update(['status' => 'installing']);
 
         InstallFirewallRuleJob::dispatch($this);
+    }
+
+    /**
+     * Mark this firewall rule as uninstalling and dispatch the uninstall job.
+     */
+    public function uninstall(): void
+    {
+        if ($this->isUninstalling()) {
+            return;
+        }
+
+        $this->update(['status' => 'uninstalling']);
+
+        UninstallFirewallRuleJob::dispatch($this);
+    }
+
+    /**
+     * Determine if the firewall rule is currently uninstalling.
+     */
+    public function isUninstalling(): bool
+    {
+        return $this->status === 'uninstalling';
+    }
+
+    /**
+     * Determine if the firewall rule is installed.
+     */
+    public function isInstalled(): bool
+    {
+        return $this->status === 'installed';
     }
 
     /**
