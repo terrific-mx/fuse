@@ -11,6 +11,9 @@
     <flux:navbar.item :href="route('servers.cronjobs.index', $server)" :accent="false" wire:navigate>
         Cronjobs
     </flux:navbar.item>
+    <flux:navbar.item :href="route('servers.firewall-rules.index', $server)" :accent="false" wire:navigate>
+        Firewall Rules
+    </flux:navbar.item>
     <flux:navbar.item :href="route('servers.daemons.index', $server)" :accent="false" wire:navigate>
         Daemons
     </flux:navbar.item>
