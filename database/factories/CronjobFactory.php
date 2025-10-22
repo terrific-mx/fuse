@@ -19,9 +19,9 @@ class CronjobFactory extends Factory
     {
         return [
             'server_id' => Server::factory(),
-            'command' => $this->faker->sentence,
-            'user' => $this->faker->userName,
-            'frequency' => $this->faker->randomElement([
+            'command' => fake()->sentence,
+            'user' => fake()->userName,
+            'frequency' => fake()->randomElement([
                 'every_minute', 'every_5_minutes', 'hourly', 'daily', 'weekly', 'monthly', 'on_reboot', 'custom',
             ]),
             'custom_expression' => null,

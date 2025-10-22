@@ -21,11 +21,11 @@ class ServerFactory extends Factory
         return [
             'organization_id' => Organization::factory(),
             'created_by' => User::factory(),
-            'name' => $this->faker->word(),
+            'name' => fake()->word(),
             'status' => 'pending',
-            'ip_address' => $this->faker->ipv4(),
-            'sudo_password' => $this->faker->password(),
-            'database_password' => $this->faker->password(),
+            'ip_address' => fake()->ipv4(),
+            'sudo_password' => fake()->password(),
+            'database_password' => fake()->password(),
             'memory' => 512,
         ];
     }

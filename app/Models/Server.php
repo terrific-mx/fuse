@@ -101,6 +101,47 @@ class Server extends Model
     }
 
     /**
+     * Create a task to install the given firewall rule.
+     */
+    public function createInstallFirewallRuleTask(FirewallRule $rule)
+    {
+        $command = match ($rule->action) {
+            'allow' => 'ufw allow'
+                .($rule->from_ip_address ? ' from '.$rule->from_ip_address : '')
+                .' to any port '.$rule->port,
+            default => 'ufw insert 1 '.$rule->action
+                .($rule->from_ip_address ? ' from '.$rule->from_ip_address : '')
+                .' to any port '.$rule->port,
+        };
+
+        return $this->tasks()->create([
+            'name' => 'install_firewall_rule',
+            'user' => 'root',
+            'script' => $command,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
+     * Create a task to uninstall the given firewall rule.
+     */
+    public function createUninstallFirewallRuleTask(FirewallRule $rule)
+    {
+        $command = 'ufw delete '.$rule->action
+            .($rule->from_ip_address ? ' from '.$rule->from_ip_address : '')
+            .' to any port '.$rule->port;
+
+        return $this->tasks()->create([
+            'name' => 'uninstall_firewall_rule',
+            'user' => 'root',
+            'script' => $command,
+            'payload' => [],
+            'after_actions' => [],
+        ]);
+    }
+
+    /**
      * Create and run a task to install the cleanup cron.
      */
     public function createInstallCleanupCronTask(): Task
@@ -275,9 +316,9 @@ class Server extends Model
     public function firewall(): void
     {
         $this->firewallRules()->createMany([
-            ['port' => 22, 'status' => 'installed'],
-            ['port' => 80, 'status' => 'installed'],
-            ['port' => 443, 'status' => 'installed'],
+            ['name' => 'ssh', 'port' => 22, 'action' => 'allow', 'status' => 'installed'],
+            ['name' => 'http', 'port' => 80, 'action' => 'allow', 'status' => 'installed'],
+            ['name' => 'https', 'port' => 443, 'action' => 'allow', 'status' => 'installed'],
         ]);
     }
 
