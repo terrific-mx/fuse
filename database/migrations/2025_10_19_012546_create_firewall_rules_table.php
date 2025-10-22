@@ -14,7 +14,10 @@ return new class extends Migration
         Schema::create('firewall_rules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('server_id')->constrained()->cascadeOnDelete();
+            $table->string('name');
+            $table->string('action');
             $table->unsignedSmallInteger('port');
+            $table->string('from_ip_address')->nullable();
             $table->string('status');
             $table->timestamps();
         });
