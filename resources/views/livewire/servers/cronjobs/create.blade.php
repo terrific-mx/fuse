@@ -39,6 +39,8 @@ new class extends Component
         ]);
 
         $cronjob->install();
+
+        return redirect()->route('servers.cronjobs.index', $this->server);
     }
 }; ?>
 
