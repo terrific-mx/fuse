@@ -255,6 +255,12 @@
                     </div>
                 </div>
             </section>
+            <footer class="mt-24 sm:mt-56">
+                <div class="px-6 pb-20 sm:pb-24 lg:px-8">
+                    <flux:text class="text-sm/6">Built with <flux:icon.heart variant="micro" class="inline" /> by <flux:link :accent="false">Oliver Servín</flux:link></flux:text>
+                    <flux:text class="mt-10  text-sm/6">&copy; {{ date('Y') }} Terrific Software. All rights reserved. Problems or questions? Contact <<flux:link :accent="false">support@terrific.com.mx</flux:link>>.</flux:text>
+                </div>
+            </footer>
         </flux:main>
     </body>
 </html>
