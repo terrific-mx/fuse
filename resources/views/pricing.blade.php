@@ -25,15 +25,19 @@
         </flux:header>
 
         <flux:main container>
-            <section class="-mt-6 pt-10 pb-20 lg:-mt-8">
-                <flux:heading level="1" size="xl" class="text-5xl tracking-tight text-balance font-bold!">Deploy Laravel apps, not headaches.</flux:heading>
-                <flux:text class="mt-6 max-w-2xl text-lg text-pretty sm:text-xl/8">
+            <section class="-mt-6 pt-24 sm:pt-32 lg:-mt-8">
+                <flux:heading level="1" size="xl" class="text-5xl font-bold! tracking-tight text-balance sm:text-6xl">
+                    Deploy Laravel apps, not headaches
+                </flux:heading>
+                <flux:text class="mt-6 max-w-2xl text-lg font-medium text-pretty sm:text-xl/8">
                     Terrific Fuse saves you hours on server management, so you can focus on building. Simple, affordable
                     plans for indie devs, agencies, and startups.
                 </flux:text>
             </section>
 
-            <section class="grid grid-cols-4 gap-8">
+            <section
+                class="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4"
+            >
                 <flux:card class="flex flex-col">
                     <flux:heading level="2" class="mb-2 text-lg/8! font-bold!">Starter</flux:heading>
                     <div class="mt-2 flex items-baseline gap-1">
@@ -45,7 +49,7 @@
                         hassle.
                     </flux:text>
                     <div class="flex-1">
-                        <flux:text class="mt-8 text-base min-h-[72px]" variant="strong">
+                        <flux:text class="mt-8 min-h-[72px] text-base" variant="strong">
                             Perfect for getting started or running side projects.
                         </flux:text>
                         <ul class="mt-4 space-y-3">
@@ -81,7 +85,7 @@
                         For small teams and agencies managing multiple projects and collaborating with others.
                     </flux:text>
                     <div class="flex-1">
-                        <flux:text class="mt-8 text-base min-h-[72px]" variant="strong">
+                        <flux:text class="mt-8 min-h-[72px] text-base" variant="strong">
                             Built for teams who want to move fast and work together.
                         </flux:text>
                         <ul class="mt-4 space-y-3">
@@ -149,7 +153,7 @@
                         For organizations with large teams or special requirements. Let’s talk!
                     </flux:text>
                     <div class="flex-1">
-                        <flux:text class="mt-8 text-base min-h-[72px]" variant="strong">
+                        <flux:text class="mt-8 min-h-[72px] text-base" variant="strong">
                             Need more? We’ll tailor a plan for you.
                         </flux:text>
                         <ul class="mt-4 space-y-3">
@@ -167,33 +171,96 @@
                 </flux:card>
             </section>
 
-            <section class="mt-6">
-                <flux:text>14-day free trial – Cancel anytime before trial ends</flux:text>
-                <flux:text class="mt-1">30-day money-back guarantee – Love it or get a full refund, no questions asked</flux:text>
+            <section class="mt-8 grid grid-cols-12 gap-8 rounded-xl bg-zinc-50 p-8 sm:p-10">
+                <div class="col-span-5">
+                    <flux:heading level="h2" class="text-lg/8! font-bold!">Add-ons</flux:heading>
+                </div>
+
+                <div class="col-span-7">
+                    <div class="pb-6">
+                        <flux:text variant="strong" class="text-base/7 font-semibold">
+                            Extra servers/apps/users
+                        </flux:text>
+                        <flux:text class="mt-2 text-base/7">
+                            $2 per server/app/user per month (for Team/Agency).
+                        </flux:text>
+                    </div>
+
+                    <flux:separator />
+
+                    <div class="pt-6">
+                        <flux:text variant="strong" class="text-base/7 font-semibold">Concierge onboarding</flux:text>
+                        <flux:text class="mt-2 text-base/7">$99 one-time (Agency/Enterprise only).</flux:text>
+                    </div>
+                </div>
             </section>
 
-            <section class="grid grid-cols-3 gap-8 mt-20">
-                <blockquote>
-                    <flux:text class="text-lg/8">“Built for Laravel. No DevOps experience required. Focus on code, not servers.”</flux:text>
+            <section class="mt-8">
+                <ul class="space-y-3">
+                    <li class="flex gap-2">
+                        <flux:icon.check variant="micro" class="mt-0.5" />
+                        <flux:text variant="strong">14-day free trial – Cancel anytime before trial ends</flux:text>
+                    </li>
+                    <li class="flex gap-2">
+                        <flux:icon.check variant="micro" class="mt-0.5" />
+                        <flux:text variant="strong">
+                            30-day money-back guarantee – Love it or get a full refund, no questions asked
+                        </flux:text>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="mt-24 grid grid-cols-3 gap-8 sm:mt-56">
+                <blockquote class="bg-blue-50 p-8 rounded-xl">
+                    <flux:text variant="strong" class="text-lg/8">
+                        “Built for Laravel. No DevOps experience required. Focus on code, not servers.”
+                    </flux:text>
                 </blockquote>
-                <blockquote>
-                    <flux:text class="text-lg/8">“No more SSH headaches. One-click deploys. Peace of mind.”</flux:text>
+                <blockquote class="bg-blue-50 p-8 rounded-xl">
+                    <flux:text variant="strong" class="text-lg/8">
+                        “No more SSH headaches. One-click deploys. Peace of mind.”
+                    </flux:text>
                 </blockquote>
-                <blockquote>
-                    <flux:text class="text-lg/8">“Growing fast? Upgrade anytime. Need more? We’ll work with you.”</flux:text>
+                <blockquote class="bg-blue-50 p-8 rounded-xl">
+                    <flux:text variant="strong" class="text-lg/8">
+                        “Growing fast? Upgrade anytime. Need more? We’ll work with you.”
+                    </flux:text>
                 </blockquote>
             </section>
 
-            <section class="mt-20">
-                <flux:heading>FAQ Section</flux:heading>
+            <section class="mt-24 grid grid-cols-12 gap-8 sm:mt-56">
+                <div class="col-span-5">
+                    <flux:heading level="h2" class="text-4xl font-semibold tracking-tight sm:text-5xl">
+                        Frequently asked questions
+                    </flux:heading>
+                </div>
 
-                <flux:text>
-                    Q: What happens if I hit my server/app/user limit? A: You can easily upgrade your plan or add
-                    more capacity as you grow.
-                </flux:text>
-                <flux:text>Q: Can I cancel anytime? A: Yes! No contracts, no lock-in.</flux:text>
+                <div class="col-span-7">
+                    <div class="pb-6">
+                        <flux:text variant="strong" class="text-base/7 font-semibold">
+                            What happens if I hit my server/app/user limit?
+                        </flux:text>
+                        <flux:text class="mt-2 text-base/7">
+                            You can easily upgrade your plan or add more capacity as you grow.
+                        </flux:text>
+                    </div>
 
-                <flux:text>Q: Do you offer discounts for annual billing? A: Yes, get 2 months free when you pay annually.</flux:text>
+                    <flux:separator />
+
+                    <div class="py-6">
+                        <flux:text variant="strong" class="text-base/7 font-semibold">Can I cancel anytime?</flux:text>
+                        <flux:text class="mt-2 text-base/7">Yes! No contracts, no lock-in.</flux:text>
+                    </div>
+
+                    <flux:separator />
+
+                    <div class="pt-6">
+                        <flux:text variant="strong" class="text-base/7 font-semibold">
+                            Do you offer discounts for annual billing?
+                        </flux:text>
+                        <flux:text class="mt-2 text-base/7">Yes, get 2 months free when you pay annually.</flux:text>
+                    </div>
+                </div>
             </section>
         </flux:main>
     </body>
