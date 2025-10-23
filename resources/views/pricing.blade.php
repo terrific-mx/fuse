@@ -38,42 +38,41 @@
             <section
                 class="isolate mx-auto mt-16 grid max-w-md grid-cols-1 gap-8 md:max-w-2xl md:grid-cols-2 lg:max-w-4xl xl:mx-0 xl:max-w-none xl:grid-cols-4"
             >
-                <flux:card class="flex flex-col">
-                    <flux:heading level="2" class="mb-2 text-lg/8! font-bold!">Starter</flux:heading>
-                    <div class="mt-2 flex items-baseline gap-1">
+                <flux:card class="flex flex-col p-8">
+                    <flux:heading level="3" class="text-lg/8! font-semibold!">Starter</flux:heading>
+                    <div class="mt-6 flex items-baseline gap-1">
                         <flux:heading class="text-4xl! leading-tight font-extrabold!">$9</flux:heading>
-                        <flux:text>/month</flux:text>
+                        <flux:text class="text-sm/6 font-semibold">/month</flux:text>
                     </div>
-                    <flux:text class="mt-2">
+                    <flux:text class="mt-3 text-sm/6">
                         For solo developers and freelancers who want fast, reliable Laravel deployments without DevOps
                         hassle.
                     </flux:text>
-                    <div class="flex-1">
-                        <flux:text class="mt-8 min-h-[72px] text-base" variant="strong">
-                            Perfect for getting started or running side projects.
-                        </flux:text>
-                        <ul class="mt-4 space-y-3">
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Manage up to 2 servers and 5 apps</flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">1 user</flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">
-                                    Core features: provisioning, deployments, SSL, backups
-                                </flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Community support</flux:text>
-                            </li>
-                        </ul>
-                    </div>
                     <flux:button variant="primary" class="mt-6 w-full">Start free trial</flux:button>
+                    <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold">
+                        Perfect for getting started or running side projects.
+                    </flux:text>
+
+                    <ul class="mt-4 flex-1 space-y-3">
+                        <li class="flex gap-2">
+                            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+                            <flux:text class="space-y-3 text-sm/6">Manage up to 2 servers and 5 apps</flux:text>
+                        </li>
+                        <li class="flex gap-2">
+                            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+                            <flux:text class="space-y-3 text-sm/6">1 user</flux:text>
+                        </li>
+                        <li class="flex gap-2">
+                            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+                            <flux:text class="space-y-3 text-sm/6">
+                                Core features: provisioning, deployments, SSL, backups
+                            </flux:text>
+                        </li>
+                        <li class="flex gap-2">
+                            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+                            <flux:text class="space-y-3 text-sm/6">Community support</flux:text>
+                        </li>
+                    </ul>
                 </flux:card>
                 <flux:card class="flex flex-col">
                     <flux:heading level="2" class="mb-2 text-lg/8! font-bold!">Team</flux:heading>
@@ -211,17 +210,17 @@
             </section>
 
             <section class="mt-24 grid grid-cols-3 gap-8 sm:mt-56">
-                <blockquote class="bg-blue-50 p-8 rounded-xl">
+                <blockquote class="rounded-xl bg-blue-50 p-8">
                     <flux:text variant="strong" class="text-lg/8">
                         “Built for Laravel. No DevOps experience required. Focus on code, not servers.”
                     </flux:text>
                 </blockquote>
-                <blockquote class="bg-blue-50 p-8 rounded-xl">
+                <blockquote class="rounded-xl bg-blue-50 p-8">
                     <flux:text variant="strong" class="text-lg/8">
                         “No more SSH headaches. One-click deploys. Peace of mind.”
                     </flux:text>
                 </blockquote>
-                <blockquote class="bg-blue-50 p-8 rounded-xl">
+                <blockquote class="rounded-xl bg-blue-50 p-8">
                     <flux:text variant="strong" class="text-lg/8">
                         “Growing fast? Upgrade anytime. Need more? We’ll work with you.”
                     </flux:text>
