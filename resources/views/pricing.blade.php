@@ -74,100 +74,93 @@
                         </li>
                     </ul>
                 </flux:card>
-                <flux:card class="flex flex-col">
-                    <flux:heading level="2" class="mb-2 text-lg/8! font-bold!">Team</flux:heading>
-                    <div class="mt-2 flex items-baseline gap-1">
-                        <flux:heading class="text-4xl! leading-tight font-extrabold!">$19</flux:heading>
-                        <flux:text>/month</flux:text>
-                    </div>
-                    <flux:text class="mt-2 min-h-[80px]">
-                        For small teams and agencies managing multiple projects and collaborating with others.
-                    </flux:text>
-                    <div class="flex-1">
-                        <flux:text class="mt-8 min-h-[72px] text-base" variant="strong">
-                            Built for teams who want to move fast and work together.
-                        </flux:text>
-                        <ul class="mt-4 space-y-3">
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Manage up to 10 servers and 20 apps</flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Up to 3 users</flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Team management, zero-downtime deploys</flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Email support</flux:text>
-                            </li>
-                        </ul>
-                    </div>
-                    <flux:button variant="primary" class="mt-6 w-full">Start free trial</flux:button>
-                </flux:card>
-                <flux:card class="flex flex-col">
-                    <flux:heading level="2" class="mb-2 text-lg/8! font-bold!">Agency</flux:heading>
-                    <div class="mt-2 flex items-baseline gap-1">
-                        <flux:heading class="text-4xl! leading-tight font-extrabold!">$29</flux:heading>
-                        <flux:text>/month</flux:text>
-                    </div>
-                    <flux:text class="mt-2">
-                        For growing agencies and startups who need advanced features, more capacity, and priority
-                        support.
-                    </flux:text>
-                    <div class="flex-1">
-                        <flux:text class="mt-8 text-base" variant="strong">
-                            Scale your agency with powerful tools and responsive support.
-                        </flux:text>
-                        <ul class="mt-4 space-y-3">
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Manage up to 25 servers and 50 apps</flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Up to 10 users</flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">All features, API access, advanced config</flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Priority support</flux:text>
-                            </li>
-                        </ul>
-                    </div>
-                    <flux:button variant="primary" class="mt-6 w-full">Start free trial</flux:button>
-                </flux:card>
-                <flux:card class="flex flex-col">
-                    <flux:heading level="2" class="mb-2 text-lg/8! font-bold!">Enterprise</flux:heading>
-                    <div class="mt-2 flex items-baseline gap-1">
-                        <flux:heading class="text-4xl! leading-tight font-extrabold!">Custom</flux:heading>
-                    </div>
-                    <flux:text class="mt-2 min-h-[80px]">
-                        For organizations with large teams or special requirements. Let’s talk!
-                    </flux:text>
-                    <div class="flex-1">
-                        <flux:text class="mt-8 min-h-[72px] text-base" variant="strong">
-                            Need more? We’ll tailor a plan for you.
-                        </flux:text>
-                        <ul class="mt-4 space-y-3">
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Custom limits</flux:text>
-                            </li>
-                            <li class="flex gap-2">
-                                <flux:icon.check variant="micro" class="mt-0.5" />
-                                <flux:text variant="strong">Dedicated onboarding, custom SLAs</flux:text>
-                            </li>
-                        </ul>
-                    </div>
-                    <flux:button variant="primary" class="mt-6 w-full">Contact us</flux:button>
-                </flux:card>
+<flux:card class="flex flex-col p-8">
+    <flux:heading level="3" class="text-lg/8! font-semibold!">Team</flux:heading>
+    <div class="mt-6 flex items-baseline gap-1">
+        <flux:heading class="text-4xl! leading-tight font-extrabold!">$19</flux:heading>
+        <flux:text class="text-sm/6 font-semibold">/month</flux:text>
+    </div>
+    <flux:text class="mt-3 text-sm/6">
+        For small teams and agencies managing multiple projects and collaborating with others.
+    </flux:text>
+    <flux:button variant="primary" class="mt-6 w-full">Start free trial</flux:button>
+    <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold">
+        Built for teams who want to move fast and work together.
+    </flux:text>
+    <ul class="mt-4 flex-1 space-y-3">
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">Manage up to 10 servers and 20 apps</flux:text>
+        </li>
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">Up to 3 users</flux:text>
+        </li>
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">Team management, zero-downtime deploys</flux:text>
+        </li>
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">Email support</flux:text>
+        </li>
+    </ul>
+</flux:card>
+<flux:card class="flex flex-col p-8">
+    <flux:heading level="3" class="text-lg/8! font-semibold!">Agency</flux:heading>
+    <div class="mt-6 flex items-baseline gap-1">
+        <flux:heading class="text-4xl! leading-tight font-extrabold!">$29</flux:heading>
+        <flux:text class="text-sm/6 font-semibold">/month</flux:text>
+    </div>
+    <flux:text class="mt-3 text-sm/6">
+        For growing agencies and startups who need advanced features, more capacity, and priority support.
+    </flux:text>
+    <flux:button variant="primary" class="mt-6 w-full">Start free trial</flux:button>
+    <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold">
+        Scale your agency with powerful tools and responsive support.
+    </flux:text>
+    <ul class="mt-4 flex-1 space-y-3">
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">Manage up to 25 servers and 50 apps</flux:text>
+        </li>
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">Up to 10 users</flux:text>
+        </li>
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">All features, API access, advanced config</flux:text>
+        </li>
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">Priority support</flux:text>
+        </li>
+    </ul>
+</flux:card>
+<flux:card class="flex flex-col p-8">
+    <flux:heading level="3" class="text-lg/8! font-semibold!">Enterprise</flux:heading>
+    <div class="mt-6 flex items-baseline gap-1">
+        <flux:heading class="text-4xl! leading-tight font-extrabold!">Custom</flux:heading>
+    </div>
+    <flux:text class="mt-3 text-sm/6">
+        For organizations with large teams or special requirements. Let’s talk!
+    </flux:text>
+    <flux:button variant="primary" class="mt-6 w-full">Contact us</flux:button>
+    <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold">
+        Need more? We’ll tailor a plan for you.
+    </flux:text>
+    <ul class="mt-4 flex-1 space-y-3">
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">Custom limits</flux:text>
+        </li>
+        <li class="flex gap-2">
+            <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
+            <flux:text class="space-y-3 text-sm/6">Dedicated onboarding, custom SLAs</flux:text>
+        </li>
+    </ul>
+</flux:card>
             </section>
 
             <section class="mt-8 grid grid-cols-12 gap-8 rounded-xl bg-zinc-50 p-8 sm:p-10">
