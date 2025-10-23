@@ -25,11 +25,11 @@
 
         <flux:main container>
             <section class="-mt-6 pt-10 pb-20 lg:-mt-8">
-<flux:heading level="1" size="xl">
-    Deploy Laravel apps to your own VPS—
-    <br class="hidden md:block" />
-    in minutes, not hours
-</flux:heading>
+                <flux:heading level="1" size="xl">
+                    Deploy Laravel apps to your own VPS—
+                    <br class="hidden md:block" />
+                    in minutes, not hours
+                </flux:heading>
                 <flux:text class="mt-2 max-w-prose">
                     Stop wrestling with server setup. With Terrific Fuse, you can provision secure, production-ready
                     servers for your Laravel apps—no manual installs, no command-line headaches, no hidden limits.
@@ -37,21 +37,23 @@
             </section>
 
             <section>
-<flux:heading level="2" size="lg">
-    Launch your next Laravel project—
-    <br class="hidden md:block" />
-    without the usual hassle
-</flux:heading>
+                <flux:heading level="2" size="lg">
+                    Launch your next Laravel project—
+                    <br class="hidden md:block" />
+                    without the usual hassle
+                </flux:heading>
                 <flux:text class="mt-2 max-w-prose">
-                    You want to focus on building your app, not fighting with server setup. Terrific Fuse handles the heavy lifting—so you can deploy, manage, and scale your Laravel projects with confidence and ease.
+                    You want to focus on building your app, not fighting with server setup. Terrific Fuse handles the
+                    heavy lifting—so you can deploy, manage, and scale your Laravel projects with confidence and ease.
                 </flux:text>
-                <ul class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <ul class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
                     <li>
                         <flux:text>
                             <flux:text variant="strong" class="font-medium" inline>
                                 Provision servers built for Laravel.
                             </flux:text>
-                            You get everything you need—PHP (8.1–8.4), MySQL 8, Redis—pre-installed and optimized for your VPS specs.
+                            You get everything you need—PHP (8.1–8.4), MySQL 8, Redis—pre-installed and optimized for
+                            your VPS specs.
                         </flux:text>
                     </li>
                     <li>
@@ -96,7 +98,7 @@
                     automate the essentials, cut costs, and move from idea to launch in record time—even if you’re new
                     to server management.
                 </flux:text>
-                <ul class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <ul class="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
                     <li>
                         <flux:text>
                             <flux:text variant="strong" class="font-medium" inline>Skip the manual setup.</flux:text>
@@ -142,19 +144,17 @@
             </section>
 
             <section class="mt-16">
-<flux:heading level="3" class="mb-2">
-    Ready to deploy your Laravel app the easy way?
-</flux:heading>
+                <flux:heading level="3" class="mb-2">Ready to deploy your Laravel app the easy way?</flux:heading>
                 <flux:button :href="route('register')" class="mb-2 max-w-prose">
                     Start your 1-week risk-free trial for just $29/year →
                 </flux:button>
             </section>
 
             <section class="mt-10">
-                <flux:text variant="strong" class="font-medium max-w-prose">
+                <flux:text variant="strong" class="max-w-prose font-medium">
                     Even if you’ve struggled with server setup before, you’ll be up and running in minutes.
                 </flux:text>
-                <flux:text class="max-w-prose mt-2">
+                <flux:text class="mt-2 max-w-prose">
                     You keep full control—no hidden fees, no arbitrary limits, just effortless Laravel deployments.
                 </flux:text>
             </section>
