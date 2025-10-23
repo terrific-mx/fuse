@@ -11,6 +11,8 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
+Route::view('pricing', 'pricing')->name('pricing');
+
 Route::get('/task/{task}/callback', [CallbackController::class, 'task'])->name('task.callback');
 
 Route::get('servers/{server}/setup-root-ssh', [SetupRootSshController::class, 'show'])
