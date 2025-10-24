@@ -5,7 +5,7 @@
     </head>
     <body>
         <flux:header container class="border-b border-zinc-200 dark:border-zinc-700">
-            <flux:brand :href="route('dashboard')" :name="config('app.name')" class="[&>div]:first:hidden" />
+            <flux:brand :href="route('home')" :name="config('app.name')" class="[&>div]:first:hidden" />
 
             <flux:navbar class="-mb-px">
                 <flux:navbar.item :href="route('pricing')">Pricing</flux:navbar.item>
@@ -30,7 +30,7 @@
                     command-line headaches, no guesswork.
                 </flux:text>
                 <div class="mt-10 flex items-center gap-x-2">
-                    <flux:button variant="primary" class="font-semibold">Start free trial</flux:button>
+                    <flux:button :href="route('register')" variant="primary" class="font-semibold">Start free trial</flux:button>
                     <flux:button :href="route('pricing')" variant="ghost" class="font-semibold">Pricing →</flux:button>
                 </div>
             </section>
@@ -203,7 +203,7 @@
                         Ready to launch your next Laravel app—without the server stress?
                     </flux:heading>
                     <div class="mt-10 flex items-center gap-x-2">
-                        <flux:button variant="primary" class="font-semibold">Start free trial</flux:button>
+                        <flux:button :href="route('register')" variant="primary" class="font-semibold">Start free trial</flux:button>
                     </div>
                 </div>
             </div>

@@ -5,7 +5,7 @@
     </head>
     <body>
         <flux:header container class="border-b border-zinc-200 dark:border-zinc-700">
-            <flux:brand :href="route('dashboard')" :name="config('app.name')" class="[&>div]:first:hidden" />
+            <flux:brand :href="route('home')" :name="config('app.name')" class="[&>div]:first:hidden" />
 
             <flux:navbar class="-mb-px">
                 <flux:navbar.item :href="route('pricing')">Pricing</flux:navbar.item>
@@ -42,7 +42,7 @@
                         For solo developers and freelancers who want fast, reliable Laravel deployments without DevOps
                         hassle.
                     </flux:text>
-                    <flux:button variant="primary" class="mt-6 w-full">Start free trial</flux:button>
+                    <flux:button :href="route('register')" variant="primary" class="mt-6 w-full">Start free trial</flux:button>
                     <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold min-h-18">
                         Perfect for getting started or running side projects.
                     </flux:text>
@@ -77,7 +77,7 @@
                     <flux:text class="mt-3 text-sm/6 min-h-24">
                         For small teams and agencies managing multiple projects and collaborating with others.
                     </flux:text>
-                    <flux:button variant="primary" class="mt-6 w-full">Start free trial</flux:button>
+                    <flux:button :href="route('register')" variant="primary" class="mt-6 w-full">Start free trial</flux:button>
                     <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold min-h-18">
                         Built for teams who want to move fast and work together.
                     </flux:text>
@@ -110,7 +110,7 @@
                         For growing agencies and startups who need advanced features, more capacity, and priority
                         support.
                     </flux:text>
-                    <flux:button variant="primary" class="mt-6 w-full">Start free trial</flux:button>
+                    <flux:button :href="route('register')" variant="primary" class="mt-6 w-full">Start free trial</flux:button>
                     <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold">
                         Scale your agency with powerful tools and responsive support.
                     </flux:text>
@@ -141,7 +141,7 @@
                     <flux:text class="mt-3 text-sm/6 min-h-24">
                         For organizations with large teams or special requirements. Let’s talk!
                     </flux:text>
-                    <flux:button variant="primary" class="mt-6 w-full">Contact us</flux:button>
+                    <flux:button href="mailto:support@terrific.com.mx" variant="primary" class="mt-6 w-full">Contact us</flux:button>
                     <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold min-h-18">
                         Need more? We’ll tailor a plan for you.
                     </flux:text>
@@ -186,13 +186,15 @@
                 <ul class="space-y-3">
                     <li class="flex gap-2">
                         <flux:icon.check variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6"><span class="font-semibold">14-day free trial</span> – Cancel anytime before trial ends</flux:text>
+                        <p>
+                            <flux:text variant="strong" class="text-sm/6 font-semibold" inline>14-day free trial –</flux:text> <flux:text class="text-sm/6" inline>Cancel anytime before trial ends</flux:text>
+                        </p>
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">
-                            <span class="font-semibold">30-day money-back guarantee</span> – Love it or get a full refund, no questions asked
-                        </flux:text>
+                        <p>
+                            <flux:text variant="strong" class="text-sm/6 font-semibold" inline>30-day money-back guarantee –</flux:text> <flux:text class="text-sm/6" inline>Love it or get a full refund, no questions asked</flux:text>
+                        </p>
                     </li>
                 </ul>
             </section>
@@ -251,8 +253,8 @@
             </section>
             <footer class="mt-24 sm:mt-56">
                 <div class="pb-14 sm:pb-16">
-                    <flux:text class="text-sm/6">Built with <flux:icon.heart variant="micro" class="inline" /> by <flux:link :accent="false">Oliver Servín</flux:link></flux:text>
-                    <flux:text class="mt-10  text-sm/6">&copy; {{ date('Y') }} Terrific Software. All rights reserved. Problems or questions? Contact <<flux:link :accent="false">support@terrific.com.mx</flux:link>>.</flux:text>
+                    <flux:text class="text-sm/6">Built with <flux:icon.heart variant="micro" class="inline" /> by <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link></flux:text>
+                    <flux:text class="mt-10  text-sm/6">&copy; {{ date('Y') }} Terrific Software. All rights reserved. Problems or questions? Contact <<flux:link href="mailto:support@terrific.com.mx" :accent="false">support@terrific.com.mx</flux:link>>.</flux:text>
                 </div>
             </footer>
         </flux:main>
