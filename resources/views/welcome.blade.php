@@ -132,9 +132,7 @@
 
                         <blockquote class="mt-16 border-l border-zinc-200 pl-8">
                             <flux:text class="text-base/7">
-                                “Vel ultricies morbi odio facilisi ultrices accumsan donec lacus purus. Lectus nibh
-                                ullamcorper ac dictum justo in euismod. Risus aenean ut elit massa. In amet aliquet eget
-                                cras. Sem volutpat enim tristique.”
+                                “I built Terrific Fuse for myself, then opened it to the public so anyone can deploy Laravel apps with ease. It’s fully open source—so you can trust, audit, and contribute.”
                             </flux:text>
 
                             <div class="mt-6">

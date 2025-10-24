@@ -23,7 +23,7 @@ With Terrific Fuse, you can provision a secure, production-ready VPS for Laravel
 You’re building Laravel apps for clients or your own projects. You want to move fast, stay secure, and avoid DevOps rabbit holes.  
 **Terrific Fuse is for you—even if you’ve never managed a server before.**
 
-> “I built Terrific Fuse for myself, so I could spend less time on server setup and more time coding. Now it’s open source, so you can, too.”  
+> “I built Terrific Fuse for myself, then opened it to the public so anyone can deploy Laravel apps with ease. It’s fully open source—so you can trust, audit, and contribute.”  
 > — Oliver, Creator
 
 ### Invite Your Team—Collaborate with Confidence
