@@ -50,8 +50,8 @@
                 >
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-                            <flux:icon.check class="text-accent absolute top-1 left-1 size-5" />
-                            Spin up a Laravel-ready server instantly
+<flux:icon name="server" class="text-accent absolute top-1 left-1 size-5" />
+                             Spin up a Laravel-ready server instantly
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Terrific Fuse automatically installs and configures everything you need: PHP (8.1–8.4),
@@ -60,8 +60,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-                            <flux:icon.check class="text-accent absolute top-1 left-1 size-5" />
-                            Deploy from GitHub with zero downtime.
+<flux:icon name="folder-git-2" class="text-accent absolute top-1 left-1 size-5" />
+                             Deploy from GitHub with zero downtime.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Push your code, and your app goes live—smoothly, every time.
@@ -69,8 +69,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-                            <flux:icon.check class="text-accent absolute top-1 left-1 size-5" />
-                            Optimize for your VPS, automatically.
+<flux:icon name="sparkles" class="text-accent absolute top-1 left-1 size-5" />
+                             Optimize for your VPS, automatically.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Create databases, set up daemons, schedule cron jobs, tweak firewall rules, and restart
@@ -79,8 +79,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-                            <flux:icon.check class="text-accent absolute top-1 left-1 size-5" />
-                            Manage everything from a clean UI.
+<flux:icon name="computer-desktop" class="text-accent absolute top-1 left-1 size-5" />
+                             Manage everything from a clean UI.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Create databases, set up daemons, schedule cron jobs, tweak firewall rules, and restart
@@ -89,8 +89,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-                            <flux:icon.check class="text-accent absolute top-1 left-1 size-5" />
-                            Stay secure, always.
+<flux:icon name="shield-check" class="text-accent absolute top-1 left-1 size-5" />
+                             Stay secure, always.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Firewalls are locked down, SSH password logins are disabled, and only your SSH keys grant
@@ -99,8 +99,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-                            <flux:icon.check class="text-accent absolute top-1 left-1 size-5" />
-                            Works with any VPS provider.
+<flux:icon name="globe-alt" class="text-accent absolute top-1 left-1 size-5" />
+                             Works with any VPS provider.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Use Hetzner, DigitalOcean, Vultr, or your favorite host. You’re in control.
