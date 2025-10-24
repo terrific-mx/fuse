@@ -31,7 +31,7 @@
                 </flux:text>
                 <div class="mt-10 flex items-center gap-x-2">
                     <flux:button :href="route('register')" variant="primary" class="font-semibold">Start free trial</flux:button>
-                    <flux:button :href="route('pricing')" variant="ghost" class="font-semibold">Pricing →</flux:button>
+                    <flux:button :href="route('pricing')" variant="ghost" icon:trailing="arrow-right" class="font-semibold">Pricing</flux:button>
                 </div>
             </section>
 
