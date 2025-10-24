@@ -19,7 +19,7 @@
                     <flux:button :href="route('login')" variant="ghost" size="sm">{{ __('Sign in') }}</flux:button>
                     <flux:button :href="route('register')" size="sm">{{ __('Get Started') }}</flux:button>
                 @else
-                    <flux:button :href="route('dashboard')" size="sm">{{ __('Dashboard') }}</flux:button>
+                    <flux:button :href="route('dashboard')" variant="subtle" size="sm">Account</flux:button>
                 @endguest
             </div>
         </flux:header>
@@ -30,8 +30,7 @@
                     Deploy Laravel apps, not headaches
                 </flux:heading>
                 <flux:text class="mt-6 max-w-2xl text-lg font-medium text-pretty sm:text-xl/8">
-                    Terrific Fuse saves you hours on server management, so you can focus on building. Simple, affordable
-                    plans for indie devs, agencies, and startups.
+                    Terrific Fuse saves you hours on server management, so you can focus on building. Simple, affordable plans for indie devs, agencies, and startups.
                 </flux:text>
             </section>
 
@@ -256,7 +255,7 @@
                 </div>
             </section>
             <footer class="mt-24 sm:mt-56">
-                <div class="px-6 pb-20 sm:pb-24 lg:px-8">
+                <div class="pb-14 sm:pb-16">
                     <flux:text class="text-sm/6">Built with <flux:icon.heart variant="micro" class="inline" /> by <flux:link :accent="false">Oliver Servín</flux:link></flux:text>
                     <flux:text class="mt-10  text-sm/6">&copy; {{ date('Y') }} Terrific Software. All rights reserved. Problems or questions? Contact <<flux:link :accent="false">support@terrific.com.mx</flux:link>>.</flux:text>
                 </div>
