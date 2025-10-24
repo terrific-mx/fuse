@@ -50,8 +50,8 @@
                 >
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-<flux:icon name="server" class="text-accent absolute top-1 left-1 size-5" />
-                             Spin up a Laravel-ready server instantly
+                            <flux:icon name="server" class="text-accent absolute top-1 left-1 size-5" />
+                            Spin up a Laravel-ready server instantly
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Terrific Fuse automatically installs and configures everything you need: PHP (8.1–8.4),
@@ -60,8 +60,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-<flux:icon name="folder-git-2" class="text-accent absolute top-1 left-1 size-5" />
-                             Deploy from GitHub with zero downtime.
+                            <flux:icon name="folder-git-2" class="text-accent absolute top-1 left-1 size-5" />
+                            Deploy from GitHub with zero downtime.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Push your code, and your app goes live—smoothly, every time.
@@ -69,8 +69,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-<flux:icon name="sparkles" class="text-accent absolute top-1 left-1 size-5" />
-                             Optimize for your VPS, automatically.
+                            <flux:icon name="sparkles" class="text-accent absolute top-1 left-1 size-5" />
+                            Optimize for your VPS, automatically.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Create databases, set up daemons, schedule cron jobs, tweak firewall rules, and restart
@@ -79,8 +79,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-<flux:icon name="computer-desktop" class="text-accent absolute top-1 left-1 size-5" />
-                             Manage everything from a clean UI.
+                            <flux:icon name="computer-desktop" class="text-accent absolute top-1 left-1 size-5" />
+                            Manage everything from a clean UI.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Create databases, set up daemons, schedule cron jobs, tweak firewall rules, and restart
@@ -89,8 +89,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-<flux:icon name="shield-check" class="text-accent absolute top-1 left-1 size-5" />
-                             Stay secure, always.
+                            <flux:icon name="shield-check" class="text-accent absolute top-1 left-1 size-5" />
+                            Stay secure, always.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Firewalls are locked down, SSH password logins are disabled, and only your SSH keys grant
@@ -99,8 +99,8 @@
                     </div>
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
-<flux:icon name="globe-alt" class="text-accent absolute top-1 left-1 size-5" />
-                             Works with any VPS provider.
+                            <flux:icon name="globe-alt" class="text-accent absolute top-1 left-1 size-5" />
+                            Works with any VPS provider.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Use Hetzner, DigitalOcean, Vultr, or your favorite host. You’re in control.
@@ -149,7 +149,7 @@
             </section>
 
             <section class="py-24 sm:py-32">
-                <div class="px-6 py-24 bg-zinc-50 sm:px-16 sm:rounded-3xl">
+                <div class="bg-zinc-50 px-6 py-24 sm:rounded-3xl sm:px-16">
                     <div class="max-w-2xl">
                         <flux:heading level="2" class="text-4xl font-semibold tracking-tight text-pretty sm:text-5xl">
                             Invite Your Team—Collaborate with Confidence
@@ -201,8 +201,11 @@
             </section>
 
             <div class="py-24 sm:py-32">
-                <div class="px-6 py-24 bg-blue-100 sm:px-16 sm:rounded-3xl">
-                    <flux:heading level="2" class="max-w-2xl text-4xl font-semibold tracking-tight text-balance  sm:text-5xl">
+                <div class="bg-blue-100 px-6 py-24 sm:rounded-3xl sm:px-16">
+                    <flux:heading
+                        level="2"
+                        class="max-w-2xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl"
+                    >
                         Ready to launch your next Laravel app—without the server stress?
                     </flux:heading>
                     <div class="mt-10 flex items-center gap-x-2">
@@ -213,8 +216,17 @@
 
             <footer class="mt-24 sm:mt-56">
                 <div class="pb-14 sm:pb-16">
-                    <flux:text class="text-sm/6">Built with <flux:icon.heart variant="micro" class="inline" /> by <flux:link :accent="false">Oliver Servín</flux:link></flux:text>
-                    <flux:text class="mt-10  text-sm/6">&copy; {{ date('Y') }} Terrific Software. All rights reserved. Problems or questions? Contact <<flux:link :accent="false">support@terrific.com.mx</flux:link>>.</flux:text>
+                    <flux:text class="text-sm/6">
+                        Built with
+                        <flux:icon.heart variant="micro" class="inline" />
+                        by
+                        <flux:link :accent="false">Oliver Servín</flux:link>
+                    </flux:text>
+                    <flux:text class="mt-10 text-sm/6">
+                        &copy; {{ date('Y') }} Terrific Software. All rights reserved. Problems or questions? Contact <
+                        <flux:link :accent="false">support@terrific.com.mx</flux:link>
+                        >.
+                    </flux:text>
                 </div>
             </footer>
         </flux:main>
