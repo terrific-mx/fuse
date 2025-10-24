@@ -5,7 +5,7 @@
     </head>
     <body>
         <flux:header container class="border-b border-zinc-200 dark:border-zinc-700">
-            <flux:brand href="route('dashboard')" :name="config('app.name')" class="[&>div]:first:hidden" />
+            <flux:brand :href="route('dashboard')" :name="config('app.name')" class="[&>div]:first:hidden" />
 
             <flux:navbar class="-mb-px">
                 <flux:navbar.item :href="route('pricing')">Pricing</flux:navbar.item>
@@ -15,12 +15,7 @@
             <flux:spacer />
 
             <div class="flex gap-2">
-                @guest
-                    <flux:button :href="route('login')" variant="ghost" size="sm">{{ __('Sign in') }}</flux:button>
-                    <flux:button :href="route('register')" size="sm">{{ __('Get Started') }}</flux:button>
-                @else
-                    <flux:button :href="route('dashboard')" variant="subtle" size="sm">Account</flux:button>
-                @endguest
+                <flux:button :href="route('dashboard')" variant="subtle" size="sm">Account</flux:button>
             </div>
         </flux:header>
 

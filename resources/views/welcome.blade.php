@@ -5,27 +5,23 @@
     </head>
     <body>
         <flux:header container class="border-b border-zinc-200 dark:border-zinc-700">
-            <flux:brand href="route('dashboard')" :name="config('app.name')" class="[&>div]:first:hidden" />
+            <flux:brand :href="route('dashboard')" :name="config('app.name')" class="[&>div]:first:hidden" />
 
             <flux:navbar class="-mb-px">
+                <flux:navbar.item :href="route('pricing')">Pricing</flux:navbar.item>
                 <flux:navbar.item href="https://github.com/terrific-mx/fuse">Github</flux:navbar.item>
             </flux:navbar>
 
             <flux:spacer />
 
             <div class="flex gap-2">
-                @guest
-                    <flux:button :href="route('login')" variant="ghost" size="sm">{{ __('Sign in') }}</flux:button>
-                    <flux:button :href="route('register')" size="sm">{{ __('Get Started') }}</flux:button>
-                @else
-                    <flux:button :href="route('dashboard')" size="sm">{{ __('Dashboard') }}</flux:button>
-                @endguest
+                <flux:button :href="route('dashboard')" variant="subtle" size="sm">Account</flux:button>
             </div>
         </flux:header>
 
         <flux:main container>
             <section class="-mt-6 max-w-2xl py-32 sm:py-48 lg:-mt-8 lg:py-56">
-                <flux:heading level="1" class="text-5xl font-semibold tracking-tight text-balance sm:text-7xl">
+                <flux:heading level="1" class="text-5xl! font-semibold tracking-tight text-balance sm:text-7xl!">
                     Stop Wrestling with Server Setup. Deploy Laravel Apps in Minutes—Not Hours
                 </flux:heading>
                 <flux:text class="mt-8 text-lg font-medium text-pretty sm:text-xl/8">
@@ -41,7 +37,7 @@
 
             <section class="py-24 sm:py-32">
                 <div class="max-w-2xl">
-                    <flux:heading level="2" class="text-4xl font-semibold tracking-tight text-pretty sm:text-5xl">
+                    <flux:heading level="2" class="text-4xl! font-semibold tracking-tight text-pretty sm:text-5xl!">
                         Get Back to Building—We’ll Handle the Ops
                     </flux:heading>
                 </div>
@@ -117,7 +113,7 @@
                         <div class="lg:max-w-lg">
                             <flux:heading
                                 level="2"
-                                class="text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
+                                class="text-4xl! font-semibold tracking-tight text-pretty sm:text-5xl!"
                             >
                                 Ideal for Indie Developers, Freelancers, Small Agencies, and Startups
                             </flux:heading>
@@ -147,9 +143,9 @@
             </section>
 
             <section class="py-24 sm:py-32">
-                <div class="bg-zinc-50 px-6 py-24 sm:rounded-3xl sm:px-16">
+                <div class="bg-zinc-50 px-6 py-24 rounded-3xl sm:px-16">
                     <div class="max-w-2xl">
-                        <flux:heading level="2" class="text-4xl font-semibold tracking-tight text-pretty sm:text-5xl">
+                        <flux:heading level="2" class="text-4xl! font-semibold tracking-tight text-pretty sm:text-5xl!">
                             Invite Your Team—Collaborate with Confidence
                         </flux:heading>
                         <flux:text class="mt-6 text-lg/8">
@@ -168,7 +164,7 @@
                         <div class="lg:max-w-lg">
                             <flux:heading
                                 level="2"
-                                class="text-4xl font-semibold tracking-tight text-pretty sm:text-5xl"
+                                class="text-4xl! font-semibold tracking-tight text-pretty sm:text-5xl!"
                             >
                                 Try It Free for 14 Days
                             </flux:heading>
@@ -199,10 +195,10 @@
             </section>
 
             <div class="py-24 sm:py-32">
-                <div class="bg-blue-100 px-6 py-24 sm:rounded-3xl sm:px-16">
+                <div class="bg-blue-100 px-6 py-24 rounded-3xl sm:px-16">
                     <flux:heading
                         level="2"
-                        class="max-w-2xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl"
+                        class="max-w-2xl text-4xl! font-semibold tracking-tight text-balance sm:text-5xl!"
                     >
                         Ready to launch your next Laravel app—without the server stress?
                     </flux:heading>
