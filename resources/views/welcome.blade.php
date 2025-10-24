@@ -126,7 +126,7 @@
                             a server before.
                         </flux:text>
 
-                        <blockquote class="mt-16 border-l border-zinc-200 pl-8">
+                        <blockquote class="mt-16 border-b border-zinc-200 dark:border-zinc-700 pl-8">
                             <flux:text class="text-base/7">
                                 “I built Terrific Fuse for myself, then opened it to the public so anyone can deploy Laravel apps with ease. It’s fully open source—so you can trust, audit, and contribute.”
                             </flux:text>
