@@ -204,12 +204,12 @@
                         “Built for Laravel. No DevOps experience required. Focus on code, not servers.”
                     </flux:text>
                 </blockquote>
-                <blockquote class="rounded-xl bg-blue-50 p-8">
+                <blockquote class="rounded-xl bg-blue-50 dark:bg-blue-950 p-8">
                     <flux:text variant="strong" class="text-lg/8">
                         “No more SSH headaches. One-click deploys. Peace of mind.”
                     </flux:text>
                 </blockquote>
-                <blockquote class="rounded-xl bg-blue-50 p-8">
+                <blockquote class="rounded-xl bg-blue-50 dark:bg-blue-950 p-8">
                     <flux:text variant="strong" class="text-lg/8">
                         “Growing fast? Upgrade anytime. Need more? We’ll work with you.”
                     </flux:text>
