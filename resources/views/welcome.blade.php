@@ -47,7 +47,7 @@
                     <div class="relative pl-9">
                         <flux:text variant="strong" class="text-base/7 font-semibold" inline>
                             <flux:icon name="server" class="text-accent absolute top-1 left-1 size-5" />
-                            Spin up a Laravel-ready server instantly
+                            Spin up a Laravel-ready server in just a few minutes.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
                             Terrific Fuse automatically installs and configures everything you need: PHP (8.1–8.4),
@@ -69,8 +69,7 @@
                             Optimize for your VPS, automatically.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
-                            Create databases, set up daemons, schedule cron jobs, tweak firewall rules, and restart
-                            services—all without touching the terminal.
+                            PHP and MySQL settings are tuned to your server’s specs, so you get peak performance without lifting a finger.
                         </flux:text>
                     </div>
                     <div class="relative pl-9">
