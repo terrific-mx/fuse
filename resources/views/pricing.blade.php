@@ -157,7 +157,7 @@
                 </flux:card>
             </section>
 
-            <section class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 rounded-xl bg-zinc-50 p-8 sm:p-10">
+            <section class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 rounded-xl bg-zinc-50 dark:bg-zinc-900 p-8 sm:p-10">
                 <div class="col-span-5">
                     <flux:heading level="h2" class="text-lg/8! font-bold!">Add-ons</flux:heading>
                 </div>
@@ -199,7 +199,7 @@
             </section>
 
             <section class="mt-24 grid grid-cols-1 lg:grid-cols-3 gap-8 sm:mt-56">
-                <blockquote class="rounded-xl bg-blue-50 p-8">
+                <blockquote class="rounded-xl bg-blue-50 dark:bg-blue-900 p-8">
                     <flux:text variant="strong" class="text-lg/8">
                         “Built for Laravel. No DevOps experience required. Focus on code, not servers.”
                     </flux:text>
