@@ -21,7 +21,7 @@
 
         <flux:main container>
             <section class="-mt-6 pt-24 sm:pt-32 lg:-mt-8">
-                <flux:heading level="1" size="xl" class="text-5xl font-bold! tracking-tight text-balance sm:text-6xl">
+                <flux:heading level="1" class="text-5xl! font-bold! tracking-tight text-balance sm:text-6xl!">
                     Deploy Laravel apps, not headaches
                 </flux:heading>
                 <flux:text class="mt-6 max-w-2xl text-lg font-medium text-pretty sm:text-xl/8">
@@ -38,9 +38,8 @@
                         <flux:heading class="text-4xl! leading-tight font-extrabold!">$9</flux:heading>
                         <flux:text class="text-sm/6 font-semibold">/month</flux:text>
                     </div>
-                    <flux:text class="mt-3 text-sm/6">
-                        For solo developers and freelancers who want fast, reliable Laravel deployments without DevOps
-                        hassle.
+                    <flux:text class="mt-3 text-sm/6 min-h-24">
+                        For solo developers and freelancers who want fast, reliable Laravel deployments without DevOps hassle.
                     </flux:text>
                     <flux:button :href="route('register')" variant="primary" class="mt-6 w-full">Start free trial</flux:button>
                     <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold min-h-18">
@@ -158,7 +157,7 @@
                 </flux:card>
             </section>
 
-            <section class="mt-8 grid grid-cols-12 gap-8 rounded-xl bg-zinc-50 p-8 sm:p-10">
+            <section class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 rounded-xl bg-zinc-50 p-8 sm:p-10">
                 <div class="col-span-5">
                     <flux:heading level="h2" class="text-lg/8! font-bold!">Add-ons</flux:heading>
                 </div>
@@ -199,7 +198,7 @@
                 </ul>
             </section>
 
-            <section class="mt-24 grid grid-cols-3 gap-8 sm:mt-56">
+            <section class="mt-24 grid grid-cols-1 lg:grid-cols-3 gap-8 sm:mt-56">
                 <blockquote class="rounded-xl bg-blue-50 p-8">
                     <flux:text variant="strong" class="text-lg/8">
                         “Built for Laravel. No DevOps experience required. Focus on code, not servers.”
@@ -217,9 +216,9 @@
                 </blockquote>
             </section>
 
-            <section class="mt-24 grid grid-cols-12 gap-8 sm:mt-56">
+            <section class="mt-24 grid grid-cols-1 lg:grid-cols-12 gap-8 sm:mt-56">
                 <div class="col-span-5">
-                    <flux:heading level="h2" class="text-4xl font-semibold tracking-tight sm:text-5xl">
+                    <flux:heading level="h2" class="text-4xl! font-semibold tracking-tight sm:text-5xl!">
                         Frequently asked questions
                     </flux:heading>
                 </div>
