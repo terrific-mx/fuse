@@ -1,41 +1,44 @@
-# Deploy Laravel Apps to Your Own VPS—In Minutes, Not Hours
+## Stop Wrestling with Server Setup. Deploy Laravel Apps in Minutes—Not Hours.
 
-**Stop wrestling with server setup.** With Terrific Fuse, you can provision secure, production-ready servers for your Laravel apps—no manual installs, no command-line headaches, no hidden limits.
+**You want to launch your Laravel app, not waste time configuring servers.**  
+With Terrific Fuse, you can provision a secure, production-ready VPS for Laravel in just a few clicks—no manual installs, no command-line headaches, no guesswork.
 
-## Launch Your Next Laravel Project—Without the Usual Hassle
+### Get Back to Building—We’ll Handle the Ops
 
-You want to focus on building your app, not fighting with server setup. Terrific Fuse handles the heavy lifting—so you can deploy, manage, and scale your Laravel projects with confidence and ease.
+- **Spin up a Laravel-ready server instantly.**  
+  Terrific Fuse automatically installs and configures everything you need: PHP (8.1–8.4), MySQL 8, Redis, and more.
+- **Deploy from GitHub with zero downtime.**  
+  Push your code, and your app goes live—smoothly, every time.
+- **Optimize for your VPS, automatically.**  
+  PHP and MySQL settings are tuned to your server’s specs, so you get peak performance without lifting a finger.
+- **Manage everything from a clean UI.**  
+  Create databases, set up daemons, schedule cron jobs, tweak firewall rules, and restart services—all without touching the terminal.
+- **Stay secure, always.**  
+  Firewalls are locked down, SSH password logins are disabled, and only your SSH keys grant access. Automated Ubuntu updates keep your server patched—even if you forget.
+- **Works with any VPS provider.**  
+  Use Hetzner, DigitalOcean, Vultr, or your favorite host. You’re in control.
 
-- **Provision servers built for Laravel.** You get everything you need—PHP (8.1–8.4), MySQL 8, Redis—pre-installed and optimized for your VPS specs.
-- **Zero downtime deployments.** Ship updates from your GitHub repo with confidence. Your users never see a maintenance page.
-- **Manage everything in a beautiful UI.** Create databases, set up daemons, schedule cron jobs, configure firewalls, and restart services—all without touching the terminal.
-- **Stay secure by default.** Terrific Fuse configures your firewall, enables automatic Ubuntu updates, disables password logins, and enforces SSH key access. You always have full SSH access.
-- **Works with any VPS provider.** Use Hetzner, DigitalOcean, Vultr, or your favorite host. No vendor lock-in.
+### Ideal for Indie Developers, Freelancers, Small Agencies, and Startups
 
-## Save Time, Save Money, Ship Faster
+You’re building Laravel apps for clients or your own projects. You want to move fast, stay secure, and avoid DevOps rabbit holes.  
+**Terrific Fuse is for you—even if you’ve never managed a server before.**
 
-Why waste hours on repetitive server tasks or pay for bloated platforms? With Terrific Fuse, you automate the essentials, cut costs, and move from idea to launch in record time—even if you’re new to server management.
+> “I built Terrific Fuse for myself, then opened it to the public so anyone can deploy Laravel apps with ease. It’s fully open source—so you can trust, audit, and contribute.”  
+> — Oliver, Creator
 
-- **Skip the manual setup.** Stop wasting hours installing and tuning software. Terrific Fuse does it for you—even if you’ve never provisioned a server before.
-- **Unlimited servers, unlimited apps.** Manage as many projects as you want. Invite your team to collaborate—no extra fees.
-- **Just $29/year.** Get all the power of premium platforms, without the premium price tag. If you’re not delighted in your first week, request a full refund—no questions asked.
+### Invite Your Team—Collaborate with Confidence
 
-## Ideal for Laravel Developers Who Want:
+On the Team & Agency plan, you can invite colleagues to manage servers and apps together.  
+**No more sharing root passwords or juggling access.**
 
-If you’re a Laravel developer who values control, simplicity, and security, Terrific Fuse is built for you. Here’s who gets the most from our platform:
+### Try It Free for 14 Days—Credit Card Required, No Surprises
 
-- Full control over their infrastructure
-- Effortless, secure deployments
-- A simple, affordable solution—without feature bloat or arbitrary limits
-
-> “I built Terrific Fuse for myself, then opened it up for the Laravel community. It’s fully open source—check out the code on GitHub.”
+- **Start your 14-day free trial today.**  
+  Experience effortless Laravel deployments. You’ll need a credit card to begin, but you won’t be charged unless you continue after the trial.
+- **30-day money-back guarantee.**  
+  Love it or get a full refund, even if you’ve already paid.
 
 ---
 
-**Ready to deploy your Laravel app the easy way?**  
-[Start your 1-week risk-free trial for just $29/year →]
-
----
-
-**Even if you’ve struggled with server setup before, you’ll be up and running in minutes.**  
-You keep full control—no hidden fees, no arbitrary limits, just effortless Laravel deployments.
+**Ready to launch your next Laravel app—without the server stress?**  
+[Start Your Free Trial](#) (Credit card required)
