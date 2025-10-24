@@ -199,7 +199,7 @@
             </section>
 
             <section class="mt-24 grid grid-cols-1 lg:grid-cols-3 gap-8 sm:mt-56">
-                <blockquote class="rounded-xl bg-blue-50 dark:bg-blue-900 p-8">
+                <blockquote class="rounded-xl bg-blue-50 dark:bg-blue-950 p-8">
                     <flux:text variant="strong" class="text-lg/8">
                         “Built for Laravel. No DevOps experience required. Focus on code, not servers.”
                     </flux:text>

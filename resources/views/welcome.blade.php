@@ -195,7 +195,7 @@
             </section>
 
             <div class="py-24 sm:py-32">
-                <div class="bg-blue-100 dark:bg-blue-900 px-6 py-24 rounded-3xl sm:px-16">
+                <div class="bg-blue-100 dark:bg-blue-950 px-6 py-24 rounded-3xl sm:px-16">
                     <flux:heading
                         level="2"
                         class="max-w-2xl text-4xl! font-semibold tracking-tight text-balance sm:text-5xl!"
