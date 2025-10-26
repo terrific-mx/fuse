@@ -9,7 +9,7 @@
 
             <flux:navbar class="-mb-px">
                 <flux:navbar.item :href="route('pricing')">Pricing</flux:navbar.item>
-                <flux:navbar.item href="https://github.com/terrific-mx/fuse">Github</flux:navbar.item>
+                <flux:navbar.item href="https://github.com/antihq/fuse">Github</flux:navbar.item>
             </flux:navbar>
 
             <flux:spacer />
@@ -25,7 +25,7 @@
                     Deploy Laravel apps, not headaches
                 </flux:heading>
                 <flux:text class="mt-6 max-w-2xl text-lg font-medium text-pretty sm:text-xl/8">
-                    Terrific Fuse saves you hours on server management, so you can focus on building. Simple, affordable plans for indie devs, agencies, and startups.
+                    Antifuse saves you hours on server management, so you can focus on building. Simple, affordable plans for indie devs, agencies, and startups.
                 </flux:text>
             </section>
 
@@ -140,7 +140,7 @@
                     <flux:text class="mt-3 text-sm/6 min-h-24">
                         For organizations with large teams or special requirements. Let’s talk!
                     </flux:text>
-                    <flux:button href="mailto:support@terrific.com.mx" variant="primary" class="mt-6 w-full">Contact us</flux:button>
+                    <flux:button href="mailto:support@antihq.com" variant="primary" class="mt-6 w-full">Contact us</flux:button>
                     <flux:text variant="strong" class="mt-6 text-sm/6 font-semibold min-h-18">
                         Need more? We’ll tailor a plan for you.
                     </flux:text>
@@ -253,7 +253,7 @@
             <footer class="mt-24 sm:mt-56">
                 <div class="pb-14 sm:pb-16">
                     <flux:text class="text-sm/6">Built with <flux:icon.heart variant="micro" class="inline" /> by <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link></flux:text>
-                    <flux:text class="mt-10  text-sm/6">&copy; {{ date('Y') }} Terrific Software. All rights reserved. Problems or questions? Contact <<flux:link href="mailto:support@terrific.com.mx" :accent="false">support@terrific.com.mx</flux:link>>.</flux:text>
+                    <flux:text class="mt-10  text-sm/6">&copy; {{ date('Y') }} Anti Software. All rights reserved. Problems or questions? Contact <<flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>>.</flux:text>
                 </div>
             </footer>
         </flux:main>

@@ -9,7 +9,7 @@
 
             <flux:navbar class="-mb-px">
                 <flux:navbar.item :href="route('pricing')">Pricing</flux:navbar.item>
-                <flux:navbar.item href="https://github.com/terrific-mx/fuse">Github</flux:navbar.item>
+                <flux:navbar.item href="https://github.com/antihq/fuse">Github</flux:navbar.item>
             </flux:navbar>
 
             <flux:spacer />
@@ -25,7 +25,7 @@
                     Stop Wrestling with Server Setup. Deploy Laravel Apps in Minutes—Not Hours
                 </flux:heading>
                 <flux:text class="mt-8 text-lg font-medium text-pretty sm:text-xl/8">
-                    You want to launch your Laravel app, not waste time configuring servers. With Terrific Fuse, you can
+                    You want to launch your Laravel app, not waste time configuring servers. With Antifuse, you can
                     provision a secure, production-ready VPS for Laravel in just a few clicks—no manual installs, no
                     command-line headaches, no guesswork.
                 </flux:text>
@@ -50,7 +50,7 @@
                             Spin up a Laravel-ready server in just a few minutes.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
-                            Terrific Fuse automatically installs and configures everything you need: PHP (8.1–8.4),
+                            Antifuse automatically installs and configures everything you need: PHP (8.1–8.4),
                             MySQL 8, Redis, and more.
                         </flux:text>
                     </div>
@@ -121,13 +121,13 @@
                     <div class="md:-ml-4 lg:ml-0 lg:max-w-lg">
                         <flux:text class="text-lg/8">
                             You’re building Laravel apps for clients or your own projects. You want to move fast, stay
-                            secure, and avoid DevOps rabbit holes. Terrific Fuse is for you—even if you’ve never managed
+                            secure, and avoid DevOps rabbit holes. Antifuse is for you—even if you’ve never managed
                             a server before.
                         </flux:text>
 
                         <blockquote class="mt-16 border-l border-zinc-200 dark:border-zinc-700 pl-8">
                             <flux:text class="text-base/7">
-                                “I built Terrific Fuse for myself, then opened it to the public so anyone can deploy Laravel apps with ease. It’s fully open source—so you can trust, audit, and contribute.”
+                                “I built Antifuse for myself, then opened it to the public so anyone can deploy Laravel apps with ease. It’s fully open source—so you can trust, audit, and contribute.”
                             </flux:text>
 
                             <div class="mt-6">
@@ -216,8 +216,8 @@
                         <flux:link :accent="false">Oliver Servín</flux:link>
                     </flux:text>
                     <flux:text class="mt-10 text-sm/6">
-                        &copy; {{ date('Y') }} Terrific Software. All rights reserved. Problems or questions? Contact <
-                        <flux:link :accent="false">support@terrific.com.mx</flux:link>
+                        &copy; {{ date('Y') }} Anti Software. All rights reserved. Problems or questions? Contact <
+                        <flux:link :accent="false">support@antihq.com</flux:link>
                         >.
                     </flux:text>
                 </div>

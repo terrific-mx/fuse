@@ -1,12 +1,12 @@
 ## Stop Wrestling with Server Setup. Deploy Laravel Apps in Minutes—Not Hours.
 
 **You want to launch your Laravel app, not waste time configuring servers.**  
-With Terrific Fuse, you can provision a secure, production-ready VPS for Laravel in just a few clicks—no manual installs, no command-line headaches, no guesswork.
+With Antifuse, you can provision a secure, production-ready VPS for Laravel in just a few clicks—no manual installs, no command-line headaches, no guesswork.
 
 ### Get Back to Building—We’ll Handle the Ops
 
 - **Spin up a Laravel-ready server instantly.**  
-  Terrific Fuse automatically installs and configures everything you need: PHP (8.1–8.4), MySQL 8, Redis, and more.
+  Antifuse automatically installs and configures everything you need: PHP (8.1–8.4), MySQL 8, Redis, and more.
 - **Deploy from GitHub with zero downtime.**  
   Push your code, and your app goes live—smoothly, every time.
 - **Optimize for your VPS, automatically.**  
@@ -21,9 +21,9 @@ With Terrific Fuse, you can provision a secure, production-ready VPS for Laravel
 ### Ideal for Indie Developers, Freelancers, Small Agencies, and Startups
 
 You’re building Laravel apps for clients or your own projects. You want to move fast, stay secure, and avoid DevOps rabbit holes.  
-**Terrific Fuse is for you—even if you’ve never managed a server before.**
+**Antifuse is for you—even if you’ve never managed a server before.**
 
-> “I built Terrific Fuse for myself, then opened it to the public so anyone can deploy Laravel apps with ease. It’s fully open source—so you can trust, audit, and contribute.”  
+> “I built Antifuse for myself, then opened it to the public so anyone can deploy Laravel apps with ease. It’s fully open source—so you can trust, audit, and contribute.”  
 > — Oliver, Creator
 
 ### Invite Your Team—Collaborate with Confidence

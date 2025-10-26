@@ -94,7 +94,7 @@ class OrganizationSshKeyService
     private function generateSshKeyPair(string $privateKeyPath): void
     {
         $process = Process::run(
-            "ssh-keygen -t ed25519 -N '' -f {$privateKeyPath} -C 'robot@terrific.com.mx'"
+            "ssh-keygen -t ed25519 -N '' -f {$privateKeyPath} -C 'robot@antihq.com'"
         );
 
         if (! $process->successful()) {

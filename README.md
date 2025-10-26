@@ -1,6 +1,6 @@
-# Terrific Fuse: Laravel Server Provisioner & Deployer
+# Antifuse: Laravel Server Provisioner & Deployer
 
-Terrific Fuse is a work-in-progress (WIP) project for provisioning servers and deploying Laravel applications. The goal is to provide automated server setup, secure credential management, and zero-downtime deployment workflows for Laravel projects.
+Antifuse is a work-in-progress (WIP) project for provisioning servers and deploying Laravel applications. The goal is to provide automated server setup, secure credential management, and zero-downtime deployment workflows for Laravel projects.
 
 - **Laravel 12.x**
 - **Automated server provisioning** for Laravel applications
@@ -27,8 +27,8 @@ Terrific Fuse is a work-in-progress (WIP) project for provisioning servers and d
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/terrific-fuse.git
-   cd terrific-fuse
+   git clone https://github.com/antihq/fuse.git
+   cd fuse
    ```
 
 2. **Install dependencies:**
@@ -86,9 +86,9 @@ Terrific Fuse is a work-in-progress (WIP) project for provisioning servers and d
 
 **This project is a work in progress.**
 
-Terrific Fuse aims to be an opinionated platform for provisioning servers and deploying Laravel applications. Many features are still under development.
+Antifuse aims to be an opinionated platform for provisioning servers and deploying Laravel applications. Many features are still under development.
 
-Feel free to fork and adapt to your needs, or follow along as Terrific Fuse evolves into a robust server provisioning and deployment platform for Laravel apps.
+Feel free to fork and adapt to your needs, or follow along as Antifuse evolves into a robust server provisioning and deployment platform for Laravel apps.
 
 ## License
 
