@@ -44,10 +44,10 @@ new class extends Component
         </div>
         <div class="flex flex-wrap gap-4 -my-1">
             <flux:button :href="route('servers.sites.files', [$server, $site])" wire:navigate>
-                Files
+                Edit files
             </flux:button>
             <flux:button :href="route('servers.sites.deployment-settings', [$server, $site])" wire:navigate>
-                Deployment settings
+                Edit deployment settings
             </flux:button>
             <flux:button :href="route('servers.sites.deployments', [$server, $site])" wire:navigate>
                 View deployments

@@ -30,30 +30,23 @@ new class extends Component
                 {{ $server->ip_address }}
             </flux:text>
         </div>
-        <flux:navbar class="-my-3">
-            <flux:navbar.item :href="route('servers.sites.index', $server)" :accent="false" wire:navigate>
-                Sites
-            </flux:navbar.item>
-            <flux:navbar.item :href="route('servers.databases.index', $server)" :accent="false" wire:navigate>
-                Databases
-            </flux:navbar.item>
-            <flux:navbar.item :href="route('servers.cronjobs.index', $server)" :accent="false" wire:navigate>
-                Cronjobs
-            </flux:navbar.item>
-            <flux:navbar.item :href="route('servers.firewall-rules.index', $server)" :accent="false" wire:navigate class="max-lg:hidden">
-                Firewall Rules
-            </flux:navbar.item>
-            <flux:navbar.item :href="route('servers.daemons.index', $server)" :accent="false" wire:navigate  class="max-lg:hidden">
-                Daemons
-            </flux:navbar.item>
-            <flux:dropdown class="lg:hidden">
-                <flux:navbar.item icon:trailing="chevron-down">More</flux:navbar.item>
-                <flux:navmenu>
-                    <flux:navmenu.item :href="route('servers.firewall-rules.index', $server)">Firewall Rules</flux:navmenu.item>
-                    <flux:navmenu.item :href="route('servers.daemons.index', $server)">Daemons</flux:navmenu.item>
-                </flux:navmenu>
-            </flux:dropdown>
-        </flux:navbar>
+        <div class="flex flex-wrap gap-4 -my-1">
+            <flux:button.group>
+                <flux:button :href="route('servers.sites.index', $server)" wire:navigate>View sites</flux:button>
+                <flux:dropdown align="end">
+                    <flux:button icon="chevron-down"></flux:button>
+                    <flux:menu>
+                        <flux:menu.item :href="route('servers.databases.index', $server)" wire:navigate>View databases</flux:menu.item>
+                        <flux:menu.separator />
+                        <flux:menu.item :href="route('servers.cronjobs.index', $server)" wire:navigate>View cronjobs</flux:menu.item>
+                        <flux:menu.separator />
+                        <flux:menu.item :href="route('servers.firewall-rules.index', $server)" wire:navigate>View firewall rules</flux:menu.item>
+                        <flux:menu.separator />
+                        <flux:menu.item :href="route('servers.daemons.index', $server)" wire:navigate>View daemons</flux:menu.item>
+                    </flux:menu>
+                </flux:dropdown>
+            </flux:button.group>
+        </div>
     </div>
 
     <flux:spacer class="mt-8" />
