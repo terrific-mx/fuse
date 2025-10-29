@@ -20,26 +20,17 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex items-center -mt-6 lg:-mt-8">
-        <flux:heading size="lg">SSH keys</flux:heading>
+    <header class="flex items-center">
+        <flux:heading size="xl">SSH Keys</flux:heading>
         <flux:spacer />
-        <div class="flex items-center gap-4">
-            <flux:navbar>
-                <flux:navbar.item :href="route('ssh-keys.index')" :accent="false" wire:navigate>
-                    Overview
-                </flux:navbar.item>
-            </flux:navbar>
-            <flux:button :href="route('ssh-keys.create')" variant="primary" color="zinc" size="sm" wire:navigate>
-                Add
-            </flux:button>
-        </div>
+        <flux:button :href="route('ssh-keys.create')" variant="primary" color="zinc" wire:navigate>
+            New SSH Key
+        </flux:button>
     </header>
 
-    <flux:spacer class="mt-12" />
+    <flux:spacer class="mt-8" />
 
-    <flux:heading size="xl">SSH keys</flux:heading>
-
-    <div class="mt-6">
+    <div>
         <flux:table>
             <flux:table.columns>
                 <flux:table.column>Name</flux:table.column>
@@ -48,7 +39,7 @@ new class extends Component
             <flux:table.rows>
                 @foreach ($this->sshKeys as $key)
                     <flux:table.row :key="$key->id">
-                        <flux:table.cell variant="strong">
+                        <flux:table.cell>
                             <flux:link :href="route('ssh-keys.edit', $key)" wire:navigate>
                                 {{ $key->name }}
                             </flux:link>
