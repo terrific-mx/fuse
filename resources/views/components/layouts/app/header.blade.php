@@ -1,10 +1,16 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark antialiased">
     <head>
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <flux:header container class="border-b border-zinc-200 dark:border-zinc-700">
+            <flux:brand :href="route('home')" :name="config('app.name')">
+                <x-slot:logo>
+                    <x-logo class="h-6" />
+                </x-slot:logo>
+            </flux:brand>
+
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             <livewire:organizations-dropdown />
@@ -18,10 +24,7 @@
 
             <!-- Desktop User Menu -->
             <flux:dropdown position="top" align="end">
-                <flux:profile
-                    class="cursor-pointer"
-                    :initials="auth()->user()->initials()"
-                />
+                <flux:button icon:trailing="chevron-down" variant="subtle" size="sm">Account</flux:button>
 
                 <flux:menu>
                     <flux:menu.radio.group>

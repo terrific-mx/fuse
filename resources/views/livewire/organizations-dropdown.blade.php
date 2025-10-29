@@ -37,9 +37,9 @@ new class extends Component {
 }; ?>
 
 <flux:dropdown position="top" align="start">
-    <flux:profile
-        :name="$currentOrganization?->name ?? __('No organization')"
-    />
+    <flux:button icon:trailing="chevron-down" variant="subtle" size="sm">
+        {{ $currentOrganization?->name ?? __('No organization') }}
+    </flux:button>
     <flux:menu>
         <flux:menu.item :href="route('organizations.settings.general', $currentOrganization)" icon="cog">Settings</flux:menu.item>
         <flux:menu.separator />
