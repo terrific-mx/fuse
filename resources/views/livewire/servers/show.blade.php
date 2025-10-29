@@ -45,12 +45,6 @@ new class extends Component
 }; ?>
 
 <div>
-    <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
-    </flux:breadcrumbs>
-
-    <flux:spacer class="mt-8" />
-
     <flux:heading size="xl">{{ $server->name }}</flux:heading>
 
     <div class="isolate mt-2.5 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
