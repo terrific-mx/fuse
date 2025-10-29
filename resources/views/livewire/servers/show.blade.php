@@ -55,7 +55,13 @@ new class extends Component
             </flux:text>
         </div>
         <div class="flex flex-wrap gap-4">
-            {{-- ... --}}
+            <flux:dropdown align="end">
+                <flux:button icon:trailing="chevron-down">Actions</flux:button>
+
+                <flux:menu>
+                    <flux:menu.item :href="route('servers.passwords', $server)" wire:navigate>Show passwords</flux:menu.item>
+                </flux:menu>
+            </flux:menu>
         </div>
     </div>
 
