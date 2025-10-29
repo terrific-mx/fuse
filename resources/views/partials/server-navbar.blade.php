@@ -1,7 +1,4 @@
 <flux:navbar>
-    <flux:navbar.item :href="route('servers.show', $server)" :accent="false" wire:navigate>
-        Overview
-    </flux:navbar.item>
     <flux:navbar.item :href="route('servers.sites.index', $server)" :accent="false" wire:navigate>
         Sites
     </flux:navbar.item>

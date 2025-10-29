@@ -64,24 +64,7 @@ new class extends Component
     }
 }; ?>
 
-<div>
-    <header class="-mt-6 flex items-center lg:-mt-8">
-        <flux:heading size="lg">Servers</flux:heading>
-        <flux:spacer />
-        <div class="flex items-center gap-4">
-            <flux:navbar>
-                <flux:navbar.item :href="route('servers.index')" :accent="false" wire:navigate>
-                    Overview
-                </flux:navbar.item>
-            </flux:navbar>
-            <flux:button :href="route('servers.create')" variant="primary" color="zinc" size="sm" wire:navigate>
-                Add
-            </flux:button>
-        </div>
-    </header>
-
-    <flux:spacer class="mt-12" />
-
+<div class="max-w-md mx-auto">
     <flux:heading size="xl">Add server</flux:heading>
 
     <form wire:submit="save" class="space-y-6 mt-6">

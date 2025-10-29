@@ -2,6 +2,10 @@
     <flux:main container>
         {{ $slot }}
     </flux:main>
-    <livewire:organizations.create />
+
+    @auth
+        <livewire:organizations.create />
+    @endauth
+
     <flux:toast />
 </x-layouts.app.header>

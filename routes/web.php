@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(fu
 
     Volt::route('servers', 'servers.index')->name('servers.index');
     Volt::route('servers/create', 'servers.create')->name('servers.create');
-    Route::redirect('servers/{server}', '/servers/{server}/sites')->name('servers.show');
+    Volt::route('servers/{server}', 'servers.show')->name('servers.show');
 
     Volt::route('servers/{server}/sites', 'servers.sites.index')->name('servers.sites.index');
     Volt::route('servers/{server}/sites/{site}', 'servers.sites.show')->name('servers.sites.show');

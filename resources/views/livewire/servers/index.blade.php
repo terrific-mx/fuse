@@ -25,27 +25,17 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex items-center -mt-6 lg:-mt-8">
-        <flux:heading size="lg">Servers</flux:heading>
+    <header class="flex items-center">
+        <flux:heading size="xl">Servers</flux:heading>
         <flux:spacer />
-        <div class="flex items-center gap-4">
-            <flux:navbar>
-                <flux:navbar.item :href="route('servers.index')" :accent="false" wire:navigate>
-                    Overview
-                </flux:navbar.item>
-            </flux:navbar>
-
-            <flux:button :href="route('servers.create')" variant="primary" color="zinc" size="sm" wire:navigate>
-                Add
-            </flux:button>
-        </div>
+        <flux:button :href="route('servers.create')" variant="primary" color="zinc" wire:navigate>
+            Add server
+        </flux:button>
     </header>
 
-    <flux:spacer class="mt-12" />
+    <flux:spacer class="mt-8" />
 
-    <flux:heading size="xl">Servers</flux:heading>
-
-    <div class="mt-6">
+    <div>
         <flux:table :paginate="$this->servers" wire:poll>
             <flux:table.columns>
                 <flux:table.column>Name</flux:table.column>

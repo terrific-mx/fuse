@@ -29,15 +29,13 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex items-center -mt-6 lg:-mt-8">
-        <div class="flex items-center gap-4">
-            <flux:heading size="lg">{{ $server->name }}</flux:heading>
-            <flux:input value="{{ $server->ip_address }}" variant="filled" size="sm" readonly copyable />
-        </div>
-        <flux:spacer />
-        @include('partials.server-navbar')
-    </header>
-    <section class="mt-12">
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item :href="route('servers.show', $server)">{{ $server->name }}</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
+    <flux:spacer class="mt-8" />
+
+    <section>
         <div class="flex justify-between items-center">
             <flux:heading size="xl">Sites</flux:heading>
             <flux:modal.trigger name="add-site">
