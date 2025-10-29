@@ -5,7 +5,7 @@ use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('components.layouts.auth')] class extends Component {
+new class extends Component {
     public string $password = '';
 
     /**
@@ -32,7 +32,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-6 max-w-md mx-auto">
     <x-auth-header
         :title="__('Confirm password')"
         :description="__('This is a secure area of the application. Please confirm your password before continuing.')"

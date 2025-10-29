@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 
 it('renders the email verification screen', function () {
-    $user = User::factory()->unverified()->create();
+    $user = User::factory()->withPersonalOrganization()->unverified()->create();
 
     $response = $this->actingAs($user)->get('/verify-email');
 

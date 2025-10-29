@@ -4,7 +4,7 @@ use App\Models\User;
 use Livewire\Volt\Volt;
 
 it('renders the confirm password screen', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->withPersonalOrganization()->create();
 
     $response = $this->actingAs($user)->get('/confirm-password');
 

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Session;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
-new #[Layout('components.layouts.auth')] class extends Component {
+new class extends Component {
     /**
      * Send an email verification notification to the user.
      */
@@ -34,7 +34,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
-<div class="mt-4 flex flex-col gap-6">
+<div class="flex flex-col gap-6 max-w-md mx-auto">
     <flux:text class="text-center">
         {{ __('Please verify your email address by clicking on the link we just emailed to you.') }}
     </flux:text>

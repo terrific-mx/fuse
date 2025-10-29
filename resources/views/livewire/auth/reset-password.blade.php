@@ -10,7 +10,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Locked;
 use Livewire\Volt\Component;
 
-new #[Layout('components.layouts.auth')] class extends Component {
+new class extends Component {
     #[Locked]
     public string $token = '';
     public string $email = '';
@@ -68,7 +68,7 @@ new #[Layout('components.layouts.auth')] class extends Component {
     }
 }; ?>
 
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-6 max-w-md mx-auto">
     <x-auth-header :title="__('Reset password')" :description="__('Please enter your new password below')" />
 
     <!-- Session Status -->

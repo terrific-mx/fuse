@@ -1,4 +1,4 @@
-<x-layouts.site>
+<x-layouts.app>
     <section class="-mt-6 pt-24 sm:pt-32 lg:-mt-8">
         <flux:heading level="1" class="text-5xl! font-bold! tracking-tight text-balance sm:text-6xl!">
             Deploy Laravel apps, not headaches
@@ -227,4 +227,4 @@
             </div>
         </div>
     </section>
-</x-layouts.site>
+</x-layouts.app>

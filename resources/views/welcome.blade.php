@@ -1,4 +1,4 @@
-<x-layouts.site>
+<x-layouts.app>
     <section class="-mt-6 max-w-2xl py-32 sm:py-48 lg:-mt-8 lg:py-56">
         <flux:heading level="1" class="text-5xl! font-semibold tracking-tight text-balance sm:text-7xl!">
             Stop Wrestling with Server Setup. Deploy Laravel Apps in Minutes—Not Hours
@@ -181,4 +181,4 @@
             </div>
         </div>
     </div>
-</x-layouts.site>
+</x-layouts.app>
