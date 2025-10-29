@@ -1,11 +1,18 @@
 <?php
 
 use App\Models\Server;
+use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
 new class extends Component
 {
     public Server $server;
+
+    #[Computed]
+    public function recentSites()
+    {
+        return $this->server->sites()->orderByDesc('created_at')->limit(3)->get();
+    }
 
     public function mount()
     {
@@ -23,14 +30,14 @@ new class extends Component
 
     <flux:heading size="xl">{{ $server->name }}</flux:heading>
 
-    <div class="isolate mt-2.5 flex flex-wrap justify-between gap-x-6 gap-y-4">
-        <div class="flex flex-wrap gap-x-10 gap-y-4 py-1.5">
+    <div class="isolate mt-2.5 flex flex-wrap justify-between gap-x-6 gap-y-4 items-end">
+        <div class="flex flex-wrap gap-x-10 gap-y-4">
             <flux:text variant="strong" class="flex items-center gap-3" inline>
                 <flux:icon.server variant="micro" class="fill-zinc-400 dark:fill-zinc-500" />
                 {{ $server->ip_address }}
             </flux:text>
         </div>
-        <div class="flex flex-wrap gap-4 -my-1">
+        <div class="flex flex-wrap gap-4">
             <flux:button.group>
                 <flux:button :href="route('servers.sites.index', $server)" wire:navigate>View sites</flux:button>
                 <flux:dropdown align="end">
@@ -51,26 +58,38 @@ new class extends Component
 
     <flux:spacer class="mt-8" />
 
-    <x-description.list>
-        <x-description.term>
-            <flux:text>Ip Address</flux:text>
-        </x-description.term>
-        <x-description.details>
-            <flux:input value="{{ $server->ip_address }}" variant="filled" class="-my-2" readonly copyable />
-        </x-description.details>
+    <div class="flex justify-between gap-4 items-end">
+        <flux:heading>
+            Recent Sites
+        </flux:heading>
+        <flux:button :href="route('servers.sites.index', $server)" wire:navigate>View all</flux:button>
+    </div>
 
-        <x-description.term>
-            <flux:text>Sudo password</flux:text>
-        </x-description.term>
-        <x-description.details>
-            <flux:input value="{{ $server->sudo_password }}" type="password" variant="filled" class="-my-2" readonly viewable copyable />
-        </x-description.details>
+    <flux:spacer class="mt-4" />
 
-        <x-description.term>
-            <flux:text>Database password</flux:text>
-        </x-description.term>
-        <x-description.details>
-            <flux:input value="{{ $server->database_password }}" type="password" variant="filled" class="-my-2" readonly viewable copyable />
-        </x-description.details>
-    </x-description.list>
+    @if ($this->recentSites->count())
+        <flux:table>
+            <flux:table.columns>
+                <flux:table.column>Hostname</flux:table.column>
+                <flux:table.column>Repository</flux:table.column>
+            </flux:table.columns>
+            <flux:table.rows>
+                @foreach ($this->recentSites as $site)
+                    <flux:table.row :key="$site->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+                        <flux:table.cell variant="strong" class="relative">
+                            <a href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}" class="absolute inset-0" wire:navigate></a>
+                            {{ $site->hostname }}
+                        </flux:table.cell>
+                        <flux:table.cell class="relative">
+                            <a href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}" class="absolute inset-0" wire:navigate></a>
+                            {{ $site->repository_url }}
+                        </flux:table.cell>
+                    </flux:table.row>
+                @endforeach
+            </flux:table.rows>
+        </flux:table>
+    @else
+        <flux:callout variant="secondary" class="mt-2">No sites have been created for this server yet.</flux:callout>
+    @endif
 </div>
+
