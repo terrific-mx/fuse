@@ -45,7 +45,6 @@ new class extends Component
 }; ?>
 
 <div>
-
     <flux:breadcrumbs>
         <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
     </flux:breadcrumbs>
@@ -54,7 +53,7 @@ new class extends Component
 
     <flux:heading size="xl">{{ $server->name }}</flux:heading>
 
-    <div class="isolate mt-2.5 flex flex-wrap justify-between gap-x-6 gap-y-4 items-end">
+    <div class="isolate mt-2.5 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
         <div class="flex flex-wrap gap-x-10 gap-y-4">
             <flux:text variant="strong" class="flex items-center gap-3" inline>
                 <flux:icon.server variant="micro" class="fill-zinc-400 dark:fill-zinc-500" />
@@ -68,11 +67,11 @@ new class extends Component
 
     <flux:spacer class="mt-8" />
 
-    <div class="flex justify-between gap-4 items-end">
-        <flux:heading size="lg">
-            Sites
-        </flux:heading>
-        <flux:button :href="route('servers.sites.index', $server)" variant="primary" color="zinc" wire:navigate>View</flux:button>
+    <div class="flex items-end justify-between gap-4">
+        <flux:heading size="lg">Sites</flux:heading>
+        <flux:button :href="route('servers.sites.index', $server)" variant="primary" color="zinc" wire:navigate>
+            View
+        </flux:button>
     </div>
 
     <flux:spacer class="mt-4" />
@@ -87,11 +86,19 @@ new class extends Component
                 @foreach ($this->sites as $site)
                     <flux:table.row :key="$site->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
                         <flux:table.cell variant="strong" class="relative">
-                            <a href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}" class="absolute inset-0" wire:navigate></a>
+                            <a
+                                href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}"
+                                class="absolute inset-0"
+                                wire:navigate
+                            ></a>
                             {{ $site->hostname }}
                         </flux:table.cell>
                         <flux:table.cell class="relative">
-                            <a href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}" class="absolute inset-0" wire:navigate></a>
+                            <a
+                                href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}"
+                                class="absolute inset-0"
+                                wire:navigate
+                            ></a>
                             {{ $site->repository_url }}
                         </flux:table.cell>
                     </flux:table.row>
@@ -104,35 +111,35 @@ new class extends Component
 
     <flux:spacer class="mt-14" />
 
-    <div class="grid gap-x-8 gap-y-14 grid-cols-1 md:grid-cols-2">
+    <div class="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2">
         <div>
-            <div class="flex justify-between gap-4 items-end">
-                <flux:heading size="lg">
-                    Databases
-                </flux:heading>
-                <flux:button :href="route('servers.databases.index', $server)" variant="primary" color="zinc" wire:navigate>View</flux:button>
+            <div class="flex items-end justify-between gap-4">
+                <flux:heading size="lg">Databases</flux:heading>
+                <flux:button
+                    :href="route('servers.databases.index', $server)"
+                    variant="primary"
+                    color="zinc"
+                    wire:navigate
+                >
+                    View
+                </flux:button>
             </div>
             <flux:spacer class="mt-4" />
             @if ($this->databases->count())
                 <flux:table>
                     <flux:table.columns>
                         <flux:table.column>Name</flux:table.column>
-                        <flux:table.column>Type</flux:table.column>
-                        <flux:table.column>Status</flux:table.column>
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->databases as $database)
                             <flux:table.row :key="$database->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
                                 <flux:table.cell variant="strong" class="relative">
-                                    <a href="{{ route('servers.databases.show', ['server' => $server, 'database' => $database]) }}" class="absolute inset-0" wire:navigate></a>
+                                    <a
+                                        href="{{ route('servers.databases.show', ['server' => $server, 'database' => $database]) }}"
+                                        class="absolute inset-0"
+                                        wire:navigate
+                                    ></a>
                                     {{ $database->name }}
-                                </flux:table.cell>
-                                <flux:table.cell class="relative">
-                                    <a href="{{ route('servers.databases.show', ['server' => $server, 'database' => $database]) }}" class="absolute inset-0" wire:navigate></a>
-                                    {{ $database->type }}
-                                </flux:table.cell>
-                                <flux:table.cell>
-                                    {{ ucfirst($database->status) }}
                                 </flux:table.cell>
                             </flux:table.row>
                         @endforeach
@@ -140,110 +147,109 @@ new class extends Component
                 </flux:table>
             @else
                 <flux:callout variant="secondary" class="mt-2">
-    <flux:callout.heading>No databases have been created for this server yet.</flux:callout.heading>
-</flux:callout>
+                    <flux:callout.heading>No databases have been created for this server yet.</flux:callout.heading>
+                </flux:callout>
             @endif
         </div>
         <div>
-            <div class="flex justify-between gap-4 items-end">
-                <flux:heading size="lg">
-                    Cronjobs
-                </flux:heading>
-                <flux:button :href="route('servers.cronjobs.index', $server)" variant="primary" color="zinc" wire:navigate>View</flux:button>
+            <div class="flex items-end justify-between gap-4">
+                <flux:heading size="lg">Cronjobs</flux:heading>
+                <flux:button
+                    :href="route('servers.cronjobs.index', $server)"
+                    variant="primary"
+                    color="zinc"
+                    wire:navigate
+                >
+                    View
+                </flux:button>
             </div>
             <flux:spacer class="mt-4" />
             @if ($this->cronjobs->count())
                 <flux:table>
                     <flux:table.columns>
-                        <flux:table.column>User</flux:table.column>
                         <flux:table.column>Command</flux:table.column>
-                        <flux:table.column>Schedule</flux:table.column>
-                        <flux:table.column>Status</flux:table.column>
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->cronjobs as $cronjob)
                             <flux:table.row :key="$cronjob->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
-                                <flux:table.cell variant="strong">{{ $cronjob->user }}</flux:table.cell>
-                                <flux:table.cell class="truncate max-w-xs">{{ $cronjob->command }}</flux:table.cell>
-                                <flux:table.cell>{{ $cronjob->expression() }}</flux:table.cell>
-                                <flux:table.cell>{{ ucfirst($cronjob->status) }}</flux:table.cell>
+                                <flux:table.cell class="max-w-xs truncate">{{ $cronjob->command }}</flux:table.cell>
                             </flux:table.row>
                         @endforeach
                     </flux:table.rows>
                 </flux:table>
             @else
                 <flux:callout variant="secondary" class="mt-2">
-    <flux:callout.heading>No cronjobs have been created for this server yet.</flux:callout.heading>
-</flux:callout>
+                    <flux:callout.heading>No cronjobs have been created for this server yet.</flux:callout.heading>
+                </flux:callout>
             @endif
         </div>
         <div>
-            <div class="flex justify-between gap-4 items-end">
-                <flux:heading size="lg">
-                    Firewall Rules
-                </flux:heading>
-                <flux:button :href="route('servers.firewall-rules.index', $server)" variant="primary" color="zinc" wire:navigate>View</flux:button>
+            <div class="flex items-end justify-between gap-4">
+                <flux:heading size="lg">Firewall Rules</flux:heading>
+                <flux:button
+                    :href="route('servers.firewall-rules.index', $server)"
+                    variant="primary"
+                    color="zinc"
+                    wire:navigate
+                >
+                    View
+                </flux:button>
             </div>
             <flux:spacer class="mt-4" />
             @if ($this->firewallRules->count())
                 <flux:table>
                     <flux:table.columns>
-                        <flux:table.column>Type</flux:table.column>
-                        <flux:table.column>Port</flux:table.column>
-                        <flux:table.column>Protocol</flux:table.column>
-                        <flux:table.column>Status</flux:table.column>
+                        <flux:table.column>Name</flux:table.column>
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->firewallRules as $rule)
                             <flux:table.row :key="$rule->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
-                                <flux:table.cell variant="strong">{{ ucfirst($rule->type) }}</flux:table.cell>
-                                <flux:table.cell>{{ $rule->port }}</flux:table.cell>
-                                <flux:table.cell>{{ strtoupper($rule->protocol) }}</flux:table.cell>
-                                <flux:table.cell>{{ ucfirst($rule->status) }}</flux:table.cell>
+                                <flux:table.cell variant="strong">
+                                    {{ $rule->name ?? ucfirst($rule->type) }}
+                                </flux:table.cell>
                             </flux:table.row>
                         @endforeach
                     </flux:table.rows>
                 </flux:table>
             @else
                 <flux:callout variant="secondary" class="mt-2">
-    <flux:callout.heading>No firewall rules have been created for this server yet.</flux:callout.heading>
-</flux:callout>
+                    <flux:callout.heading>
+                        No firewall rules have been created for this server yet.
+                    </flux:callout.heading>
+                </flux:callout>
             @endif
         </div>
         <div>
-            <div class="flex justify-between gap-4 items-end">
-                <flux:heading size="lg">
-                    Daemons
-                </flux:heading>
-                <flux:button :href="route('servers.daemons.index', $server)" variant="primary" color="zinc" wire:navigate>View</flux:button>
+            <div class="flex items-end justify-between gap-4">
+                <flux:heading size="lg">Daemons</flux:heading>
+                <flux:button
+                    :href="route('servers.daemons.index', $server)"
+                    variant="primary"
+                    color="zinc"
+                    wire:navigate
+                >
+                    View
+                </flux:button>
             </div>
             <flux:spacer class="mt-4" />
             @if ($this->daemons->count())
                 <flux:table>
                     <flux:table.columns>
-                        <flux:table.column>User</flux:table.column>
                         <flux:table.column>Command</flux:table.column>
-                        <flux:table.column>Processes</flux:table.column>
-                        <flux:table.column>Status</flux:table.column>
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->daemons as $daemon)
                             <flux:table.row :key="$daemon->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
-                                <flux:table.cell variant="strong">{{ $daemon->user }}</flux:table.cell>
-                                <flux:table.cell class="truncate max-w-xs">{{ $daemon->command }}</flux:table.cell>
-                                <flux:table.cell>{{ $daemon->processes }}</flux:table.cell>
-                                <flux:table.cell>{{ ucfirst($daemon->status) }}</flux:table.cell>
+                                <flux:table.cell class="max-w-xs truncate">{{ $daemon->command }}</flux:table.cell>
                             </flux:table.row>
                         @endforeach
                     </flux:table.rows>
                 </flux:table>
             @else
                 <flux:callout variant="secondary" class="mt-2">
-    <flux:callout.heading>No daemons have been created for this server yet.</flux:callout.heading>
-</flux:callout>
+                    <flux:callout.heading>No daemons have been created for this server yet.</flux:callout.heading>
+                </flux:callout>
             @endif
         </div>
     </div>
 </div>
-
-
