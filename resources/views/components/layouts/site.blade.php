@@ -12,7 +12,7 @@
             </flux:brand>
 
             <flux:navbar class="-mb-px">
-                <flux:navbar.item :href="route('pricing')">Pricing</flux:navbar.item>
+                <flux:navbar.item :href="route('pricing')" wire:navigate>Pricing</flux:navbar.item>
                 <flux:navbar.item href="https://github.com/antihq/fuse">Github</flux:navbar.item>
             </flux:navbar>
 
