@@ -29,7 +29,7 @@ new class extends Component
         <flux:heading size="xl">Servers</flux:heading>
         <flux:spacer />
         <flux:button :href="route('servers.create')" variant="primary" color="zinc" wire:navigate>
-            Add server
+            New server
         </flux:button>
     </header>
 

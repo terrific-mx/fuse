@@ -43,14 +43,17 @@ new class extends Component
             </flux:text>
         </div>
         <div class="flex flex-wrap gap-4 -my-1">
-            <flux:button :href="route('servers.sites.files', [$server, $site])" variant="ghost" wire:navigate>
+            <flux:button :href="route('servers.sites.files', [$server, $site])" wire:navigate>
                 Files
             </flux:button>
-            <flux:button :href="route('servers.sites.deployment-settings', [$server, $site])" variant="ghost" wire:navigate>
+            <flux:button :href="route('servers.sites.deployment-settings', [$server, $site])" wire:navigate>
                 Deployment settings
             </flux:button>
-            <flux:button :href="route('servers.sites.deployments', [$server, $site])" variant="ghost" wire:navigate>
-                Deployments
+            <flux:button :href="route('servers.sites.deployments', [$server, $site])" wire:navigate>
+                View deployments
+            </flux:button>
+            <flux:button :href="route('servers.sites.deployments', [$server, $site])" variant="primary" color="zinc" wire:navigate>
+                Deploy
             </flux:button>
         </div>
     </div>
