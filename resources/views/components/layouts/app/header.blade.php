@@ -95,6 +95,22 @@
 
         {{ $slot }}
 
+        <flux:footer container>
+            <div>
+                <flux:text class="text-sm/6">
+                    Built with
+                    <flux:icon.heart variant="micro" class="inline" />
+                    by
+                    <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
+                </flux:text>
+                <flux:text class="mt-6 lg:mt-8 text-sm/6">
+                    &copy; {{ date('Y') }} Anti Software. All rights reserved. Problems or questions? Contact <
+                    <flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>
+                    >.
+                </flux:text>
+            </div>
+        </flux:footer>
+
         @fluxScripts
     </body>
 </html>
