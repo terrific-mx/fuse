@@ -134,11 +134,6 @@ new class extends Component
                         @foreach ($this->databases as $database)
                             <flux:table.row :key="$database->id">
                                 <flux:table.cell variant="strong" class="relative">
-                                    <a
-                                        href="{{ route('servers.databases.show', ['server' => $server, 'database' => $database]) }}"
-                                        class="absolute inset-0"
-                                        wire:navigate
-                                    ></a>
                                     {{ $database->name }}
                                 </flux:table.cell>
                             </flux:table.row>

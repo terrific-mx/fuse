@@ -22,7 +22,7 @@ new class extends Component
         <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
             {{ $server->name }}
         </flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
+        <flux:breadcrumbs.item :href="route('servers.sites.index', $server)" wire:navigate>
             Sites
         </flux:breadcrumbs.item>
     </flux:breadcrumbs>

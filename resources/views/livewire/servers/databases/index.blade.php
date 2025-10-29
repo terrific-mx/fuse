@@ -28,49 +28,53 @@ new class extends Component
     }
 }; ?>
 
-<div wire:poll class="space-y-8">
-    <header class="-mt-6 flex items-center lg:-mt-8">
-        <flux:heading size="lg">{{ $server->name }}</flux:heading>
+<div wire:poll>
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
+            {{ $server->name }}
+        </flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
+    <flux:spacer class="mt-8" />
+
+    <header class="flex items-center">
+        <flux:heading size="xl">Databases</flux:heading>
         <flux:spacer />
-        @include('partials.server-navbar')
+        <flux:button :href="route('servers.databases.create', $server)" variant="primary" color="zinc" wire:navigate>
+            Add database
+        </flux:button>
     </header>
 
-    <section class="mt-12">
-        <div class="flex items-center justify-between">
-            <flux:heading size="xl">Databases</flux:heading>
-            <flux:button :href="route('servers.databases.create', $server)" variant="primary" size="sm" color="zinc">
-                Add database
-            </flux:button>
-        </div>
+    <flux:spacer class="mt-8" />
 
-        <div class="mt-4">
-            <flux:table :paginate="$this->databases">
-                <flux:table.columns>
-                    <flux:table.column>Name</flux:table.column>
-                    <flux:table.column>Status</flux:table.column>
-                    <flux:table.column></flux:table.column>
-                </flux:table.columns>
-                <flux:table.rows>
-                    @foreach ($this->databases as $database)
-                        <flux:table.row :key="$database->id">
-                            <flux:table.cell>{{ $database->name }}</flux:table.cell>
-                            <flux:table.cell>{{ ucfirst($database->status) }}</flux:table.cell>
-                            <flux:table.cell align="end">
-                                <flux:button
-                                    wire:confirm="Are you sure you want to delete this database?"
-                                    wire:click="delete({{ $database->id }})"
-                                    :disabled="!$database->isInstalled()"
-                                    inset="top bottom"
-                                    variant="subtle"
-                                    size="sm"
-                                >
-                                    Delete
-                                </flux:button>
-                            </flux:table.cell>
-                        </flux:table.row>
-                    @endforeach
-                </flux:table.rows>
-            </flux:table>
-        </div>
-    </section>
+    <div>
+        <flux:table :paginate="$this->databases">
+            <flux:table.columns>
+                <flux:table.column>Name</flux:table.column>
+                <flux:table.column>Status</flux:table.column>
+                <flux:table.column></flux:table.column>
+            </flux:table.columns>
+            <flux:table.rows>
+                @foreach ($this->databases as $database)
+                    <flux:table.row :key="$database->id">
+                        <flux:table.cell>{{ $database->name }}</flux:table.cell>
+                        <flux:table.cell>{{ ucfirst($database->status) }}</flux:table.cell>
+                        <flux:table.cell align="end">
+                            <flux:button
+                                wire:confirm="Are you sure you want to delete this database?"
+                                wire:click="delete({{ $database->id }})"
+                                :disabled="!$database->isInstalled()"
+                                inset="top bottom"
+                                variant="subtle"
+                                size="sm"
+                            >
+                                Delete
+                            </flux:button>
+                        </flux:table.cell>
+                    </flux:table.row>
+                @endforeach
+            </flux:table.rows>
+        </flux:table>
+    </div>
 </div>
