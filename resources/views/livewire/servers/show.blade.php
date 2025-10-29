@@ -14,6 +14,13 @@ new class extends Component
 }; ?>
 
 <div>
+
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
+    <flux:spacer class="mt-8" />
+
     <flux:heading size="xl">{{ $server->name }}</flux:heading>
 
     <div class="isolate mt-2.5 flex flex-wrap justify-between gap-x-6 gap-y-4">
@@ -33,7 +40,7 @@ new class extends Component
             <flux:navbar.item :href="route('servers.cronjobs.index', $server)" :accent="false" wire:navigate>
                 Cronjobs
             </flux:navbar.item>
-            <flux:navbar.item :href="route('servers.firewall-rules.index', $server)" :accent="false" wire:navigate  class="max-lg:hidden">
+            <flux:navbar.item :href="route('servers.firewall-rules.index', $server)" :accent="false" wire:navigate class="max-lg:hidden">
                 Firewall Rules
             </flux:navbar.item>
             <flux:navbar.item :href="route('servers.daemons.index', $server)" :accent="false" wire:navigate  class="max-lg:hidden">

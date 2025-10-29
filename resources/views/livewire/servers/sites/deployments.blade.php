@@ -52,47 +52,57 @@ new class extends Component
 }; ?>
 
 <div>
-    <header>
-        <flux:breadcrumbs class="mb-2">
-            <flux:breadcrumbs.item :href="route('servers.show', $server)" separator="slash" wire:navigate>{{ $server->name }}</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-        <flux:heading size="xl">{{ $site->hostname }}</flux:heading>
-        @include('partials.site-navbar')
-    </header>
-    <section class="mt-8">
-        <flux:button wire:click="triggerDeployment" variant="primary">Deploy</flux:button>
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
+            {{ $server->name }}
+        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
+            Sites
+        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.sites.show', [$server, $site])" wire:navigate>
+            {{ $site->hostname }}
+        </flux:breadcrumbs.item>
+    </flux:breadcrumbs>
 
-        <div class="mt-4">
-            <flux:table :paginate="$this->deployments" wire:poll>
-                <flux:table.columns>
-                    <flux:table.column>Deployed At</flux:table.column>
-                    <flux:table.column>Triggered By</flux:table.column>
-                    <flux:table.column>Commit</flux:table.column>
-                    <flux:table.column>Status</flux:table.column>
-                </flux:table.columns>
-                <flux:table.rows>
-                    @foreach($this->deployments as $deployment)
-                        <flux:table.row :key="$deployment->id">
-                            <flux:table.cell variant="strong" class="tabular-nums">{{ $deployment->created_at?->format('Y-m-d H:i') }}</flux:table.cell>
-                            <flux:table.cell>{{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}</flux:table.cell>
-                            <flux:table.cell>{{ $deployment->short_commit ?? '-' }}</flux:table.cell>
-                            <flux:table.cell>
-                                <flux:badge
-                                    :color="$deployment->status_color"
-                                    size="sm"
-                                    inset="top bottom"
-                                    @class(['animate-pulse' => $deployment->is_pending || $deployment->isDeploying()])
-                                >{{ $deployment->status_formatted }}</flux:badge>
-                            </flux:table.cell>
-                            <flux:table.cell align="end">
-                                <flux:button wire:click="showDeployment({{ $deployment->id }})" variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
-                            </flux:table.cell>
-                        </flux:table.row>
-                    @endforeach
-                </flux:table.rows>
-            </flux:table>
-        </div>
-    </section>
+    <flux:spacer class="mt-8" />
+
+    <div class="flex items-end justify-between gap-4">
+        <flux:heading size="xl">Deployments</flux:heading>
+        <flux:button wire:click="triggerDeployment" variant="primary" color="zinc" class="-my-1">Deploy</flux:button>
+    </div>
+
+    <flux:spacer class="mt-8" />
+
+    <flux:table :paginate="$this->deployments" wire:poll>
+        <flux:table.columns>
+            <flux:table.column>Deployed At</flux:table.column>
+            <flux:table.column>Triggered By</flux:table.column>
+            <flux:table.column>Commit</flux:table.column>
+            <flux:table.column>Status</flux:table.column>
+            <flux:table.column />
+        </flux:table.columns>
+        <flux:table.rows>
+            @foreach($this->deployments as $deployment)
+                <flux:table.row :key="$deployment->id">
+                    <flux:table.cell variant="strong" class="tabular-nums">{{ $deployment->created_at?->format('Y-m-d H:i') }}</flux:table.cell>
+                    <flux:table.cell>{{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}</flux:table.cell>
+                    <flux:table.cell>{{ $deployment->short_commit ?? '-' }}</flux:table.cell>
+                    <flux:table.cell>
+                        <flux:badge
+                            :color="$deployment->status_color"
+                            size="sm"
+                            inset="top bottom"
+                            @class(['animate-pulse' => $deployment->is_pending || $deployment->isDeploying()])
+                        >{{ $deployment->status_formatted }}</flux:badge>
+                    </flux:table.cell>
+                    <flux:table.cell align="end">
+                        <flux:button wire:click="showDeployment({{ $deployment->id }})" variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
+                    </flux:table.cell>
+                </flux:table.row>
+            @endforeach
+        </flux:table.rows>
+    </flux:table>
 
     <flux:modal name="showDeploymentModal" variant="flyout" class="max-w-2xl">
         @if($selectedDeployment)

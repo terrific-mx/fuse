@@ -30,40 +30,42 @@ new class extends Component
 
 <div>
     <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.show', $server)">{{ $server->name }}</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>{{ $server->name }}</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
     <flux:spacer class="mt-8" />
 
-    <section>
-        <div class="flex justify-between items-center">
-            <flux:heading size="xl">Sites</flux:heading>
-            <flux:modal.trigger name="add-site">
-                <flux:button variant="primary" size="sm" color="zinc">Add site</flux:button>
-            </flux:modal.trigger>
-        </div>
+    <header class="flex items-center">
+        <flux:heading size="xl">Sites</flux:heading>
+        <flux:spacer />
+        <flux:modal.trigger name="add-site">
+            <flux:button variant="primary" color="zinc" class="-my-1">New site</flux:button>
+        </flux:modal.trigger>
+    </header>
 
-        <div class="mt-4">
-            <flux:table>
-                <flux:table.columns>
-                    <flux:table.column>Hostname</flux:table.column>
-                    <flux:table.column>PHP version</flux:table.column>
-                    <flux:table.column>Repository URL</flux:table.column>
-                    <flux:table.column>Repository Branch</flux:table.column>
-                </flux:table.columns>
-                <flux:table.rows>
-                    @foreach ($this->sites as $site)
-                        <flux:table.row :key="$site->id">
-                        <flux:table.cell><flux:link :href="route('servers.sites.show', ['server' => $server, 'site' => $site])" color="zinc" wire:navigate>{{ $site->hostname }}</flux:link></flux:table.cell>
-                            <flux:table.cell>{{ $site->php_version }}</flux:table.cell>
-                            <flux:table.cell>{{ $site->repository_url }}</flux:table.cell>
-                            <flux:table.cell>{{ $site->repository_branch }}</flux:table.cell>
-                        </flux:table.row>
-                    @endforeach
-                </flux:table.rows>
-            </flux:table>
-        </div>
-    </section>
+    <flux:spacer class="mt-8" />
+
+    <div>
+        <flux:table>
+            <flux:table.columns>
+                <flux:table.column>Hostname</flux:table.column>
+                <flux:table.column>PHP version</flux:table.column>
+                <flux:table.column>Repository URL</flux:table.column>
+                <flux:table.column>Repository Branch</flux:table.column>
+            </flux:table.columns>
+            <flux:table.rows>
+                @foreach ($this->sites as $site)
+                    <flux:table.row :key="$site->id">
+                    <flux:table.cell><flux:link :href="route('servers.sites.show', ['server' => $server, 'site' => $site])" color="zinc" wire:navigate>{{ $site->hostname }}</flux:link></flux:table.cell>
+                        <flux:table.cell>{{ $site->php_version }}</flux:table.cell>
+                        <flux:table.cell>{{ $site->repository_url }}</flux:table.cell>
+                        <flux:table.cell>{{ $site->repository_branch }}</flux:table.cell>
+                    </flux:table.row>
+                @endforeach
+            </flux:table.rows>
+        </flux:table>
+    </div>
     <flux:modal name="add-site" variant="flyout" class="max-w-lg">
         <form wire:submit="save" class="space-y-6">
             <flux:heading size="lg">Add site</flux:heading>
