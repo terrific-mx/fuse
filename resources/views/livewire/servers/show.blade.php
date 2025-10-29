@@ -132,7 +132,7 @@ new class extends Component
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->databases as $database)
-                            <flux:table.row :key="$database->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+                            <flux:table.row :key="$database->id">
                                 <flux:table.cell variant="strong" class="relative">
                                     <a
                                         href="{{ route('servers.databases.show', ['server' => $server, 'database' => $database]) }}"
@@ -171,7 +171,7 @@ new class extends Component
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->cronjobs as $cronjob)
-                            <flux:table.row :key="$cronjob->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+                            <flux:table.row :key="$cronjob->id">
                                 <flux:table.cell class="max-w-xs truncate">{{ $cronjob->command }}</flux:table.cell>
                             </flux:table.row>
                         @endforeach
@@ -203,7 +203,7 @@ new class extends Component
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->firewallRules as $rule)
-                            <flux:table.row :key="$rule->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+                            <flux:table.row :key="$rule->id">
                                 <flux:table.cell variant="strong">
                                     {{ $rule->name ?? ucfirst($rule->type) }}
                                 </flux:table.cell>
@@ -239,7 +239,7 @@ new class extends Component
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->daemons as $daemon)
-                            <flux:table.row :key="$daemon->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+                            <flux:table.row :key="$daemon->id">
                                 <flux:table.cell class="max-w-xs truncate">{{ $daemon->command }}</flux:table.cell>
                             </flux:table.row>
                         @endforeach
