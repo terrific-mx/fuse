@@ -44,14 +44,17 @@ new class extends Component
             </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->servers as $server)
-                    <flux:table.row :key="$server->id">
-                        <flux:table.cell>
-                            <flux:link :href="route('servers.show', $server)" wire:navigate>
-                                {{ $server->name }}
-                            </flux:link>
+                    <flux:table.row :key="$server->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+                        <flux:table.cell class="relative">
+                            <a href="{{ route('servers.show', $server) }}" class="absolute inset-0" wire:navigate></a>
+                            {{ $server->name }}
                         </flux:table.cell>
-                        <flux:table.cell>{{ $server->ip_address }}</flux:table.cell>
-                        <flux:table.cell align="end">
+                        <flux:table.cell class="relative">
+                            <a href="{{ route('servers.show', $server) }}" class="absolute inset-0" wire:navigate></a>
+                            {{ $server->ip_address }}
+                        </flux:table.cell>
+                        <flux:table.cell align="end" class="relative">
+                            <a href="{{ route('servers.show', $server) }}" class="absolute inset-0" wire:navigate></a>
                             <flux:badge
                                 :color="$server->status_color"
                                 size="sm"
@@ -66,6 +69,4 @@ new class extends Component
             </flux:table.rows>
         </flux:table>
     </div>
-
-
 </div>
