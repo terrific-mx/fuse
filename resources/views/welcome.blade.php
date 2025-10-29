@@ -30,8 +30,17 @@
                     command-line headaches, no guesswork.
                 </flux:text>
                 <div class="mt-10 flex items-center gap-x-2">
-                    <flux:button :href="route('register')" variant="primary" class="font-semibold">Start free trial</flux:button>
-                    <flux:button :href="route('pricing')" variant="ghost" icon:trailing="arrow-right" class="font-semibold">Pricing</flux:button>
+                    <flux:button :href="route('register')" variant="primary" class="font-semibold">
+                        Start free trial
+                    </flux:button>
+                    <flux:button
+                        :href="route('pricing')"
+                        variant="ghost"
+                        icon:trailing="arrow-right"
+                        class="font-semibold"
+                    >
+                        Pricing
+                    </flux:button>
                 </div>
             </section>
 
@@ -50,8 +59,8 @@
                             Spin up a Laravel-ready server in just a few minutes.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
-                            Antifuse automatically installs and configures everything you need: PHP (8.1–8.4),
-                            MySQL 8, Redis, and more.
+                            Antifuse automatically installs and configures everything you need: PHP (8.1–8.4), MySQL 8,
+                            Redis, and more.
                         </flux:text>
                     </div>
                     <div class="relative pl-9">
@@ -69,7 +78,8 @@
                             Optimize for your VPS, automatically.
                         </flux:text>
                         <flux:text class="text-base/7" inline>
-                            PHP and MySQL settings are tuned to your server’s specs, so you get peak performance without lifting a finger.
+                            PHP and MySQL settings are tuned to your server’s specs, so you get peak performance without
+                            lifting a finger.
                         </flux:text>
                     </div>
                     <div class="relative pl-9">
@@ -121,13 +131,14 @@
                     <div class="md:-ml-4 lg:ml-0 lg:max-w-lg">
                         <flux:text class="text-lg/8">
                             You’re building Laravel apps for clients or your own projects. You want to move fast, stay
-                            secure, and avoid DevOps rabbit holes. Antifuse is for you—even if you’ve never managed
-                            a server before.
+                            secure, and avoid DevOps rabbit holes. Antifuse is for you—even if you’ve never managed a
+                            server before.
                         </flux:text>
 
-                        <blockquote class="mt-16 border-l border-zinc-200 dark:border-zinc-700 pl-8">
+                        <blockquote class="mt-16 border-l border-zinc-200 pl-8 dark:border-zinc-700">
                             <flux:text class="text-base/7">
-                                “I built Antifuse for myself, then opened it to the public so anyone can deploy Laravel apps with ease. It’s fully open source—so you can trust, audit, and contribute.”
+                                “I built Antifuse for myself, then opened it to the public so anyone can deploy Laravel
+                                apps with ease. It’s fully open source—so you can trust, audit, and contribute.”
                             </flux:text>
 
                             <div class="mt-6">
@@ -142,7 +153,7 @@
             </section>
 
             <section class="py-24 sm:py-32">
-                <div class="bg-zinc-50 dark:bg-zinc-900 px-6 py-24 rounded-3xl sm:px-16">
+                <div class="rounded-3xl bg-zinc-50 px-6 py-24 sm:px-16 dark:bg-zinc-900">
                     <div class="max-w-2xl">
                         <flux:heading level="2" class="text-4xl! font-semibold tracking-tight text-pretty sm:text-5xl!">
                             Invite Your Team—Collaborate with Confidence
@@ -194,7 +205,7 @@
             </section>
 
             <div class="py-24 sm:py-32">
-                <div class="bg-blue-100 dark:bg-blue-950 px-6 py-24 rounded-3xl sm:px-16">
+                <div class="rounded-3xl bg-blue-100 px-6 py-24 sm:px-16 dark:bg-blue-950">
                     <flux:heading
                         level="2"
                         class="max-w-2xl text-4xl! font-semibold tracking-tight text-balance sm:text-5xl!"
@@ -202,7 +213,9 @@
                         Ready to launch your next Laravel app—without the server stress?
                     </flux:heading>
                     <div class="mt-10 flex items-center gap-x-2">
-                        <flux:button :href="route('register')" variant="primary" class="font-semibold">Start free trial</flux:button>
+                        <flux:button :href="route('register')" variant="primary" class="font-semibold">
+                            Start free trial
+                        </flux:button>
                     </div>
                 </div>
             </div>
@@ -213,11 +226,11 @@
                         Built with
                         <flux:icon.heart variant="micro" class="inline" />
                         by
-                        <flux:link :accent="false">Oliver Servín</flux:link>
+                        <flux:link href="https://x.com/oliverservinX" :accent="false">Oliver Servín</flux:link>
                     </flux:text>
                     <flux:text class="mt-10 text-sm/6">
                         &copy; {{ date('Y') }} Anti Software. All rights reserved. Problems or questions? Contact <
-                        <flux:link :accent="false">support@antihq.com</flux:link>
+                        <flux:link href="mailto:support@antihq.com" :accent="false">support@antihq.com</flux:link>
                         >.
                     </flux:text>
                 </div>
