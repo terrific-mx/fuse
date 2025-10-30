@@ -36,80 +36,122 @@ new class extends Component
 }; ?>
 
 <div>
-    <header>
-        <flux:breadcrumbs class="mb-2">
-            <flux:breadcrumbs.item :href="route('servers.show', $server)" separator="slash" wire:navigate>{{ $server->name }}</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-        <flux:heading size="xl">{{ $site->hostname }}</flux:heading>
-        @include('partials.site-navbar')
-    </header>
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
+            {{ $server->name }}
+        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.sites.index', $server)" wire:navigate>Sites</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.sites.show', [$server, $site])" wire:navigate>
+            {{ $site->hostname }}
+        </flux:breadcrumbs.item>
+    </flux:breadcrumbs>
 
-    <form wire:submit="save" class="max-w-lg space-y-6 mt-8">
-        <flux:textarea
-            name="form.shared_directories"
-            label="Directories Shared Across Deployments"
+    <flux:spacer class="mt-8" />
 
-            class="font-mono"
-            rows="3"
-            wire:model="form.shared_directories"
-        />
+    <form wire:submit="save">
+        <flux:heading size="xl">Deployment Settings</flux:heading>
 
-        <flux:textarea
-            name="form.shared_files"
-            label="Files Shared Across Deployments"
+        <flux:separator class="my-10 mt-6" />
 
-            class="font-mono"
-            rows="3"
-            wire:model="form.shared_files"
-        />
+        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div>
+                <flux:heading>Shared Resources</flux:heading>
+            </div>
+            <div class="space-y-6">
+                <flux:field>
+                    <flux:textarea
+                        name="form.shared_directories"
+                        placeholder="e.g. storage, public/uploads – one per line"
+                        class="font-mono"
+                        rows="3"
+                        wire:model="form.shared_directories"
+                    />
+                </flux:field>
+                <flux:field>
+                    <flux:textarea
+                        name="form.shared_files"
+                        placeholder="Files Shared Across Deployments"
+                        class="font-mono"
+                        rows="3"
+                        wire:model="form.shared_files"
+                    />
+                </flux:field>
+            </div>
+        </section>
 
-        <flux:textarea
-            name="form.writable_directories"
-            label="Writable Directories for Webserver"
+        <flux:separator variant="subtle" class="my-10" />
 
-            class="font-mono"
-            rows="10"
-            wire:model="form.writable_directories"
-        />
+        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div>
+                <flux:heading>Writable Directories</flux:heading>
+            </div>
+            <div class="space-y-6">
+                <flux:field>
+                    <flux:textarea
+                        name="form.writable_directories"
+                        placeholder="e.g. storage, bootstrap/cache – one per line"
+                        class="font-mono"
+                        rows="10"
+                        wire:model="form.writable_directories"
+                    />
+                </flux:field>
+            </div>
+        </section>
 
-        <flux:textarea
-            name="form.script_before_deploy"
-            :label="__('Script to Run Before Deploy')"
+        <flux:separator variant="subtle" class="my-10" />
 
-            class="font-mono min-h-[220px]"
-            rows="10"
-            wire:model="form.script_before_deploy"
-        />
+        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div>
+                <flux:heading>Deployment Scripts</flux:heading>
+            </div>
+            <div class="space-y-6">
+                <flux:field>
+                    <flux:textarea
+                        name="form.script_before_deploy"
+                        placeholder="Optional shell script to run before deployment (leave blank if not needed)"
+                        class="min-h-[220px] font-mono"
+                        rows="10"
+                        wire:model="form.script_before_deploy"
+                    />
+                </flux:field>
+                <flux:field>
+                    <flux:textarea
+                        name="form.script_after_deploy"
+                        placeholder="Optional shell script to run after deployment (leave blank if not needed)"
+                        class="font-mono"
+                        rows="10"
+                        wire:model="form.script_after_deploy"
+                    />
+                </flux:field>
+                <flux:field>
+                    <flux:textarea
+                        name="form.script_before_activate"
+                        placeholder="Optional shell script to run before activating the new release (leave blank if not needed)"
+                        class="min-h-[220px] font-mono"
+                        rows="10"
+                        wire:model="form.script_before_activate"
+                    />
+                </flux:field>
+                <flux:field>
+                    <flux:textarea
+                        name="form.script_after_activate"
+                        placeholder="Optional shell script to run after activating the new release (leave blank if not needed)"
+                        class="min-h-[220px] font-mono"
+                        rows="10"
+                        wire:model="form.script_after_activate"
+                    />
+                </flux:field>
+            </div>
+        </section>
 
-        <flux:textarea
-            name="form.script_after_deploy"
-            :label="__('Script to Run After Deploy')"
+        <flux:separator variant="subtle" class="my-10" />
 
-            class="font-mono"
-            rows="10"
-            wire:model="form.script_after_deploy"
-        />
-
-        <flux:textarea
-            name="form.script_before_activate"
-            :label="__('Script to Run Before Activating Release')"
-
-            class="font-mono min-h-[220px]"
-            rows="10"
-            wire:model="form.script_before_activate"
-        />
-
-        <flux:textarea
-            name="form.script_after_activate"
-            :label="__('Script to Run After Activating Release')"
-
-            class="font-mono min-h-[220px]"
-            rows="10"
-            wire:model="form.script_after_activate"
-        />
-
-        <flux:button type="submit" variant="primary">
-            {{ __('Save') }}
-        </flux:button>
+        <div class="flex justify-end gap-4">
+            <flux:button :href="route('servers.sites.show', [$server, $site])" variant="ghost" wire:navigate>
+                Cancel
+            </flux:button>
+            <flux:button type="submit" variant="primary" color="zinc">Save</flux:button>
+        </div>
     </form>
 </div>
