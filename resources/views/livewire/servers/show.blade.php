@@ -65,7 +65,7 @@ new class extends Component
         </div>
     </div>
 
-    <flux:spacer class="mt-8" />
+    <flux:spacer class="mt-12" />
 
     <div class="flex items-end justify-between gap-4">
         <flux:heading size="lg">Sites</flux:heading>
