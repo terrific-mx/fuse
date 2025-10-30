@@ -8,12 +8,12 @@ use Livewire\Volt\Volt;
 
 uses(RefreshDatabase::class);
 
-it('creates a site for a server', function () {
+it('creates a site for a server via the create page', function () {
     Queue::fake();
     $server = Server::factory()->create();
 
     $component = Volt::actingAs($server->organization->user)
-        ->test('servers.sites.index', ['server' => $server])
+        ->test('servers.sites.create', ['server' => $server])
         ->set('form.hostname', 'laravel.example.com')
         ->set('form.php_version', '8.4')
         ->set('form.repository_url', 'https://github.com/laravel/laravel.git')

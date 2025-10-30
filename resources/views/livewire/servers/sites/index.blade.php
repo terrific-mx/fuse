@@ -1,6 +1,5 @@
 <?php
 
-use App\Livewire\Forms\SiteForm;
 use App\Models\Server;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Title;
@@ -10,16 +9,9 @@ new #[Title('Sites')] class extends Component
 {
     public Server $server;
 
-    public SiteForm $form;
-
     public function mount()
     {
         $this->authorize('view', $this->server);
-    }
-
-    public function save()
-    {
-        $this->form->store($this->server);
     }
 
     #[Computed]
@@ -42,9 +34,7 @@ new #[Title('Sites')] class extends Component
     <header class="flex items-center">
         <flux:heading size="xl">Sites</flux:heading>
         <flux:spacer />
-        <flux:modal.trigger name="add-site">
-            <flux:button variant="primary" color="zinc" class="-my-1">New site</flux:button>
-        </flux:modal.trigger>
+         <flux:button :href="route('servers.sites.create', $server)" variant="primary" color="zinc" class="-my-1" wire:navigate>New site</flux:button>
     </header>
 
     <flux:spacer class="mt-8" />
@@ -79,45 +69,5 @@ new #[Title('Sites')] class extends Component
             </flux:table.rows>
         </flux:table>
     </div>
-    <flux:modal name="add-site" variant="flyout" class="max-w-lg">
-        <form wire:submit="save" class="space-y-6">
-            <flux:heading size="lg">Add site</flux:heading>
 
-            <flux:input wire:model="form.hostname" label="Hostname" required />
-
-            <flux:select wire:model="form.php_version" label="PHP version" required>
-                <flux:select.option></flux:select.option>
-                <flux:select.option value="8.4">8.4</flux:select.option>
-                <flux:select.option value="8.3">8.3</flux:select.option>
-                <flux:select.option value="8.2">8.2</flux:select.option>
-                <flux:select.option value="8.1">8.1</flux:select.option>
-            </flux:select>
-
-            <flux:fieldset>
-                <flux:legend class="text-sm">Repository</flux:legend>
-                <div class="space-y-6">
-                    <flux:callout variant="secondary">
-                        <flux:callout.heading icon="information-circle">
-                            Repository access required
-                        </flux:callout.heading>
-                        <flux:callout.text>
-                            To deploy code from your repository, add this server’s public SSH key as an access key to
-                            your repository provider (e.g., GitHub, GitLab). This grants the server read access to your
-                            repository so it can fetch and deploy your code.
-                        </flux:callout.text>
-                        <x-slot name="actions">
-                            <flux:input icon="key" value="{{ $server->public_ssh_key }}" readonly copyable />
-                        </x-slot>
-                    </flux:callout>
-                    <flux:input wire:model="form.repository_url" label="Repository URL" />
-                    <flux:input wire:model="form.repository_branch" label="Repository Branch" />
-                </div>
-            </flux:fieldset>
-
-            <div class="flex">
-                <flux:spacer />
-                <flux:button type="submit" variant="primary">Add Site</flux:button>
-            </div>
-        </form>
-    </flux:modal>
 </div>
