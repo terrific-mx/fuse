@@ -45,7 +45,7 @@ new class extends Component
             <flux:table.rows>
                 @foreach ($this->servers as $server)
                     <flux:table.row :key="$server->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
-                        <flux:table.cell class="relative">
+                        <flux:table.cell variant="strong" class="relative">
                             <a href="{{ route('servers.show', $server) }}" class="absolute inset-0" wire:navigate></a>
                             {{ $server->name }}
                         </flux:table.cell>
