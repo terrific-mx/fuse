@@ -14,10 +14,10 @@ it('creates a site for a server via the create page', function () {
 
     $component = Volt::actingAs($server->organization->user)
         ->test('servers.sites.create', ['server' => $server])
-        ->set('form.hostname', 'laravel.example.com')
-        ->set('form.php_version', '8.4')
-        ->set('form.repository_url', 'https://github.com/laravel/laravel.git')
-        ->set('form.repository_branch', 'main')
+        ->set('hostname', 'laravel.example.com')
+        ->set('php_version', '8.4')
+        ->set('repository_url', 'https://github.com/laravel/laravel.git')
+        ->set('repository_branch', 'main')
         ->call('save');
 
     $component->assertHasNoErrors();
