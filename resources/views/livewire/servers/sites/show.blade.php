@@ -17,7 +17,8 @@ new class extends Component
         return $this->site->deployments()
             ->with('triggeredBy')
             ->orderByDesc('created_at')
-            ->limit(10);
+            ->limit(10)
+            ->get();
     }
 
     public function mount()
