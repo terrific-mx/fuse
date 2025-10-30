@@ -32,7 +32,7 @@
             <!-- Desktop User Menu -->
             @auth
                 <flux:dropdown position="top" align="end">
-                    <flux:button icon:trailing="chevron-down" variant="subtle" size="sm">Account</flux:button>
+                    <flux:button icon:trailing="chevron-down" variant="subtle">Account</flux:button>
 
                     <flux:menu>
                         <flux:menu.radio.group>
@@ -71,7 +71,7 @@
                     </flux:menu>
                 </flux:dropdown>
             @else
-                <flux:button :href="route('dashboard')" variant="subtle" size="sm">Account</flux:button>
+                <flux:button :href="route('dashboard')" variant="subtle">Account</flux:button>
             @endauth
         </flux:header>
 

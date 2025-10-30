@@ -38,6 +38,10 @@ new class extends Component
 }; ?>
 <div>
     <flux:breadcrumbs>
+        <flux:breadcrumbs.item :href="route('servers.index', $server)" wire:navigate>
+            Servers
+        </flux:breadcrumbs.item>
+
         <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
             {{ $server->name }}
         </flux:breadcrumbs.item>
