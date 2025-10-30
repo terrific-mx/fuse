@@ -24,29 +24,48 @@ new class extends Component
 }; ?>
 
 <div>
-    <header>
-        <flux:breadcrumbs class="mb-2">
-            <flux:breadcrumbs.item :href="route('servers.show', $server)" separator="slash" wire:navigate>{{ $server->name }}</flux:breadcrumbs.item>
-        </flux:breadcrumbs>
-        <flux:heading size="xl">{{ $site->hostname }}</flux:heading>
-        @include('partials.site-navbar')
-    </header>
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
+            {{ $server->name }}
+        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.sites.index', $server)" wire:navigate>Sites</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.sites.show', [$server, $site])" wire:navigate>
+            {{ $site->hostname }}
+        </flux:breadcrumbs.item>
+    </flux:breadcrumbs>
 
-    <div class="flex gap-2 mt-4">
-        <flux:button wire:click="getEnvFile">
-            Reload .env file
-        </flux:button>
-        <flux:button wire:click="saveEnvFile" color="primary" :disabled="!$envContent">
-            Save .env file
-        </flux:button>
-    </div>
+    <flux:spacer class="mt-8" />
 
-    <div class="mt-4">
-        <flux:textarea
-            wire:model="envContent"
-            rows="20"
-            class="font-mono"
-            placeholder="The .env file will appear here..."
-        ></flux:textarea>
-    </div>
+    <form wire:submit.prevent="saveEnvFile">
+        <flux:heading size="xl">Environment File</flux:heading>
+
+        <flux:separator class="my-10 mt-6" />
+
+        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div>
+                <flux:heading>.env File</flux:heading>
+                <p class="mt-2 text-sm text-zinc-500">
+                    Edit the environment variables for this site. Be careful—changes take effect immediately.
+                </p>
+            </div>
+            <div class="space-y-6">
+                <flux:field>
+                    <flux:textarea
+                        wire:model="envContent"
+                        rows="20"
+                        class="font-mono"
+                        placeholder="The .env file will appear here..."
+                    />
+                </flux:field>
+            </div>
+        </section>
+
+        <flux:separator variant="subtle" class="my-10" />
+
+        <div class="flex justify-end gap-4">
+            <flux:button type="button" wire:click="getEnvFile" variant="ghost">Reload .env file</flux:button>
+            <flux:button type="submit" color="primary" :disabled="!$envContent">Save .env file</flux:button>
+        </div>
+    </form>
 </div>
