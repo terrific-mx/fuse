@@ -239,7 +239,7 @@ new class extends Component
                     <flux:table.rows>
                         @foreach ($this->daemons as $daemon)
                             <flux:table.row :key="$daemon->id">
-                                <flux:table.cell class="max-w-xs truncate">{{ $daemon->command }}</flux:table.cell>
+                                <flux:table.cell variant="strong" class="max-w-xs truncate">{{ $daemon->command }}</flux:table.cell>
                             </flux:table.row>
                         @endforeach
                     </flux:table.rows>
