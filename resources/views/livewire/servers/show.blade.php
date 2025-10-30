@@ -164,10 +164,17 @@ new class extends Component
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->cronjobs as $cronjob)
-                            <flux:table.row :key="$cronjob->id">
-                                <flux:table.cell variant="strong" class="max-w-xs truncate">{{ $cronjob->command }}</flux:table.cell>
-                            </flux:table.row>
-                        @endforeach
+    <flux:table.row :key="$cronjob->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+        <flux:table.cell variant="strong" class="relative max-w-xs truncate">
+            <a
+                href="{{ route('servers.cronjobs.edit', ['server' => $server, 'cronjob' => $cronjob]) }}"
+                class="absolute inset-0"
+                wire:navigate
+            ></a>
+            {{ $cronjob->command }}
+        </flux:table.cell>
+    </flux:table.row>
+@endforeach
                     </flux:table.rows>
                 </flux:table>
             @else
