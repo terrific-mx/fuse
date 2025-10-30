@@ -28,9 +28,6 @@ new class extends Component
         <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
             {{ $server->name }}
         </flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.daemons.index', $server)" wire:navigate>
-            Daemons
-        </flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
     <flux:spacer class="mt-8" />

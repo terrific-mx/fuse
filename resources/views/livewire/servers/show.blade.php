@@ -69,7 +69,7 @@ new class extends Component
 
     <div class="flex items-end justify-between gap-4">
         <flux:heading size="lg">Sites</flux:heading>
-        <flux:button :href="route('servers.sites.index', $server)" variant="primary" color="zinc" class="-my-2" wire:navigate>
+        <flux:button :href="route('servers.sites.index', $server)" class="-my-2" wire:navigate>
             View
         </flux:button>
     </div>
@@ -117,8 +117,6 @@ new class extends Component
                 <flux:heading size="lg">Databases</flux:heading>
                 <flux:button
                     :href="route('servers.databases.index', $server)"
-                    variant="primary"
-                    color="zinc"
                     class="-my-2"
                     wire:navigate
                 >
@@ -152,8 +150,6 @@ new class extends Component
                 <flux:heading size="lg">Cronjobs</flux:heading>
                 <flux:button
                     :href="route('servers.cronjobs.index', $server)"
-                    variant="primary"
-                    color="zinc"
                     class="-my-2"
                     wire:navigate
                 >
@@ -185,8 +181,6 @@ new class extends Component
                 <flux:heading size="lg">Firewall Rules</flux:heading>
                 <flux:button
                     :href="route('servers.firewall-rules.index', $server)"
-                    variant="primary"
-                    color="zinc"
                     class="-my-2"
                     wire:navigate
                 >
@@ -222,8 +216,6 @@ new class extends Component
                 <flux:heading size="lg">Daemons</flux:heading>
                 <flux:button
                     :href="route('servers.daemons.index', $server)"
-                    variant="primary"
-                    color="zinc"
                     class="-my-2"
                     wire:navigate
                 >
