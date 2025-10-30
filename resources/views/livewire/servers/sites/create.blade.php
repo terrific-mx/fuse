@@ -89,7 +89,6 @@ EOT,
             {{ $server->name }}
         </flux:breadcrumbs.item>
         <flux:breadcrumbs.item :href="route('servers.sites.index', $server)" wire:navigate>Sites</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item>Add Site</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
     <flux:spacer class="mt-8" />
