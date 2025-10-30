@@ -59,9 +59,11 @@ new class extends Component
                 <flux:button icon:trailing="chevron-down">Actions</flux:button>
 
                 <flux:menu>
-                    <flux:menu.item :href="route('servers.passwords', $server)" wire:navigate>Show passwords</flux:menu.item>
+                    <flux:menu.item :href="route('servers.passwords', $server)" wire:navigate>
+                        Show passwords
+                    </flux:menu.item>
                 </flux:menu>
-            </flux:menu>
+            </flux:dropdown>
         </div>
     </div>
 
@@ -69,9 +71,7 @@ new class extends Component
 
     <div class="flex items-end justify-between gap-4">
         <flux:heading size="lg">Sites</flux:heading>
-        <flux:button :href="route('servers.sites.index', $server)" class="-my-2" wire:navigate>
-            View
-        </flux:button>
+        <flux:button :href="route('servers.sites.index', $server)" class="-my-2" wire:navigate>View</flux:button>
     </div>
 
     <flux:spacer class="mt-4" />
@@ -115,11 +115,7 @@ new class extends Component
         <div>
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="lg">Databases</flux:heading>
-                <flux:button
-                    :href="route('servers.databases.index', $server)"
-                    class="-my-2"
-                    wire:navigate
-                >
+                <flux:button :href="route('servers.databases.index', $server)" class="-my-2" wire:navigate>
                     View
                 </flux:button>
             </div>
@@ -148,11 +144,7 @@ new class extends Component
         <div>
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="lg">Cronjobs</flux:heading>
-                <flux:button
-                    :href="route('servers.cronjobs.index', $server)"
-                    class="-my-2"
-                    wire:navigate
-                >
+                <flux:button :href="route('servers.cronjobs.index', $server)" class="-my-2" wire:navigate>
                     View
                 </flux:button>
             </div>
@@ -164,17 +156,17 @@ new class extends Component
                     </flux:table.columns>
                     <flux:table.rows>
                         @foreach ($this->cronjobs as $cronjob)
-    <flux:table.row :key="$cronjob->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
-        <flux:table.cell variant="strong" class="relative max-w-xs truncate">
-            <a
-                href="{{ route('servers.cronjobs.edit', ['server' => $server, 'cronjob' => $cronjob]) }}"
-                class="absolute inset-0"
-                wire:navigate
-            ></a>
-            {{ $cronjob->command }}
-        </flux:table.cell>
-    </flux:table.row>
-@endforeach
+                            <flux:table.row :key="$cronjob->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+                                <flux:table.cell variant="strong" class="relative max-w-xs truncate">
+                                    <a
+                                        href="{{ route('servers.cronjobs.edit', ['server' => $server, 'cronjob' => $cronjob]) }}"
+                                        class="absolute inset-0"
+                                        wire:navigate
+                                    ></a>
+                                    {{ $cronjob->command }}
+                                </flux:table.cell>
+                            </flux:table.row>
+                        @endforeach
                     </flux:table.rows>
                 </flux:table>
             @else
@@ -186,11 +178,7 @@ new class extends Component
         <div>
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="lg">Firewall Rules</flux:heading>
-                <flux:button
-                    :href="route('servers.firewall-rules.index', $server)"
-                    class="-my-2"
-                    wire:navigate
-                >
+                <flux:button :href="route('servers.firewall-rules.index', $server)" class="-my-2" wire:navigate>
                     View
                 </flux:button>
             </div>
@@ -221,11 +209,7 @@ new class extends Component
         <div>
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="lg">Daemons</flux:heading>
-                <flux:button
-                    :href="route('servers.daemons.index', $server)"
-                    class="-my-2"
-                    wire:navigate
-                >
+                <flux:button :href="route('servers.daemons.index', $server)" class="-my-2" wire:navigate>
                     View
                 </flux:button>
             </div>
@@ -238,7 +222,9 @@ new class extends Component
                     <flux:table.rows>
                         @foreach ($this->daemons as $daemon)
                             <flux:table.row :key="$daemon->id">
-                                <flux:table.cell variant="strong" class="max-w-xs truncate">{{ $daemon->command }}</flux:table.cell>
+                                <flux:table.cell variant="strong" class="max-w-xs truncate">
+                                    {{ $daemon->command }}
+                                </flux:table.cell>
                             </flux:table.row>
                         @endforeach
                     </flux:table.rows>
