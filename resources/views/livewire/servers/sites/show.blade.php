@@ -8,6 +8,15 @@ use Livewire\Volt\Component;
 
 new #[Title('Site details')] class extends Component
 {
+    public function triggerDeployment(): void
+    {
+        $deployment = $this->site->deployments()->create([
+            'status' => 'pending',
+            'triggered_by' => $this->site->server->organization->user->id,
+        ]);
+        \App\Jobs\DeploySite::dispatch($deployment);
+    }
+
     public Server $server;
 
     public Site $site;
@@ -76,14 +85,17 @@ new #[Title('Site details')] class extends Component
 
     <div class="flex items-end justify-between gap-4">
         <flux:heading size="lg">Deployments</flux:heading>
-        <flux:link
-            :href="route('servers.sites.deployments', [$server, $site])"
-            :accent="false"
-            class="text-sm"
-            wire:navigate
-        >
-            See all
-        </flux:link>
+        <div class="flex gap-2 items-center">
+            <flux:button wire:click="triggerDeployment" variant="primary" color="zinc" class="-my-1">Deploy</flux:button>
+            <flux:link
+                :href="route('servers.sites.deployments', [$server, $site])"
+                :accent="false"
+                class="text-sm"
+                wire:navigate
+            >
+                See all
+            </flux:link>
+        </div>
     </div>
 
     <flux:spacer class="mt-4" />
