@@ -31,7 +31,9 @@ new class extends Component
 <div>
     <flux:breadcrumbs>
         <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>{{ $server->name }}</flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
+            {{ $server->name }}
+        </flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
     <flux:spacer class="mt-8" />
@@ -56,8 +58,15 @@ new class extends Component
             </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->sites as $site)
-                    <flux:table.row :key="$site->id">
-                    <flux:table.cell><flux:link :href="route('servers.sites.show', ['server' => $server, 'site' => $site])" color="zinc" wire:navigate>{{ $site->hostname }}</flux:link></flux:table.cell>
+                    <flux:table.row :key="$site->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+                        <flux:table.cell variant="strong" class="relative">
+                            <a
+                                href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}"
+                                class="absolute inset-0"
+                                wire:navigate
+                            ></a>
+                            {{ $site->hostname }}
+                        </flux:table.cell>
                         <flux:table.cell>{{ $site->php_version }}</flux:table.cell>
                         <flux:table.cell>{{ $site->repository_url }}</flux:table.cell>
                         <flux:table.cell>{{ $site->repository_branch }}</flux:table.cell>
@@ -84,15 +93,16 @@ new class extends Component
                 <flux:legend class="text-sm">Repository</flux:legend>
                 <div class="space-y-6">
                     <flux:callout variant="secondary">
-                        <flux:callout.heading icon="information-circle">Repository access required</flux:callout.heading>
-                        <flux:callout.text>To deploy code from your repository, add this server’s public SSH key as an access key to your repository provider (e.g., GitHub, GitLab). This grants the server read access to your repository so it can fetch and deploy your code.</flux:callout.text>
+                        <flux:callout.heading icon="information-circle">
+                            Repository access required
+                        </flux:callout.heading>
+                        <flux:callout.text>
+                            To deploy code from your repository, add this server’s public SSH key as an access key to
+                            your repository provider (e.g., GitHub, GitLab). This grants the server read access to your
+                            repository so it can fetch and deploy your code.
+                        </flux:callout.text>
                         <x-slot name="actions">
-                            <flux:input
-                                icon="key"
-                                value="{{ $server->public_ssh_key }}"
-                                readonly
-                                copyable
-                            />
+                            <flux:input icon="key" value="{{ $server->public_ssh_key }}" readonly copyable />
                         </x-slot>
                     </flux:callout>
                     <flux:input wire:model="form.repository_url" label="Repository URL" />
