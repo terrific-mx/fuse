@@ -37,7 +37,7 @@ new #[Title('Site details')] class extends Component
     }
 }; ?>
 
-<div>
+<div wire:poll>
     <flux:breadcrumbs>
         <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
         <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
@@ -78,6 +78,8 @@ new #[Title('Site details')] class extends Component
                     </flux:menu.item>
                 </flux:menu>
             </flux:dropdown>
+
+            <flux:button wire:click="triggerDeployment" variant="primary" color="zinc">Deploy</flux:button>
         </div>
     </div>
 
@@ -85,17 +87,14 @@ new #[Title('Site details')] class extends Component
 
     <div class="flex items-end justify-between gap-4">
         <flux:heading size="lg">Deployments</flux:heading>
-        <div class="flex gap-2 items-center">
-            <flux:button wire:click="triggerDeployment" variant="primary" color="zinc" class="-my-1">Deploy</flux:button>
-            <flux:link
-                :href="route('servers.sites.deployments', [$server, $site])"
-                :accent="false"
-                class="text-sm"
-                wire:navigate
-            >
-                See all
-            </flux:link>
-        </div>
+        <flux:link
+            :href="route('servers.sites.deployments', [$server, $site])"
+            :accent="false"
+            class="text-sm"
+            wire:navigate
+        >
+            See all
+        </flux:link>
     </div>
 
     <flux:spacer class="mt-4" />
