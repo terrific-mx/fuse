@@ -22,9 +22,7 @@ new class extends Component
 
 <div wire:poll>
     <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>
-            Servers
-        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
         <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
             {{ $server->name }}
         </flux:breadcrumbs.item>

@@ -46,9 +46,7 @@ new class extends Component
 
 <div>
     <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.index', $server)" wire:navigate>
-            Servers
-        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.index', $server)" wire:navigate>Servers</flux:breadcrumbs.item>
         <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
             {{ $server->name }}
         </flux:breadcrumbs.item>
@@ -114,7 +112,9 @@ new class extends Component
         <flux:separator variant="subtle" class="my-10" />
 
         <div class="flex justify-end gap-4">
-            <flux:button :href="route('servers.cronjobs.index', $server)" variant="ghost" wire:navigate>Cancel</flux:button>
+            <flux:button :href="route('servers.cronjobs.index', $server)" variant="ghost" wire:navigate>
+                Cancel
+            </flux:button>
             <flux:button type="submit" variant="primary" color="zinc">Create Cronjob</flux:button>
         </div>
     </form>

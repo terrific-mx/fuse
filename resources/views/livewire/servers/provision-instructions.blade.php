@@ -14,7 +14,7 @@ new class extends Component
 }; ?>
 
 <div>
-    <header class="flex items-center -mt-6 lg:-mt-8 min-h-14">
+    <header class="-mt-6 flex min-h-14 items-center lg:-mt-8">
         <flux:heading size="lg">{{ $server->name }}</flux:heading>
     </header>
 
@@ -23,7 +23,9 @@ new class extends Component
     <flux:callout icon="server" color="blue">
         <flux:callout.heading>Provision server</flux:callout.heading>
         <flux:callout.text>
-            Run this command as <strong>root</strong> on your server. When finished, you can view your server’s status.
+            Run this command as
+            <strong>root</strong>
+            on your server. When finished, you can view your server’s status.
         </flux:callout.text>
         <flux:input
             value="wget --no-verbose -O - {{ URL::signedRoute('servers.setup-root-ssh', ['server' => $server]) }} | bash"
@@ -33,9 +35,7 @@ new class extends Component
             class="mt-4 font-mono"
         />
         <x-slot name="actions">
-            <flux:button href="{{ route('servers.index') }}" wire:navigate>
-                View servers
-            </flux:button>
+            <flux:button href="{{ route('servers.index') }}" wire:navigate>View servers</flux:button>
         </x-slot>
     </flux:callout>
 </div>

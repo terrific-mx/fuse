@@ -57,9 +57,7 @@ new class extends Component
         <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
             {{ $server->name }}
         </flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.sites.index', $server)" wire:navigate>
-            Sites
-        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.sites.index', $server)" wire:navigate>Sites</flux:breadcrumbs.item>
         <flux:breadcrumbs.item :href="route('servers.sites.show', [$server, $site])" wire:navigate>
             {{ $site->hostname }}
         </flux:breadcrumbs.item>
@@ -83,10 +81,14 @@ new class extends Component
             <flux:table.column />
         </flux:table.columns>
         <flux:table.rows>
-            @foreach($this->deployments as $deployment)
+            @foreach ($this->deployments as $deployment)
                 <flux:table.row :key="$deployment->id">
-                    <flux:table.cell variant="strong" class="tabular-nums">{{ $deployment->created_at?->format('Y-m-d H:i') }}</flux:table.cell>
-                    <flux:table.cell>{{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}</flux:table.cell>
+                    <flux:table.cell variant="strong" class="tabular-nums">
+                        {{ $deployment->created_at?->format('Y-m-d H:i') }}
+                    </flux:table.cell>
+                    <flux:table.cell>
+                        {{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}
+                    </flux:table.cell>
                     <flux:table.cell>{{ $deployment->short_commit ?? '-' }}</flux:table.cell>
                     <flux:table.cell>
                         <flux:badge
@@ -94,10 +96,18 @@ new class extends Component
                             size="sm"
                             inset="top bottom"
                             @class(['animate-pulse' => $deployment->is_pending || $deployment->isDeploying()])
-                        >{{ $deployment->status_formatted }}</flux:badge>
+                        >
+                            {{ $deployment->status_formatted }}
+                        </flux:badge>
                     </flux:table.cell>
                     <flux:table.cell align="end">
-                        <flux:button wire:click="showDeployment({{ $deployment->id }})" variant="ghost" size="sm" icon="ellipsis-horizontal" inset="top bottom"></flux:button>
+                        <flux:button
+                            wire:click="showDeployment({{ $deployment->id }})"
+                            variant="ghost"
+                            size="sm"
+                            icon="ellipsis-horizontal"
+                            inset="top bottom"
+                        ></flux:button>
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach
@@ -105,21 +115,21 @@ new class extends Component
     </flux:table>
 
     <flux:modal name="showDeploymentModal" variant="flyout" class="max-w-2xl">
-        @if($selectedDeployment)
+        @if ($selectedDeployment)
             <div class="space-y-6">
                 <div>
                     <flux:heading size="lg">
                         {{ $selectedDeployment->created_at->format('Y-m-d H:i') }}
                     </flux:heading>
-                    <flux:text class="mt-2">
-                        Below is the log output for this deployment.
-                    </flux:text>
+                    <flux:text class="mt-2">Below is the log output for this deployment.</flux:text>
                 </div>
                 <div>
                     <flux:field>
                         <flux:label>Log Output</flux:label>
                         <flux:text>
-                            <pre class="bg-zinc-100 dark:bg-zinc-800 rounded p-3 overflow-x-auto text-xs font-mono">{{ $selectedDeployment->output ?? __('No log output available.') }}</pre>
+                            <pre class="overflow-x-auto rounded bg-zinc-100 p-3 font-mono text-xs dark:bg-zinc-800">
+{{ $selectedDeployment->output ?? __('No log output available.') }}</pre
+                            >
                         </flux:text>
                     </flux:field>
                 </div>

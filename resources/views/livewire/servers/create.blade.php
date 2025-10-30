@@ -66,9 +66,7 @@ new class extends Component
 
 <div>
     <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>
-            Servers
-        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
     </flux:breadcrumbs>
 
     <flux:spacer class="mt-8" />
@@ -108,11 +106,7 @@ new class extends Component
             </div>
             <div class="space-y-6">
                 <flux:field>
-                    <flux:input
-                        wire:model="ip_address"
-                        required
-                        placeholder="IP address"
-                    />
+                    <flux:input wire:model="ip_address" required placeholder="IP address" />
                     <flux:error name="ip_address" />
                 </flux:field>
                 <flux:field>
@@ -139,11 +133,7 @@ new class extends Component
                 <flux:heading>SSH keys</flux:heading>
             </div>
             <div>
-                <flux:pillbox
-                    wire:model="ssh_keys"
-                    multiple
-                    searchable
-                >
+                <flux:pillbox wire:model="ssh_keys" multiple searchable>
                     @foreach ($this->organization->sshKeys as $key)
                         <flux:pillbox.option value="{{ $key->id }}">{{ $key->name }}</flux:pillbox.option>
                     @endforeach
