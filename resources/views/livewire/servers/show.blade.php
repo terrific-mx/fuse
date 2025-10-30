@@ -2,9 +2,10 @@
 
 use App\Models\Server;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component
+new #[Title('Server details')] class extends Component
 {
     public Server $server;
 

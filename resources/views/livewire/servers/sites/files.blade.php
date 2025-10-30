@@ -2,9 +2,10 @@
 
 use App\Models\Server;
 use App\Models\Site;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component
+new #[Title('Environment file')] class extends Component
 {
     public Server $server;
 

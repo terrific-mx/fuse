@@ -3,9 +3,10 @@
 use App\Livewire\Forms\SiteForm;
 use App\Models\Server;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component
+new #[Title('Sites')] class extends Component
 {
     public Server $server;
 

@@ -2,10 +2,10 @@
 
 use App\Jobs\InstallDaemonJob;
 use App\Models\Server;
-use Flux\Flux;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component
+new #[Title('Create daemon')] class extends Component
 {
     public Server $server;
 

@@ -1,10 +1,9 @@
 <?php
 
 use App\Models\Server;
-use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
 
-new class extends Component
+new #[Title('Server passwords')] class extends Component
 {
     public Server $server;
 

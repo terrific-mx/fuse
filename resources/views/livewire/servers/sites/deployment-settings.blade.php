@@ -4,9 +4,10 @@ use App\Livewire\Forms\DeploymentSettingsForm;
 use App\Models\Server;
 use App\Models\Site;
 use Flux\Flux;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component
+new #[Title('Deployment settings')] class extends Component
 {
     public Server $server;
 

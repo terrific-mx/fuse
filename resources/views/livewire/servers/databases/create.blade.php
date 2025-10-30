@@ -3,9 +3,10 @@
 use App\Jobs\InstallDatabaseJob;
 use App\Models\Server;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component
+new #[Title('Create database')] class extends Component
 {
     public Server $server;
 

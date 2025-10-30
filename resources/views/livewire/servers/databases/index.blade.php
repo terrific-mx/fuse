@@ -3,9 +3,10 @@
 use App\Models\Database;
 use App\Models\Server;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component
+new #[Title('Databases')] class extends Component
 {
     public Server $server;
 

@@ -6,10 +6,11 @@ use App\Models\Server;
 use App\Models\Site;
 use Flux\Flux;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 use Livewire\WithPagination;
 
-new class extends Component
+new #[Title('Deployments')] class extends Component
 {
     use WithPagination;
 

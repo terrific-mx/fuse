@@ -2,9 +2,10 @@
 
 use App\Models\Cronjob;
 use App\Models\Server;
+use Livewire\Attributes\Title;
 use Livewire\Volt\Component;
 
-new class extends Component
+new #[Title('Edit cronjob')] class extends Component
 {
     public Server $server;
 
