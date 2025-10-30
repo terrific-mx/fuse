@@ -50,7 +50,7 @@ new #[Title('Site details')] class extends Component
 
     <flux:heading size="xl">{{ $site->hostname }}</flux:heading>
 
-    <div class="isolate mt-2.5 flex flex-wrap justify-between gap-x-6 gap-y-4">
+    <div class="isolate mt-2.5 flex flex-wrap justify-between items-center gap-x-6 gap-y-4">
         <div class="flex flex-wrap gap-x-10 gap-y-4 py-1.5">
             <flux:text variant="strong" class="flex items-center gap-3" inline>
                 <flux:icon.server variant="micro" class="fill-zinc-400 dark:fill-zinc-500" />
@@ -65,10 +65,9 @@ new #[Title('Site details')] class extends Component
                 PHP {{ $site->php_version }}
             </flux:text>
         </div>
-        <div class="-my-1 flex flex-wrap gap-4">
+        <div class="flex flex-wrap gap-4">
             <flux:dropdown align="end">
                 <flux:button icon:trailing="chevron-down">Actions</flux:button>
-
                 <flux:menu>
                     <flux:menu.item :href="route('servers.sites.files', [$server, $site])" wire:navigate>
                         Edit files
