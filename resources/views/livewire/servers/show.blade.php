@@ -72,7 +72,9 @@ new #[Title('Server details')] class extends Component
 
     <div class="flex items-end justify-between gap-4">
         <flux:heading size="lg">Sites</flux:heading>
-        <flux:button :href="route('servers.sites.index', $server)" class="-my-2" wire:navigate>View</flux:button>
+        <flux:link :href="route('servers.sites.index', $server)" :accent="false" class="text-sm" wire:navigate>
+            See all
+        </flux:link>
     </div>
 
     <flux:spacer class="mt-4" />
@@ -116,9 +118,14 @@ new #[Title('Server details')] class extends Component
         <div>
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="lg">Databases</flux:heading>
-                <flux:button :href="route('servers.databases.index', $server)" class="-my-2" wire:navigate>
-                    View
-                </flux:button>
+                <flux:link
+                    :href="route('servers.databases.index', $server)"
+                    :accent="false"
+                    class="text-sm"
+                    wire:navigate
+                >
+                    See all
+                </flux:link>
             </div>
             <flux:spacer class="mt-4" />
             @if ($this->databases->count())
@@ -145,9 +152,14 @@ new #[Title('Server details')] class extends Component
         <div>
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="lg">Cronjobs</flux:heading>
-                <flux:button :href="route('servers.cronjobs.index', $server)" class="-my-2" wire:navigate>
-                    View
-                </flux:button>
+                <flux:link
+                    :href="route('servers.cronjobs.index', $server)"
+                    :accent="false"
+                    class="text-sm"
+                    wire:navigate
+                >
+                    See all
+                </flux:link>
             </div>
             <flux:spacer class="mt-4" />
             @if ($this->cronjobs->count())
@@ -179,9 +191,14 @@ new #[Title('Server details')] class extends Component
         <div>
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="lg">Firewall Rules</flux:heading>
-                <flux:button :href="route('servers.firewall-rules.index', $server)" class="-my-2" wire:navigate>
-                    View
-                </flux:button>
+                <flux:link
+                    :href="route('servers.firewall-rules.index', $server)"
+                    :accent="false"
+                    class="text-sm"
+                    wire:navigate
+                >
+                    See all
+                </flux:link>
             </div>
             <flux:spacer class="mt-4" />
             @if ($this->firewallRules->count())
@@ -210,9 +227,14 @@ new #[Title('Server details')] class extends Component
         <div>
             <div class="flex items-end justify-between gap-4">
                 <flux:heading size="lg">Daemons</flux:heading>
-                <flux:button :href="route('servers.daemons.index', $server)" class="-my-2" wire:navigate>
-                    View
-                </flux:button>
+                <flux:link
+                    :href="route('servers.daemons.index', $server)"
+                    :accent="false"
+                    class="text-sm"
+                    wire:navigate
+                >
+                    See all
+                </flux:link>
             </div>
             <flux:spacer class="mt-4" />
             @if ($this->daemons->count())

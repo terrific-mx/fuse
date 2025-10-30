@@ -76,9 +76,14 @@ new #[Title('Site details')] class extends Component
 
     <div class="flex items-end justify-between gap-4">
         <flux:heading size="lg">Deployments</flux:heading>
-        <flux:button :href="route('servers.sites.deployments', [$server, $site])" class="-my-2" wire:navigate>
-            View
-        </flux:button>
+        <flux:link
+            :href="route('servers.sites.deployments', [$server, $site])"
+            :accent="false"
+            class="text-sm"
+            wire:navigate
+        >
+            See all
+        </flux:link>
     </div>
 
     <flux:spacer class="mt-4" />
