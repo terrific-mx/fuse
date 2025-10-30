@@ -106,7 +106,7 @@ new class extends Component
             </flux:table.rows>
         </flux:table>
     @else
-        <flux:callout variant="secondary" class="mt-2">No sites have been created for this server yet.</flux:callout>
+        <flux:callout variant="secondary">No sites have been created for this server yet.</flux:callout>
     @endif
 
     <flux:spacer class="mt-14" />
@@ -142,7 +142,7 @@ new class extends Component
                     </flux:table.rows>
                 </flux:table>
             @else
-                <flux:callout variant="secondary" class="mt-2">
+                <flux:callout variant="secondary">
                     <flux:callout.heading>No databases have been created for this server yet.</flux:callout.heading>
                 </flux:callout>
             @endif
@@ -175,7 +175,7 @@ new class extends Component
                     </flux:table.rows>
                 </flux:table>
             @else
-                <flux:callout variant="secondary" class="mt-2">
+                <flux:callout variant="secondary">
                     <flux:callout.heading>No cronjobs have been created for this server yet.</flux:callout.heading>
                 </flux:callout>
             @endif
@@ -210,7 +210,7 @@ new class extends Component
                     </flux:table.rows>
                 </flux:table>
             @else
-                <flux:callout variant="secondary" class="mt-2">
+                <flux:callout variant="secondary">
                     <flux:callout.heading>
                         No firewall rules have been created for this server yet.
                     </flux:callout.heading>
@@ -245,7 +245,7 @@ new class extends Component
                     </flux:table.rows>
                 </flux:table>
             @else
-                <flux:callout variant="secondary" class="mt-2">
+                <flux:callout variant="secondary">
                     <flux:callout.heading>No daemons have been created for this server yet.</flux:callout.heading>
                 </flux:callout>
             @endif
