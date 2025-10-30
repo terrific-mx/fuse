@@ -53,9 +53,7 @@ new #[Title('Sites')] class extends Component
         <flux:table>
             <flux:table.columns>
                 <flux:table.column>Hostname</flux:table.column>
-                <flux:table.column>PHP version</flux:table.column>
-                <flux:table.column>Repository URL</flux:table.column>
-                <flux:table.column>Repository Branch</flux:table.column>
+                <flux:table.column>Repository</flux:table.column>
             </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->sites as $site)
@@ -68,9 +66,14 @@ new #[Title('Sites')] class extends Component
                             ></a>
                             {{ $site->hostname }}
                         </flux:table.cell>
-                        <flux:table.cell>{{ $site->php_version }}</flux:table.cell>
-                        <flux:table.cell>{{ $site->repository_url }}</flux:table.cell>
-                        <flux:table.cell>{{ $site->repository_branch }}</flux:table.cell>
+                        <flux:table.cell class="relative">
+                            <a
+                                href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}"
+                                class="absolute inset-0"
+                                wire:navigate
+                            ></a>
+                            {{ $site->repository_url }}
+                        </flux:table.cell>
                     </flux:table.row>
                 @endforeach
             </flux:table.rows>
