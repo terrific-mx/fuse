@@ -20,21 +20,33 @@ new class extends Component
     }
 }; ?>
 
-<div wire:poll class="space-y-8">
-    <header class="flex items-center -mt-6 lg:-mt-8">
-        <flux:heading size="lg">{{ $server->name }}</flux:heading>
+<div wire:poll>
+    <flux:breadcrumbs>
+        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>
+            Servers
+        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
+            {{ $server->name }}
+        </flux:breadcrumbs.item>
+        <flux:breadcrumbs.item :href="route('servers.daemons.index', $server)" wire:navigate>
+            Daemons
+        </flux:breadcrumbs.item>
+    </flux:breadcrumbs>
+
+    <flux:spacer class="mt-8" />
+
+    <header class="flex items-center">
+        <flux:heading size="xl">Daemons</flux:heading>
         <flux:spacer />
-        @include('partials.server-navbar')
+        <flux:button :href="route('servers.daemons.create', $server)" variant="primary" color="zinc" wire:navigate>
+            Add daemon
+        </flux:button>
     </header>
 
-    <section class="mt-12">
-        <div class="flex justify-between items-center">
-            <flux:heading size="xl">Daemons</flux:heading>
-            <flux:button :href="route('servers.daemons.create', $server)" variant="primary" size="sm" color="zinc">Add daemon</flux:button>
-        </div>
+    <flux:spacer class="mt-8" />
 
-        <div class="mt-4">
-            <flux:table :paginate="$this->daemons">
+    <div>
+        <flux:table :paginate="$this->daemons">
             <flux:table.columns>
                 <flux:table.column>Command</flux:table.column>
                 <flux:table.column>Directory</flux:table.column>
@@ -47,17 +59,16 @@ new class extends Component
             <flux:table.rows>
                 @foreach ($this->daemons as $daemon)
                     <flux:table.row :key="$daemon->id">
-                        <flux:table.cell>{{ $daemon->command }}</flux:table.cell>
+                        <flux:table.cell variant="strong">{{ $daemon->command }}</flux:table.cell>
                         <flux:table.cell>{{ $daemon->directory }}</flux:table.cell>
                         <flux:table.cell>{{ $daemon->user }}</flux:table.cell>
                         <flux:table.cell>{{ $daemon->processes }}</flux:table.cell>
                         <flux:table.cell>{{ $daemon->stop_wait_seconds }}</flux:table.cell>
                         <flux:table.cell>{{ $daemon->stop_signal }}</flux:table.cell>
-                        <flux:table.cell>{{ $daemon->status }}</flux:table.cell>
+                        <flux:table.cell>{{ ucfirst($daemon->status) }}</flux:table.cell>
                     </flux:table.row>
                 @endforeach
             </flux:table.rows>
         </flux:table>
-        </div>
-    </section>
+    </div>
 </div>

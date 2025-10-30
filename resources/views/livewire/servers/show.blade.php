@@ -169,7 +169,7 @@ new class extends Component
                     <flux:table.rows>
                         @foreach ($this->cronjobs as $cronjob)
                             <flux:table.row :key="$cronjob->id">
-                                <flux:table.cell class="max-w-xs truncate">{{ $cronjob->command }}</flux:table.cell>
+                                <flux:table.cell variant="strong" class="max-w-xs truncate">{{ $cronjob->command }}</flux:table.cell>
                             </flux:table.row>
                         @endforeach
                     </flux:table.rows>
