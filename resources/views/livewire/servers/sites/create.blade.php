@@ -94,21 +94,39 @@ EOT,
 
     <flux:spacer class="mt-8" />
 
-    <form wire:submit="save" class="mx-auto max-w-lg space-y-6">
+    <form wire:submit="save">
         <flux:heading size="xl">Add site</flux:heading>
 
-        <flux:input wire:model="hostname" label="Hostname" required />
+        <flux:separator class="my-10 mt-6" />
 
-        <flux:select wire:model="php_version" label="PHP version" required>
-            <flux:select.option></flux:select.option>
-            <flux:select.option value="8.4">8.4</flux:select.option>
-            <flux:select.option value="8.3">8.3</flux:select.option>
-            <flux:select.option value="8.2">8.2</flux:select.option>
-            <flux:select.option value="8.1">8.1</flux:select.option>
-        </flux:select>
+        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div>
+                <flux:heading>Site details</flux:heading>
+            </div>
+            <div class="space-y-6">
+                <flux:field>
+                    <flux:input wire:model="hostname" label="Hostname" required />
+                    <flux:error name="hostname" />
+                </flux:field>
+                <flux:field>
+                    <flux:select wire:model="php_version" label="PHP version" required>
+                        <flux:select.option></flux:select.option>
+                        <flux:select.option value="8.4">8.4</flux:select.option>
+                        <flux:select.option value="8.3">8.3</flux:select.option>
+                        <flux:select.option value="8.2">8.2</flux:select.option>
+                        <flux:select.option value="8.1">8.1</flux:select.option>
+                    </flux:select>
+                    <flux:error name="php_version" />
+                </flux:field>
+            </div>
+        </section>
 
-        <flux:fieldset>
-            <flux:legend class="text-sm">Repository</flux:legend>
+        <flux:separator variant="subtle" class="my-10" />
+
+        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
+            <div>
+                <flux:heading>Repository</flux:heading>
+            </div>
             <div class="space-y-6">
                 <flux:callout variant="secondary">
                     <flux:callout.heading icon="information-circle">Repository access required</flux:callout.heading>
@@ -121,13 +139,20 @@ EOT,
                         <flux:input icon="key" value="{{ $server->public_ssh_key }}" readonly copyable />
                     </x-slot>
                 </flux:callout>
-                <flux:input wire:model="repository_url" label="Repository URL" />
-                <flux:input wire:model="repository_branch" label="Repository Branch" />
+                <flux:field>
+                    <flux:input wire:model="repository_url" label="Repository URL" required />
+                    <flux:error name="repository_url" />
+                </flux:field>
+                <flux:field>
+                    <flux:input wire:model="repository_branch" label="Repository Branch" required />
+                    <flux:error name="repository_branch" />
+                </flux:field>
             </div>
-        </flux:fieldset>
+        </section>
 
-        <div class="flex">
-            <flux:spacer />
+        <flux:separator variant="subtle" class="my-10" />
+
+        <div class="flex justify-end gap-4">
             <flux:button :href="route('servers.sites.index', $server)" variant="ghost" wire:navigate>
                 Cancel
             </flux:button>
