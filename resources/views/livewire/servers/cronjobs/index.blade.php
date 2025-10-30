@@ -58,22 +58,40 @@ new class extends Component
             </flux:table.columns>
             <flux:table.rows>
                 @foreach ($this->cronjobs as $cronjob)
-                    <flux:table.row :key="$cronjob->id">
-                        <flux:table.cell>{{ $cronjob->command }}</flux:table.cell>
-                        <flux:table.cell>
+                    <flux:table.row :key="$cronjob->id" class="hover:bg-zinc-950/2.5 dark:hover:bg-white/2.5">
+                        <flux:table.cell class="relative">
+                            <a
+                                href="{{ route('servers.cronjobs.edit', [$server, $cronjob]) }}"
+                                class="absolute inset-0"
+                                wire:navigate
+                            ></a>
+                            {{ $cronjob->command }}
+                        </flux:table.cell>
+                        <flux:table.cell class="relative">
+                            <a
+                                href="{{ route('servers.cronjobs.edit', [$server, $cronjob]) }}"
+                                class="absolute inset-0"
+                                wire:navigate
+                            ></a>
                             {{ $cronjob->frequency === 'custom' ? $cronjob->custom_expression : str_replace('_', ' ', ucfirst($cronjob->frequency)) }}
                         </flux:table.cell>
-                        <flux:table.cell>{{ $cronjob->user }}</flux:table.cell>
-                        <flux:table.cell>{{ ucfirst($cronjob->status) }}</flux:table.cell>
+                        <flux:table.cell class="relative">
+                            <a
+                                href="{{ route('servers.cronjobs.edit', [$server, $cronjob]) }}"
+                                class="absolute inset-0"
+                                wire:navigate
+                            ></a>
+                            {{ $cronjob->user }}
+                        </flux:table.cell>
+                        <flux:table.cell class="relative">
+                            <a
+                                href="{{ route('servers.cronjobs.edit', [$server, $cronjob]) }}"
+                                class="absolute inset-0"
+                                wire:navigate
+                            ></a>
+                            {{ ucfirst($cronjob->status) }}
+                        </flux:table.cell>
                         <flux:table.cell align="end">
-                            <flux:button
-                                :href="route('servers.cronjobs.edit', [$server, $cronjob])"
-                                variant="subtle"
-                                size="sm"
-                                class="mr-2"
-                            >
-                                Edit
-                            </flux:button>
                             <flux:button
                                 wire:confirm="Are you sure you want to delete this cronjob?"
                                 wire:click="delete({{ $cronjob->id }})"
@@ -91,4 +109,3 @@ new class extends Component
         </flux:table>
     </div>
 </div>
-
