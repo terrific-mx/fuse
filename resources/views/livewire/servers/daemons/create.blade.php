@@ -56,87 +56,61 @@ new #[Title('Create daemon')] class extends Component
     }
 }; ?>
 
-<div>
-    <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.index', $server)" wire:navigate>Servers</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
-            {{ $server->name }}
-        </flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.daemons.index', $server)" wire:navigate>
-            Daemons
-        </flux:breadcrumbs.item>
-    </flux:breadcrumbs>
+<div class="max-w-[512px] mx-auto">
+    <flux:link :href="route('servers.daemons.index', $server)" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+        <flux:icon.chevron-left variant="micro" />
+        Daemons
+    </flux:link>
 
-    <flux:spacer class="mt-8" />
+    <flux:spacer class="mt-4 lg:mt-8" />
 
     <form wire:submit="create">
-        <flux:heading size="xl">Create Daemon</flux:heading>
+        <flux:heading class="text-xl">Create daemon</flux:heading>
 
-        <flux:separator class="my-10 mt-6" />
+        <flux:spacer class="mt-10" />
 
-        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-            <div>
-                <flux:heading>Daemon details</flux:heading>
-            </div>
-            <div class="space-y-6">
-                <flux:field>
-                    <flux:input wire:model="command" placeholder="Command" required autofocus />
-                    <flux:error name="command" />
-                </flux:field>
+        <div class="space-y-6">
+            <flux:field>
+                <flux:input wire:model="command" label="Command" required autofocus />
+                <flux:error name="command" />
+            </flux:field>
+            <flux:field>
+                <flux:input wire:model="directory" label="Directory (optional)" />
+                <flux:error name="directory" />
+            </flux:field>
+            <flux:field>
+                <flux:input wire:model="user" label="User" required />
+                <flux:error name="user" />
+            </flux:field>
+            <flux:field>
+                <flux:input wire:model="processes" label="Processes" type="number" min="1" required />
+                <flux:error name="processes" />
+            </flux:field>
+            <flux:field>
+                <flux:input
+                    wire:model="stop_wait_seconds"
+                    label="Stop wait seconds"
+                    type="number"
+                    min="0"
+                    required
+                />
+                <flux:error name="stop_wait_seconds" />
+            </flux:field>
+            <flux:field>
+                <flux:select wire:model.live="stop_signal" label="Stop signal" required placeholder="Select a signal...">
+                    @foreach ($signals as $signal)
+                        <flux:select.option value="{{ $signal }}">{{ $signal }}</flux:select.option>
+                    @endforeach
+                </flux:select>
+                <flux:error name="stop_signal" />
+            </flux:field>
+        </div>
 
-                <flux:field>
-                    <flux:input wire:model="directory" placeholder="Directory (optional)" />
-                    <flux:error name="directory" />
-                </flux:field>
+        <flux:spacer class="mt-8" />
 
-                <flux:field>
-                    <flux:input wire:model="user" placeholder="User" required />
-                    <flux:error name="user" />
-                </flux:field>
-            </div>
-        </section>
-
-        <flux:separator variant="subtle" class="my-10" />
-
-        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-            <div>
-                <flux:heading>Process settings</flux:heading>
-            </div>
-            <div class="space-y-6">
-                <flux:field>
-                    <flux:input wire:model="processes" placeholder="Processes" type="number" min="1" required />
-                    <flux:error name="processes" />
-                </flux:field>
-
-                <flux:field>
-                    <flux:input
-                        wire:model="stop_wait_seconds"
-                        placeholder="Stop Wait Seconds"
-                        type="number"
-                        min="0"
-                        required
-                    />
-                    <flux:error name="stop_wait_seconds" />
-                </flux:field>
-
-                <flux:field>
-                    <flux:select wire:model.live="stop_signal" required placeholder="Select a signal...">
-                        @foreach ($signals as $signal)
-                            <flux:select.option value="{{ $signal }}">{{ $signal }}</flux:select.option>
-                        @endforeach
-                    </flux:select>
-                    <flux:error name="stop_signal" />
-                </flux:field>
-            </div>
-        </section>
-
-        <flux:separator variant="subtle" class="my-10" />
-
-        <div class="flex justify-end gap-4">
-            <flux:button :href="route('servers.daemons.index', $server)" variant="ghost" wire:navigate>
-                Cancel
-            </flux:button>
-            <flux:button type="submit" variant="primary" color="zinc">Create Daemon</flux:button>
+        <div class="flex flex-col gap-4">
+            <flux:button type="submit" variant="primary" color="zinc" class="w-full">Create daemon</flux:button>
         </div>
     </form>
 </div>
+

@@ -32,47 +32,35 @@ new class extends Component
     }
 }; ?>
 
-<div>
-    <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('ssh-keys.index')" wire:navigate>
-            SSH Keys
-        </flux:breadcrumbs.item>
-    </flux:breadcrumbs>
+<div class="max-w-[512px] mx-auto">
+    <flux:link :href="route('ssh-keys.index')" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+        <flux:icon.chevron-left variant="micro" />
+        SSH keys
+    </flux:link>
 
-    <flux:spacer class="mt-8" />
+    <flux:spacer class="mt-4 lg:mt-8" />
 
     <form wire:submit="save">
-        <flux:heading size="xl">Add SSH key</flux:heading>
+        <flux:heading class="text-xl">Add SSH key</flux:heading>
 
-        <flux:separator class="my-10 mt-6" />
+        <flux:spacer class="mt-10" />
 
-        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-            <div>
-                <flux:label>Public key</flux:label>
-            </div>
-            <div>
-                <flux:textarea wire:model="public_key" rows="2" required />
+        <div class="space-y-6">
+            <flux:field>
+                <flux:textarea wire:model="public_key" label="Public key" rows="2" required />
                 <flux:error name="public_key" />
-            </div>
-        </section>
-
-        <flux:separator variant="subtle" class="my-10" />
-
-        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-            <div>
-                <flux:label>Name</flux:label>
-            </div>
-            <div>
-                <flux:input wire:model="name" required />
+            </flux:field>
+            <flux:field>
+                <flux:input wire:model="name" label="Name" required />
                 <flux:error name="name" />
-            </div>
-        </section>
+            </flux:field>
+        </div>
 
-        <flux:separator variant="subtle" class="my-10" />
+        <flux:spacer class="mt-8" />
 
-        <div class="flex justify-end gap-4">
-            <flux:button :href="route('ssh-keys.index')" variant="ghost" wire:navigate>Cancel</flux:button>
-            <flux:button type="submit" variant="primary" color="zinc">Add SSH key</flux:button>
+        <div class="flex flex-col gap-4">
+            <flux:button type="submit" variant="primary" color="zinc" class="w-full">Add SSH key</flux:button>
         </div>
     </form>
 </div>
+

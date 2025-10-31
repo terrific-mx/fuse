@@ -38,43 +38,31 @@ new #[Title('Create database')] class extends Component
     }
 }; ?>
 
-<div>
-    <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.index', $server)" wire:navigate>Servers</flux:breadcrumbs.item>
+<div class="max-w-[512px] mx-auto">
+    <flux:link :href="route('servers.databases.index', $server)" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+        <flux:icon.chevron-left variant="micro" />
+        Databases
+    </flux:link>
 
-        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
-            {{ $server->name }}
-        </flux:breadcrumbs.item>
-
-        <flux:breadcrumbs.item :href="route('servers.databases.index', $server)" wire:navigate>
-            Databases
-        </flux:breadcrumbs.item>
-    </flux:breadcrumbs>
-
-    <flux:spacer class="mt-8" />
+    <flux:spacer class="mt-4 lg:mt-8" />
 
     <form wire:submit="create">
-        <flux:heading size="xl">Create Database</flux:heading>
+        <flux:heading class="text-xl">Create database</flux:heading>
 
-        <flux:separator class="my-10 mt-6" />
+        <flux:spacer class="mt-10" />
 
-        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-            <div>
-                <flux:label>Database Name</flux:label>
-            </div>
-            <div>
-                <flux:input wire:model="name" required autofocus />
+        <div class="space-y-6">
+            <flux:field>
+                <flux:input wire:model="name" label="Database name" required autofocus />
                 <flux:error name="name" />
-            </div>
-        </section>
+            </flux:field>
+        </div>
 
-        <flux:separator variant="subtle" class="my-10" />
+        <flux:spacer class="mt-8" />
 
-        <div class="flex justify-end gap-4">
-            <flux:button :href="route('servers.databases.index', $server)" variant="ghost" wire:navigate>
-                Cancel
-            </flux:button>
-            <flux:button type="submit" variant="primary" color="zinc">Create Database</flux:button>
+        <div class="flex flex-col gap-4">
+            <flux:button type="submit" variant="primary" color="zinc" class="w-full">Create database</flux:button>
         </div>
     </form>
 </div>
+
