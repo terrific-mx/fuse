@@ -20,8 +20,9 @@
 
             <flux:navbar class="-mb-px max-lg:hidden">
                 @auth
-                    <flux:navbar.item :href="route('servers.index')" :accent="false" wire:navigate>{{ __('Servers') }}</flux:navbar.item>
-                    <flux:navbar.item :href="route('ssh-keys.index')" :accent="false" wire:navigate>{{ __('SSH keys') }}</flux:navbar.item>
+                    <flux:navbar.item :href="route('dashboard')" :accent="false" wire:navigate>Home</flux:navbar.item>
+                    <flux:navbar.item :href="route('servers.index')" :accent="false" wire:navigate>Servers</flux:navbar.item>
+                    <flux:navbar.item :href="route('ssh-keys.index')" :accent="false" wire:navigate>SSH keys</flux:navbar.item>
                 @else
                     <flux:navbar.item :href="route('pricing')" wire:navigate>Pricing</flux:navbar.item>
                     <flux:navbar.item href="https://github.com/antihq/fuse">Github</flux:navbar.item>
@@ -34,7 +35,7 @@
             @auth
                 <flux:dropdown position="top" align="end">
                     <flux:button size="sm" variant="ghost" square>
-                        <flux:avatar size="xs" :name="Auth::user()->name" color="auto" :color:seed="Auth::user()->id" />
+                        <flux:avatar size="xs" :name="Auth::user()->name" color="auto" initials:single />
                     </flux:button>
 
                     <flux:menu>
@@ -70,6 +71,7 @@
 
             <flux:sidebar.nav>
                 @auth
+                    <flux:sidebar.item :href="route('dashboard')" :accent="false" wire:navigate>{{ __('Home') }}</flux:sidebar.item>
                     <flux:sidebar.item :href="route('servers.index')" :accent="false" wire:navigate>{{ __('Servers') }}</flux:sidebar.item>
                     <flux:sidebar.item :href="route('ssh-keys.index')" :accent="false" wire:navigate>{{ __('SSH keys') }}</flux:sidebar.item>
                 @else
