@@ -45,8 +45,8 @@ new #[Title('Server details')] class extends Component
     }
 }; ?>
 
-<div>
-    <flux:heading size="xl">{{ $server->name }}</flux:heading>
+<div class="max-w-4xl mx-auto">
+    <flux:heading class="text-xl">{{ $server->name }}</flux:heading>
 
     <div class="isolate mt-2.5 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
         <div class="flex flex-wrap gap-x-10 gap-y-4">

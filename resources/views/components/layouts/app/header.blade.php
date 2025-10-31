@@ -4,17 +4,16 @@
         @include('partials.head')
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:header container class="border-b border-zinc-200 dark:border-zinc-700">
-            <flux:brand :href="route('home')" :name="config('app.name')">
-                <x-slot:logo>
-                    <x-logo class="h-6" />
-                </x-slot:logo>
-            </flux:brand>
+        <flux:header class="bg-zinc-25 border-b border-zinc-200 dark:border-zinc-700">
+            <a href="{{ route('home') }}" class="mr-5">
+                <x-logo class="h-6" />
+            </a>
 
             <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
 
             @auth
                 <livewire:organizations-dropdown />
+                <flux:separator vertical class="my-5 mx-1" />
             @endauth
 
             <flux:navbar class="-mb-px max-lg:hidden">
@@ -106,7 +105,7 @@
 
         {{ $slot }}
 
-        <flux:footer container>
+        <flux:footer class="bg-zinc-25 border-t border-zinc-200 dark:border-zinc-700">
             <div>
                 <flux:text class="text-sm/6">
                     Built with
