@@ -1,5 +1,6 @@
 <?php
 
+use App\Jobs\DeploySite;
 use App\Models\Server;
 use App\Models\Site;
 use Livewire\Attributes\Computed;
@@ -8,18 +9,14 @@ use Livewire\Volt\Component;
 
 new #[Title('Site details')] class extends Component
 {
-    public function triggerDeployment(): void
-    {
-        $deployment = $this->site->deployments()->create([
-            'status' => 'pending',
-            'triggered_by' => $this->site->server->organization->user->id,
-        ]);
-        \App\Jobs\DeploySite::dispatch($deployment);
-    }
-
     public Server $server;
 
     public Site $site;
+
+    public function mount()
+    {
+        $this->authorize('view', $this->site);
+    }
 
     #[Computed]
     public function deployments()
@@ -31,9 +28,14 @@ new #[Title('Site details')] class extends Component
             ->get();
     }
 
-    public function mount()
+    public function triggerDeployment(): void
     {
-        $this->authorize('view', $this->site);
+        $deployment = $this->site->deployments()->create([
+            'status' => 'pending',
+            'triggered_by' => $this->site->server->organization->user->id,
+        ]);
+
+        DeploySite::dispatch($deployment);
     }
 }; ?>
 
@@ -52,7 +54,7 @@ new #[Title('Site details')] class extends Component
         <flux:table.rows>
             @foreach ($this->deployments as $deployment)
                 <flux:table.row :key="$deployment->id">
-                    <flux:table.cell>
+                    <flux:table.cell variant="strong" class="w-full">
                         {{ $deployment->short_commit ?? '—' }}
                     </flux:table.cell>
                     <flux:table.cell>
@@ -64,7 +66,7 @@ new #[Title('Site details')] class extends Component
                         {{ $deployment->triggeredBy?->name ?? '—' }}
                     </flux:table.cell>
                     <flux:table.cell>
-                        {{ $deployment->created_at->format('Y-m-d H:i') }}
+                        {{ $deployment->created_at->diffForHumans() }}
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach
