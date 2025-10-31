@@ -31,14 +31,14 @@ new #[Title('Databases')] class extends Component
 
 <x-layouts.server :server="$server">
     <header class="flex items-center">
-        <flux:heading class="text-lg!">Databases</flux:heading>
+        <flux:heading class="text-lg!">All databases</flux:heading>
         <flux:spacer />
         <flux:button :href="route('servers.databases.create', $server)" variant="primary" color="zinc" size="sm" icon="plus" wire:navigate>
             New database
         </flux:button>
     </header>
 
-    <flux:spacer class="mt-8" />
+    <flux:separator class="mt-6" />
 
     <flux:table :paginate="$this->databases">
         <flux:table.rows>
