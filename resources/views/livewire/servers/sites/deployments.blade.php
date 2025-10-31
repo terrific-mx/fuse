@@ -52,40 +52,23 @@ new #[Title('Deployments')] class extends Component
     }
 }; ?>
 
-<div>
-    <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
-            {{ $server->name }}
-        </flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.sites.index', $server)" wire:navigate>Sites</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.sites.show', [$server, $site])" wire:navigate>
-            {{ $site->hostname }}
-        </flux:breadcrumbs.item>
-    </flux:breadcrumbs>
+<x-layouts.site :site="$site" :server="$server">
+    <header class="flex items-center">
+        <flux:heading size="lg">Deployments</flux:heading>
+        <flux:spacer />
+        <flux:button wire:click="triggerDeployment" variant="primary" color="zinc" size="sm" icon="cloud-arrow-up" class="-my-1">
+            Deploy
+        </flux:button>
+    </header>
 
-    <flux:spacer class="mt-8" />
-
-    <div class="flex items-end justify-between gap-4">
-        <flux:heading size="xl">Deployments</flux:heading>
-        <flux:button wire:click="triggerDeployment" variant="primary" color="zinc" class="-my-1">Deploy</flux:button>
-    </div>
-
-    <flux:spacer class="mt-8" />
+    <flux:separator class="mt-3" />
 
     <flux:table :paginate="$this->deployments" wire:poll>
-        <flux:table.columns>
-            <flux:table.column>Deployed At</flux:table.column>
-            <flux:table.column>Triggered By</flux:table.column>
-            <flux:table.column>Commit</flux:table.column>
-            <flux:table.column>Status</flux:table.column>
-            <flux:table.column />
-        </flux:table.columns>
         <flux:table.rows>
             @foreach ($this->deployments as $deployment)
                 <flux:table.row :key="$deployment->id">
                     <flux:table.cell variant="strong" class="tabular-nums">
-                        {{ $deployment->created_at?->format('Y-m-d H:i') }}
+                        {{ $deployment->created_at?->diffForHumans() }}
                     </flux:table.cell>
                     <flux:table.cell>
                         {{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}
@@ -120,7 +103,7 @@ new #[Title('Deployments')] class extends Component
             <div class="space-y-6">
                 <div>
                     <flux:heading size="lg">
-                        {{ $selectedDeployment->created_at->format('Y-m-d H:i') }}
+                        {{ $selectedDeployment->created_at->diffForHumans() }}
                     </flux:heading>
                     <flux:text class="mt-2">Below is the log output for this deployment.</flux:text>
                 </div>
