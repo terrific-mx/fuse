@@ -12,5 +12,5 @@ it('redirects guests to the login page', function () {
 it('allows authenticated users to visit the dashboard', function () {
     $user = User::factory()->withPersonalOrganizationAndSubscription()->create();
 
-    actingAs($user)->get('/dashboard')->assertRedirect();
+    actingAs($user)->get('/dashboard')->assertOk();
 });
