@@ -40,22 +40,24 @@ new #[Title('Servers')] class extends Component
         <flux:table.rows>
             @foreach ($this->servers as $server)
                 <flux:table.row :key="$server->id">
-                    <flux:table.cell>
+                    <flux:table.cell class="w-full">
                         <div class="flex items-center gap-3">
                             <flux:avatar :name="strtoupper($server->name)" size="xs" color="auto" initials:single :color:seed="$server->id" />
                             <flux:link :href="route('servers.show', $server)" :accent="false" wire:navigate>{{ $server->name }}</flux:link>
-                            <flux:badge
-                                :color="$server->status_color"
-                                size="sm"
-                                inset="top bottom"
-                                @class(['animate-pulse' => $server->is_provisioning])
-                            >
-                                {{ $server->status_formatted }}
-                            </flux:badge>
                         </div>
                     </flux:table.cell>
+                    <flux:table.cell align="end">
+                        <flux:badge
+                            :color="$server->status_color"
+                            size="sm"
+                            inset="top bottom"
+                            @class(['animate-pulse' => $server->is_provisioning])
+                        >
+                            {{ $server->status_formatted }}
+                        </flux:badge>
+                    </flux:table.cell>
                     <flux:table.cell align="end" class="text-xs">
-                        <span>{{ $server->created_at->format('M d') }}</span>
+                        {{ $server->created_at->format('M d') }}
                     </flux:table.cell>
                 </flux:table.row>
             @endforeach
