@@ -3,9 +3,12 @@
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Volt\Component;
+use Livewire\WithPagination;
 
 new class extends Component
 {
+    use WithPagination;
+
     #[Computed]
     public function organization()
     {
@@ -15,43 +18,38 @@ new class extends Component
     #[Computed]
     public function sshKeys()
     {
-        return $this->organization->sshKeys()->latest()->get();
+        return $this->organization->sshKeys()->orderByDesc('created_at')->paginate(10);
     }
 }; ?>
 
-<div>
+<div class="max-w-3xl mx-auto">
     <header class="flex items-center">
-        <flux:heading size="xl">SSH Keys</flux:heading>
+        <flux:heading class="text-xl">All SSH keys</flux:heading>
         <flux:spacer />
-        <flux:button :href="route('ssh-keys.create')" variant="primary" color="zinc" wire:navigate>
-            New SSH Key
+        <flux:button :href="route('ssh-keys.create')" variant="primary" color="zinc" size="sm" icon="plus" wire:navigate>
+            New SSH key
         </flux:button>
     </header>
 
-    <flux:spacer class="mt-8" />
+    <flux:separator class="mt-6" />
 
-    <div>
-        <flux:table>
-            <flux:table.columns>
-                <flux:table.column>Name</flux:table.column>
-                <flux:table.column>Public key</flux:table.column>
-            </flux:table.columns>
-            <flux:table.rows>
-                @foreach ($this->sshKeys as $key)
-                    <flux:table.row :key="$key->id">
-                        <flux:table.cell>
-                            <flux:link :href="route('ssh-keys.edit', $key)" wire:navigate>
-                                {{ $key->name }}
-                            </flux:link>
-                        </flux:table.cell>
-                        <flux:table.cell>
-                            <div class="max-w-xs">
-                                <p class="truncate">{{ $key->masked_public_key }}</p>
-                            </div>
-                        </flux:table.cell>
-                    </flux:table.row>
-                @endforeach
-            </flux:table.rows>
-        </flux:table>
-    </div>
+    <flux:table :paginate="$this->sshKeys">
+        <flux:table.rows>
+            @foreach ($this->sshKeys as $key)
+                <flux:table.row :key="$key->id">
+                    <flux:table.cell class="w-full">
+                        <flux:link :href="route('ssh-keys.edit', $key)" :accent="false" wire:navigate>{{ $key->name }}</flux:link>
+                    </flux:table.cell>
+                    <flux:table.cell>
+                        <div class="max-w-xs text-xs">
+                            <p class="truncate">{{ $key->masked_public_key }}</p>
+                        </div>
+                    </flux:table.cell>
+                    <flux:table.cell align="end" class="text-xs">
+                        {{ $key->created_at->format('M d') }}
+                    </flux:table.cell>
+                </flux:table.row>
+            @endforeach
+        </flux:table.rows>
+    </flux:table>
 </div>
