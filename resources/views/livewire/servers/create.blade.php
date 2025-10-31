@@ -65,7 +65,14 @@ new #[Title('Add server')] class extends Component
     }
 }; ?>
 
-<div class="max-w-[512px] mx-auto pt-8">
+<div class="max-w-[512px] mx-auto">
+    <flux:link :href="route('servers.index')" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+        <flux:icon.chevron-left variant="micro" />
+        Servers
+    </flux:link>
+
+    <flux:spacer class="mt-4 lg:mt-8" />
+
     <form wire:submit="save">
         <flux:heading class="text-xl">Add a server</flux:heading>
 

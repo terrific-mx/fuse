@@ -13,39 +13,23 @@ new #[Title('Server passwords')] class extends Component
     }
 }; ?>
 
-<div>
-    <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
-            {{ $server->name }}
-        </flux:breadcrumbs.item>
-    </flux:breadcrumbs>
+<div class="max-w-[512px] mx-auto">
+    <flux:link :href="route('servers.show', $server)" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+        <flux:icon.chevron-left variant="micro" />
+        {{ $server->name }}
+    </flux:link>
 
-    <flux:spacer class="mt-8" />
+    <flux:spacer class="mt-4 lg:mt-8" />
 
     <div>
-        <flux:heading size="xl">Passwords</flux:heading>
+        <flux:heading class="text-xl">Passwords</flux:heading>
 
-        <flux:separator class="my-10 mt-6" />
+        <flux:spacer class="mt-8" />
 
-        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-            <div>
-                <flux:heading>Sudo password</flux:heading>
-            </div>
-            <div>
-                <flux:input :value="$server->sudo_password" type="password" readonly copyable viewable />
-            </div>
-        </section>
+        <div class="space-y-6">
+            <flux:input :value="$server->sudo_password" label="Sudo password" type="password" readonly copyable viewable />
 
-        <flux:separator variant="subtle" class="my-10" />
-
-        <section class="grid gap-x-8 gap-y-6 sm:grid-cols-2">
-            <div>
-                <flux:heading>Database password</flux:heading>
-            </div>
-            <div>
-                <flux:input :value="$server->database_password" type="password" readonly copyable viewable />
-            </div>
-        </section>
+            <flux:input :value="$server->database_password" label="Database password" type="password" readonly copyable viewable />
+        </div>
     </div>
 </div>
