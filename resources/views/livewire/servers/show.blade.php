@@ -46,13 +46,22 @@ new #[Title('Server details')] class extends Component
                 @foreach ($this->sites as $site)
                     <flux:table.row :key="$site->id">
                         <flux:table.cell class="w-full">
-                            <flux:link
-                                href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}"
-                                :accent="false"
-                                wire:navigate
-                            >
-                                {{ $site->hostname }}
-                            </flux:link>
+                            <div class="flex items-center gap-3">
+                                <flux:avatar
+                                    :name="strtoupper($site->hostname)"
+                                    size="xs"
+                                    color="auto"
+                                    initials:single
+                                    :color:seed="$site->id"
+                                />
+                                <flux:link
+                                    href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}"
+                                    :accent="false"
+                                    wire:navigate
+                                >
+                                    {{ $site->hostname }}
+                                </flux:link>
+                            </div>
                         </flux:table.cell>
                         <flux:table.cell align="end">
                             {{ $site->repository_url }}
