@@ -83,6 +83,9 @@ new #[Title('Deployments')] class extends Component
             {{ $deployment->status_formatted }}
         </flux:badge>
     </flux:table.cell>
+    <flux:table.cell>
+        {{ $deployment->created_at?->diffForHumans() }}
+    </flux:table.cell>
     <flux:table.cell align="end">
         <flux:button
             wire:click="showDeployment({{ $deployment->id }})"
@@ -91,9 +94,6 @@ new #[Title('Deployments')] class extends Component
             icon="ellipsis-horizontal"
             inset="top bottom"
         ></flux:button>
-    </flux:table.cell>
-    <flux:table.cell>
-        {{ $deployment->created_at?->diffForHumans() }}
     </flux:table.cell>
 </flux:table.row>
             @endforeach
