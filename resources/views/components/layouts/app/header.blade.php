@@ -12,7 +12,7 @@
             </a>
 
             @auth
-                <div class="max-lg:hidden">
+                <div class="max-lg:hidden flex items-center h-full">
                     <livewire:organizations-dropdown />
                     <flux:separator vertical class="my-5 mx-1" />
                 </div>
