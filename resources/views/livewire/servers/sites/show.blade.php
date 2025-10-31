@@ -38,34 +38,17 @@ new #[Title('Site details')] class extends Component
 }; ?>
 
 <x-layouts.site :site="$site" :server="$server">
-    <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 mb-8">
-        <div></div>
-        <div class="flex flex-wrap gap-4">
-            <flux:button wire:click="triggerDeployment" variant="primary" color="zinc">Deploy</flux:button>
-        </div>
-    </div>
-
-    <div class="flex items-end justify-between gap-4">
+    <header class="flex items-center">
         <flux:heading size="lg">Deployments</flux:heading>
-        <flux:link
-            :href="route('servers.sites.deployments', [$server, $site])"
-            :accent="false"
-            class="text-sm"
-            wire:navigate
-        >
-            See all
-        </flux:link>
-    </div>
+        <flux:spacer />
+        <flux:button wire:click="triggerDeployment" variant="primary" color="zinc" size="sm" icon="cloud-arrow-up" class="-my-1">
+            Deploy
+        </flux:button>
+    </header>
 
-    <flux:spacer class="mt-4" />
+    <flux:separator class="mt-3" />
 
     <flux:table wire:poll>
-        <flux:table.columns>
-            <flux:table.column>Commit</flux:table.column>
-            <flux:table.column>Status</flux:table.column>
-            <flux:table.column>Triggered By</flux:table.column>
-            <flux:table.column>Created At</flux:table.column>
-        </flux:table.columns>
         <flux:table.rows>
             @foreach ($this->deployments as $deployment)
                 <flux:table.row :key="$deployment->id">
