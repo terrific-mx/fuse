@@ -56,7 +56,14 @@ new #[Title('Deployments')] class extends Component
     <header class="flex items-center">
         <flux:heading size="lg">Deployments</flux:heading>
         <flux:spacer />
-        <flux:button wire:click="triggerDeployment" variant="primary" color="zinc" size="sm" icon="cloud-arrow-up" class="-my-1">
+        <flux:button
+            wire:click="triggerDeployment"
+            variant="primary"
+            color="zinc"
+            size="sm"
+            icon="cloud-arrow-up"
+            class="-my-1"
+        >
             Deploy
         </flux:button>
     </header>
@@ -67,35 +74,35 @@ new #[Title('Deployments')] class extends Component
         <flux:table.rows>
             @foreach ($this->deployments as $deployment)
                 <flux:table.row :key="$deployment->id">
-    <flux:table.cell variant="strong" class="tabular-nums">
-        {{ $deployment->short_commit ?? '-' }}
-    </flux:table.cell>
-    <flux:table.cell>
-        {{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}
-    </flux:table.cell>
-    <flux:table.cell>
-        <flux:badge
-            :color="$deployment->status_color"
-            size="sm"
-            inset="top bottom"
-            @class(['animate-pulse' => $deployment->is_pending || $deployment->isDeploying()])
-        >
-            {{ $deployment->status_formatted }}
-        </flux:badge>
-    </flux:table.cell>
-    <flux:table.cell>
-        {{ $deployment->created_at?->diffForHumans() }}
-    </flux:table.cell>
-    <flux:table.cell align="end">
-        <flux:button
-            wire:click="showDeployment({{ $deployment->id }})"
-            variant="ghost"
-            size="sm"
-            icon="ellipsis-horizontal"
-            inset="top bottom"
-        ></flux:button>
-    </flux:table.cell>
-</flux:table.row>
+                    <flux:table.cell variant="strong" class="w-full tabular-nums">
+                        {{ $deployment->short_commit ?? '-' }}
+                    </flux:table.cell>
+                    <flux:table.cell>
+                        {{ $deployment->triggered_by ? \App\Models\User::find($deployment->triggered_by)?->name ?? '-' : '-' }}
+                    </flux:table.cell>
+                    <flux:table.cell>
+                        <flux:badge
+                            :color="$deployment->status_color"
+                            size="sm"
+                            inset="top bottom"
+                            @class(['animate-pulse' => $deployment->is_pending || $deployment->isDeploying()])
+                        >
+                            {{ $deployment->status_formatted }}
+                        </flux:badge>
+                    </flux:table.cell>
+                    <flux:table.cell>
+                        {{ $deployment->created_at?->diffForHumans() }}
+                    </flux:table.cell>
+                    <flux:table.cell align="end">
+                        <flux:button
+                            wire:click="showDeployment({{ $deployment->id }})"
+                            variant="ghost"
+                            size="sm"
+                            icon="ellipsis-horizontal"
+                            inset="top bottom"
+                        ></flux:button>
+                    </flux:table.cell>
+                </flux:table.row>
             @endforeach
         </flux:table.rows>
     </flux:table>
