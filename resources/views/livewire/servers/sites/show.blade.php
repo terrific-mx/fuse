@@ -37,52 +37,13 @@ new #[Title('Site details')] class extends Component
     }
 }; ?>
 
-<div wire:poll>
-    <flux:breadcrumbs>
-        <flux:breadcrumbs.item :href="route('servers.index')" wire:navigate>Servers</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.show', $server)" wire:navigate>
-            {{ $server->name }}
-        </flux:breadcrumbs.item>
-        <flux:breadcrumbs.item :href="route('servers.sites.index', $server)" wire:navigate>Sites</flux:breadcrumbs.item>
-    </flux:breadcrumbs>
-
-    <flux:spacer class="mt-8" />
-
-    <flux:heading size="xl">{{ $site->hostname }}</flux:heading>
-
-    <div class="isolate mt-2.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
-        <div class="flex flex-wrap gap-x-10 gap-y-4 py-1.5">
-            <flux:text variant="strong" class="flex items-center gap-3" inline>
-                <flux:icon.server variant="micro" class="fill-zinc-400 dark:fill-zinc-500" />
-                {{ $site->repository_url }}
-            </flux:text>
-            <flux:text variant="strong" class="flex items-center gap-3" inline>
-                <flux:icon.server variant="micro" class="fill-zinc-400 dark:fill-zinc-500" />
-                {{ $site->repository_branch }}
-            </flux:text>
-            <flux:text variant="strong" class="flex items-center gap-3" inline>
-                <flux:icon.server variant="micro" class="fill-zinc-400 dark:fill-zinc-500" />
-                PHP {{ $site->php_version }}
-            </flux:text>
-        </div>
+<x-layouts.site :site="$site" :server="$server">
+    <div class="flex flex-wrap items-center justify-between gap-x-6 gap-y-4 mb-8">
+        <div></div>
         <div class="flex flex-wrap gap-4">
-            <flux:dropdown align="end">
-                <flux:button icon:trailing="chevron-down">Actions</flux:button>
-                <flux:menu>
-                    <flux:menu.item :href="route('servers.sites.files', [$server, $site])" wire:navigate>
-                        Edit files
-                    </flux:menu.item>
-                    <flux:menu.item :href="route('servers.sites.deployment-settings', [$server, $site])" wire:navigate>
-                        Edit deployment settings
-                    </flux:menu.item>
-                </flux:menu>
-            </flux:dropdown>
-
             <flux:button wire:click="triggerDeployment" variant="primary" color="zinc">Deploy</flux:button>
         </div>
     </div>
-
-    <flux:spacer class="mt-12" />
 
     <div class="flex items-end justify-between gap-4">
         <flux:heading size="lg">Deployments</flux:heading>
@@ -126,4 +87,4 @@ new #[Title('Site details')] class extends Component
             @endforeach
         </flux:table.rows>
     </flux:table>
-</div>
+</x-layouts.site>
