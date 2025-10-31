@@ -30,7 +30,7 @@ new #[Title('Firewall rules')] class extends Component
 
 <x-layouts.server :server="$server">
     <header class="flex items-center">
-        <flux:heading class="text-lg!">All firewall rules</flux:heading>
+        <flux:heading size="lg">All firewall rules</flux:heading>
         <flux:spacer />
         <flux:button
             :href="route('servers.firewall-rules.create', $server)"
@@ -38,13 +38,14 @@ new #[Title('Firewall rules')] class extends Component
             color="zinc"
             size="sm"
             icon="plus"
+            class="-my-1"
             wire:navigate
         >
             New firewall rule
         </flux:button>
     </header>
 
-    <flux:separator class="mt-6" />
+    <flux:separator class="mt-3" />
 
     <flux:table :paginate="$this->firewallRules" wire:poll>
         <flux:table.rows>

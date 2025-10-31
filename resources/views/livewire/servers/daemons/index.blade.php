@@ -23,7 +23,7 @@ new #[Title('Daemons')] class extends Component
 
 <x-layouts.server :server="$server">
     <header class="flex items-center">
-        <flux:heading class="text-lg!">All daemons</flux:heading>
+        <flux:heading size="lg">All daemons</flux:heading>
         <flux:spacer />
         <flux:button
             :href="route('servers.daemons.create', $server)"
@@ -31,13 +31,14 @@ new #[Title('Daemons')] class extends Component
             color="zinc"
             size="sm"
             icon="plus"
+            class="-my-1"
             wire:navigate
         >
             New daemon
         </flux:button>
     </header>
 
-    <flux:separator class="mt-6" />
+    <flux:separator class="mt-3" />
 
     <flux:table :paginate="$this->daemons" wire:poll>
         <flux:table.rows>

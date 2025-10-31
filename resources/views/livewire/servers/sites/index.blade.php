@@ -26,7 +26,7 @@ new #[Title('Sites')] class extends Component
 
 <x-layouts.server :server="$server">
     <header class="flex items-center">
-        <flux:heading class="text-lg!">All sites</flux:heading>
+        <flux:heading size="lg">All sites</flux:heading>
         <flux:spacer />
         <flux:button
             :href="route('servers.sites.create', $server)"
@@ -34,13 +34,14 @@ new #[Title('Sites')] class extends Component
             color="zinc"
             size="sm"
             icon="plus"
+            class="-my-1"
             wire:navigate
         >
             New site
         </flux:button>
     </header>
 
-    <flux:separator class="mt-6" />
+    <flux:separator class="mt-3" />
 
     <flux:table :paginate="$this->sites" wire:poll>
         <flux:table.rows>
