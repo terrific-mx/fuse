@@ -1,11 +1,11 @@
 <div class="max-w-3xl mx-auto">
     <header class="flex items-center">
         <div class="flex items-center gap-3">
-            <flux:avatar :name="strtoupper($site->hostname)" color="auto" initials:single :color:seed="$site->id" />
+            <flux:avatar :name="strtoupper($site->hostname)" color="auto" initials:single :color:seed="'site-'. $site->id" />
             <flux:heading class="text-xl">{{ $site->hostname }}</flux:heading>
-            <flux:text class="ml-4 text-zinc-500 text-sm">
-                <flux:icon.server variant="micro" class="inline-block mr-1 fill-zinc-400 dark:fill-zinc-500" />
-                <a :href="route('servers.show', $server)" class="hover:underline" wire:navigate>{{ $server->name }}</a>
+            <flux:text class="inline-flex gap-2 items-center" inline>
+                <flux:icon.server variant="micro" />
+                <flux:link :href="route('servers.show', $server)" :accent="false" wire:navigate>{{ $server->name }}</flux:link>
             </flux:text>
         </div>
         <flux:spacer />
@@ -22,9 +22,15 @@
         </flux:dropdown>
     </header>
 
-    <flux:text class="mt-4">
-        {{ $site->repository_url }}<span class="mx-2">|</span>{{ $site->repository_branch }}<span class="mx-2">|</span>PHP {{ $site->php_version }}
-    </flux:text>
+    <flux:spacer class="mt-4" />
+
+    <div class="flex gap-3">
+        <flux:text>{{ $site->repository_url }}</flux:text>
+        <flux:separator vertical class="my-1" />
+        <flux:text>{{ $site->repository_branch }}</flux:text>
+        <flux:separator vertical class="my-1" />
+        <flux:text>PHP {{ $site->php_version }}</flux:text>
+    </div>
 
     <flux:spacer class="mt-8" />
 
