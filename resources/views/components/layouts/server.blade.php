@@ -9,8 +9,8 @@
             <flux:button icon:trailing="ellipsis-horizontal" size="sm" variant="subtle" />
 
             <flux:menu>
-                <flux:menu.item :href="route('servers.passwords', $server)" wire:navigate>
-                    Show passwords
+                <flux:menu.item :href="route('servers.passwords', $server)" wire:navigate icon="key" icon:variant="micro">
+                    Passwords
                 </flux:menu.item>
             </flux:menu>
         </flux:dropdown>
