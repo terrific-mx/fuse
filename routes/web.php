@@ -20,7 +20,7 @@ Route::get('servers/{server}/setup-root-ssh', [SetupRootSshController::class, 's
     ->name('servers.setup-root-ssh');
 
 Route::middleware(['auth', 'verified', EnsureUserIsSubscribed::class])->group(function () {
-    Route::redirect('/dashboard', '/servers')->name('dashboard');
+    Volt::route('dashboard', 'dashboard')->name('dashboard');
 
     Volt::route('ssh-keys', 'ssh-keys.index')->name('ssh-keys.index');
     Volt::route('ssh-keys/create', 'ssh-keys.create')->name('ssh-keys.create');

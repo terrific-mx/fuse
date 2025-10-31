@@ -25,7 +25,14 @@ new #[Title('Daemons')] class extends Component
     <header class="flex items-center">
         <flux:heading class="text-lg!">All daemons</flux:heading>
         <flux:spacer />
-        <flux:button :href="route('servers.daemons.create', $server)" variant="primary" color="zinc" size="sm" icon="plus" wire:navigate>
+        <flux:button
+            :href="route('servers.daemons.create', $server)"
+            variant="primary"
+            color="zinc"
+            size="sm"
+            icon="plus"
+            wire:navigate
+        >
             New daemon
         </flux:button>
     </header>

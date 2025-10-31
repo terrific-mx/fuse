@@ -25,7 +25,14 @@ new #[Title('Server details')] class extends Component
     <header class="flex items-center">
         <flux:heading class="text-lg!">Recent sites</flux:heading>
         <flux:spacer />
-        <flux:button :href="route('servers.sites.create', $server)" variant="primary" color="zinc" size="sm" icon="plus" wire:navigate>
+        <flux:button
+            :href="route('servers.sites.create', $server)"
+            variant="primary"
+            color="zinc"
+            size="sm"
+            icon="plus"
+            wire:navigate
+        >
             New site
         </flux:button>
     </header>
@@ -42,7 +49,9 @@ new #[Title('Server details')] class extends Component
                                 href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}"
                                 :accent="false"
                                 wire:navigate
-                            >{{ $site->hostname }}</flux:link>
+                            >
+                                {{ $site->hostname }}
+                            </flux:link>
                         </flux:table.cell>
                         <flux:table.cell align="end">
                             {{ $site->repository_url }}

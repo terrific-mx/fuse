@@ -65,8 +65,14 @@ new #[Title('Add server')] class extends Component
     }
 }; ?>
 
-<div class="max-w-[512px] mx-auto">
-    <flux:link :href="route('servers.index')" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+<div class="mx-auto max-w-[512px]">
+    <flux:link
+        :href="route('servers.index')"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
         <flux:icon.chevron-left variant="micro" />
         Servers
     </flux:link>
@@ -102,13 +108,7 @@ new #[Title('Add server')] class extends Component
             <flux:field>
                 <flux:label>Memory</flux:label>
                 <flux:input.group>
-                    <flux:input
-                        wire:model="memory"
-                        type="number"
-                        min="512"
-                        max="1048576"
-                        required
-                    />
+                    <flux:input wire:model="memory" type="number" min="512" max="1048576" required />
                     <flux:input.group.suffix>MB</flux:input.group.suffix>
                 </flux:input.group>
                 <flux:error name="memory" />

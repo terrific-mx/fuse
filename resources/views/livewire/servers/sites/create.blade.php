@@ -82,8 +82,14 @@ EOT,
     }
 }; ?>
 
-<div class="max-w-[512px] mx-auto">
-    <flux:link :href="route('servers.sites.index', $server)" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+<div class="mx-auto max-w-[512px]">
+    <flux:link
+        :href="route('servers.sites.index', $server)"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
         <flux:icon.chevron-left variant="micro" />
         Sites
     </flux:link>
@@ -115,8 +121,8 @@ EOT,
                 <flux:callout.heading icon="information-circle">Repository access required</flux:callout.heading>
                 <flux:callout.text>
                     To deploy code from your repository, add this server’s public SSH key as an access key to your
-                    repository provider (e.g., GitHub, GitLab). This grants the server read access to your
-                    repository so it can fetch and deploy your code.
+                    repository provider (e.g., GitHub, GitLab). This grants the server read access to your repository so
+                    it can fetch and deploy your code.
                 </flux:callout.text>
                 <x-slot name="actions">
                     <flux:input icon="key" value="{{ $server->public_ssh_key }}" readonly copyable />
@@ -136,8 +142,7 @@ EOT,
         <flux:spacer class="mt-8" />
 
         <div class="flex flex-col gap-4">
-    <flux:button type="submit" variant="primary" color="zinc" class="w-full">Add site</flux:button>
-</div>
+            <flux:button type="submit" variant="primary" color="zinc" class="w-full">Add site</flux:button>
+        </div>
     </form>
 </div>
-

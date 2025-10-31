@@ -25,7 +25,7 @@ new #[Title('Servers')] class extends Component
     }
 }; ?>
 
-<div class="max-w-3xl mx-auto">
+<div class="mx-auto max-w-3xl">
     <header class="flex items-center">
         <flux:heading class="text-xl">All servers</flux:heading>
         <flux:spacer />
@@ -42,8 +42,16 @@ new #[Title('Servers')] class extends Component
                 <flux:table.row :key="$server->id">
                     <flux:table.cell class="w-full">
                         <div class="flex items-center gap-3">
-                            <flux:avatar :name="strtoupper($server->name)" size="xs" color="auto" initials:single :color:seed="$server->id" />
-                            <flux:link :href="route('servers.show', $server)" :accent="false" wire:navigate>{{ $server->name }}</flux:link>
+                            <flux:avatar
+                                :name="strtoupper($server->name)"
+                                size="xs"
+                                color="auto"
+                                initials:single
+                                :color:seed="$server->id"
+                            />
+                            <flux:link :href="route('servers.show', $server)" :accent="false" wire:navigate>
+                                {{ $server->name }}
+                            </flux:link>
                         </div>
                     </flux:table.cell>
                     <flux:table.cell align="end">

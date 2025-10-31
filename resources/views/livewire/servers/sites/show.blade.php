@@ -50,7 +50,7 @@ new #[Title('Site details')] class extends Component
 
     <flux:heading size="xl">{{ $site->hostname }}</flux:heading>
 
-    <div class="isolate mt-2.5 flex flex-wrap justify-between items-center gap-x-6 gap-y-4">
+    <div class="isolate mt-2.5 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
         <div class="flex flex-wrap gap-x-10 gap-y-4 py-1.5">
             <flux:text variant="strong" class="flex items-center gap-3" inline>
                 <flux:icon.server variant="micro" class="fill-zinc-400 dark:fill-zinc-500" />

@@ -56,8 +56,14 @@ new #[Title('Create daemon')] class extends Component
     }
 }; ?>
 
-<div class="max-w-[512px] mx-auto">
-    <flux:link :href="route('servers.daemons.index', $server)" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+<div class="mx-auto max-w-[512px]">
+    <flux:link
+        :href="route('servers.daemons.index', $server)"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
         <flux:icon.chevron-left variant="micro" />
         Daemons
     </flux:link>
@@ -87,17 +93,16 @@ new #[Title('Create daemon')] class extends Component
                 <flux:error name="processes" />
             </flux:field>
             <flux:field>
-                <flux:input
-                    wire:model="stop_wait_seconds"
-                    label="Stop wait seconds"
-                    type="number"
-                    min="0"
-                    required
-                />
+                <flux:input wire:model="stop_wait_seconds" label="Stop wait seconds" type="number" min="0" required />
                 <flux:error name="stop_wait_seconds" />
             </flux:field>
             <flux:field>
-                <flux:select wire:model.live="stop_signal" label="Stop signal" required placeholder="Select a signal...">
+                <flux:select
+                    wire:model.live="stop_signal"
+                    label="Stop signal"
+                    required
+                    placeholder="Select a signal..."
+                >
                     @foreach ($signals as $signal)
                         <flux:select.option value="{{ $signal }}">{{ $signal }}</flux:select.option>
                     @endforeach
@@ -113,4 +118,3 @@ new #[Title('Create daemon')] class extends Component
         </div>
     </form>
 </div>
-

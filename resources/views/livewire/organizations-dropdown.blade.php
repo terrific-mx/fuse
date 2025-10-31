@@ -44,8 +44,6 @@ new class extends Component {
     <flux:dropdown position="top" align="start">
         <flux:button icon="chevron-up-down" variant="subtle" size="sm" square></flux:button>
         <flux:menu>
-            <flux:menu.item :href="route('organizations.settings.general', $currentOrganization)" icon="cog">Settings</flux:menu.item>
-            <flux:menu.separator />
             <flux:menu.radio.group wire:model.live="selectedOrganizationId">
                 @foreach($organizations as $organization)
                     <flux:menu.radio :value="$organization->id">

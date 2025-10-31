@@ -48,6 +48,21 @@ class Organization extends Model
         return $this->hasMany(Server::class);
     }
 
+    /**
+     * Get all sites for the organization via its servers.
+     */
+    public function sites()
+    {
+        return $this->hasManyThrough(
+            Site::class,
+            Server::class,
+            'organization_id',
+            'server_id',
+            'id',
+            'id'
+        );
+    }
+
     public function members()
     {
         return $this->belongsToMany(User::class, 'organization_user');

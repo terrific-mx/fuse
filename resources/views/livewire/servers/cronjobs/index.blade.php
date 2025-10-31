@@ -32,7 +32,14 @@ new #[Title('Cronjobs')] class extends Component
     <header class="flex items-center">
         <flux:heading class="text-lg!">All cronjobs</flux:heading>
         <flux:spacer />
-        <flux:button :href="route('servers.cronjobs.create', $server)" variant="primary" color="zinc" size="sm" icon="plus" wire:navigate>
+        <flux:button
+            :href="route('servers.cronjobs.create', $server)"
+            variant="primary"
+            color="zinc"
+            size="sm"
+            icon="plus"
+            wire:navigate
+        >
             New cronjob
         </flux:button>
     </header>
@@ -48,7 +55,9 @@ new #[Title('Cronjobs')] class extends Component
                             href="{{ route('servers.cronjobs.edit', [$server, $cronjob]) }}"
                             :accent="false"
                             wire:navigate
-                        >{{ $cronjob->command }}</flux:link>
+                        >
+                            {{ $cronjob->command }}
+                        </flux:link>
                     </flux:table.cell>
                     <flux:table.cell>
                         {{ $cronjob->frequency === 'custom' ? $cronjob->custom_expression : str_replace('_', ' ', ucfirst($cronjob->frequency)) }}

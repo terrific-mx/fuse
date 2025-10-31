@@ -45,8 +45,14 @@ new #[Title('Create cronjob')] class extends Component
     }
 }; ?>
 
-<div class="max-w-[512px] mx-auto">
-    <flux:link :href="route('servers.cronjobs.index', $server)" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+<div class="mx-auto max-w-[512px]">
+    <flux:link
+        :href="route('servers.cronjobs.index', $server)"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
         <flux:icon.chevron-left variant="micro" />
         Cronjobs
     </flux:link>
@@ -95,4 +101,3 @@ new #[Title('Create cronjob')] class extends Component
         </div>
     </form>
 </div>
-

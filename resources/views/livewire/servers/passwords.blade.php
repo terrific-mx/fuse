@@ -13,8 +13,14 @@ new #[Title('Server passwords')] class extends Component
     }
 }; ?>
 
-<div class="max-w-[512px] mx-auto">
-    <flux:link :href="route('servers.show', $server)" class="inline-flex items-center gap-2 text-sm" variant="subtle" inline wire:navigate>
+<div class="mx-auto max-w-[512px]">
+    <flux:link
+        :href="route('servers.show', $server)"
+        class="inline-flex items-center gap-2 text-sm"
+        variant="subtle"
+        inline
+        wire:navigate
+    >
         <flux:icon.chevron-left variant="micro" />
         {{ $server->name }}
     </flux:link>
@@ -27,9 +33,23 @@ new #[Title('Server passwords')] class extends Component
         <flux:spacer class="mt-8" />
 
         <div class="space-y-6">
-            <flux:input :value="$server->sudo_password" label="Sudo password" type="password" readonly copyable viewable />
+            <flux:input
+                :value="$server->sudo_password"
+                label="Sudo password"
+                type="password"
+                readonly
+                copyable
+                viewable
+            />
 
-            <flux:input :value="$server->database_password" label="Database password" type="password" readonly copyable viewable />
+            <flux:input
+                :value="$server->database_password"
+                label="Database password"
+                type="password"
+                readonly
+                copyable
+                viewable
+            />
         </div>
     </div>
 </div>
