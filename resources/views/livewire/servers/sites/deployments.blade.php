@@ -54,7 +54,7 @@ new #[Title('Deployments')] class extends Component
 
 <x-layouts.site :site="$site" :server="$server">
     <header class="flex items-center">
-        <flux:heading size="lg">Deployments</flux:heading>
+        <flux:heading size="lg">Latest deployments</flux:heading>
         <flux:spacer />
         <flux:button
             wire:click="triggerDeployment"
