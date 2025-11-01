@@ -47,7 +47,7 @@ new #[Title('Servers')] class extends Component
                                 size="xs"
                                 color="auto"
                                 initials:single
-                                :color:seed="$server->id"
+                                :color:seed="'server-'.$server->id"
                             />
                             <flux:link :href="route('servers.show', $server)" :accent="false" wire:navigate>
                                 {{ $server->name }}
