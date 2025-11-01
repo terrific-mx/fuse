@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark antialiased">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950 dark antialiased">
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white dark:bg-zinc-800">
-        <flux:header class="bg-zinc-25 lg:border-b border-zinc-200 dark:border-zinc-700">
-            <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" />
+    <body class="min-h-screen bg-white lg:bg-zinc-100 dark:bg-zinc-900 dark:lg:bg-zinc-950">
+        <flux:header class="lg:border-b border-zinc-200 dark:border-zinc-700">
+            <flux:sidebar.toggle class="lg:hidden" icon="bars-2" inset="left" size="sm" />
 
             <a href="{{ route('home') }}" class="max-lg:hidden mr-5">
                 <x-logo class="h-6" />
@@ -83,7 +83,7 @@
 
         {{ $slot }}
 
-        <flux:footer class="bg-zinc-25 border-t border-zinc-200 dark:border-zinc-700">
+        <flux:footer class="border-t border-zinc-200">
             <div>
                 <flux:text class="text-sm/6">
                     Built with
