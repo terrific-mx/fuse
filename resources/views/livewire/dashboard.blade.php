@@ -39,7 +39,7 @@ new #[Title('Home')] class extends Component
 <div class="max-w-3xl mx-auto" wire:poll>
     <header class="flex items-center">
         <div class="flex items-center gap-3">
-            <flux:avatar :name="$this->organization->name" color="auto" initials:single :color:seed="$this->organization->name" />
+            <flux:avatar :name="$this->organization->name" color="auto" initials:single :color:seed="'organization-' . $this->organization->name" />
             <flux:heading class="text-xl">{{ $this->organization->name}}</flux:heading>
         </div>
         <flux:spacer />
@@ -72,7 +72,7 @@ new #[Title('Home')] class extends Component
                 <flux:table.row :key="$server->id">
                     <flux:table.cell class="w-full">
                         <div class="flex items-center gap-3">
-                            <flux:avatar :name="strtoupper($server->name)" size="xs" color="auto" initials:single :color:seed="$server->id" />
+                            <flux:avatar :name="strtoupper($server->name)" size="xs" color="auto" initials:single :color:seed="'server-'.$server->id" />
                             <flux:link :href="route('servers.show', $server)" :accent="false" wire:navigate>{{ $server->name }}</flux:link>
                         </div>
                     </flux:table.cell>
@@ -106,7 +106,7 @@ new #[Title('Home')] class extends Component
                 <flux:table.row :key="$site->id">
                     <flux:table.cell class="w-full">
                         <div class="flex items-center gap-3">
-                            <flux:avatar :name="strtoupper($site->hostname)" size="xs" color="auto" initials:single :color:seed="$site->id" />
+                            <flux:avatar :name="strtoupper($site->hostname)" size="xs" color="auto" initials:single :color:seed="'site-'.$site->id" />
                             <flux:link :href="route('servers.sites.show', [$site->server, $site])" :accent="false" wire:navigate>{{ $site->hostname }}</flux:link>
                         </div>
                     </flux:table.cell>

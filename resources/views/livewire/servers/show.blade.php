@@ -52,7 +52,7 @@ new #[Title('Server details')] class extends Component
                                     size="xs"
                                     color="auto"
                                     initials:single
-                                    :color:seed="$site->id"
+                                    :color:seed="'site-'.$site->id"
                                 />
                                 <flux:link
                                     href="{{ route('servers.sites.show', ['server' => $server, 'site' => $site]) }}"
