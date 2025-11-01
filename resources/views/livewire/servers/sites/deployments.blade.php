@@ -90,7 +90,7 @@ new #[Title('Deployments')] class extends Component
                             {{ $deployment->status_formatted }}
                         </flux:badge>
                     </flux:table.cell>
-                    <flux:table.cell>
+                    <flux:table.cell align="end">
                         {{ $deployment->created_at?->diffForHumans() }}
                     </flux:table.cell>
                     <flux:table.cell align="end">

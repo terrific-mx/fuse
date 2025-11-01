@@ -65,7 +65,7 @@ new #[Title('Site details')] class extends Component
                     <flux:table.cell>
                         {{ $deployment->triggeredBy?->name ?? '—' }}
                     </flux:table.cell>
-                    <flux:table.cell>
+                    <flux:table.cell align="end">
                         {{ $deployment->created_at->diffForHumans() }}
                     </flux:table.cell>
                 </flux:table.row>
