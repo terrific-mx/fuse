@@ -83,7 +83,7 @@
 
         {{ $slot }}
 
-        <flux:footer class="border-t border-zinc-200">
+        <flux:footer class="lg:border-t border-zinc-200 dark:border-zinc-700">
             <div>
                 <flux:text class="text-sm/6">
                     Built with
