@@ -1,7 +1,7 @@
 <div class="max-w-3xl mx-auto">
     <header class="flex items-center">
         <div class="flex items-center gap-3">
-            <flux:avatar :name="strtoupper($server->name)" color="auto" initials:single :color:seed="$server->id" />
+            <flux:avatar :name="strtoupper($server->name)" color="auto" initials:single :color:seed="'server-'.$server->id" />
             <flux:heading class="text-xl">{{ $server->name }}</flux:heading>
         </div>
         <flux:spacer />
