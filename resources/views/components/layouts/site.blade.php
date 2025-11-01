@@ -12,12 +12,20 @@
         <flux:dropdown align="end">
             <flux:button icon:trailing="ellipsis-horizontal" size="sm" variant="subtle" />
             <flux:menu>
-                <flux:menu.item :href="route('servers.sites.deployment-settings', [$server, $site])" wire:navigate icon="cog" icon:variant="micro">
-                    Deployment settings
-                </flux:menu.item>
-                <flux:menu.item :href="route('servers.sites.files', [$server, $site])" wire:navigate icon="document" icon:variant="micro">
+                <flux:menu.group heading="Settings">
+                    <flux:menu.item>General</flux:menu.item>
+                    <flux:menu.item :href="route('servers.sites.deployment-settings', [$server, $site])" wire:navigate>Deployment</flux:menu.item>
+                    <flux:menu.item disabled>SSL</flux:menu.item>
+                </flux:menu.group>
+                <flux:menu.item :href="route('servers.sites.files', [$server, $site])" wire:navigate>
                     Edit files
                 </flux:menu.item>
+                <flux:menu.group heading="Configuration">
+                    <flux:menu.item disabled>Caddy</flux:menu.item>
+                </flux:menu.group>
+                <flux:menu.group heading="Logs">
+                    <flux:menu.item disabled>Access logs</flux:menu.item>
+                </flux:menu.group>
             </flux:menu>
         </flux:dropdown>
     </header>
