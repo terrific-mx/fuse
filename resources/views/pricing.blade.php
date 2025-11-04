@@ -38,7 +38,7 @@
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Core features: provisioning, deployments, SSL, backups</flux:text>
+                        <flux:text class="text-sm/6">Core features: provisioning, deployments, SSL, backups,  zero-downtime deploys</flux:text>
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
@@ -70,7 +70,7 @@
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Team management, zero-downtime deploys</flux:text>
+                        <flux:text class="text-sm/6">Core features, team management</flux:text>
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
