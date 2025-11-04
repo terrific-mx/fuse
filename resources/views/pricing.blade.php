@@ -38,11 +38,11 @@
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Core features: provisioning, deployments, SSL, backups,  zero-downtime deploys</flux:text>
+                        <flux:text class="text-sm/6">Community support</flux:text>
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Community support</flux:text>
+                        <flux:text class="text-sm/6">Core features: provisioning, deployments, SSL, backups,  zero-downtime deploys</flux:text>
                     </li>
                 </ul>
             </flux:card>
@@ -70,11 +70,11 @@
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Core features, team management</flux:text>
+                        <flux:text class="text-sm/6">Email support</flux:text>
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Email support</flux:text>
+                        <flux:text class="text-sm/6">Core features, team management</flux:text>
                     </li>
                 </ul>
             </flux:card>
@@ -102,11 +102,11 @@
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">All features, API access, advanced config</flux:text>
+                        <flux:text class="text-sm/6">Priority support</flux:text>
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Priority support</flux:text>
+                        <flux:text class="text-sm/6">All features, API access, advanced config</flux:text>
                     </li>
                 </ul>
             </flux:card>
