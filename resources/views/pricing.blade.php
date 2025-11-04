@@ -30,7 +30,7 @@
                 <ul class="mt-4 flex-1 space-y-3">
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Manage up to 2 servers and 5 apps</flux:text>
+                        <flux:text class="text-sm/6">Manage up to 2 servers</flux:text>
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
@@ -62,7 +62,7 @@
                 <ul class="mt-4 flex-1 space-y-3">
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Manage up to 10 servers and 20 apps</flux:text>
+                        <flux:text class="text-sm/6">Manage up to 10 servers</flux:text>
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
@@ -94,7 +94,7 @@
                 <ul class="mt-4 flex-1 space-y-3">
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
-                        <flux:text class="text-sm/6">Manage up to 25 servers and 50 apps</flux:text>
+                        <flux:text class="text-sm/6">Manage up to 25 servers</flux:text>
                     </li>
                     <li class="flex gap-2">
                         <flux:icon.check-circle variant="mini" class="text-accent mt-0.5" />
@@ -142,8 +142,8 @@
 
             <div class="col-span-7">
                 <div class="pb-6">
-                    <flux:text variant="strong" class="text-base/7 font-semibold">Extra servers/apps/users</flux:text>
-                    <flux:text class="mt-2 text-base/7">$2 per server/app/user per month (for Team/Agency).</flux:text>
+                    <flux:text variant="strong" class="text-base/7 font-semibold">Extra servers</flux:text>
+                    <flux:text class="mt-2 text-base/7">$2 per server per month (for Team/Agency).</flux:text>
                 </div>
 
                 <flux:separator />
